@@ -8,6 +8,11 @@
 
 #import <UIKit/UIKit.h>
 
-@interface SZPickerActionSheet : UIActionSheet
+@interface SZPickerActionSheet : UIActionSheet <UIPickerViewDelegate, UIPickerViewDataSource>
+
+@property (nonatomic, strong) NSString* choice;
+
+- (id)initWithChoices:(NSArray*)choices;
+- (void)scrollToIndex:(NSInteger)index;
 
 @end

@@ -10,4 +10,7 @@
 
 @interface UILabel (Shadow)
 
+- (void) applyWhiteShadow;
+- (void) applyBlackShadow;
+
 @end

@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface SZTestVC : UIViewController <UITextFieldDelegate, UITextViewDelegate>
+@interface SZCreateAccountVC : UIViewController <UITextFieldDelegate, UITextViewDelegate>
 
 @end

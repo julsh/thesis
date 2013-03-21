@@ -10,6 +10,7 @@
 
 #import "SZForm.h"
 #import "SZAccessoryArrow.h"
+#import "SZUtils.h"
 
 #define FORM_TOP_IMAGE		@"form_top"
 #define FORM_MIDDLE_IMAGE	@"form_middle"
@@ -24,6 +25,8 @@
 @interface SZForm ()
 
 @property (nonatomic, strong) NSMutableDictionary* pickerOptions;
+@property (nonatomic, strong) NSMutableArray* textFields;
+@property (nonatomic, strong) BSKeyboardControls *keyboardControls;
 
 @end
 
@@ -31,6 +34,7 @@
 
 @synthesize userInputs = _userInputs;
 @synthesize pickerOptions = _pickerOptions;
+@synthesize textFields = _textFields;
 
 - (id)init {
 	
@@ -77,7 +81,8 @@
 	
 	// setting the textfield
 	UITextField* textField = [[UITextField alloc] init];
-	[textField setFont:[UIFont fontWithName:FONT_REGULAR size:TEXTFIELD_FONT_SIZE]];
+	[textField setTag:[self.userInputs count]];
+	[textField setFont:[SZUtils fontWithFontType:SZFontRegular size:TEXTFIELD_FONT_SIZE]];
 	[textField setPlaceholder:[item valueForKey:FORM_PLACEHOLDER]];
 	[textField setDelegate:self];
 	textField.layer.shadowOpacity = 1.0;
@@ -91,30 +96,21 @@
 		[textField setSecureTextEntry:YES];
 	}
 	else if ([[item valueForKey:FORM_INPUT_TYPE] intValue] == INPUT_TYPE_PICKER) {
+		
+		// save the array with picker choices in a dictionary
+		[self.pickerOptions setValue:[item valueForKey:PICKER_OPTIONS] forKey:[NSString stringWithFormat:@"%i", textField.tag]];
+		
+		// display a little arrow on the cell
 		UIView* arrow = [SZAccessoryArrow largeArrow];
 		arrow.center = CGPointMake(bgImage.frame.size.width - arrow.frame.size.width + 5.0, bgImage.frame.size.height / 2);
 		[bgImage addSubview:arrow];
 		
-		UIPickerView* pickerView = [[UIPickerView alloc] initWithFrame:CGRectMake(0.0, 44.0, 320.0, 240.0)];
-		pickerView.showsSelectionIndicator = YES;
-		pickerView.dataSource = self;
-		pickerView.delegate = self;
-		pickerView.tag = [self.pickerOptions count];
-		[self.pickerOptions setValue:[item valueForKey:PICKER_OPTIONS] forKey:[NSString stringWithFormat:@"%i", pickerView.tag]];
+		UIPickerView* pickerView = [[UIPickerView alloc] init];
+		[pickerView setTag:textField.tag];
+		[pickerView setDelegate:self];
 		
-		UIActionSheet* inputView = [[UIActionSheet alloc] initWithFrame:CGRectMake(0, 0, 320, 255)];
-		UIButton *doneButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-		doneButton.frame = CGRectMake(320-74, 7, 66, 32);
-		[doneButton addTarget:self action:@selector(confirmPicker:) forControlEvents:UIControlEventTouchUpInside];
-		
-		[inputView addSubview:doneButton];
-		[inputView addSubview:pickerView];
-		
-		
-		[textField setInputView:inputView];
-																				  
-																				  
-		
+		[textField setInputView:pickerView];
+		[pickerView setShowsSelectionIndicator:YES];
 	}
 	else {
 		[textField setKeyboardType:[[item valueForKey:FORM_INPUT_TYPE] intValue]];
@@ -131,12 +127,14 @@
 	// adding the textfield to the cell
 	[bgImage addSubview:textField];
 
+	[self.textFields addObject:textField];
 	[self.userInputs setValue:@"" forKey:[item valueForKey:FORM_PLACEHOLDER]];
 	
 }
 
-- (void)showPicker:(id)sender {
-	NSLog(@"show picker!");
+- (void)configureKeyboard {
+	[self setKeyboardControls:[[BSKeyboardControls alloc] initWithFields:self.textFields]];
+    [self.keyboardControls setDelegate:self];
 }
 
 - (NSMutableDictionary*)userInputs {
@@ -153,8 +151,39 @@
 	return _pickerOptions;
 }
 
-- (void)textFieldDidBeginEditing:(UITextField *)textField {
-	NSLog(@"begin editing");
+- (NSMutableArray*)textFields {
+	if (_textFields == nil) {
+		_textFields = [[NSMutableArray alloc] init];
+	}
+	return _textFields;
+}
+
+
+#pragma mark -
+#pragma mark Text Field Delegate
+
+- (void)textFieldDidBeginEditing:(UITextField *)textField
+{
+    [self.keyboardControls setActiveField:textField];
+	CGPoint globalPosition = [textField convertPoint:textField.frame.origin toView:self.superview];
+	
+	// check if we have to scroll the view in order to keep the field visible when the keyboard appears
+	if (118 - globalPosition.y < 0) {
+		[UIView animateWithDuration:0.2 animations:^{
+			CGRect frame = self.superview.frame; 
+			frame.origin.y =  118 - globalPosition.y;
+			self.superview.frame = frame;
+		}];
+	}
+	else {
+		if (self.superview.frame.origin.y < 0.0) {
+			[UIView animateWithDuration:0.2 animations:^{
+				CGRect frame = self.superview.frame;
+				frame.origin.y = 0.0;
+				self.superview.frame = frame;
+			}];
+		}
+	}
 }
 
 - (BOOL)textFieldShouldReturn:( UITextField *)textField {
@@ -162,20 +191,43 @@
 	return NO;
 }
 
+#pragma mark - Keyboard Controls Delegate
+
+
+- (void)keyboardControlsDonePressed:(BSKeyboardControls *)keyboardControls
+{
+    [keyboardControls.activeField resignFirstResponder];
+	if (self.superview.frame.origin.y < 0.0) {
+		[UIView animateWithDuration:0.2 animations:^{
+			CGRect frame = self.superview.frame;
+			frame.origin.y = 0.0;
+			self.superview.frame = frame;
+		}];
+	}
+}
+
+#pragma mark - Picker View Delegate
+
 - (NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView {
 	return 1;
 }
 
 - (NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component {
-	NSString* key = [NSString stringWithFormat:@"%i", pickerView.tag];
-	NSArray* options = [self.pickerOptions valueForKey:key];
+	NSArray* options = [self.pickerOptions valueForKey:[NSString stringWithFormat:@"%i", pickerView.tag]];
 	return [options count];
 }
 
 - (NSString*)pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component {
-	NSString* key = [NSString stringWithFormat:@"%i", pickerView.tag];
-	NSArray* options = [self.pickerOptions valueForKey:key];
+	NSArray* options = [self.pickerOptions valueForKey:[NSString stringWithFormat:@"%i", pickerView.tag]];
 	return [options objectAtIndex:row];
 }
+
+- (void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component {
+	UITextField* textField = [self.textFields objectAtIndex:pickerView.tag];
+	NSArray* options = [self.pickerOptions valueForKey:[NSString stringWithFormat:@"%i", pickerView.tag]];
+	[textField setText:[options objectAtIndex:row]];
+}
+
+
 
 @end

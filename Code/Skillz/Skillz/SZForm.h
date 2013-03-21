@@ -7,11 +7,13 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "BSKeyboardControls.h"
 
-@interface SZForm : UIView <UITextFieldDelegate, UIPickerViewDataSource, UIPickerViewDelegate>
+@interface SZForm : UIView <UITextFieldDelegate, UIPickerViewDataSource, UIPickerViewDelegate, BSKeyboardControlsDelegate>
 
 @property (nonatomic, strong) NSMutableDictionary* userInputs;
 
 - (void)addItem:(NSDictionary*)item isLastItem:(BOOL)isLast;
+- (void)configureKeyboard;
 
 @end

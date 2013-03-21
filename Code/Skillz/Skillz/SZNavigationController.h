@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface SZRootViewController : UINavigationController
+@interface SZNavigationController : UINavigationController
 
 @end

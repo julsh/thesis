@@ -10,4 +10,6 @@
 
 @interface SZButton : UIButton
 
+- (id)initWithColor:(SZButtonColor)color size:(SZButtonSize)size width:(CGFloat)width;
+
 @end

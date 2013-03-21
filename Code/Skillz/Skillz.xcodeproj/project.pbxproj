@@ -44,9 +44,7 @@
 		DEB421E816F7F680001C423A /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DEB421E716F7F680001C423A /* Security.framework */; };
 		DEB421EA16F7F685001C423A /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DEB421E916F7F685001C423A /* StoreKit.framework */; };
 		DEB421EC16F7F68A001C423A /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DEB421EB16F7F68A001C423A /* SystemConfiguration.framework */; };
-		DEB421EF16F7FA7F001C423A /* SZTestVC.m in Sources */ = {isa = PBXBuildFile; fileRef = DEB421EE16F7FA7F001C423A /* SZTestVC.m */; };
-		DEB421F216F81832001C423A /* SZTestNC.m in Sources */ = {isa = PBXBuildFile; fileRef = DEB421F116F81832001C423A /* SZTestNC.m */; };
-		DEB421F416F8D042001C423A /* TestView.xib in Resources */ = {isa = PBXBuildFile; fileRef = DEB421F316F8D042001C423A /* TestView.xib */; };
+		DEB421EF16F7FA7F001C423A /* SZCreateAccountVC.m in Sources */ = {isa = PBXBuildFile; fileRef = DEB421EE16F7FA7F001C423A /* SZCreateAccountVC.m */; };
 		DEB421F716F92B11001C423A /* SZCheckBox.m in Sources */ = {isa = PBXBuildFile; fileRef = DEB421F616F92B11001C423A /* SZCheckBox.m */; };
 		DEB4221216F92BB9001C423A /* button_petrol_big_down.png in Resources */ = {isa = PBXBuildFile; fileRef = DEB4220A16F92BB9001C423A /* button_petrol_big_down.png */; };
 		DEB4221316F92BB9001C423A /* button_petrol_big_down@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = DEB4220B16F92BB9001C423A /* button_petrol_big_down@2x.png */; };
@@ -64,6 +62,14 @@
 		DEB4222A16F9332E001C423A /* form_middle@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = DEB4222416F9332E001C423A /* form_middle@2x.png */; };
 		DEB4222B16F9332E001C423A /* form_top.png in Resources */ = {isa = PBXBuildFile; fileRef = DEB4222516F9332E001C423A /* form_top.png */; };
 		DEB4222C16F9332E001C423A /* form_top@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = DEB4222616F9332E001C423A /* form_top@2x.png */; };
+		DEB9F0EC16FA00E4008AC064 /* SZPickerActionSheet.m in Sources */ = {isa = PBXBuildFile; fileRef = DEB9F0EB16FA00E4008AC064 /* SZPickerActionSheet.m */; };
+		DEB9F10016FA7807008AC064 /* SZButton.m in Sources */ = {isa = PBXBuildFile; fileRef = DEB9F0FF16FA7807008AC064 /* SZButton.m */; };
+		DEB9F10616FA8141008AC064 /* SZUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = DEB9F10516FA8141008AC064 /* SZUtils.m */; };
+		DEB9F10C16FA8420008AC064 /* UILabel+Shadow.m in Sources */ = {isa = PBXBuildFile; fileRef = DEB9F10B16FA8420008AC064 /* UILabel+Shadow.m */; };
+		DEB9F11316FA95C9008AC064 /* SZNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = DEB9F11216FA95C9008AC064 /* SZNavigationController.m */; };
+		DEB9F11616FA9D49008AC064 /* UIView+FindFirstResponder.m in Sources */ = {isa = PBXBuildFile; fileRef = DEB9F11516FA9D49008AC064 /* UIView+FindFirstResponder.m */; };
+		DEB9F12416FAA832008AC064 /* BSKeyboardControls.m in Sources */ = {isa = PBXBuildFile; fileRef = DEB9F12016FAA832008AC064 /* BSKeyboardControls.m */; };
+		DEB9F12516FAA832008AC064 /* BSKeyboardControls.strings in Resources */ = {isa = PBXBuildFile; fileRef = DEB9F12116FAA832008AC064 /* BSKeyboardControls.strings */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -120,11 +126,8 @@
 		DEB421E716F7F680001C423A /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		DEB421E916F7F685001C423A /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		DEB421EB16F7F68A001C423A /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
-		DEB421ED16F7FA7F001C423A /* SZTestVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SZTestVC.h; sourceTree = "<group>"; };
-		DEB421EE16F7FA7F001C423A /* SZTestVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SZTestVC.m; sourceTree = "<group>"; };
-		DEB421F016F81832001C423A /* SZTestNC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SZTestNC.h; sourceTree = "<group>"; };
-		DEB421F116F81832001C423A /* SZTestNC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SZTestNC.m; sourceTree = "<group>"; };
-		DEB421F316F8D042001C423A /* TestView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TestView.xib; sourceTree = "<group>"; };
+		DEB421ED16F7FA7F001C423A /* SZCreateAccountVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SZCreateAccountVC.h; sourceTree = "<group>"; };
+		DEB421EE16F7FA7F001C423A /* SZCreateAccountVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SZCreateAccountVC.m; sourceTree = "<group>"; };
 		DEB421F516F92B11001C423A /* SZCheckBox.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SZCheckBox.h; sourceTree = "<group>"; };
 		DEB421F616F92B11001C423A /* SZCheckBox.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SZCheckBox.m; sourceTree = "<group>"; };
 		DEB4220A16F92BB9001C423A /* button_petrol_big_down.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = button_petrol_big_down.png; sourceTree = "<group>"; };
@@ -145,6 +148,22 @@
 		DEB4222416F9332E001C423A /* form_middle@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "form_middle@2x.png"; sourceTree = "<group>"; };
 		DEB4222516F9332E001C423A /* form_top.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = form_top.png; sourceTree = "<group>"; };
 		DEB4222616F9332E001C423A /* form_top@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "form_top@2x.png"; sourceTree = "<group>"; };
+		DEB9F0EA16FA00E4008AC064 /* SZPickerActionSheet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SZPickerActionSheet.h; sourceTree = "<group>"; };
+		DEB9F0EB16FA00E4008AC064 /* SZPickerActionSheet.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SZPickerActionSheet.m; sourceTree = "<group>"; };
+		DEB9F0FE16FA7807008AC064 /* SZButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SZButton.h; sourceTree = "<group>"; };
+		DEB9F0FF16FA7807008AC064 /* SZButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SZButton.m; sourceTree = "<group>"; };
+		DEB9F10416FA8141008AC064 /* SZUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SZUtils.h; sourceTree = "<group>"; };
+		DEB9F10516FA8141008AC064 /* SZUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SZUtils.m; sourceTree = "<group>"; };
+		DEB9F10A16FA8420008AC064 /* UILabel+Shadow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UILabel+Shadow.h"; sourceTree = "<group>"; };
+		DEB9F10B16FA8420008AC064 /* UILabel+Shadow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UILabel+Shadow.m"; sourceTree = "<group>"; };
+		DEB9F11116FA95C9008AC064 /* SZNavigationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SZNavigationController.h; sourceTree = "<group>"; };
+		DEB9F11216FA95C9008AC064 /* SZNavigationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SZNavigationController.m; sourceTree = "<group>"; };
+		DEB9F11416FA9D49008AC064 /* UIView+FindFirstResponder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+FindFirstResponder.h"; sourceTree = "<group>"; };
+		DEB9F11516FA9D49008AC064 /* UIView+FindFirstResponder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+FindFirstResponder.m"; sourceTree = "<group>"; };
+		DEB9F11F16FAA832008AC064 /* BSKeyboardControls.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BSKeyboardControls.h; sourceTree = "<group>"; };
+		DEB9F12016FAA832008AC064 /* BSKeyboardControls.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BSKeyboardControls.m; sourceTree = "<group>"; };
+		DEB9F12216FAA832008AC064 /* da */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = da; path = da.lproj/BSKeyboardControls.strings; sourceTree = "<group>"; };
+		DEB9F12316FAA832008AC064 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/BSKeyboardControls.strings; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -250,23 +269,15 @@
 		DEB421AA16F7F5A3001C423A /* Skillz */ = {
 			isa = PBXGroup;
 			children = (
+				DEB421AB16F7F5A3001C423A /* Supporting Files */,
+				DE304A4516F939A7005FA4BC /* resources */,
+				DEB9F0ED16FA322A008AC064 /* ThirdParty */,
+				DEB9F10D16FA94F2008AC064 /* Utils & Constants */,
+				DEB9F10F16FA9570008AC064 /* Categories */,
+				DEB9F10E16FA952B008AC064 /* UI Elements */,
+				DEB9F11016FA9587008AC064 /* ViewControllers */,
 				DEB421B316F7F5A4001C423A /* SZAppDelegate.h */,
 				DEB421B416F7F5A4001C423A /* SZAppDelegate.m */,
-				DE304A7216F95A99005FA4BC /* SZAccessoryArrow.h */,
-				DE304A7316F95A99005FA4BC /* SZAccessoryArrow.m */,
-				DEB421ED16F7FA7F001C423A /* SZTestVC.h */,
-				DEB421EE16F7FA7F001C423A /* SZTestVC.m */,
-				DEB421F016F81832001C423A /* SZTestNC.h */,
-				DEB421F116F81832001C423A /* SZTestNC.m */,
-				DEB421F316F8D042001C423A /* TestView.xib */,
-				DEB421F516F92B11001C423A /* SZCheckBox.h */,
-				DEB421F616F92B11001C423A /* SZCheckBox.m */,
-				DEB4221A16F92EC4001C423A /* SZForm.h */,
-				DEB4221B16F92EC4001C423A /* SZForm.m */,
-				DEB4221D16F92F31001C423A /* SZGlobalConstants.h */,
-				DEB4221E16F92F31001C423A /* SZGlobalConstants.m */,
-				DE304A4516F939A7005FA4BC /* resources */,
-				DEB421AB16F7F5A3001C423A /* Supporting Files */,
 			);
 			path = Skillz;
 			sourceTree = "<group>";
@@ -343,6 +354,74 @@
 			name = form;
 			sourceTree = "<group>";
 		};
+		DEB9F0ED16FA322A008AC064 /* ThirdParty */ = {
+			isa = PBXGroup;
+			children = (
+				DEB9F11E16FAA832008AC064 /* BSKeyboardControls */,
+			);
+			name = ThirdParty;
+			sourceTree = "<group>";
+		};
+		DEB9F10D16FA94F2008AC064 /* Utils & Constants */ = {
+			isa = PBXGroup;
+			children = (
+				DEB4221D16F92F31001C423A /* SZGlobalConstants.h */,
+				DEB4221E16F92F31001C423A /* SZGlobalConstants.m */,
+				DEB9F10416FA8141008AC064 /* SZUtils.h */,
+				DEB9F10516FA8141008AC064 /* SZUtils.m */,
+			);
+			name = "Utils & Constants";
+			sourceTree = "<group>";
+		};
+		DEB9F10E16FA952B008AC064 /* UI Elements */ = {
+			isa = PBXGroup;
+			children = (
+				DE304A7216F95A99005FA4BC /* SZAccessoryArrow.h */,
+				DE304A7316F95A99005FA4BC /* SZAccessoryArrow.m */,
+				DEB9F0FE16FA7807008AC064 /* SZButton.h */,
+				DEB9F0FF16FA7807008AC064 /* SZButton.m */,
+				DEB421F516F92B11001C423A /* SZCheckBox.h */,
+				DEB421F616F92B11001C423A /* SZCheckBox.m */,
+				DEB4221A16F92EC4001C423A /* SZForm.h */,
+				DEB4221B16F92EC4001C423A /* SZForm.m */,
+				DEB9F0EA16FA00E4008AC064 /* SZPickerActionSheet.h */,
+				DEB9F0EB16FA00E4008AC064 /* SZPickerActionSheet.m */,
+			);
+			name = "UI Elements";
+			sourceTree = "<group>";
+		};
+		DEB9F10F16FA9570008AC064 /* Categories */ = {
+			isa = PBXGroup;
+			children = (
+				DEB9F10A16FA8420008AC064 /* UILabel+Shadow.h */,
+				DEB9F10B16FA8420008AC064 /* UILabel+Shadow.m */,
+				DEB9F11416FA9D49008AC064 /* UIView+FindFirstResponder.h */,
+				DEB9F11516FA9D49008AC064 /* UIView+FindFirstResponder.m */,
+			);
+			name = Categories;
+			sourceTree = "<group>";
+		};
+		DEB9F11016FA9587008AC064 /* ViewControllers */ = {
+			isa = PBXGroup;
+			children = (
+				DEB421ED16F7FA7F001C423A /* SZCreateAccountVC.h */,
+				DEB421EE16F7FA7F001C423A /* SZCreateAccountVC.m */,
+				DEB9F11116FA95C9008AC064 /* SZNavigationController.h */,
+				DEB9F11216FA95C9008AC064 /* SZNavigationController.m */,
+			);
+			name = ViewControllers;
+			sourceTree = "<group>";
+		};
+		DEB9F11E16FAA832008AC064 /* BSKeyboardControls */ = {
+			isa = PBXGroup;
+			children = (
+				DEB9F11F16FAA832008AC064 /* BSKeyboardControls.h */,
+				DEB9F12016FAA832008AC064 /* BSKeyboardControls.m */,
+				DEB9F12116FAA832008AC064 /* BSKeyboardControls.strings */,
+			);
+			path = BSKeyboardControls;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -398,6 +477,7 @@
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
+				da,
 			);
 			mainGroup = DEB4219816F7F5A3001C423A;
 			productRefGroup = DEB421A216F7F5A3001C423A /* Products */;
@@ -419,7 +499,6 @@
 				DEB421B716F7F5A4001C423A /* Default.png in Resources */,
 				DEB421B916F7F5A4001C423A /* Default@2x.png in Resources */,
 				DEB421BB16F7F5A4001C423A /* Default-568h@2x.png in Resources */,
-				DEB421F416F8D042001C423A /* TestView.xib in Resources */,
 				DEB4221216F92BB9001C423A /* button_petrol_big_down.png in Resources */,
 				DEB4221316F92BB9001C423A /* button_petrol_big_down@2x.png in Resources */,
 				DEB4221416F92BB9001C423A /* button_petrol_big.png in Resources */,
@@ -446,6 +525,7 @@
 				DE304A6D16F947BE005FA4BC /* OpenSans-SemiboldItalic.ttf in Resources */,
 				DE304A7016F95A3B005FA4BC /* accessory_arrow.png in Resources */,
 				DE304A7116F95A3B005FA4BC /* accessory_arrow@2x.png in Resources */,
+				DEB9F12516FAA832008AC064 /* BSKeyboardControls.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -482,12 +562,18 @@
 			files = (
 				DEB421B116F7F5A4001C423A /* main.m in Sources */,
 				DEB421B516F7F5A4001C423A /* SZAppDelegate.m in Sources */,
-				DEB421EF16F7FA7F001C423A /* SZTestVC.m in Sources */,
-				DEB421F216F81832001C423A /* SZTestNC.m in Sources */,
+				DEB421EF16F7FA7F001C423A /* SZCreateAccountVC.m in Sources */,
 				DEB421F716F92B11001C423A /* SZCheckBox.m in Sources */,
 				DEB4221C16F92EC4001C423A /* SZForm.m in Sources */,
 				DEB4221F16F92F31001C423A /* SZGlobalConstants.m in Sources */,
 				DE304A7416F95A99005FA4BC /* SZAccessoryArrow.m in Sources */,
+				DEB9F0EC16FA00E4008AC064 /* SZPickerActionSheet.m in Sources */,
+				DEB9F10016FA7807008AC064 /* SZButton.m in Sources */,
+				DEB9F10616FA8141008AC064 /* SZUtils.m in Sources */,
+				DEB9F10C16FA8420008AC064 /* UILabel+Shadow.m in Sources */,
+				DEB9F11316FA95C9008AC064 /* SZNavigationController.m in Sources */,
+				DEB9F11616FA9D49008AC064 /* UIView+FindFirstResponder.m in Sources */,
+				DEB9F12416FAA832008AC064 /* BSKeyboardControls.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -524,6 +610,15 @@
 				DEB421CC16F7F5A4001C423A /* en */,
 			);
 			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		DEB9F12116FAA832008AC064 /* BSKeyboardControls.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				DEB9F12216FAA832008AC064 /* da */,
+				DEB9F12316FAA832008AC064 /* en */,
+			);
+			name = BSKeyboardControls.strings;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */

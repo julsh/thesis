@@ -10,4 +10,16 @@
 
 @implementation UILabel (Shadow)
 
+- (void) applyWhiteShadow {
+	[self setBackgroundColor:[UIColor clearColor]];
+	[self setShadowColor:[UIColor whiteColor]];
+	[self setShadowOffset:CGSizeMake(0.0, 1.0)];
+}
+
+- (void) applyBlackShadow {
+	[self setBackgroundColor:[UIColor clearColor]];
+	[self setShadowColor:[UIColor blackColor]];
+	[self setShadowOffset:CGSizeMake(0.0, -1.0)];
+}
+
 @end

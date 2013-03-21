@@ -10,4 +10,8 @@
 
 @interface SZUtils : NSObject
 
+#define LogRect(RECT) NSLog(@"%s: (%0.0f, %0.0f) %0.0f x %0.0f", #RECT, RECT.origin.x, RECT.origin.y, RECT.size.width, RECT.size.height)
+
++ (UIFont*)fontWithFontType:(SZFontType)fontType size:(CGFloat)size;
+
 @end

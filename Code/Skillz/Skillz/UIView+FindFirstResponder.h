@@ -10,4 +10,6 @@
 
 @interface UIView (FindFirstResponder)
 
+- (UIView *)findFirstResponder;
+
 @end
