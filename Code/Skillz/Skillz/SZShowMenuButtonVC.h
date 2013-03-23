@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface SZRootVC : UIViewController
+@interface SZShowMenuButtonVC : UIViewController
 
 @end

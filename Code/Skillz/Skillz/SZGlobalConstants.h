@@ -28,9 +28,10 @@ typedef enum {
 } SZFontType;
 
 typedef enum {
-	SZButtonSizeBig,
+	SZButtonSizeSmall,
 	SZButtonSizeMedium,
-	SZButtonSizeSmall
+	SZButtonSizeLarge,
+	SZButtonSizeExtraLarge
 } SZButtonSize;
 
 typedef enum {
@@ -43,5 +44,6 @@ typedef enum {
 + (UIColor*)petrol;
 + (UIColor*)darkPetrol;
 + (UIColor*)darkGray;
++ (UIFont*)fontWithFontType:(SZFontType)fontType size:(CGFloat)size;
 
 @end

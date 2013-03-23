@@ -10,8 +10,9 @@
 
 #import <Parse/Parse.h>
 
-#import "SZCreateAccountVC.h"
 #import "SZNavigationController.h"
+#import "SZSignInVC.h"
+#import "SZCreateAccountSuccessVC.h"
 
 @implementation SZAppDelegate
 
@@ -20,7 +21,7 @@
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     // Override point for customization after application launch.
 	
-	UIViewController *root = [[SZNavigationController alloc] init];
+	UIViewController *root = [[SZNavigationController alloc] initWithRootViewController:[[SZCreateAccountSuccessVC alloc] init]];
 	[self.window setRootViewController:root];
 	
     self.window.backgroundColor = [UIColor whiteColor];

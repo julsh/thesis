@@ -10,4 +10,7 @@
 
 @interface UITextView (Shadow)
 
+- (void) applyWhiteShadow;
+- (void) applyBlackShadow;
+
 @end

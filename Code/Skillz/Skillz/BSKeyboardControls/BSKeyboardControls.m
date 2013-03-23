@@ -87,7 +87,6 @@
 
 - (void)setActiveField:(id)activeField
 {
-	NSLog(@"set active field");
     if (activeField != _activeField)
     {
         if ([self.fields containsObject:activeField])

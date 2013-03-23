@@ -21,4 +21,29 @@
 	return [UIColor colorWithHue:0.0 saturation:0.0 brightness:0.1 alpha:1.0];
 }
 
++ (UIFont*)fontWithFontType:(SZFontType)fontType size:(CGFloat)size {
+	switch (fontType) {
+		case SZFontBold:
+			return [UIFont fontWithName:@"OpenSans-Bold" size:size];
+		case SZFontBoldItalic:
+			return [UIFont fontWithName:@"OpenSans-BoldItalic" size:size];
+		case SZFontExtraBold:
+			return [UIFont fontWithName:@"OpenSans-Extrabold" size:size];
+		case SZFontExtraBoldItalic:
+			return [UIFont fontWithName:@"OpenSans-ExtraboldItalic" size:size];
+		case SZFontItalic:
+			return [UIFont fontWithName:@"OpenSans-Italic" size:size];
+		case SZFontLight:
+			return [UIFont fontWithName:@"OpenSans-Light" size:size];
+		case SZFontLightItalic:
+			return [UIFont fontWithName:@"OpenSansLight-Italic" size:size];
+		case SZFontRegular:
+			return [UIFont fontWithName:@"OpenSans" size:size];
+		case SZFontSemiBold:
+			return [UIFont fontWithName:@"OpenSans-Semibold" size:size];
+		case SZFontSemiBoldItalic:
+			return [UIFont fontWithName:@"OpenSans-SemiboldItalic" size:size];
+	}
+}
+
 @end

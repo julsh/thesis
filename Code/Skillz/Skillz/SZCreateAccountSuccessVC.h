@@ -8,6 +8,6 @@
 
 #import "SZShowMenuButtonVC.h"
 
-@interface SZCreateAccountSuccessViewController : SZShowMenuButtonVC
+@interface SZCreateAccountSuccessVC : SZShowMenuButtonVC
 
 @end

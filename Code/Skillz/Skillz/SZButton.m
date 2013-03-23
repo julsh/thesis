@@ -28,19 +28,24 @@
 	CGFloat height = 0.0;
 	CGFloat fontSize = 0.0;
 	switch (size) {
-		case SZButtonSizeBig:
-			suffix = @"_big";
+		case SZButtonSizeExtraLarge:
+			suffix = @"_extra_large";
+			height = 52.0;
+			fontSize = 18.0;
+			break;
+		case SZButtonSizeLarge:
+			suffix = @"_large";
 			height = 40.0;
 			fontSize = 18.0;
 			break;
 		case SZButtonSizeMedium:
 			suffix = @"_medium";
-			height = 30.0;
+			height = 32.0;
 			fontSize = 14.0;
 			break;
 		case SZButtonSizeSmall:
 			suffix = @"_small";
-			height = 20.0;
+			height = 24.0;
 			fontSize = 10.0;
 			break;
 		default:
@@ -57,11 +62,36 @@
 		
 		[self setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
 		[self setTitleColor:[UIColor colorWithWhite:1.0 alpha:0.8] forState:UIControlStateHighlighted];
-		[self.titleLabel setFont:[SZUtils fontWithFontType:SZFontSemiBold size:fontSize]];
+		[self.titleLabel setFont:[SZGlobalConstants fontWithFontType:SZFontSemiBold size:fontSize]];
 		[self.titleLabel setShadowColor:[UIColor blackColor]];
 		[self.titleLabel setShadowOffset:CGSizeMake(0.0, -1.0)];
     }
     return self;
+}
+
+- (void)setMultilineTitle:(NSString*)title font:(UIFont*)font lineSpacing:(CGFloat)lineSpacing {
+	
+	[self.titleLabel setFont:font];
+	[self.titleLabel setLineBreakMode:NSLineBreakByWordWrapping];
+	NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
+	[paragraphStyle setLineSpacing:lineSpacing];
+	[paragraphStyle setMaximumLineHeight:font.capHeight+font.xHeight];
+	[paragraphStyle setAlignment:NSTextAlignmentCenter];
+	
+	NSDictionary *attributtes = @{NSParagraphStyleAttributeName : paragraphStyle,
+								 NSForegroundColorAttributeName : [UIColor whiteColor]};
+	[self setAttributedTitle:[[NSAttributedString alloc] initWithString:title attributes:attributtes] forState:UIControlStateNormal];
+
+}
+
+// override to fix vertical label position for multiline labels
+- (void)setNeedsLayout {
+	[super setNeedsLayout];
+	if (self.titleLabel.lineBreakMode == NSLineBreakByWordWrapping) {
+		CGRect frame = self.titleLabel.frame;
+		frame.origin.y += 2.5;
+		self.titleLabel.frame = frame;
+	}
 }
 
 @end

@@ -34,12 +34,12 @@
 {
     [super viewDidLoad];
 	
-	UIBarButtonItem* menuButton = [[UIBarButtonItem alloc] initWithTitle:@"Menu" style:UIBarButtonItemStyleDone target:self.navigationController action:@selector(showMenu:)];
+	UIBarButtonItem* menuButton = [[UIBarButtonItem alloc] initWithTitle:@"Cancel" style:UIBarButtonItemStyleDone target:self.navigationController action:@selector(dismiss:)];
 	[self.navigationItem setLeftBarButtonItem:menuButton];
 	[self.navigationItem setTitle:@"Create Account"];
 	
-	[self.view setBackgroundColor:[UIColor lightGrayColor]];
-	
+	[self.view setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"bg_pattern"]]];
+
 	[self.view addSubview:self.form];
 	[self.view addSubview:self.checkBox];
 	[self.view addSubview:[self acceptLabel]];
@@ -61,7 +61,7 @@
 					   [NSArray arrayWithObjects:@"Last Name", [NSNumber numberWithInt:UIKeyboardTypeDefault], nil] forKeys:
 					   [NSArray arrayWithObjects:FORM_PLACEHOLDER, FORM_INPUT_TYPE, nil]] isLastItem:NO];
 		[_form addItem:[NSDictionary dictionaryWithObjects:
-					   [NSArray arrayWithObjects:@"ZIP code", [NSNumber numberWithInt:UIKeyboardTypeDecimalPad], nil] forKeys:
+					   [NSArray arrayWithObjects:@"ZIP code", [NSNumber numberWithInt:UIKeyboardTypeNumbersAndPunctuation], nil] forKeys:
 					   [NSArray arrayWithObjects:FORM_PLACEHOLDER, FORM_INPUT_TYPE, nil]] isLastItem:NO];
 		[_form addItem:[NSDictionary dictionaryWithObjects:
 					   [NSArray arrayWithObjects:@"State", [NSNumber numberWithInt:INPUT_TYPE_PICKER], [NSArray arrayWithObjects:@"California", @"Texas", @"Florida", @"Oregon", nil], nil] forKeys:
@@ -94,7 +94,7 @@
 
 - (UILabel*)acceptLabel {
 	UILabel* acceptLabel = [[UILabel alloc] init];
-	[acceptLabel setFont:[SZUtils fontWithFontType:SZFontSemiBold size:14.0]];
+	[acceptLabel setFont:[SZGlobalConstants fontWithFontType:SZFontSemiBold size:14.0]];
 	[acceptLabel setTextColor:[SZGlobalConstants darkGray]];
 	[acceptLabel applyWhiteShadow];
 	[acceptLabel setText:@"I accept the"];
@@ -107,7 +107,7 @@
 	UIButton* termsButton = [UIButton buttonWithType:UIButtonTypeCustom];
 	[termsButton setTitleColor:[SZGlobalConstants darkPetrol] forState:UIControlStateNormal];
 	[termsButton setTitleShadowColor:[UIColor whiteColor] forState:UIControlStateNormal];
-	[termsButton.titleLabel setFont:[SZUtils fontWithFontType:SZFontExtraBold size:14.0]];
+	[termsButton.titleLabel setFont:[SZGlobalConstants fontWithFontType:SZFontExtraBold size:14.0]];
 	[termsButton.titleLabel setShadowOffset:CGSizeMake(0.0, 1.0)];
 	[termsButton setTitle:@"Terms & Conditions" forState:UIControlStateNormal];
 	[termsButton addTarget:self action:@selector(showTerms:) forControlEvents:UIControlEventTouchUpInside];
@@ -117,9 +117,10 @@
 }
 
 - (SZButton*)createButton {
-	SZButton* createButton = [[SZButton alloc] initWithColor:SZButtonColorPetrol size:SZButtonSizeBig width:280.0];
+	SZButton* createButton = [[SZButton alloc] initWithColor:SZButtonColorPetrol size:SZButtonSizeLarge width:290.0];
 	[createButton setTitle:@"Create Account" forState:UIControlStateNormal];
 	[createButton setCenter:CGPointMake(160.0, 380.0)];
+	[createButton addTarget:self action:@selector(checkInputs:) forControlEvents:UIControlEventTouchUpInside];
 	return createButton;
 }
 
@@ -129,20 +130,77 @@
 	NSLog(@"show terms!");
 }
 
-- (void)postThisShit:(id)sender {
-//	PFObject *request = [PFObject objectWithClassName:@"Request"];
-//	[request setObject:self.titleField.text forKey:@"title"];
-//	[request setObject:self.descriptionField.text forKey:@"description"];
-//	[request saveInBackground];
-//	SZTestNC* navController = [[SZTestNC alloc] init];
-//	[self presentViewController:navController animated:YES completion:nil];
-	NSLog(@"checked? %i", self.checkBox.isChecked);
+- (void)checkInputs:(id)sender {
+
+	NSString* errorMessage = @"";
+	
+	if (!self.checkBox.isChecked) {
+		errorMessage = [errorMessage stringByAppendingString:@"You have to accept the terms & conditions.\n\n"];
+	}
+	
+	for (NSString* key in [self.form.userInputs allKeys]) {
+		if ([[self.form.userInputs valueForKey:key] isEqualToString:@""]) {
+			errorMessage = [errorMessage stringByAppendingString:@"All fields have to be filled.\n\n"];
+			break;
+		}
+	}
+	
+	NSString* inputToEvaluate, *regEx;
+	NSPredicate *testPredicate;
+	
+	inputToEvaluate = [self.form.userInputs valueForKey:@"ZIP code"];
+	regEx = @"[0-9]{5}(-[0-9]{4})?";
+	testPredicate = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", regEx];
+	if (![testPredicate evaluateWithObject:inputToEvaluate]) {
+		errorMessage = [errorMessage stringByAppendingString:@"ZIP code must have one of the following formats:\n12344\n123456789\n12345-6789\n\n"];
+	}
+	
+	inputToEvaluate = [self.form.userInputs valueForKey:@"Email"];
+	regEx = @"[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,6}";
+	testPredicate = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", regEx];
+	if (![testPredicate evaluateWithObject:inputToEvaluate]) {
+		errorMessage = [errorMessage stringByAppendingString:@"The Email address you provided is not valid.\n\n"];
+	}
+	
+	inputToEvaluate = [self.form.userInputs valueForKey:@"Password"];
+	regEx = @"[a-z0-9._!\\?@-]{6,18}$";
+	testPredicate = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", regEx];
+	if (![testPredicate evaluateWithObject:inputToEvaluate]) {
+		errorMessage = [errorMessage stringByAppendingString:@"The password must contain 6 to 18 characters. Valid characters are letters, digits and any of the following special characters:\n _ - . ! ? @\n\n"];
+	}
+	
+	if (![inputToEvaluate isEqualToString:[self.form.userInputs valueForKey:@"Confirm Password"]]) {
+		errorMessage = [errorMessage stringByAppendingString:@"The passwords must match.\n\n"];
+	}
+	
+	if ([errorMessage isEqualToString:@""]) {
+		[self createAccount];
+	}
+	else {
+		UIAlertView* alertView = [[UIAlertView alloc] initWithTitle:@"Please resolve the following issues: " message:[errorMessage substringToIndex:[errorMessage length] - 2] delegate:self cancelButtonTitle:@"Okay!" otherButtonTitles: nil];
+		[alertView show];
+	}
 }
 
-
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+- (void)createAccount {
+	PFUser *user = [PFUser user];
+    user.username = [[self.form.userInputs valueForKey:@"Email"] lowercaseString];
+    user.email = [[self.form.userInputs valueForKey:@"Email"] lowercaseString];
+    user.password = [self.form.userInputs valueForKey:@"Password"];
+	
+	[user setObject:[self.form.userInputs valueForKey:@"First Name"] forKey:@"first_name"];
+	[user setObject:[self.form.userInputs valueForKey:@"Last Name"] forKey:@"last_name"];
+	[user setObject:[self.form.userInputs valueForKey:@"ZIP code"] forKey:@"zip_code"];
+	[user setObject:[self.form.userInputs valueForKey:@"State"] forKey:@"state"];
+	
+    [user signUpInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+		if (!error) {
+			NSLog(@"signup success!");
+		} else {
+			NSString *errorString = [[error userInfo] objectForKey:@"error"];
+			NSLog(@"error: %@", errorString);
+		}
+    }];
 }
 
 

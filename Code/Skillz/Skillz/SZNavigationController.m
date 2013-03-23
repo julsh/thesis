@@ -7,6 +7,7 @@
 //
 
 #import "SZNavigationController.h"
+#import "SZSignInVC.h"
 #import "SZCreateAccountVC.h"
 
 @interface SZNavigationController ()
@@ -23,7 +24,16 @@
 
 - (id)init
 {
-    self = [super initWithRootViewController:[[SZCreateAccountVC alloc] init]];
+    self = [super init];
+    if (self) {
+		[self.view addGestureRecognizer: self.leftSwipeRecognizer];
+		[self.view addGestureRecognizer: self.rightSwipeRecognizer];
+    }
+    return self;
+}
+
+- (id)initWithRootViewController:(UIViewController *)rootViewController {
+	self = [super initWithRootViewController:rootViewController];
     if (self) {
 		[self.view addGestureRecognizer: self.leftSwipeRecognizer];
 		[self.view addGestureRecognizer: self.rightSwipeRecognizer];
@@ -93,10 +103,8 @@
 //	}];
 }
 
-- (void)didReceiveMemoryWarning
-{
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+- (void)dismiss:(id)sender {
+	[self dismissViewControllerAnimated:YES completion:nil];
 }
 
 @end

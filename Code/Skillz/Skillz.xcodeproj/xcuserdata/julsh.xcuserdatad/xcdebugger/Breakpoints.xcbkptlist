@@ -33,13 +33,26 @@
          shouldBeEnabled = "No"
          ignoreCount = "0"
          continueAfterRunningActions = "No"
-         filePath = "Skillz/SZUtils.m"
-         timestampString = "385516322.638599"
+         filePath = "Skillz/SZCreateAccountVC.m"
+         timestampString = "385690508.172089"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "32"
-         endingLineNumber = "32"
-         landmarkName = "+fontWithFontType:size:"
+         startingLineNumber = "137"
+         endingLineNumber = "137"
+         landmarkName = "-checkInputs:"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "No"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         filePath = "Skillz/SZCreateAccountSuccessVC.m"
+         timestampString = "385693447.723458"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "47"
+         endingLineNumber = "47"
+         landmarkName = "-thankYouMessage"
          landmarkType = "5">
       </FileBreakpoint>
    </FileBreakpoints>

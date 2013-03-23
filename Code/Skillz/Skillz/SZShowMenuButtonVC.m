@@ -6,33 +6,23 @@
 //  Copyright (c) 2013 Julia Roggatz. All rights reserved.
 //
 
-#import "SZRootVC.h"
+#import "SZShowMenuButtonVC.h"
 
-@interface SZRootVC ()
+@interface SZShowMenuButtonVC ()
 
 @end
 
-@implementation SZRootVC
+@implementation SZShowMenuButtonVC
 
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
-{
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    if (self) {
-        // Custom initialization
-    }
-    return self;
-}
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-	// Do any additional setup after loading the view.
-}
-
-- (void)didReceiveMemoryWarning
-{
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+	
+	UIBarButtonItem* menuButton = [[UIBarButtonItem alloc] initWithTitle:@"Menu" style:UIBarButtonItemStyleDone target:self.navigationController action:@selector(showMenu:)];
+	[self.navigationItem setLeftBarButtonItem:menuButton];
+	
+	[self.view setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"bg_pattern"]]];
 }
 
 @end

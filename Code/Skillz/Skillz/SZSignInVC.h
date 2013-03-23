@@ -7,7 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "SZShowMenuButtonVC.h"
 
-@interface SZLoginVC : UIViewController
+@interface SZSignInVC : SZShowMenuButtonVC
 
 @end

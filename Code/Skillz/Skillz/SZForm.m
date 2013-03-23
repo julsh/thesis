@@ -82,7 +82,7 @@
 	// setting the textfield
 	UITextField* textField = [[UITextField alloc] init];
 	[textField setTag:[self.userInputs count]];
-	[textField setFont:[SZUtils fontWithFontType:SZFontRegular size:TEXTFIELD_FONT_SIZE]];
+	[textField setFont:[SZGlobalConstants fontWithFontType:SZFontRegular size:TEXTFIELD_FONT_SIZE]];
 	[textField setPlaceholder:[item valueForKey:FORM_PLACEHOLDER]];
 	[textField setDelegate:self];
 	textField.layer.shadowOpacity = 1.0;
@@ -184,11 +184,21 @@
 			}];
 		}
 	}
+	
+	// check if input view is picker, set textfield to the first possible choice
+	if ([textField.inputView isKindOfClass:[UIPickerView class]]) {
+		UIPickerView* pickerView = (UIPickerView*)textField.inputView;
+		[self pickerView:pickerView didSelectRow:[pickerView selectedRowInComponent:0] inComponent:0];
+	}
 }
 
 - (BOOL)textFieldShouldReturn:( UITextField *)textField {
 	[textField resignFirstResponder];
 	return NO;
+}
+
+- (void)textFieldDidEndEditing:(UITextField *)textField {
+	[self.userInputs setValue:textField.text forKey:textField.placeholder];
 }
 
 #pragma mark - Keyboard Controls Delegate
