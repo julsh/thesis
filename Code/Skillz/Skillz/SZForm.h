@@ -13,6 +13,7 @@
 
 @property (nonatomic, strong) NSMutableDictionary* userInputs;
 
+- (id)initWithWidth:(CGFloat)width;
 - (void)addItem:(NSDictionary*)item isLastItem:(BOOL)isLast;
 - (void)configureKeyboard;
 

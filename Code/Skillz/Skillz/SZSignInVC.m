@@ -15,6 +15,8 @@
 #import "SZUtils.h"
 #import "SZCreateAccountVC.h"
 #import "SZNavigationController.h"
+#import "SZCreateAccountSuccessVC.h"
+#import "SZForgotPasswordVC.h"
 
 #import "MBProgressHUD.h"
 
@@ -36,9 +38,11 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-	[self.navigationItem setTitle:@"Skillz"];
+	[self.navigationItem setTitle:@"Sign In"];
+	[self.navigationItem setBackBarButtonItem:[[UIBarButtonItem alloc] initWithTitle:@"Back" style:UIBarButtonItemStylePlain target:nil action:nil]];
 	
 	[self.view addSubview:self.form];
+	[self.view addSubview:[self logo]];
 	[self.view addSubview:[self signInButton]];
 	[self.view addSubview:[self forgotPasswordButton]];
 	[self.view addSubview:[self createAccountButton]];
@@ -51,7 +55,7 @@
 	
 	if (_form == nil) {
 		
-		_form = [[SZForm alloc] init];
+		_form = [[SZForm alloc] initWithWidth:290.0];
 		[_form addItem:[NSDictionary dictionaryWithObjects:
 						[NSArray arrayWithObjects:@"Email", [NSNumber numberWithInt:UIKeyboardTypeEmailAddress], nil] forKeys:
 						[NSArray arrayWithObjects:FORM_PLACEHOLDER, FORM_INPUT_TYPE, nil]] isLastItem:NO];
@@ -67,11 +71,17 @@
 
 #pragma mark - UI elements (non-properties)
 
+- (UIImageView*)logo {
+	UIImageView* logo = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"logo_transparent"]];
+	[logo setCenter:CGPointMake(160.0, 80.0)];
+	return logo;
+}
+
 - (SZButton*)signInButton {
 	SZButton* signInButton = [[SZButton alloc] initWithColor:SZButtonColorPetrol size:SZButtonSizeLarge width:290.0];
 	[signInButton setTitle:@"Sign In" forState:UIControlStateNormal];
 	[signInButton setCenter:CGPointMake(160.0, SIGN_IN_YPOS)];
-	[signInButton addTarget:self action:@selector(signIn:) forControlEvents:UIControlEventTouchUpInside];
+	[signInButton addTarget:self action:@selector(signInTapped:) forControlEvents:UIControlEventTouchUpInside];
 	return signInButton;
 }
 
@@ -82,7 +92,7 @@
 	[forgotPasswordButton.titleLabel setFont:[SZGlobalConstants fontWithFontType:SZFontExtraBold size:14.0]];
 	[forgotPasswordButton.titleLabel setShadowOffset:CGSizeMake(0.0, 1.0)];
 	[forgotPasswordButton setTitle:@"Forgot Password?" forState:UIControlStateNormal];
-	[forgotPasswordButton addTarget:self action:@selector(forgotPassword:) forControlEvents:UIControlEventTouchUpInside];
+	[forgotPasswordButton addTarget:self action:@selector(forgotPasswordTapped:) forControlEvents:UIControlEventTouchUpInside];
 	[forgotPasswordButton setFrame:CGRectMake(0.0, 0.0, 160.0, 40.0)];
 	[forgotPasswordButton setCenter:CGPointMake(235.0, FORGOT_PWORD_YPOS)];
 	return forgotPasswordButton;
@@ -91,7 +101,7 @@
 - (SZButton*)createAccountButton {
 	SZButton* createAccountButton = [[SZButton alloc] initWithColor:SZButtonColorPetrol size:SZButtonSizeExtraLarge width:140.0];
 	[createAccountButton setCenter:CGPointMake(85.0, LOWER_BUTTONS_YPOS)];
-	[createAccountButton addTarget:self action:@selector(createAccount:) forControlEvents:UIControlEventTouchUpInside];
+	[createAccountButton addTarget:self action:@selector(createAccountTapped:) forControlEvents:UIControlEventTouchUpInside];
 	[createAccountButton setMultilineTitle:@"Create\nAccount" font:[SZGlobalConstants fontWithFontType:SZFontSemiBold size:16.0] lineSpacing:0.0];
 	return createAccountButton;
 }
@@ -99,12 +109,14 @@
 - (SZButton*)learnMoreButton {
 	SZButton* learnMoreButton = [[SZButton alloc] initWithColor:SZButtonColorOrange size:SZButtonSizeExtraLarge width:140.0];
 	[learnMoreButton setCenter:CGPointMake(235.0, LOWER_BUTTONS_YPOS)];
-	[learnMoreButton addTarget:self action:@selector(learnMore:) forControlEvents:UIControlEventTouchUpInside];
+	[learnMoreButton addTarget:self action:@selector(learnMoreTapped:) forControlEvents:UIControlEventTouchUpInside];
 	[learnMoreButton setMultilineTitle:@"Learn\nMore" font:[SZGlobalConstants fontWithFontType:SZFontSemiBold size:16.0] lineSpacing:0.0];
 	return learnMoreButton;
 }
 
-- (void)signIn:(id)sender {
+#pragma mark - User actions
+
+- (void)signInTapped:(id)sender {
 	
 	// check if both fields have inputs
 	if (!([[self.form.userInputs valueForKey:@"Email"] isEqualToString:@""] || [[self.form.userInputs valueForKey:@"Password"] isEqualToString:@""])) {
@@ -116,45 +128,62 @@
 		[PFUser logInWithUsernameInBackground:[[self.form.userInputs valueForKey:@"Email"] lowercaseString] password:[self.form.userInputs valueForKey:@"Password"] block:^(PFUser *user, NSError *error) {
 			if (user) {
 				[hud hide:YES];
-				// TODO check if email verified!
-				NSLog(@"success");
-			} else {
-				[hud hide:YES];
-				NSString* errorTitle;
-				NSString* errorMessage;
-				if (error.code == 101) {
-					errorTitle = @"Incorrect password or Email address.";
-					errorMessage = @"If you forgot your password, you can request a new one through the \"Forgot Password?\" link below the \"Sign In\" button.";
+				if ([[user objectForKey:@"emailVerified"] boolValue]) {
+					NSLog(@"success");
+					// TODO go to dashboard/start page
 				}
 				else {
-					errorTitle = @"An unknown error occured.";
-					errorMessage = @"Please try again.";
+					UIAlertView* alertView = [[UIAlertView alloc] initWithTitle:@"Email address not verified" message:@"You should have received an Email from us asking you to verify your Email address. Please click the link in the Email to complete your registration." delegate:self cancelButtonTitle:@"Okay" otherButtonTitles:@"Resend Email", nil];
+					[alertView show];
 				}
-				UIAlertView* alertView = [[UIAlertView alloc] initWithTitle:errorTitle message:errorMessage delegate:self cancelButtonTitle:@"Okay!" otherButtonTitles: nil];
+			} else {
+				[hud hide:YES];
+				UIAlertView* alertView = [SZUtils alertViewForError:error delegate:self];
+				[alertView addButtonWithTitle:@"Okay"];
 				[alertView show];
 			}
 		}];
 	}
 	// if one or both fields are left empty, show error message
 	else {
-		UIAlertView* alertView = [[UIAlertView alloc] initWithTitle:nil message:@"Please provide your Email address and password in order to sign in." delegate:self cancelButtonTitle:@"Okay!" otherButtonTitles: nil];
+		UIAlertView* alertView = [[UIAlertView alloc] initWithTitle:nil message:@"Please provide your Email address and password in order to sign in." delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles: nil];
 		[alertView show];
 	}
 	
 }
 
-- (void)forgotPassword:(id)sender {
-	NSLog(@"forgotPassword");
+- (void)forgotPasswordTapped:(id)sender {
+//	SZForgotPasswordVC
+	[self.navigationController pushViewController:[[SZForgotPasswordVC alloc] init] animated:YES];
 }
 
-- (void)createAccount:(id)sender {
+- (void)createAccountTapped:(id)sender {
+	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(signUpSuccess:) name:NOTIF_SIGN_UP_SUCCESS object:nil];
+	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(forgotPasswordTapped:) name:NOTIF_REQUEST_PASSWORD object:nil];
 	SZNavigationController* navController = [[SZNavigationController alloc] initWithRootViewController:[[SZCreateAccountVC alloc] init]];
 	[navController setModalPresentationStyle:UIModalPresentationFullScreen];
 	[self presentViewController:navController animated:YES completion:nil];
 }
 
-- (void)learnMore:(id)sender {
+- (void)learnMoreTapped:(id)sender {
 	NSLog(@"learnMore");
+	// TODO learn more controller
 }
+
+#pragma mark - Internal operations
+
+- (void)signUpSuccess:(NSNotification*)notif {
+	[self.navigationController setViewControllers:[NSArray arrayWithObject:[[SZCreateAccountSuccessVC alloc] initWithUser:(PFUser*)notif.object]]];
+}
+
+#pragma mark - UIAlertViewDelegate
+
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
+	if (buttonIndex == 1) {
+		NSLog(@"resend email");
+		// TODO resend email. doesn't work with parse backend.
+	}
+}
+
 
 @end

@@ -12,10 +12,11 @@
 #import "SZAccessoryArrow.h"
 #import "SZUtils.h"
 
-#define FORM_TOP_IMAGE		@"form_top"
-#define FORM_MIDDLE_IMAGE	@"form_middle"
-#define FORM_BOTTOM_IMAGE	@"form_bottom"
-#define FORM_CELL_HEIGHT	40.0
+#define FORM_TOP_IMAGE			@"form_top"
+#define FORM_MIDDLE_IMAGE		@"form_middle"
+#define FORM_BOTTOM_IMAGE		@"form_bottom"
+#define FORM_ONE_FIELD_IMAGE	@"form_oneField"
+#define FORM_CELL_HEIGHT		40.0
 
 #define TEXTFIELD_FONT_SIZE		18.0
 #define TEXTFIELD_SIDE_MARGIN	15.0
@@ -27,6 +28,7 @@
 @property (nonatomic, strong) NSMutableDictionary* pickerOptions;
 @property (nonatomic, strong) NSMutableArray* textFields;
 @property (nonatomic, strong) BSKeyboardControls *keyboardControls;
+@property (nonatomic, assign) CGFloat width;
 
 @end
 
@@ -35,44 +37,53 @@
 @synthesize userInputs = _userInputs;
 @synthesize pickerOptions = _pickerOptions;
 @synthesize textFields = _textFields;
+@synthesize width = _width;
 
-- (id)init {
+- (id)initWithWidth:(CGFloat)width {
 	
 	self = [super initWithFrame:CGRectZero];
     if (self) {
         self.userInteractionEnabled = YES;
+		self.width = width;
+		
+		CGRect frame = self.frame;
+		frame.size.width = width;
+		self.frame = frame;
     }
     return self;
 }
 
 - (void)addItem:(NSDictionary*)item isLastItem:(BOOL)isLast {
 	
-	NSAssert(!([self.userInputs count] == 0 && isLast), @"The first item cannot be the last item. The form has to consist of at least two items.");
-	
 	// setting the background image
 	UIImageView* bgImage;
 	if ([self.userInputs count] == 0) { // top item
-		bgImage = [[UIImageView alloc] initWithImage:[UIImage imageNamed:FORM_TOP_IMAGE]];		
+		if (!isLast) {
+			bgImage = [[UIImageView alloc] initWithImage:[[UIImage imageNamed:FORM_TOP_IMAGE] resizableImageWithCapInsets:UIEdgeInsetsMake(0.0, 30.0, 0.0, 30.0)]];
+		}
+		else {
+			bgImage = [[UIImageView alloc] initWithImage:[[UIImage imageNamed:FORM_ONE_FIELD_IMAGE] resizableImageWithCapInsets:UIEdgeInsetsMake(0.0, 30.0, 0.0, 30.0)]];
+		}
 	}
 	else {
 		if (!isLast) { // middle item
-			bgImage = [[UIImageView alloc] initWithImage:[UIImage imageNamed:FORM_MIDDLE_IMAGE]];
+			bgImage = [[UIImageView alloc] initWithImage:[[UIImage imageNamed:FORM_MIDDLE_IMAGE] resizableImageWithCapInsets:UIEdgeInsetsMake(0.0, 30.0, 0.0, 30.0)]];
 		}
 		else { // bottom item
-			bgImage = [[UIImageView alloc] initWithImage:[UIImage imageNamed:FORM_BOTTOM_IMAGE]];
+			bgImage = [[UIImageView alloc] initWithImage:[[UIImage imageNamed:FORM_BOTTOM_IMAGE] resizableImageWithCapInsets:UIEdgeInsetsMake(0.0, 30.0, 0.0, 30.0)]];
 		}
 	}
 	
 	// placing the new cell
 	CGRect frame;
 	frame = bgImage.frame;
+	frame.size.width = self.width;
 	frame.origin.y = [self.userInputs count] * FORM_CELL_HEIGHT;
 	bgImage.frame = frame;
 	
 	// adjusting the form's frame
 	frame = self.frame;
 	frame.size.height += bgImage.frame.size.height;
-	if (bgImage.frame.size.width > frame.size.width) frame.size.width = bgImage.frame.size.width;
 	self.frame = frame;
 	
 	// adding the bgimage to the form
@@ -114,6 +125,11 @@
 	}
 	else {
 		[textField setKeyboardType:[[item valueForKey:FORM_INPUT_TYPE] intValue]];
+	}
+	
+	// if theres only one field, "return" should be "done" since we don't need the toolbar above the keyboard
+	if ([self.userInputs count] == 0 && isLast) {
+		[textField setReturnKeyType:UIReturnKeyDone];
 	}
 	
 	// adjusting the textfield's frame
@@ -194,11 +210,22 @@
 
 - (BOOL)textFieldShouldReturn:( UITextField *)textField {
 	[textField resignFirstResponder];
+	[self checkForScrollUp];
 	return NO;
 }
 
 - (void)textFieldDidEndEditing:(UITextField *)textField {
 	[self.userInputs setValue:textField.text forKey:textField.placeholder];
+}
+
+- (void)checkForScrollUp {
+	if (self.superview.frame.origin.y < 0.0) {
+		[UIView animateWithDuration:0.2 animations:^{
+			CGRect frame = self.superview.frame;
+			frame.origin.y = 0.0;
+			self.superview.frame = frame;
+		}];
+	}
 }
 
 #pragma mark - Keyboard Controls Delegate
@@ -207,13 +234,7 @@
 - (void)keyboardControlsDonePressed:(BSKeyboardControls *)keyboardControls
 {
     [keyboardControls.activeField resignFirstResponder];
-	if (self.superview.frame.origin.y < 0.0) {
-		[UIView animateWithDuration:0.2 animations:^{
-			CGRect frame = self.superview.frame;
-			frame.origin.y = 0.0;
-			self.superview.frame = frame;
-		}];
-	}
+	[self checkForScrollUp];
 }
 
 #pragma mark - Picker View Delegate

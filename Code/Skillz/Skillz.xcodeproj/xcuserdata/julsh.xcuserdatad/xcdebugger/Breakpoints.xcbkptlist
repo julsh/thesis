@@ -8,11 +8,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "Skillz/SZForm.m"
-         timestampString = "385531387.796037"
+         timestampString = "385780845.175832"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "96"
-         endingLineNumber = "96"
+         startingLineNumber = "107"
+         endingLineNumber = "107"
          landmarkName = "-addItem:isLastItem:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -34,12 +34,12 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "Skillz/SZCreateAccountVC.m"
-         timestampString = "385690508.172089"
+         timestampString = "385780436.507157"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "137"
-         endingLineNumber = "137"
-         landmarkName = "-checkInputs:"
+         startingLineNumber = "146"
+         endingLineNumber = "146"
+         landmarkName = "-checkInputs"
          landmarkType = "5">
       </FileBreakpoint>
       <FileBreakpoint
@@ -47,12 +47,25 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "Skillz/SZCreateAccountSuccessVC.m"
-         timestampString = "385693447.723458"
+         timestampString = "385785331.157443"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "47"
-         endingLineNumber = "47"
+         startingLineNumber = "48"
+         endingLineNumber = "48"
          landmarkName = "-thankYouMessage"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "No"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         filePath = "Skillz/SZNavigationController.m"
+         timestampString = "385875556.809707"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "132"
+         endingLineNumber = "132"
+         landmarkName = "-menu:switchToViewControllerWithClassName:"
          landmarkType = "5">
       </FileBreakpoint>
    </FileBreakpoints>

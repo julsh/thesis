@@ -10,4 +10,6 @@
 
 @interface SZCreateAccountSuccessVC : SZShowMenuButtonVC
 
+- (id)initWithUser:(PFUser*)user;
+
 @end

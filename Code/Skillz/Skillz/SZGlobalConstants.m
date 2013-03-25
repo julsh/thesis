@@ -11,7 +11,7 @@
 @implementation SZGlobalConstants
 
 + (UIColor*)petrol {
-	return [UIColor colorWithHue:0.094 saturation:0.392 brightness:0.42 alpha:1.0];
+	return [UIColor colorWithHue:0.525 saturation:0.78 brightness:0.42 alpha:1.0];
 }
 + (UIColor*)darkPetrol {
 	return [UIColor colorWithRed:0.0 green:0.255 blue:0.255 alpha:1.0];
@@ -19,6 +19,25 @@
 
 + (UIColor*)darkGray {
 	return [UIColor colorWithHue:0.0 saturation:0.0 brightness:0.1 alpha:1.0];
+}
+
++ (UIColor*)menuCellColor {
+	return [UIColor colorWithHue:0.52 saturation:0.9 brightness:0.15 alpha:1.0];
+//	return [UIColor colorWithHue:0.0 saturation:0.0 brightness:0.14 alpha:1.0];
+}
+
++ (UIColor*)menuSectionColor {
+//	return [SZGlobalConstants petrol];
+	return [UIColor colorWithHue:0.52 saturation:0.9 brightness:0.2 alpha:1.0];
+//	return [UIColor colorWithHue:0.0 saturation:0.0 brightness:0.18 alpha:1.0];
+}
+
++ (UIColor*)menuCellTextColor {
+	return [UIColor colorWithHue:0.52 saturation:0.1 brightness:0.7 alpha:1.0];
+}
+
++ (UIColor*)menuSectionTextColor {
+	return [UIColor colorWithHue:0.52 saturation:0.1 brightness:0.6 alpha:1.0];
 }
 
 + (UIFont*)fontWithFontType:(SZFontType)fontType size:(CGFloat)size {

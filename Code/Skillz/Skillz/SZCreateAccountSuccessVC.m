@@ -13,6 +13,7 @@
 #import "UITextView+Shadow.h"
 #import "SZUtils.h"
 #import "SZButton.h"
+#import "SZSignInVC.h"
 
 @interface SZCreateAccountSuccessVC ()
 
@@ -24,8 +25,12 @@
 
 @synthesize user = _user;
 
-- (void)initWithUser:(PFUser*)user {
-	self.user = user;
+- (id)initWithUser:(PFUser*)user {
+	self = [super init];
+	if (self) {
+		self.user = user;
+	}
+	return self;
 }
 
 - (void)viewDidLoad
@@ -37,11 +42,7 @@
 
 }
 
-- (void)didReceiveMemoryWarning
-{
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
+#pragma mark - UI elements (non-properties)
 
 - (UITextView*)thankYouMessage {
 	UITextView* thankYouMessage = [[UITextView alloc] initWithFrame:CGRectMake(0.0, 0.0, 320.0, 100.0)];
@@ -50,7 +51,7 @@
 	[thankYouMessage setUserInteractionEnabled:NO];
 	[thankYouMessage applyWhiteShadow];
 	[thankYouMessage setTextAlignment:NSTextAlignmentCenter];
-	[thankYouMessage setText:@"Thank you for\nsigning up!"];
+	[thankYouMessage setText:@"Welcome to the\nSkillz community!"];
 	[thankYouMessage setCenter:CGPointMake(160.0, 80.0)];
 	return thankYouMessage;
 }
@@ -75,7 +76,17 @@
 	return okayButton;
 }
 
+#pragma mark - User actions
+
 - (void)goToSignInVC:(id)sender {
+	[UIView
+	 transitionWithView:self.navigationController.view
+	 duration:0.5
+	 options:UIViewAnimationOptionTransitionFlipFromLeft
+	 animations:^{
+		 [self.navigationController setViewControllers:[NSArray arrayWithObject:[[SZSignInVC alloc] init]]];
+	 }
+	 completion:NULL];
 	
 }
 

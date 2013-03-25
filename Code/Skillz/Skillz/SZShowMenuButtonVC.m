@@ -19,7 +19,7 @@
 {
     [super viewDidLoad];
 	
-	UIBarButtonItem* menuButton = [[UIBarButtonItem alloc] initWithTitle:@"Menu" style:UIBarButtonItemStyleDone target:self.navigationController action:@selector(showMenu:)];
+	UIBarButtonItem* menuButton = [[UIBarButtonItem alloc] initWithTitle:@"Menu" style:UIBarButtonItemStylePlain target:self.navigationController.parentViewController action:@selector(showMenu:)];
 	[self.navigationItem setLeftBarButtonItem:menuButton];
 	
 	[self.view setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"bg_pattern"]]];

@@ -8,6 +8,9 @@
 
 #import <Foundation/Foundation.h>
 
+#define NOTIF_SIGN_UP_SUCCESS @"Sign Up Success"
+#define NOTIF_REQUEST_PASSWORD @"Request Password"
+
 #define FORM_PLACEHOLDER @"Placeholder"
 #define FORM_INPUT_TYPE @"InputType"
 #define INPUT_TYPE_PICKER 1001
@@ -44,6 +47,10 @@ typedef enum {
 + (UIColor*)petrol;
 + (UIColor*)darkPetrol;
 + (UIColor*)darkGray;
++ (UIColor*)menuCellColor;
++ (UIColor*)menuSectionColor;
++ (UIColor*)menuCellTextColor;
++ (UIColor*)menuSectionTextColor;
 + (UIFont*)fontWithFontType:(SZFontType)fontType size:(CGFloat)size;
 
 @end

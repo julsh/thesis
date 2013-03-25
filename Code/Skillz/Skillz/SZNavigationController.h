@@ -7,7 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "SZMenuVC.h"
 
-@interface SZNavigationController : UINavigationController
+@interface SZNavigationController : UIViewController <SZMenuVCDelegate>
+
+- (id)initWithRootViewController:(UIViewController *)rootViewController;
 
 @end

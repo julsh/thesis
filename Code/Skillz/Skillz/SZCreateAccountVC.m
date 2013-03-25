@@ -15,6 +15,8 @@
 #import "SZButton.h"
 #import "SZUtils.h"
 
+#import "MBProgressHUD.h"
+
 #define FORM_TOP_MARGIN 20.0
 
 @interface SZCreateAccountVC ()
@@ -34,7 +36,7 @@
 {
     [super viewDidLoad];
 	
-	UIBarButtonItem* menuButton = [[UIBarButtonItem alloc] initWithTitle:@"Cancel" style:UIBarButtonItemStyleDone target:self.navigationController action:@selector(dismiss:)];
+	UIBarButtonItem* menuButton = [[UIBarButtonItem alloc] initWithTitle:@"Cancel" style:UIBarButtonItemStylePlain target:self.navigationController.parentViewController action:@selector(dismiss:)];
 	[self.navigationItem setLeftBarButtonItem:menuButton];
 	[self.navigationItem setTitle:@"Create Account"];
 	
@@ -53,7 +55,7 @@
 	
 	if (_form == nil) {
 		
-		_form = [[SZForm alloc] init];
+		_form = [[SZForm alloc] initWithWidth:290.0];
 		[_form addItem:[NSDictionary dictionaryWithObjects:
 					   [NSArray arrayWithObjects:@"First Name", [NSNumber numberWithInt:UIKeyboardTypeDefault], nil] forKeys:
 					   [NSArray arrayWithObjects:FORM_PLACEHOLDER, FORM_INPUT_TYPE, nil]] isLastItem:NO];
@@ -110,7 +112,7 @@
 	[termsButton.titleLabel setFont:[SZGlobalConstants fontWithFontType:SZFontExtraBold size:14.0]];
 	[termsButton.titleLabel setShadowOffset:CGSizeMake(0.0, 1.0)];
 	[termsButton setTitle:@"Terms & Conditions" forState:UIControlStateNormal];
-	[termsButton addTarget:self action:@selector(showTerms:) forControlEvents:UIControlEventTouchUpInside];
+	[termsButton addTarget:self action:@selector(showTermsTapped:) forControlEvents:UIControlEventTouchUpInside];
 	[termsButton setFrame:CGRectMake(0.0, 0.0, 160.0, 40.0)];
 	[termsButton setCenter:CGPointMake(216.0, 330.0)];
 	return termsButton;
@@ -120,17 +122,24 @@
 	SZButton* createButton = [[SZButton alloc] initWithColor:SZButtonColorPetrol size:SZButtonSizeLarge width:290.0];
 	[createButton setTitle:@"Create Account" forState:UIControlStateNormal];
 	[createButton setCenter:CGPointMake(160.0, 380.0)];
-	[createButton addTarget:self action:@selector(checkInputs:) forControlEvents:UIControlEventTouchUpInside];
+	[createButton addTarget:self action:@selector(createAccountTapped:) forControlEvents:UIControlEventTouchUpInside];
 	return createButton;
 }
 
 #pragma mark - User actions
 
-- (void)showTerms:(id)sender {
+- (void)showTermsTapped:(id)sender {
 	NSLog(@"show terms!");
+	// TODO show terms
 }
 
-- (void)checkInputs:(id)sender {
+- (void)createAccountTapped:(id)sender {
+	[self checkInputs];
+}
+
+#pragma mark - Internal operations
+
+- (void)checkInputs {
 
 	NSString* errorMessage = @"";
 	
@@ -156,7 +165,7 @@
 	}
 	
 	inputToEvaluate = [self.form.userInputs valueForKey:@"Email"];
-	regEx = @"[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,6}";
+	regEx = @"[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,4}";
 	testPredicate = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", regEx];
 	if (![testPredicate evaluateWithObject:inputToEvaluate]) {
 		errorMessage = [errorMessage stringByAppendingString:@"The Email address you provided is not valid.\n\n"];
@@ -193,15 +202,42 @@
 	[user setObject:[self.form.userInputs valueForKey:@"ZIP code"] forKey:@"zip_code"];
 	[user setObject:[self.form.userInputs valueForKey:@"State"] forKey:@"state"];
 	
+	MBProgressHUD* hud = [[MBProgressHUD alloc] initWithView:self.view];
+	[self.view addSubview:hud];
+	[hud setDimBackground:YES];
+	[hud setRemoveFromSuperViewOnHide:YES];
+	[hud show:YES];
+	
     [user signUpInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
 		if (!error) {
-			NSLog(@"signup success!");
+			[hud hide:YES];
+			[[NSNotificationCenter defaultCenter] postNotificationName:NOTIF_SIGN_UP_SUCCESS object:user];
+			[self dismissViewControllerAnimated:YES completion:nil];
 		} else {
-			NSString *errorString = [[error userInfo] objectForKey:@"error"];
-			NSLog(@"error: %@", errorString);
+			[hud hide:YES];
+			UIAlertView* alertView = [SZUtils alertViewForError:error delegate:self];
+			[alertView addButtonWithTitle:@"Sign In"];
+			[alertView addButtonWithTitle:@"Request new password"];
+			[alertView addButtonWithTitle:@"Use another Email address"];
+			[alertView show];
 		}
     }];
 }
 
+#pragma mark - UIAlertViewDelegate
+
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
+	switch (buttonIndex) {
+		case 0: // sign in
+			[self dismissViewControllerAnimated:YES completion:nil];
+			break;
+		case 1: // forgot password
+			[[NSNotificationCenter defaultCenter] postNotificationName:NOTIF_REQUEST_PASSWORD object:nil];
+			[self dismissViewControllerAnimated:YES completion:nil];
+			break;
+		default:
+			break;
+	}
+}
 
 @end

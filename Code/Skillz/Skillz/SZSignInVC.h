@@ -9,6 +9,6 @@
 #import <UIKit/UIKit.h>
 #import "SZShowMenuButtonVC.h"
 
-@interface SZSignInVC : SZShowMenuButtonVC
+@interface SZSignInVC : SZShowMenuButtonVC <UIAlertViewDelegate>
 
 @end
