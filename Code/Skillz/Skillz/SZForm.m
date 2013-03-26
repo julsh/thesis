@@ -53,6 +53,35 @@
     return self;
 }
 
+- (id)initForTextViewWithWidth:(CGFloat)width height:(CGFloat)height {
+	self = [super initWithFrame:CGRectMake(0.0, 0.0, width, height)];
+	if (self) {
+		self.userInteractionEnabled = YES;
+		self.width = width;
+		
+		UIImage* bgImage = [[UIImage imageNamed:@"form_textfield"] resizableImageWithCapInsets:UIEdgeInsetsMake(15.0, 15.0, 15.0, 15.0)];
+		UIImageView* bgImgView = [[UIImageView alloc] initWithFrame:self.frame];
+		[bgImgView setImage:bgImage];
+		
+		UITextView* textView = [[UITextView alloc] initWithFrame:CGRectMake(self.frame.origin.x + 1.0, self.frame.origin.y + 3.0, self.frame.size.width - 2.0, self.frame.size.height - 6.0)];
+		[textView setSpellCheckingType:UITextSpellCheckingTypeNo];
+		[textView setFont:[SZGlobalConstants fontWithFontType:SZFontRegular size:14.0]];
+		[textView setTextColor:[SZGlobalConstants darkGray]];
+		[textView setBackgroundColor:[UIColor clearColor]];
+		[textView setDelegate:self];
+		
+		[self.textFields addObject:textView];
+		[self.userInputs setValue:@"" forKey:@"TextView"];
+		
+		[self addSubview:bgImgView];
+		[self addSubview:textView];
+		
+		[self configureKeyboard];
+		
+	}
+	return self;
+}
+
 - (void)addItem:(NSDictionary*)item isLastItem:(BOOL)isLast {
 	
 	// setting the background image
@@ -175,8 +204,25 @@
 }
 
 
-#pragma mark -
-#pragma mark Text Field Delegate
+#pragma mark - Text View Delegate
+
+- (void)textViewDidBeginEditing:(UITextView *)textView {
+	
+	[self.keyboardControls setActiveField:textView];
+	CGPoint globalPosition = [textView.superview convertPoint:textView.frame.origin toView:self.superview];
+	
+	[UIView animateWithDuration:0.2 animations:^{
+			CGRect frame = self.superview.frame;
+			frame.origin.y = - globalPosition.y + 12.0;
+			self.superview.frame = frame;
+	}];
+}
+
+- (void)textViewDidEndEditing:(UITextView *)textView {
+	[self.userInputs setValue:textView.text forKey:@"TextView"];
+}
+
+#pragma mark - Text Field Delegate
 
 - (void)textFieldDidBeginEditing:(UITextField *)textField
 {

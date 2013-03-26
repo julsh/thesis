@@ -8,11 +8,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "Skillz/SZForm.m"
-         timestampString = "385780845.175832"
+         timestampString = "385929144.701386"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "107"
-         endingLineNumber = "107"
+         startingLineNumber = "136"
+         endingLineNumber = "136"
          landmarkName = "-addItem:isLastItem:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -66,6 +66,19 @@
          startingLineNumber = "132"
          endingLineNumber = "132"
          landmarkName = "-menu:switchToViewControllerWithClassName:"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "No"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         filePath = "Skillz/BSKeyboardControls/BSKeyboardControls.m"
+         timestampString = "385916746.342725"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "63"
+         endingLineNumber = "63"
+         landmarkName = "-initWithFields:"
          landmarkType = "5">
       </FileBreakpoint>
    </FileBreakpoints>

@@ -44,21 +44,24 @@
         [self.toolbar setAutoresizingMask:(UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleWidth)];
         [self addSubview:self.toolbar];
         
-        [self setSegmentedControl:[[UISegmentedControl alloc] initWithItems:@[ NSLocalizedStringFromTable(@"Previous", @"BSKeyboardControls", @"Previous button title."),
-                                                                               NSLocalizedStringFromTable(@"Next", @"BSKeyboardControls", @"Next button title.") ]]];
-        [self.segmentedControl addTarget:self action:@selector(segmentedControlValueChanged:) forControlEvents:UIControlEventValueChanged];
-        [self.segmentedControl setMomentary:YES];
-        [self.segmentedControl setSegmentedControlStyle:UISegmentedControlStyleBar];
-        [self.segmentedControl setEnabled:NO forSegmentAtIndex:BSKeyboardControlsDirectionPrevious];
-        [self.segmentedControl setEnabled:NO forSegmentAtIndex:BSKeyboardControlsDirectionNext];
-        [self setSegmentedControlItem:[[UIBarButtonItem alloc] initWithCustomView:self.segmentedControl]];
+		if (fields.count > 1) {
+			[self setSegmentedControl:[[UISegmentedControl alloc] initWithItems:@[ NSLocalizedStringFromTable(@"Previous", @"BSKeyboardControls", @"Previous button title."),
+									   NSLocalizedStringFromTable(@"Next", @"BSKeyboardControls", @"Next button title.") ]]];
+			[self.segmentedControl addTarget:self action:@selector(segmentedControlValueChanged:) forControlEvents:UIControlEventValueChanged];
+			[self.segmentedControl setMomentary:YES];
+			[self.segmentedControl setSegmentedControlStyle:UISegmentedControlStyleBar];
+			[self.segmentedControl setEnabled:NO forSegmentAtIndex:BSKeyboardControlsDirectionPrevious];
+			[self.segmentedControl setEnabled:NO forSegmentAtIndex:BSKeyboardControlsDirectionNext];
+			[self setSegmentedControlItem:[[UIBarButtonItem alloc] initWithCustomView:self.segmentedControl]];
+		}
         
         [self setDoneButton:[[UIBarButtonItem alloc] initWithTitle:NSLocalizedStringFromTable(@"Done", @"BSKeyboardControls", @"Done button title.")
                                                              style:UIBarButtonItemStyleDone
                                                             target:self
                                                             action:@selector(doneButtonPressed:)]];
         
-        [self setVisibleControls:(BSKeyboardControlPreviousNext | BSKeyboardControlDone)];
+        if (fields.count > 1) [self setVisibleControls:(BSKeyboardControlPreviousNext | BSKeyboardControlDone)];
+		else [self setVisibleControls:BSKeyboardControlDone];
         
         [self setFields:fields];
     }

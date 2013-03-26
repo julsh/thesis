@@ -13,6 +13,7 @@
 #import "SZNavigationController.h"
 #import "SZSignInVC.h"
 #import "SZCreateAccountSuccessVC.h"
+#import "SZNewRequestStep1VC.h"
 
 @implementation SZAppDelegate
 
@@ -23,12 +24,12 @@
     [self.window makeKeyAndVisible];
     // Override point for customization after application launch.
 	
-	UIViewController *root = [[SZNavigationController alloc] initWithRootViewController:[[SZSignInVC alloc] init]];
+	UIViewController *root = [[SZNavigationController alloc] initWithRootViewController:[[SZNewRequestStep1VC alloc] init]];
 	[self.window setRootViewController:root];
 	
-	[Parse setApplicationId:@"ltQB4UH8RtuQ84RTJOWg16IfJh0fojlzrYEbwwUr"
-				  clientKey:@"Hi4lrAsfSq0iWDi6npeYMlgrmL65l5iWFtoKl5Ef"];
-	[PFAnalytics trackAppOpenedWithLaunchOptions:launchOptions];
+//	[Parse setApplicationId:@"ltQB4UH8RtuQ84RTJOWg16IfJh0fojlzrYEbwwUr"
+//				  clientKey:@"Hi4lrAsfSq0iWDi6npeYMlgrmL65l5iWFtoKl5Ef"];
+//	[PFAnalytics trackAppOpenedWithLaunchOptions:launchOptions];
 	
     return YES;
 }

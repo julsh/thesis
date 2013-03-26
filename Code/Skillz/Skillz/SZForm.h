@@ -9,11 +9,12 @@
 #import <UIKit/UIKit.h>
 #import "BSKeyboardControls.h"
 
-@interface SZForm : UIView <UITextFieldDelegate, UIPickerViewDataSource, UIPickerViewDelegate, BSKeyboardControlsDelegate>
+@interface SZForm : UIView <UITextFieldDelegate, UITextViewDelegate, UIPickerViewDataSource, UIPickerViewDelegate, BSKeyboardControlsDelegate>
 
 @property (nonatomic, strong) NSMutableDictionary* userInputs;
 
 - (id)initWithWidth:(CGFloat)width;
+- (id)initForTextViewWithWidth:(CGFloat)width height:(CGFloat)height;
 - (void)addItem:(NSDictionary*)item isLastItem:(BOOL)isLast;
 - (void)configureKeyboard;
 
