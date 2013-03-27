@@ -10,8 +10,8 @@
 #import "SZUtils.h"
 
 #define BUTTON_WIDTH 44.0
-#define LEFT_MARGIN 16.0
-#define VERTICAL_SPACING 10.0
+#define LEFT_MARGIN 12.0
+#define VERTICAL_SPACING 6.0
 
 @interface SZRadioButtonControl ()
 

@@ -30,18 +30,12 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+	[self.navigationItem setTitle:@"Post a Request"];
+	
 	[self.mainView addSubview:[self selectCategoryLabel]];
 	[self.mainView addSubview:self.categoryForm];
 	[self.mainView addSubview:[self selectSubCategoryLabel]];
 	[self.mainView addSubview:self.subCategoryForm];
-	[self.navigationController setTitle:@"Post a Request"];
-	// Do any additional setup after loading the view.
-}
-
-- (void)didReceiveMemoryWarning
-{
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
 
 - (UILabel*)selectCategoryLabel {
@@ -63,6 +57,7 @@
 		 [NSArray arrayWithObjects:FORM_PLACEHOLDER, FORM_INPUT_TYPE, PICKER_OPTIONS, nil]] isLastItem:YES];
 		[_categoryForm setCenter:CGPointMake(160.0, 150.0)];
 		[_categoryForm configureKeyboard];
+		[_categoryForm setScrollContainer:self.view];
 	}
 	return _categoryForm;
 }
@@ -85,6 +80,7 @@
 								[NSArray arrayWithObjects:FORM_PLACEHOLDER, FORM_INPUT_TYPE, PICKER_OPTIONS, nil]] isLastItem:YES];
 		[_subCategoryForm setCenter:CGPointMake(160.0, 260.0)];
 		[_subCategoryForm configureKeyboard];
+		[_categoryForm setScrollContainer:self.view];
 	}
 	return _subCategoryForm;
 }

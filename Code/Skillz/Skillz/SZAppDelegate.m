@@ -24,7 +24,9 @@
     [self.window makeKeyAndVisible];
     // Override point for customization after application launch.
 	
-	UIViewController *root = [[SZNavigationController alloc] initWithRootViewController:[[SZNewRequestStep1VC alloc] init]];
+	
+	UIViewController *root = [[SZNavigationController alloc] initWithRootViewController:[[SZSignInVC alloc] init]];
+//	UIViewController *root = [[SZNavigationController alloc] initWithRootViewController:[[SZNewRequestStep1VC alloc] init]];
 	[self.window setRootViewController:root];
 	
 //	[Parse setApplicationId:@"ltQB4UH8RtuQ84RTJOWg16IfJh0fojlzrYEbwwUr"

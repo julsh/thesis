@@ -79,6 +79,7 @@
 					   [NSArray arrayWithObjects:FORM_PLACEHOLDER, FORM_INPUT_TYPE, nil]] isLastItem:YES];
 		[_form setCenter:CGPointMake(160.0, _form.frame.size.height/2 + FORM_TOP_MARGIN)];
 		
+		[_form setScrollContainer:self.view];
 		[_form configureKeyboard];
 	}
 	return _form;

@@ -22,7 +22,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-	[self.navigationController setTitle:@"Post a Request"];
+	[self.navigationItem setTitle:@"Post a Request"];
 	// Do any additional setup after loading the view.
 }
 

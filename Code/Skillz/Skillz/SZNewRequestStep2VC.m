@@ -31,13 +31,12 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-	[self.navigationController setTitle:@"Post a Request"];
+	[self.navigationItem setTitle:@"Post a Request"];
 	
 	[self.mainView addSubview:[self addTitleLabel]];
 	[self.mainView addSubview:self.titleForm];
 	[self.mainView addSubview:[self addDescriptionLabel]];
 	[self.mainView addSubview:self.descriptionForm];
-	// Do any additional setup after loading the view.
 }
 
 - (UILabel*)addTitleLabel {
@@ -57,6 +56,7 @@
 								[NSArray arrayWithObjects:FORM_PLACEHOLDER, FORM_INPUT_TYPE, nil]] isLastItem:YES];
 		[_titleForm setCenter:CGPointMake(160.0, 120.0)];
 		[_titleForm configureKeyboard];
+		[_titleForm setScrollContainer:self.view];
 	}
 	return _titleForm;
 }
@@ -75,6 +75,7 @@
 	if (_descriptionForm == nil) {
 		_descriptionForm = [[SZForm alloc] initForTextViewWithWidth:290.0 height:140.0];
 		[_descriptionForm setCenter:CGPointMake(160.0, 270.0)];
+		[_descriptionForm setScrollContainer:self.view];
 	}
 	return _descriptionForm;
 }

@@ -10,13 +10,12 @@
 #import "SZNewRequestStep4VC.h"
 #import "SZRadioButtonControl.h"
 #import "SZUtils.h"
-
-#define BUTTON_AREA_HEIGHT 70.0
+#import "SZForm.h"
+#import "UITextView+Shadow.h"
 
 @interface SZNewRequestStep3VC ()
 
 @property (nonatomic, strong) SZSegmentedControlVertical* segmentedControl;
-@property (nonatomic, strong) UIView* detailViewContainer;
 @property (nonatomic, strong) SZRadioButtonControl* option1detailView;
 @property (nonatomic, strong) UIView* option2detailView;
 
@@ -25,7 +24,6 @@
 @implementation SZNewRequestStep3VC
 
 @synthesize segmentedControl = _segmentedControl;
-@synthesize detailViewContainer = _detailViewContainer;
 @synthesize option1detailView = _option1detailView;
 @synthesize option2detailView = _option2detailView;
 
@@ -37,11 +35,11 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-	[self.navigationController setTitle:@"Post a Request"];
+	[self.navigationItem setTitle:@"Post a Request"];
+	
 	[self.mainView addSubview:[self specifyLocationLabel]];
 	[self.mainView addSubview:self.segmentedControl];
 	[self.mainView addSubview:self.detailViewContainer];
-	// Do any additional setup after loading the view.
 }
 
 - (UILabel*)specifyLocationLabel {
@@ -66,28 +64,62 @@
 	return _segmentedControl;
 }
 
-- (UIView*)detailViewContainer {
-	if (_detailViewContainer == nil) {
-		_detailViewContainer = [[UIView alloc] initWithFrame:CGRectMake(15.0, 240.0, 0.0, 0.0)];
-		[_detailViewContainer setUserInteractionEnabled:YES];
-	}
-	return _detailViewContainer;
-}
-
 - (SZRadioButtonControl*)option1detailView {
 	if (_option1detailView == nil) {
 		
 		_option1detailView = [[SZRadioButtonControl alloc] init];
 		
-		UILabel* view1 = [[UILabel alloc] initWithFrame:CGRectMake(0.0, 0.0, 180.0, 40.0)];
-		UIButton* view2 = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-		[view2 setFrame:CGRectMake(0.0, 0.0, 220.0, 70.0)];
-		UIButton* view3 = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-		[view3 setFrame:CGRectMake(0.0, 0.0, 1220.0, 50.0)];
+		UILabel* inZipCodeLabel = [[UILabel alloc] initWithFrame:CGRectMake(0.0, 0.0, 240.0, 44.0)];
+		[inZipCodeLabel setBackgroundColor:[UIColor clearColor]];
+		[inZipCodeLabel setText:@"Only within my ZIP code area"];
+		[inZipCodeLabel setFont:[SZGlobalConstants fontWithFontType:SZFontSemiBold size:14.0]];
+		[inZipCodeLabel setTextColor:[SZGlobalConstants darkGray]];
+		[inZipCodeLabel applyWhiteShadow];
 		
-		[_option1detailView addItemWithView:view1];
-		[_option1detailView addItemWithView:view2];
-		[_option1detailView addItemWithView:view3];
+		UIView* distanceView = [[UIView alloc] initWithFrame:CGRectMake(0.0, 0.0, 240.0, 210.0)];
+		UILabel* distanceLabel = [[UILabel alloc] initWithFrame:CGRectMake(0.0, 0.0, 240.0, 44.0)];
+		[distanceLabel setBackgroundColor:[UIColor clearColor]];
+		[distanceLabel setText:@"Up to                             miles from"];
+		[distanceLabel setFont:[SZGlobalConstants fontWithFontType:SZFontSemiBold size:14.0]];
+		[distanceLabel setTextColor:[SZGlobalConstants darkGray]];
+		[distanceLabel applyWhiteShadow];
+		SZForm* distanceForm = [[SZForm alloc] initWithWidth:80.0];
+		[distanceForm addItem:[NSDictionary dictionaryWithObjects:
+							   [NSArray arrayWithObjects:@"3", [NSNumber numberWithInt:UIKeyboardTypeDecimalPad], nil] forKeys:
+							   [NSArray arrayWithObjects:FORM_PLACEHOLDER, FORM_INPUT_TYPE, nil]] isLastItem:YES];
+		[distanceForm setScrollContainer:self.view];
+		[distanceForm configureKeyboard];
+		[distanceForm setFrame:CGRectMake(50.0, 1.0, distanceForm.frame.size.width, distanceForm.frame.size.height)];
+		SZForm* distanceAddressForm = [[SZForm alloc] initWithWidth:233.0];
+		[distanceAddressForm addItem:[NSDictionary dictionaryWithObjects:
+						[NSArray arrayWithObjects:@"Street Address", [NSNumber numberWithInt:UIKeyboardTypeDefault], nil] forKeys:
+						[NSArray arrayWithObjects:FORM_PLACEHOLDER, FORM_INPUT_TYPE, nil]] isLastItem:NO];
+		[distanceAddressForm addItem:[NSDictionary dictionaryWithObjects:
+						[NSArray arrayWithObjects:@"City", [NSNumber numberWithInt:UIKeyboardTypeDefault], nil] forKeys:
+						[NSArray arrayWithObjects:FORM_PLACEHOLDER, FORM_INPUT_TYPE, nil]] isLastItem:NO];
+		[distanceAddressForm addItem:[NSDictionary dictionaryWithObjects:
+						[NSArray arrayWithObjects:@"ZIP code", [NSNumber numberWithInt:UIKeyboardTypeNumbersAndPunctuation], nil] forKeys:
+						[NSArray arrayWithObjects:FORM_PLACEHOLDER, FORM_INPUT_TYPE, nil]] isLastItem:NO];
+		[distanceAddressForm addItem:[NSDictionary dictionaryWithObjects:
+						[NSArray arrayWithObjects:@"State", [NSNumber numberWithInt:INPUT_TYPE_PICKER], [NSArray arrayWithObjects:@"California", @"Texas", @"Florida", @"Oregon", nil], nil] forKeys:
+						[NSArray arrayWithObjects:FORM_PLACEHOLDER, FORM_INPUT_TYPE, PICKER_OPTIONS, nil]] isLastItem:YES];
+		[distanceAddressForm setFrame:CGRectMake(0.0, 50.0, distanceAddressForm.frame.size.width, distanceAddressForm.frame.size.height)];
+		[distanceAddressForm setScrollContainer:self.view];
+		[distanceAddressForm configureKeyboard];
+		[distanceView addSubview:distanceLabel];
+		[distanceView addSubview:distanceForm];
+		[distanceView addSubview:distanceAddressForm];
+		
+		UILabel* negotiableLabel = [[UILabel alloc] initWithFrame:CGRectMake(0.0, 0.0, 240.0, 44.0)];
+		[negotiableLabel setBackgroundColor:[UIColor clearColor]];
+		[negotiableLabel setText:@"That's negotiable"];
+		[negotiableLabel setFont:[SZGlobalConstants fontWithFontType:SZFontSemiBold size:14.0]];
+		[negotiableLabel setTextColor:[SZGlobalConstants darkGray]];
+		[negotiableLabel applyWhiteShadow];
+		
+		[_option1detailView addItemWithView:inZipCodeLabel];
+		[_option1detailView addItemWithView:distanceView];
+		[_option1detailView addItemWithView:negotiableLabel];
 		
 	}
 	return _option1detailView;
@@ -95,70 +127,90 @@
 
 - (UIView*)option2detailView {
 	if (_option2detailView == nil) {
+		_option2detailView = [[UIView alloc] initWithFrame:CGRectMake(10.0, 0.0, 290.0, 305.0)];
+		
+		UILabel* specifyAddressLabel = [[UILabel alloc] initWithFrame:CGRectMake(0.0, 0.0, 240.0, 44.0)];
+		[specifyAddressLabel setBackgroundColor:[UIColor clearColor]];
+		[specifyAddressLabel setText:@"Where would that be?"];
+		[specifyAddressLabel setFont:[SZGlobalConstants fontWithFontType:SZFontSemiBold size:14.0]];
+		[specifyAddressLabel setTextColor:[SZGlobalConstants darkGray]];
+		[specifyAddressLabel applyWhiteShadow];
+		
+		SZForm* addressForm = [[SZForm alloc] initWithWidth:270.0];
+		[addressForm addItem:[NSDictionary dictionaryWithObjects:
+									  [NSArray arrayWithObjects:@"Street Address", [NSNumber numberWithInt:UIKeyboardTypeDefault], nil] forKeys:
+									  [NSArray arrayWithObjects:FORM_PLACEHOLDER, FORM_INPUT_TYPE, nil]] isLastItem:NO];
+		[addressForm addItem:[NSDictionary dictionaryWithObjects:
+									  [NSArray arrayWithObjects:@"City", [NSNumber numberWithInt:UIKeyboardTypeDefault], nil] forKeys:
+									  [NSArray arrayWithObjects:FORM_PLACEHOLDER, FORM_INPUT_TYPE, nil]] isLastItem:NO];
+		[addressForm addItem:[NSDictionary dictionaryWithObjects:
+									  [NSArray arrayWithObjects:@"ZIP code", [NSNumber numberWithInt:UIKeyboardTypeNumbersAndPunctuation], nil] forKeys:
+									  [NSArray arrayWithObjects:FORM_PLACEHOLDER, FORM_INPUT_TYPE, nil]] isLastItem:NO];
+		[addressForm addItem:[NSDictionary dictionaryWithObjects:
+									  [NSArray arrayWithObjects:@"State", [NSNumber numberWithInt:INPUT_TYPE_PICKER], [NSArray arrayWithObjects:@"California", @"Texas", @"Florida", @"Oregon", nil], nil] forKeys:
+									  [NSArray arrayWithObjects:FORM_PLACEHOLDER, FORM_INPUT_TYPE, PICKER_OPTIONS, nil]] isLastItem:YES];
+		[addressForm setFrame:CGRectMake(0.0, 45.0, addressForm.frame.size.width, addressForm.frame.size.height)];
+		[addressForm setScrollContainer:self.view];
+		[addressForm configureKeyboard];
+		
+		UITextView* noticeText = [[UITextView alloc] initWithFrame:CGRectMake(0.0, addressForm.frame.size.height + 50.0, 270.0, 100.0)];
+		[noticeText setTextAlignment:NSTextAlignmentJustified];
+		[noticeText setBackgroundColor:[UIColor clearColor]];
+		[noticeText setText:@"Note that your address will be used to display the request’s approximate location on a map. We will not  reveal your full address to anyone until you have agreed to engange in a deal with them."];
+		[noticeText setFont:[SZGlobalConstants fontWithFontType:SZFontSemiBold size:11.0]];
+		[noticeText setTextColor:[SZGlobalConstants darkGray]];
+		[noticeText applyWhiteShadow];
+		[noticeText setEditable:NO];
+		
+		[_option2detailView addSubview:specifyAddressLabel];
+		[_option2detailView addSubview:addressForm];
+		[_option2detailView addSubview:noticeText];
 		
 	}
 	return _option2detailView;
 }
 
+- (void)segmentedControlVertical:(SZSegmentedControlVertical *)control didSelectItemAtIndex:(NSInteger)index {
+	
+	if ([[self.detailViewContainer subviews] count] > 0) {
+		[UIView animateWithDuration:0.2 animations:^{
+			[self.detailViewContainer setFrame:CGRectMake(330.0,
+														  self.detailViewContainer.frame.origin.y,
+														  self.detailViewContainer.frame.size.width,
+														  self.detailViewContainer.frame.size.height)];
+		} completion:^(BOOL finished) {
+			UIView* currentDetailView = [[self.detailViewContainer subviews] objectAtIndex:0];
+			[currentDetailView removeFromSuperview];
+			[self addNewDetailView:index];
+		}];
+	}
+	else {
+		[self addNewDetailView:index];
+	}
+}
+
+- (void)addNewDetailView:(NSInteger)index {
+	
+	switch (index) {
+		case 0:
+			[self.detailViewContainer addSubview:self.option1detailView];
+			break;
+		case 1:
+			[self.detailViewContainer addSubview:self.option2detailView];
+			break;
+		case 2:
+			break;
+		default:
+			break;
+	}
+
+	[super newDetailViewAdded];
+}
+
+
 - (void)continue:(id)sender {
 	SZNewRequestStep4VC* step4 = [[SZNewRequestStep4VC alloc] init];
 	[self.navigationController pushViewController:step4 animated:YES];
 }
-
-- (void)updateBounds {
-	
-	LogRect(self.detailViewContainer.frame);
-	
-	if ([[self.detailViewContainer subviews] count] > 0) {
-		
-		UIView* currentDetailView = [[self.detailViewContainer subviews] objectAtIndex:0];
-		CGPoint detailOrigin = [currentDetailView convertPoint:currentDetailView.frame.origin toView:self.mainView];
-		CGFloat totalHeight = detailOrigin.y + currentDetailView.frame.size.height + BUTTON_AREA_HEIGHT;
-		
-		[UIView animateWithDuration:0.3 animations:^{
-			[self.mainView setContentSize:CGSizeMake(self.mainView.contentSize.width, MAX(420.0, totalHeight))];
-			[self.mainView setContentOffset:CGPointMake(0, self.mainView.contentSize.height - self.mainView.bounds.size.height)];
-			
-			CGRect buttonFrame = self.continueButton.frame;
-			buttonFrame.origin.y = self.mainView.contentSize.height - buttonFrame.size.height - 20.0;
-			self.continueButton.frame = buttonFrame;
-			
-		} completion:^(BOOL finished) {
-			self.detailViewContainer.hidden = NO;
-			CGRect frame = self.detailViewContainer.frame;
-			frame.size.width = currentDetailView.frame.size.width;
-			frame.size.height = currentDetailView.frame.size.height;
-			self.detailViewContainer.frame = frame;
-		}];
-	}
-	else {
-		[UIView animateWithDuration:0.3 animations:^{
-			
-			[self.mainView setContentSize:CGSizeMake(self.mainView.contentSize.width, 420.0)];
-			CGRect buttonFrame = self.continueButton.frame;
-			buttonFrame.origin.y = self.mainView.contentSize.height - buttonFrame.size.height - 20.0;
-			self.continueButton.frame = buttonFrame;
-		}];
-	}
-}
-
-- (void)segmentedControlVertical:(SZSegmentedControlVertical *)control didSelectItemAtIndex:(NSInteger)index {
-	for (UIView* view in [self.detailViewContainer subviews]) {
-		[view removeFromSuperview];
-	}
-	
-	if (index == 0) {
-		[self.detailViewContainer addSubview:self.option1detailView];
-		self.detailViewContainer.hidden = YES;
-		
-	}
-	else if (index == 1) {
-		[self.detailViewContainer addSubview:self.option2detailView];
-	}
-	
-	[self updateBounds];
-}
-
-
 
 @end

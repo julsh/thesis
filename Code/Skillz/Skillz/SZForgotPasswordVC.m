@@ -52,6 +52,7 @@
 						[NSArray arrayWithObjects:@"Email", [NSNumber numberWithInt:UIKeyboardTypeEmailAddress], nil] forKeys:
 						[NSArray arrayWithObjects:FORM_PLACEHOLDER, FORM_INPUT_TYPE, nil]] isLastItem:YES];
 		[_form setCenter:CGPointMake(160.0, 300.0)];
+		[_form setScrollContainer:self.view];
 	}
 	return _form;
 }

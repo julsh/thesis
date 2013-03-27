@@ -38,6 +38,7 @@
 @synthesize pickerOptions = _pickerOptions;
 @synthesize textFields = _textFields;
 @synthesize width = _width;
+@synthesize scrollContainer = _scrollContainer;
 
 - (id)initWithWidth:(CGFloat)width {
 	
@@ -209,12 +210,12 @@
 - (void)textViewDidBeginEditing:(UITextView *)textView {
 	
 	[self.keyboardControls setActiveField:textView];
-	CGPoint globalPosition = [textView.superview convertPoint:textView.frame.origin toView:self.superview];
+	CGPoint globalPosition = [textView.superview convertPoint:textView.frame.origin toView:self.scrollContainer];
 	
 	[UIView animateWithDuration:0.2 animations:^{
-			CGRect frame = self.superview.frame;
+			CGRect frame = self.scrollContainer.frame;
 			frame.origin.y = - globalPosition.y + 12.0;
-			self.superview.frame = frame;
+			self.scrollContainer.frame = frame;
 	}];
 }
 
@@ -227,22 +228,22 @@
 - (void)textFieldDidBeginEditing:(UITextField *)textField
 {
     [self.keyboardControls setActiveField:textField];
-	CGPoint globalPosition = [textField convertPoint:textField.frame.origin toView:self.superview];
+	CGPoint globalPosition = [textField convertPoint:textField.frame.origin toView:self.scrollContainer];
 	
 	// check if we have to scroll the view in order to keep the field visible when the keyboard appears
 	if (118 - globalPosition.y < 0) {
 		[UIView animateWithDuration:0.2 animations:^{
-			CGRect frame = self.superview.frame; 
+			CGRect frame = self.scrollContainer.frame; 
 			frame.origin.y =  118 - globalPosition.y;
-			self.superview.frame = frame;
+			self.scrollContainer.frame = frame;
 		}];
 	}
 	else {
-		if (self.superview.frame.origin.y < 0.0) {
+		if (self.scrollContainer.frame.origin.y < 0.0) {
 			[UIView animateWithDuration:0.2 animations:^{
-				CGRect frame = self.superview.frame;
+				CGRect frame = self.scrollContainer.frame;
 				frame.origin.y = 0.0;
-				self.superview.frame = frame;
+				self.scrollContainer.frame = frame;
 			}];
 		}
 	}
@@ -265,11 +266,11 @@
 }
 
 - (void)checkForScrollUp {
-	if (self.superview.frame.origin.y < 0.0) {
+	if (self.scrollContainer.frame.origin.y < 0.0) {
 		[UIView animateWithDuration:0.2 animations:^{
-			CGRect frame = self.superview.frame;
+			CGRect frame = self.scrollContainer.frame;
 			frame.origin.y = 0.0;
-			self.superview.frame = frame;
+			self.scrollContainer.frame = frame;
 		}];
 	}
 }

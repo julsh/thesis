@@ -64,6 +64,7 @@
 						[NSArray arrayWithObjects:FORM_PLACEHOLDER, FORM_INPUT_TYPE, nil]] isLastItem:YES];
 		[_form setCenter:CGPointMake(160.0, FORM_YPOS)];
 		
+		[_form setScrollContainer:self.view];
 		[_form configureKeyboard];
 	}
 	return _form;
@@ -99,16 +100,16 @@
 }
 
 - (SZButton*)createAccountButton {
-	SZButton* createAccountButton = [[SZButton alloc] initWithColor:SZButtonColorPetrol size:SZButtonSizeExtraLarge width:140.0];
-	[createAccountButton setCenter:CGPointMake(85.0, LOWER_BUTTONS_YPOS)];
+	SZButton* createAccountButton = [[SZButton alloc] initWithColor:SZButtonColorOrange size:SZButtonSizeExtraLarge width:140.0];
+	[createAccountButton setCenter:CGPointMake(235.0, LOWER_BUTTONS_YPOS)];
 	[createAccountButton addTarget:self action:@selector(createAccountTapped:) forControlEvents:UIControlEventTouchUpInside];
 	[createAccountButton setMultilineTitle:@"Create\nAccount" font:[SZGlobalConstants fontWithFontType:SZFontSemiBold size:16.0] lineSpacing:0.0];
 	return createAccountButton;
 }
 
 - (SZButton*)learnMoreButton {
-	SZButton* learnMoreButton = [[SZButton alloc] initWithColor:SZButtonColorOrange size:SZButtonSizeExtraLarge width:140.0];
-	[learnMoreButton setCenter:CGPointMake(235.0, LOWER_BUTTONS_YPOS)];
+	SZButton* learnMoreButton = [[SZButton alloc] initWithColor:SZButtonColorPetrol size:SZButtonSizeExtraLarge width:140.0];
+	[learnMoreButton setCenter:CGPointMake(85.0, LOWER_BUTTONS_YPOS)];
 	[learnMoreButton addTarget:self action:@selector(learnMoreTapped:) forControlEvents:UIControlEventTouchUpInside];
 	[learnMoreButton setMultilineTitle:@"Learn\nMore" font:[SZGlobalConstants fontWithFontType:SZFontSemiBold size:16.0] lineSpacing:0.0];
 	return learnMoreButton;

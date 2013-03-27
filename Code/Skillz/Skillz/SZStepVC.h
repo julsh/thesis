@@ -12,8 +12,12 @@
 @interface SZStepVC : UIViewController
 
 @property (nonatomic, strong) UIScrollView* mainView;
+@property (nonatomic, strong) UIView* detailViewContainer;
 @property (nonatomic, strong) SZButton* continueButton;
 
 - (id)initWithStepNumber:(NSInteger)stepNumber totalSteps:(NSInteger)totalSteps;
+- (void)updateBounds;
+- (void)newDetailViewAdded;
+- (void)setScrollViewHeight:(CGFloat)newHeight;
 
 @end

@@ -12,6 +12,7 @@
 @interface SZForm : UIView <UITextFieldDelegate, UITextViewDelegate, UIPickerViewDataSource, UIPickerViewDelegate, BSKeyboardControlsDelegate>
 
 @property (nonatomic, strong) NSMutableDictionary* userInputs;
+@property (nonatomic, strong) UIView* scrollContainer;
 
 - (id)initWithWidth:(CGFloat)width;
 - (id)initForTextViewWithWidth:(CGFloat)width height:(CGFloat)height;
