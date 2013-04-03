@@ -31,12 +31,18 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-	[self.navigationItem setTitle:@"Post a Request"];
+	[self.navigationItem setTitle:[SZDataManager sharedInstance].currentObjectIsNew ? @"Post a Request" : @"Edit Request"];
 	
 	[self.mainView addSubview:[self addTitleLabel]];
 	[self.mainView addSubview:self.titleForm];
 	[self.mainView addSubview:[self addDescriptionLabel]];
 	[self.mainView addSubview:self.descriptionForm];
+}
+
+- (void)viewDidAppear:(BOOL)animated {
+	if (![((SZEntryVO*)[SZDataManager sharedInstance].currentObject).description isEqualToString:@""]) {
+		[self.descriptionForm setText:((SZEntryVO*)[SZDataManager sharedInstance].currentObject).description forFieldAtIndex:0];
+	}
 }
 
 - (UILabel*)addTitleLabel {
@@ -52,11 +58,21 @@
 - (SZForm*)titleForm {
 	if (_titleForm == nil) {
 		_titleForm = [[SZForm alloc] initWithWidth:290.0];
-		[_titleForm addItem:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"Request Title", [NSNumber numberWithInt:UIKeyboardTypeDefault], nil] forKeys:
-								[NSArray arrayWithObjects:FORM_PLACEHOLDER, FORM_INPUT_TYPE, nil]] isLastItem:YES];
+		SZFormFieldVO* titleField = [SZFormFieldVO formFieldValueObjectForTextWithKey:@"title"
+																	  placeHolderText:@"Request Title"
+																		 keyboardType:UIKeyboardTypeDefault];
+		[_titleForm addItem:titleField isLastItem:YES];
 		[_titleForm setCenter:CGPointMake(160.0, 120.0)];
 		[_titleForm configureKeyboard];
 		[_titleForm setScrollContainer:self.view];
+		
+		if (![SZDataManager sharedInstance].currentObjectIsNew) {
+			SZEntryVO* request = (SZEntryVO*)[SZDataManager sharedInstance].currentObject;
+			if (request.title) {
+				[_titleForm.userInputs setValue:request.title forKey:@"title"];
+				[_titleForm setText:request.title forFieldAtIndex:0];
+			}
+		}
 	}
 	return _titleForm;
 }
@@ -73,16 +89,49 @@
 
 - (SZForm*)descriptionForm {
 	if (_descriptionForm == nil) {
-		_descriptionForm = [[SZForm alloc] initForTextViewWithWidth:290.0 height:140.0];
+		SZFormFieldVO* descriptionField = [[SZFormFieldVO alloc] init];
+		descriptionField.key = @"description";
+		_descriptionForm = [[SZForm alloc] initForTextViewWithItem:descriptionField width:290.0 height:140.0];
 		[_descriptionForm setCenter:CGPointMake(160.0, 270.0)];
 		[_descriptionForm setScrollContainer:self.view];
+		
+		if (![SZDataManager sharedInstance].currentObjectIsNew) {
+			SZEntryVO* request = (SZEntryVO*)[SZDataManager sharedInstance].currentObject;
+			if (request.description) {
+				[_descriptionForm.userInputs setValue:request.description forKey:@"description"];
+				[_descriptionForm setText:request.description forFieldAtIndex:0];
+			}
+		}
 	}
 	return _descriptionForm;
 }
 
 - (void)continue:(id)sender {
-	SZNewRequestStep3VC* step3 = [[SZNewRequestStep3VC alloc] init];
-	[self.navigationController pushViewController:step3 animated:YES];
+
+#ifndef DEBUG
+	if ([[self.titleForm.userInputs valueForKey:@"title"] isEqualToString:@""]) {
+		UIAlertView* alertView = [[UIAlertView alloc] initWithTitle:@"Title must be specified" message:nil delegate:self cancelButtonTitle:@"Okay" otherButtonTitles: nil];
+		[alertView show];
+		return;
+	}
+	if ([[self.descriptionForm.userInputs valueForKey:@"description"] isEqualToString:@""]) {
+		UIAlertView* alertView = [[UIAlertView alloc] initWithTitle:@"Description must be specified" message:nil delegate:self cancelButtonTitle:@"Okay" otherButtonTitles: nil];
+		[alertView show];
+		return;
+	}
+#endif
+	
+	[self storeInputs];
+	
+	if ([[SZDataManager sharedInstance].viewControllerStack count] != 0)
+		[self.navigationController pushViewController:[[SZDataManager sharedInstance].viewControllerStack pop] animated:YES];
+	else
+		[self.navigationController pushViewController:[[SZNewRequestStep3VC alloc] init] animated:YES];
+}
+
+- (void)storeInputs {
+	((SZEntryVO*)[SZDataManager sharedInstance].currentObject).title = [self.titleForm.userInputs valueForKey:@"title"];
+	((SZEntryVO*)[SZDataManager sharedInstance].currentObject).description = [self.descriptionForm.userInputs valueForKey:@"description"];
 }
 
 @end

@@ -82,11 +82,11 @@
 	[UIView
 	 transitionWithView:self.navigationController.view
 	 duration:0.5
-	 options:UIViewAnimationOptionTransitionFlipFromLeft
+	 options:UIViewAnimationOptionTransitionCrossDissolve
 	 animations:^{
 		 [self.navigationController setViewControllers:[NSArray arrayWithObject:[[SZSignInVC alloc] init]]];
 	 }
-	 completion:NULL];
+	 completion:nil];
 	
 }
 

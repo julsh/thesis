@@ -9,13 +9,11 @@
 #import "SZSegmentedControlVertical.h"
 #import "SZUtils.h"
 
-#define SEGMENT_HEIGHT_REGULAR 37.0
-#define SEGMENT_HEIGHT_BOTTOM  39.0
+#define SEGMENT_HEIGHT 37.0
 
 @interface SZSegmentedControlVertical ()
 
 @property (nonatomic, assign) NSInteger segmentCount;
-@property (nonatomic, assign) NSInteger selectedIndex;
 
 @end
 
@@ -29,6 +27,7 @@
     self = [super initWithFrame:CGRectZero];
     if (self) {
 		self.segmentCount = 0;
+		self.selectedIndex = -1;
         CGRect frame = self.frame;
 		frame.size.width = width;
 		self.frame = frame;
@@ -56,19 +55,17 @@
 		}
 	}
 
-	CGFloat buttonHeight = isLast ? SEGMENT_HEIGHT_REGULAR : SEGMENT_HEIGHT_BOTTOM;
-
 	UIButton* button = [UIButton buttonWithType:UIButtonTypeCustom];
 	[button setTag:self.segmentCount];
 	
 	CGRect frame = button.frame;
-	frame.origin.y = self.segmentCount * SEGMENT_HEIGHT_REGULAR;
+	frame.origin.y = self.segmentCount * SEGMENT_HEIGHT;
 	frame.size.width = self.frame.size.width;
-	frame.size.height = buttonHeight;
+	frame.size.height = SEGMENT_HEIGHT + isLast * 1.0;
 	button.frame = frame;
 	
 	frame = self.frame;
-	frame.size.height += buttonHeight;
+	frame.size.height += button.frame.size.height;
 	self.frame = frame;
 	
 	[button setBackgroundImage:bgImage forState:UIControlStateNormal];
@@ -100,12 +97,13 @@
 - (void)segmentTapped:(id)sender {
 	UIButton* button = (UIButton*)sender;
 	[button setHighlighted:YES];
-	NSInteger tag = button.tag;
-	NSLog(@"tapped %i. state: %i", tag, button.state);
-	
-	self.selectedIndex = tag;
+	[self selectItemWithIndex:button.tag];
+}
+
+- (void)selectItemWithIndex:(NSInteger)index {
+	self.selectedIndex = index;
 	for (UIButton* button in [self subviews]) {
-		if (button.tag != tag) {
+		if (button.tag != index) {
 			[button setEnabled:YES];
 		}
 		else {
@@ -113,7 +111,9 @@
 		}
 	}
 	
-	[self.delegate segmentedControlVertical:self didSelectItemAtIndex:self.selectedIndex];
+	if (self.delegate && [self.delegate respondsToSelector:@selector(segmentedControlVertical:didSelectItemAtIndex:)]) {
+		[self.delegate segmentedControlVertical:self didSelectItemAtIndex:self.selectedIndex];
+	}
 }
 
 @end

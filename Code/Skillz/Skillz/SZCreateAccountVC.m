@@ -56,27 +56,39 @@
 	if (_form == nil) {
 		
 		_form = [[SZForm alloc] initWithWidth:290.0];
-		[_form addItem:[NSDictionary dictionaryWithObjects:
-					   [NSArray arrayWithObjects:@"First Name", [NSNumber numberWithInt:UIKeyboardTypeDefault], nil] forKeys:
-					   [NSArray arrayWithObjects:FORM_PLACEHOLDER, FORM_INPUT_TYPE, nil]] isLastItem:NO];
-		[_form addItem:[NSDictionary dictionaryWithObjects:
-					   [NSArray arrayWithObjects:@"Last Name", [NSNumber numberWithInt:UIKeyboardTypeDefault], nil] forKeys:
-					   [NSArray arrayWithObjects:FORM_PLACEHOLDER, FORM_INPUT_TYPE, nil]] isLastItem:NO];
-		[_form addItem:[NSDictionary dictionaryWithObjects:
-					   [NSArray arrayWithObjects:@"ZIP code", [NSNumber numberWithInt:UIKeyboardTypeNumbersAndPunctuation], nil] forKeys:
-					   [NSArray arrayWithObjects:FORM_PLACEHOLDER, FORM_INPUT_TYPE, nil]] isLastItem:NO];
-		[_form addItem:[NSDictionary dictionaryWithObjects:
-					   [NSArray arrayWithObjects:@"State", [NSNumber numberWithInt:INPUT_TYPE_PICKER], [NSArray arrayWithObjects:@"California", @"Texas", @"Florida", @"Oregon", nil], nil] forKeys:
-					   [NSArray arrayWithObjects:FORM_PLACEHOLDER, FORM_INPUT_TYPE, PICKER_OPTIONS, nil]] isLastItem:NO];
-		[_form addItem:[NSDictionary dictionaryWithObjects:
-					   [NSArray arrayWithObjects:@"Email", [NSNumber numberWithInt:UIKeyboardTypeEmailAddress], nil] forKeys:
-					   [NSArray arrayWithObjects:FORM_PLACEHOLDER, FORM_INPUT_TYPE, nil]] isLastItem:NO];
-		[_form addItem:[NSDictionary dictionaryWithObjects:
-					   [NSArray arrayWithObjects:@"Password", [NSNumber numberWithInt:INPUT_TYPE_PASSWORD], nil] forKeys:
-					   [NSArray arrayWithObjects:FORM_PLACEHOLDER, FORM_INPUT_TYPE, nil]] isLastItem:NO];
-		[_form addItem:[NSDictionary dictionaryWithObjects:
-					   [NSArray arrayWithObjects:@"Confirm Password", [NSNumber numberWithInt:INPUT_TYPE_PASSWORD], nil] forKeys:
-					   [NSArray arrayWithObjects:FORM_PLACEHOLDER, FORM_INPUT_TYPE, nil]] isLastItem:YES];
+		
+		SZFormFieldVO* firstNameField = [SZFormFieldVO formFieldValueObjectForTextWithKey:@"firstName"
+																		  placeHolderText:@"First Name"
+																			 keyboardType:UIKeyboardTypeDefault];
+		SZFormFieldVO* lastNameField = [SZFormFieldVO formFieldValueObjectForTextWithKey:@"lastName"
+																		 placeHolderText:@"Last Name"
+																			keyboardType:UIKeyboardTypeDefault];
+		SZFormFieldVO* zipCodeField = [SZFormFieldVO formFieldValueObjectForTextWithKey:@"zipCode"
+																		placeHolderText:@"ZIP code"
+																		   keyboardType:UIKeyboardTypeNumbersAndPunctuation];
+		SZFormFieldVO* stateField = [SZFormFieldVO formFieldValueObjectForPickerWithKey:@"state"
+																		placeHolderText:@"State"
+																		  pickerOptions:[NSArray arrayWithObjects:@"California", @"Texas", @"Florida", @"Oregon", nil]]; // TODO load states from server or constants class
+		SZFormFieldVO* emailField = [SZFormFieldVO formFieldValueObjectForTextWithKey:@"email"
+																	  placeHolderText:@"Email"
+																		 keyboardType:UIKeyboardTypeEmailAddress];
+		SZFormFieldVO* passwordField = [SZFormFieldVO formFieldValueObjectForTextWithKey:@"password"
+																		 placeHolderText:@"Password"
+																			keyboardType:UIKeyboardTypeDefault];
+		passwordField.isPassword = YES;
+		SZFormFieldVO* confirmPasswordField = [SZFormFieldVO formFieldValueObjectForTextWithKey:@"confirmPassword"
+																				placeHolderText:@"Confirm Password"
+																				   keyboardType:UIKeyboardTypeDefault];
+		confirmPasswordField.isPassword = YES;
+		
+		[_form addItem:firstNameField isLastItem:NO];
+		[_form addItem:lastNameField isLastItem:NO];
+		[_form addItem:zipCodeField isLastItem:NO];
+		[_form addItem:stateField isLastItem:NO];
+		[_form addItem:emailField isLastItem:NO];
+		[_form addItem:passwordField isLastItem:NO];
+		[_form addItem:confirmPasswordField isLastItem:YES];
+		
 		[_form setCenter:CGPointMake(160.0, _form.frame.size.height/2 + FORM_TOP_MARGIN)];
 		
 		[_form setScrollContainer:self.view];
@@ -158,28 +170,28 @@
 	NSString* inputToEvaluate, *regEx;
 	NSPredicate *testPredicate;
 	
-	inputToEvaluate = [self.form.userInputs valueForKey:@"ZIP code"];
+	inputToEvaluate = [self.form.userInputs valueForKey:@"zipCode"];
 	regEx = @"[0-9]{5}(-[0-9]{4})?";
 	testPredicate = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", regEx];
 	if (![testPredicate evaluateWithObject:inputToEvaluate]) {
 		errorMessage = [errorMessage stringByAppendingString:@"ZIP code must have one of the following formats:\n12344\n123456789\n12345-6789\n\n"];
 	}
 	
-	inputToEvaluate = [self.form.userInputs valueForKey:@"Email"];
+	inputToEvaluate = [self.form.userInputs valueForKey:@"email"];
 	regEx = @"[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,4}";
 	testPredicate = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", regEx];
 	if (![testPredicate evaluateWithObject:inputToEvaluate]) {
 		errorMessage = [errorMessage stringByAppendingString:@"The Email address you provided is not valid.\n\n"];
 	}
 	
-	inputToEvaluate = [self.form.userInputs valueForKey:@"Password"];
+	inputToEvaluate = [self.form.userInputs valueForKey:@"password"];
 	regEx = @"[a-z0-9._!\\?@-]{6,18}$";
 	testPredicate = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", regEx];
 	if (![testPredicate evaluateWithObject:inputToEvaluate]) {
 		errorMessage = [errorMessage stringByAppendingString:@"The password must contain 6 to 18 characters. Valid characters are letters, digits and any of the following special characters:\n _ - . ! ? @\n\n"];
 	}
 	
-	if (![inputToEvaluate isEqualToString:[self.form.userInputs valueForKey:@"Confirm Password"]]) {
+	if (![inputToEvaluate isEqualToString:[self.form.userInputs valueForKey:@"confirmPassword"]]) {
 		errorMessage = [errorMessage stringByAppendingString:@"The passwords must match.\n\n"];
 	}
 	
@@ -194,14 +206,14 @@
 
 - (void)createAccount {
 	PFUser *user = [PFUser user];
-    user.username = [[self.form.userInputs valueForKey:@"Email"] lowercaseString];
-    user.email = [[self.form.userInputs valueForKey:@"Email"] lowercaseString];
-    user.password = [self.form.userInputs valueForKey:@"Password"];
+    user.username = [[self.form.userInputs valueForKey:@"email"] lowercaseString];
+    user.email = [[self.form.userInputs valueForKey:@"email"] lowercaseString];
+    user.password = [self.form.userInputs valueForKey:@"password"];
 	
-	[user setObject:[self.form.userInputs valueForKey:@"First Name"] forKey:@"first_name"];
-	[user setObject:[self.form.userInputs valueForKey:@"Last Name"] forKey:@"last_name"];
-	[user setObject:[self.form.userInputs valueForKey:@"ZIP code"] forKey:@"zip_code"];
-	[user setObject:[self.form.userInputs valueForKey:@"State"] forKey:@"state"];
+	[user setObject:[self.form.userInputs valueForKey:@"firstName"] forKey:@"firstName"];
+	[user setObject:[self.form.userInputs valueForKey:@"lastName"] forKey:@"lastName"];
+	[user setObject:[self.form.userInputs valueForKey:@"zipCode"] forKey:@"zipCode"];
+	[user setObject:[self.form.userInputs valueForKey:@"state"] forKey:@"state"];
 	
 	MBProgressHUD* hud = [[MBProgressHUD alloc] initWithView:self.view];
 	[self.view addSubview:hud];

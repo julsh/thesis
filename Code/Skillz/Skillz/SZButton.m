@@ -46,7 +46,7 @@
 		case SZButtonSizeSmall:
 			suffix = @"_small";
 			height = 24.0;
-			fontSize = 10.0;
+			fontSize = 12.0;
 			break;
 		default:
 			break;

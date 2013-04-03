@@ -13,8 +13,17 @@
 + (UIColor*)petrol {
 	return [UIColor colorWithHue:0.525 saturation:0.78 brightness:0.42 alpha:1.0];
 }
+
 + (UIColor*)darkPetrol {
-	return [UIColor colorWithRed:0.0 green:0.255 blue:0.255 alpha:1.0];
+	return [UIColor colorWithHue:0.525 saturation:1.0 brightness:0.3 alpha:1.0];
+}
+
++ (UIColor*)orange {
+	return [UIColor colorWithHue:0.078 saturation:0.99 brightness:0.82 alpha:1.0];
+}
+
++ (UIColor*)gray {
+	return [UIColor colorWithHue:0.0 saturation:0.0 brightness:0.3 alpha:1.0];
 }
 
 + (UIColor*)darkGray {

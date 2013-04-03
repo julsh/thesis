@@ -11,6 +11,7 @@
 #import "SZForm.h"
 #import "SZAccessoryArrow.h"
 #import "SZUtils.h"
+#import "SZAddressVO.h"
 
 #define FORM_TOP_IMAGE			@"form_top"
 #define FORM_MIDDLE_IMAGE		@"form_middle"
@@ -25,8 +26,8 @@
 
 @interface SZForm ()
 
-@property (nonatomic, strong) NSMutableDictionary* pickerOptions;
-@property (nonatomic, strong) NSMutableArray* textFields;
+@property (nonatomic, strong) NSMutableArray* fieldVOs;
+@property (nonatomic, strong) NSMutableArray* fieldViews;
 @property (nonatomic, strong) BSKeyboardControls *keyboardControls;
 @property (nonatomic, assign) CGFloat width;
 
@@ -35,8 +36,8 @@
 @implementation SZForm
 
 @synthesize userInputs = _userInputs;
-@synthesize pickerOptions = _pickerOptions;
-@synthesize textFields = _textFields;
+@synthesize fieldVOs = _fieldVOs;
+@synthesize fieldViews = _fieldViews;
 @synthesize width = _width;
 @synthesize scrollContainer = _scrollContainer;
 
@@ -54,7 +55,7 @@
     return self;
 }
 
-- (id)initForTextViewWithWidth:(CGFloat)width height:(CGFloat)height {
+- (id)initForTextViewWithItem:(SZFormFieldVO*)item width:(CGFloat)width height:(CGFloat)height {
 	self = [super initWithFrame:CGRectMake(0.0, 0.0, width, height)];
 	if (self) {
 		self.userInteractionEnabled = YES;
@@ -65,14 +66,16 @@
 		[bgImgView setImage:bgImage];
 		
 		UITextView* textView = [[UITextView alloc] initWithFrame:CGRectMake(self.frame.origin.x + 1.0, self.frame.origin.y + 3.0, self.frame.size.width - 2.0, self.frame.size.height - 6.0)];
+		[textView setTag:[self.userInputs count]];
 		[textView setSpellCheckingType:UITextSpellCheckingTypeNo];
 		[textView setFont:[SZGlobalConstants fontWithFontType:SZFontRegular size:14.0]];
 		[textView setTextColor:[SZGlobalConstants darkGray]];
 		[textView setBackgroundColor:[UIColor clearColor]];
 		[textView setDelegate:self];
 		
-		[self.textFields addObject:textView];
-		[self.userInputs setValue:@"" forKey:@"TextView"];
+		[self.fieldViews addObject:textView];
+		[self.fieldVOs addObject:item];
+		[self.userInputs setValue:@"" forKey:item.key];
 		
 		[self addSubview:bgImgView];
 		[self addSubview:textView];
@@ -83,7 +86,7 @@
 	return self;
 }
 
-- (void)addItem:(NSDictionary*)item isLastItem:(BOOL)isLast {
+- (void)addItem:(SZFormFieldVO*)item isLastItem:(BOOL)isLast {
 	
 	// setting the background image
 	UIImageView* bgImage;
@@ -116,52 +119,57 @@
 	frame.size.height += bgImage.frame.size.height;
 	self.frame = frame;
 	
-	// adding the bgimage to the form
-	bgImage.userInteractionEnabled = YES;
-	[self addSubview:bgImage];
-	
 	// setting the textfield
 	UITextField* textField = [[UITextField alloc] init];
 	[textField setTag:[self.userInputs count]];
 	[textField setFont:[SZGlobalConstants fontWithFontType:SZFontRegular size:TEXTFIELD_FONT_SIZE]];
-	[textField setPlaceholder:[item valueForKey:FORM_PLACEHOLDER]];
+	[textField setPlaceholder:item.placeHolderText];
 	[textField setDelegate:self];
 	textField.layer.shadowOpacity = 1.0;
 	textField.layer.shadowRadius = 0.0;
 	textField.layer.shadowColor = [UIColor whiteColor].CGColor;
 	textField.layer.shadowOffset = CGSizeMake(0.0, 1.0);
 	
-	// setting the input type
-	if ([[item valueForKey:FORM_INPUT_TYPE] intValue] == INPUT_TYPE_PASSWORD) {
-		[textField setKeyboardType:UIKeyboardTypeDefault];
-		[textField setSecureTextEntry:YES];
-	}
-	else if ([[item valueForKey:FORM_INPUT_TYPE] intValue] == INPUT_TYPE_PICKER) {
-		
-		// save the array with picker choices in a dictionary
-		[self.pickerOptions setValue:[item valueForKey:PICKER_OPTIONS] forKey:[NSString stringWithFormat:@"%i", textField.tag]];
-		
-		// display a little arrow on the cell
-		UIView* arrow = [SZAccessoryArrow largeArrow];
-		arrow.center = CGPointMake(bgImage.frame.size.width - arrow.frame.size.width + 5.0, bgImage.frame.size.height / 2);
-		[bgImage addSubview:arrow];
-		
-		UIPickerView* pickerView = [[UIPickerView alloc] init];
-		[pickerView setTag:textField.tag];
-		[pickerView setDelegate:self];
-		
-		[textField setInputView:pickerView];
-		[pickerView setShowsSelectionIndicator:YES];
-	}
-	else {
-		[textField setKeyboardType:[[item valueForKey:FORM_INPUT_TYPE] intValue]];
-	}
-	
 	// if theres only one field, "return" should be "done" since we don't need the toolbar above the keyboard
 	if ([self.userInputs count] == 0 && isLast) {
 		[textField setReturnKeyType:UIReturnKeyDone];
 	}
 	
+	
+	if (item.inputType == SZFormFieldInputTypeKeyboard) {
+		[textField setKeyboardType:item.keyboardType];
+		if (item.isPassword) {
+			[textField setSecureTextEntry:YES];
+		}
+		[self.userInputs setValue:@"" forKey:item.key];
+	}
+	else if (item.inputType == SZFormFieldInputTypePicker) {
+		UIPickerView* pickerView = [[UIPickerView alloc] init];
+		[pickerView setDelegate:self];
+		[pickerView setShowsSelectionIndicator:YES];
+		[textField setInputView:pickerView];
+		[pickerView setTag:textField.tag];
+		
+		[self addAccessoryArrowToBackgroundImage:bgImage];
+		[self.userInputs setValue:@"" forKey:item.key];
+	}
+	else if (item.inputType == SZFormFieldInputTypeDatePicker) {
+		UIDatePicker* datePicker = [[UIDatePicker alloc] init];
+		[datePicker addTarget:self action:@selector(datePickerValueChanged:) forControlEvents:UIControlEventValueChanged];
+		[datePicker setDatePickerMode:item.datePickerMode];
+		[datePicker setMinuteInterval:item.datePickerMinuteInterval];
+		[datePicker setDate:item.datePickerStartDate];
+		[datePicker setTag:textField.tag];
+		[textField setInputView:datePicker];
+		
+		[self addAccessoryArrowToBackgroundImage:bgImage];
+		[self.userInputs setValue:[NSNull null] forKey:item.key];
+	}
+
+	// saving the texfield views and the corresponding VOs
+	[self.fieldViews addObject:textField];
+	[self.fieldVOs addObject:item];
+
 	// adjusting the textfield's frame
 	frame = textField.frame;
 	frame.origin.x = TEXTFIELD_SIDE_MARGIN;
@@ -169,18 +177,23 @@
 	frame.size.width = bgImage.frame.size.width - 2 * TEXTFIELD_SIDE_MARGIN;
 	frame.size.height = TEXTFIELD_HEIGHT;
 	textField.frame = frame;
-	
-	// adding the textfield to the cell
-	[bgImage addSubview:textField];
 
-	[self.textFields addObject:textField];
-	[self.userInputs setValue:@"" forKey:[item valueForKey:FORM_PLACEHOLDER]];
+	bgImage.userInteractionEnabled = YES;
+	[bgImage addSubview:textField];
+	[self addSubview:bgImage];
 	
 }
 
 - (void)configureKeyboard {
-	[self setKeyboardControls:[[BSKeyboardControls alloc] initWithFields:self.textFields]];
+	[self setKeyboardControls:[[BSKeyboardControls alloc] initWithFields:self.fieldViews]];
     [self.keyboardControls setDelegate:self];
+}
+
+- (void)addAccessoryArrowToBackgroundImage:(UIImageView*)bgImage {
+	
+	UIView* arrow = [SZAccessoryArrow largeArrow];
+	arrow.center = CGPointMake(bgImage.frame.size.width - arrow.frame.size.width + 5.0, bgImage.frame.size.height / 2);
+	[bgImage addSubview:arrow];
 }
 
 - (NSMutableDictionary*)userInputs {
@@ -190,20 +203,29 @@
 	return _userInputs;
 }
 
-- (NSMutableDictionary*)pickerOptions {
-	if (_pickerOptions == nil) {
-		_pickerOptions = [[NSMutableDictionary alloc] init];
+- (NSMutableArray*)fieldVOs {
+	if (_fieldVOs == nil) {
+		_fieldVOs = [[NSMutableArray alloc] init];
 	}
-	return _pickerOptions;
+	return _fieldVOs;
 }
 
-- (NSMutableArray*)textFields {
-	if (_textFields == nil) {
-		_textFields = [[NSMutableArray alloc] init];
+- (NSMutableArray*)fieldViews {
+	if (_fieldViews == nil) {
+		_fieldViews = [[NSMutableArray alloc] init];
 	}
-	return _textFields;
+	return _fieldViews;
 }
 
+- (void)setText:(NSString*)text forFieldAtIndex:(NSInteger)index {
+	UIView* field = [self.fieldViews objectAtIndex:index];
+	if ([field isKindOfClass:[UITextField class]]) {
+		[(UITextField *)field setText:text];
+	}
+	else if ([field isKindOfClass:[UITextView class]]) {
+		[(UITextView *)field setText:text];
+	}
+}
 
 #pragma mark - Text View Delegate
 
@@ -220,13 +242,18 @@
 }
 
 - (void)textViewDidEndEditing:(UITextView *)textView {
-	[self.userInputs setValue:textView.text forKey:@"TextView"];
+	SZFormFieldVO* fieldVO = [self.fieldVOs objectAtIndex:textView.tag];
+	[self.userInputs setValue:textView.text forKey:fieldVO.key];
 }
 
 #pragma mark - Text Field Delegate
 
 - (void)textFieldDidBeginEditing:(UITextField *)textField
 {
+	if ([self.delegate respondsToSelector:@selector(formDidBeginEditing:)]) {
+		[self.delegate formDidBeginEditing:self];
+	}
+	
     [self.keyboardControls setActiveField:textField];
 	CGPoint globalPosition = [textField convertPoint:textField.frame.origin toView:self.scrollContainer];
 	
@@ -248,10 +275,22 @@
 		}
 	}
 	
+	SZFormFieldVO* fieldVO = [self.fieldVOs objectAtIndex:textField.tag];
+	
 	// check if input view is picker, set textfield to the first possible choice
 	if ([textField.inputView isKindOfClass:[UIPickerView class]]) {
 		UIPickerView* pickerView = (UIPickerView*)textField.inputView;
 		[self pickerView:pickerView didSelectRow:[pickerView selectedRowInComponent:0] inComponent:0];
+	}
+	else if ([textField.inputView isKindOfClass:[UIDatePicker class]]) {
+		UIDatePicker* datePicker = (UIDatePicker*)textField.inputView;
+		if ([[self.userInputs valueForKey:fieldVO.key] isKindOfClass:[NSDate class]]) {
+			[datePicker setDate:[self.userInputs valueForKey:fieldVO.key] animated:NO];
+		}
+		else {
+			[datePicker setDate:[SZUtils rightNowRoundedUp] animated:NO];
+		}
+		[self datePickerValueChanged:datePicker];
 	}
 }
 
@@ -262,7 +301,15 @@
 }
 
 - (void)textFieldDidEndEditing:(UITextField *)textField {
-	[self.userInputs setValue:textField.text forKey:textField.placeholder];
+	
+	SZFormFieldVO* fieldVO = [self.fieldVOs objectAtIndex:textField.tag];
+	
+	if ([textField.inputView isKindOfClass:[UIDatePicker class]]) {
+		[self.userInputs setValue:[((UIDatePicker*)textField.inputView) date] forKey:fieldVO.key];
+	}
+	else {
+		[self.userInputs setValue:textField.text forKey:fieldVO.key];
+	}
 }
 
 - (void)checkForScrollUp {
@@ -280,9 +327,18 @@
 
 - (void)keyboardControlsDonePressed:(BSKeyboardControls *)keyboardControls
 {
-    [keyboardControls.activeField resignFirstResponder];
-	[self checkForScrollUp];
+	BOOL isValid = YES;
+	if ([keyboardControls.activeField.inputView isKindOfClass:[UIDatePicker class]]) {
+		if (self.delegate && [self.delegate respondsToSelector:@selector(form:didConfirmDatePicker:)]) {
+			isValid = [self.delegate form:self didConfirmDatePicker:(UIDatePicker*)keyboardControls.activeField.inputView];
+		}
+	}
+	if (isValid) {
+		[keyboardControls.activeField resignFirstResponder];
+		[self checkForScrollUp];
+	}
 }
+
 
 #pragma mark - Picker View Delegate
 
@@ -291,21 +347,76 @@
 }
 
 - (NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component {
-	NSArray* options = [self.pickerOptions valueForKey:[NSString stringWithFormat:@"%i", pickerView.tag]];
-	return [options count];
+	SZFormFieldVO* fieldVO = [self.fieldVOs objectAtIndex:pickerView.tag];
+	return [fieldVO.pickerOptions count];
 }
 
 - (NSString*)pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component {
-	NSArray* options = [self.pickerOptions valueForKey:[NSString stringWithFormat:@"%i", pickerView.tag]];
-	return [options objectAtIndex:row];
+	SZFormFieldVO* fieldVO = [self.fieldVOs objectAtIndex:pickerView.tag];
+	return [fieldVO.pickerOptions objectAtIndex:row];
 }
 
 - (void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component {
-	UITextField* textField = [self.textFields objectAtIndex:pickerView.tag];
-	NSArray* options = [self.pickerOptions valueForKey:[NSString stringWithFormat:@"%i", pickerView.tag]];
-	[textField setText:[options objectAtIndex:row]];
+	UITextField* textField = [self.fieldViews objectAtIndex:pickerView.tag];
+	SZFormFieldVO* fieldVO = [self.fieldVOs objectAtIndex:pickerView.tag];
+	[textField setText:[fieldVO.pickerOptions objectAtIndex:row]];
 }
 
+- (void)updatePickerAtIndex:(NSInteger)index {
+	SZFormFieldVO* fieldVO = [self.fieldVOs objectAtIndex:index];
+	UITextField* textField = [self.fieldViews objectAtIndex:index];
+	UIPickerView* picker = (UIPickerView*)textField.inputView;
+	NSInteger optionIndex = [fieldVO.pickerOptions indexOfObject:textField.text];
+	[picker selectRow:optionIndex inComponent:0 animated:NO];
+}
 
+#pragma mark - Date Picker events
+
+- (void)datePickerValueChanged:(UIDatePicker*)datePicker {
+	
+	UITextField* textField = [self.fieldViews objectAtIndex:datePicker.tag];
+	[textField setText:[SZUtils formattedDateFromDate:[datePicker date]]];
+}
+
+- (void)updateDatePickerAtIndex:(NSInteger)index withDate:(NSDate*)date {
+	UITextField* textField = [self.fieldViews objectAtIndex:index];
+	UIDatePicker* datePicker = (UIDatePicker*)textField.inputView;
+	[datePicker setDate:date];
+	[self datePickerValueChanged:datePicker];
+}
+
+#pragma mark - convenience methods for commonly used form compositions
+
++ (SZForm*)addressFormWithWidth:(CGFloat)width {
+	SZForm* addressForm = [[SZForm alloc] initWithWidth:width];
+	SZFormFieldVO* streetField = [SZFormFieldVO formFieldValueObjectForTextWithKey:@"streetAddress"
+																   placeHolderText:@"Street Address"
+																	  keyboardType:UIKeyboardTypeDefault];
+	SZFormFieldVO* cityField = [SZFormFieldVO formFieldValueObjectForTextWithKey:@"city"
+																 placeHolderText:@"City"
+																	keyboardType:UIKeyboardTypeDefault];
+	SZFormFieldVO* zipCodeField = [SZFormFieldVO formFieldValueObjectForTextWithKey:@"zipCode"
+																	placeHolderText:@"ZIP code"
+																	   keyboardType:UIKeyboardTypeNumbersAndPunctuation];
+	SZFormFieldVO* stateField = [SZFormFieldVO formFieldValueObjectForPickerWithKey:@"state"
+																	placeHolderText:@"State"
+																	  pickerOptions:[NSArray arrayWithObjects:@"California", @"Texas", @"Florida", @"Oregon", nil]]; // TODO real states
+	[addressForm  addItem:streetField isLastItem:NO];
+	[addressForm  addItem:cityField isLastItem:NO];
+	[addressForm  addItem:zipCodeField isLastItem:NO];
+	[addressForm  addItem:stateField isLastItem:YES];
+	[addressForm  configureKeyboard];
+	
+	return addressForm;
+}
+
++ (SZAddressVO*)addressVOfromAddressForm:(SZForm*)addressForm {
+	SZAddressVO* address = [[SZAddressVO alloc] init];
+	address.streetAddress = [addressForm.userInputs valueForKey:@"streetAddress"];
+	address.city = [addressForm.userInputs valueForKey:@"city"];
+	address.zipCode = [addressForm.userInputs valueForKey:@"zipCode"];
+	address.state = [addressForm.userInputs valueForKey:@"state"];
+	return address;
+}
 
 @end

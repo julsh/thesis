@@ -16,7 +16,6 @@
 @interface SZRadioButtonControl ()
 
 @property (nonatomic, assign) NSInteger choiceCount;
-@property (nonatomic, assign) NSInteger selectedIndex;
 @property (nonatomic, strong) NSMutableArray* buttons;
 
 @end
@@ -85,8 +84,18 @@
 			[button setEnabled:NO];
 		}
 	}
-	
-//	[self.delegate segmentedControlVertical:self didSelectItemAtIndex:self.selectedIndex];
+}
+
+- (void)setSelectedIndex:(NSInteger)selectedIndex {
+	_selectedIndex = selectedIndex;
+	for (UIButton* button in self.buttons) {
+		if (button.tag != selectedIndex) {
+			[button setEnabled:YES];
+		}
+		else {
+			[button setEnabled:NO];
+		}
+	}
 }
 
 @end

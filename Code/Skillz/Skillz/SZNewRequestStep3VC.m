@@ -18,6 +18,9 @@
 @property (nonatomic, strong) SZSegmentedControlVertical* segmentedControl;
 @property (nonatomic, strong) SZRadioButtonControl* option1detailView;
 @property (nonatomic, strong) UIView* option2detailView;
+@property (nonatomic, strong) SZForm* distanceForm;
+@property (nonatomic, strong) SZForm* option1AddressForm;
+@property (nonatomic, strong) SZForm* option2AddressForm;
 
 @end
 
@@ -26,6 +29,9 @@
 @synthesize segmentedControl = _segmentedControl;
 @synthesize option1detailView = _option1detailView;
 @synthesize option2detailView = _option2detailView;
+@synthesize distanceForm = _distanceForm;
+@synthesize option1AddressForm = _option1AddressForm;
+@synthesize option2AddressForm = _option2AddressForm;
 
 - (id)init
 {
@@ -35,7 +41,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-	[self.navigationItem setTitle:@"Post a Request"];
+	[self.navigationItem setTitle:[SZDataManager sharedInstance].currentObjectIsNew ? @"Post a Request" : @"Edit Request"];
 	
 	[self.mainView addSubview:[self specifyLocationLabel]];
 	[self.mainView addSubview:self.segmentedControl];
@@ -60,6 +66,23 @@
 		[_segmentedControl addItemWithText:@"This can be done remotely." isLast:YES];
 		[_segmentedControl setCenter:CGPointMake(160.0, 160.0)];
 		[_segmentedControl setDelegate:self];
+		
+		if (![SZDataManager sharedInstance].currentObjectIsNew) {
+			SZEntryVO* request = (SZEntryVO*)[SZDataManager sharedInstance].currentObject;
+			if (request.locationWillGoSomewhere) {
+				[_segmentedControl selectItemWithIndex:0];
+				[_segmentedControl.delegate segmentedControlVertical:_segmentedControl didSelectItemAtIndex:0];
+			}
+			else if (request.locationIsRemote) {
+				[_segmentedControl selectItemWithIndex:2];
+				[_segmentedControl.delegate segmentedControlVertical:_segmentedControl didSelectItemAtIndex:2];
+			}
+			else {
+				[_segmentedControl selectItemWithIndex:1];
+				[_segmentedControl.delegate segmentedControlVertical:_segmentedControl didSelectItemAtIndex:1];
+			}
+		}
+
 	}
 	return _segmentedControl;
 }
@@ -83,32 +106,25 @@
 		[distanceLabel setFont:[SZGlobalConstants fontWithFontType:SZFontSemiBold size:14.0]];
 		[distanceLabel setTextColor:[SZGlobalConstants darkGray]];
 		[distanceLabel applyWhiteShadow];
-		SZForm* distanceForm = [[SZForm alloc] initWithWidth:80.0];
-		[distanceForm addItem:[NSDictionary dictionaryWithObjects:
-							   [NSArray arrayWithObjects:@"3", [NSNumber numberWithInt:UIKeyboardTypeDecimalPad], nil] forKeys:
-							   [NSArray arrayWithObjects:FORM_PLACEHOLDER, FORM_INPUT_TYPE, nil]] isLastItem:YES];
-		[distanceForm setScrollContainer:self.view];
-		[distanceForm configureKeyboard];
-		[distanceForm setFrame:CGRectMake(50.0, 1.0, distanceForm.frame.size.width, distanceForm.frame.size.height)];
-		SZForm* distanceAddressForm = [[SZForm alloc] initWithWidth:233.0];
-		[distanceAddressForm addItem:[NSDictionary dictionaryWithObjects:
-						[NSArray arrayWithObjects:@"Street Address", [NSNumber numberWithInt:UIKeyboardTypeDefault], nil] forKeys:
-						[NSArray arrayWithObjects:FORM_PLACEHOLDER, FORM_INPUT_TYPE, nil]] isLastItem:NO];
-		[distanceAddressForm addItem:[NSDictionary dictionaryWithObjects:
-						[NSArray arrayWithObjects:@"City", [NSNumber numberWithInt:UIKeyboardTypeDefault], nil] forKeys:
-						[NSArray arrayWithObjects:FORM_PLACEHOLDER, FORM_INPUT_TYPE, nil]] isLastItem:NO];
-		[distanceAddressForm addItem:[NSDictionary dictionaryWithObjects:
-						[NSArray arrayWithObjects:@"ZIP code", [NSNumber numberWithInt:UIKeyboardTypeNumbersAndPunctuation], nil] forKeys:
-						[NSArray arrayWithObjects:FORM_PLACEHOLDER, FORM_INPUT_TYPE, nil]] isLastItem:NO];
-		[distanceAddressForm addItem:[NSDictionary dictionaryWithObjects:
-						[NSArray arrayWithObjects:@"State", [NSNumber numberWithInt:INPUT_TYPE_PICKER], [NSArray arrayWithObjects:@"California", @"Texas", @"Florida", @"Oregon", nil], nil] forKeys:
-						[NSArray arrayWithObjects:FORM_PLACEHOLDER, FORM_INPUT_TYPE, PICKER_OPTIONS, nil]] isLastItem:YES];
-		[distanceAddressForm setFrame:CGRectMake(0.0, 50.0, distanceAddressForm.frame.size.width, distanceAddressForm.frame.size.height)];
-		[distanceAddressForm setScrollContainer:self.view];
-		[distanceAddressForm configureKeyboard];
+		
+		self.distanceForm = [[SZForm alloc] initWithWidth:80.0];
+		SZFormFieldVO* distanceField = [SZFormFieldVO formFieldValueObjectForTextWithKey:@"distance"
+																		 placeHolderText:@"5"
+																			keyboardType:UIKeyboardTypeDecimalPad];
+		[self.distanceForm addItem:distanceField isLastItem:YES];
+		[self.distanceForm setDelegate:self];
+		[self.distanceForm setScrollContainer:self.view];
+		[self.distanceForm configureKeyboard];
+		[self.distanceForm setFrame:CGRectMake(50.0, 1.0, self.distanceForm.frame.size.width, self.distanceForm.frame.size.height)];
+		
+		self.option1AddressForm = [SZForm addressFormWithWidth:233.0];
+		[self.option1AddressForm setDelegate:self];
+		[self.option1AddressForm setScrollContainer:self.view];
+		[self.option1AddressForm  setFrame:CGRectMake(0.0, 50.0, self.option1AddressForm .frame.size.width, self.option1AddressForm .frame.size.height)];
+		
 		[distanceView addSubview:distanceLabel];
-		[distanceView addSubview:distanceForm];
-		[distanceView addSubview:distanceAddressForm];
+		[distanceView addSubview:self.distanceForm];
+		[distanceView addSubview:self.option1AddressForm];
 		
 		UILabel* negotiableLabel = [[UILabel alloc] initWithFrame:CGRectMake(0.0, 0.0, 240.0, 44.0)];
 		[negotiableLabel setBackgroundColor:[UIColor clearColor]];
@@ -120,6 +136,36 @@
 		[_option1detailView addItemWithView:inZipCodeLabel];
 		[_option1detailView addItemWithView:distanceView];
 		[_option1detailView addItemWithView:negotiableLabel];
+	
+		[_option1detailView setSelectedIndex:0];
+		
+		if (![SZDataManager sharedInstance].currentObjectIsNew) {
+			SZEntryVO* request = (SZEntryVO*)[SZDataManager sharedInstance].currentObject;
+			if (request.withinZipCode) {
+				[_option1detailView setSelectedIndex:0];
+			}
+			else if (request.withinSpecifiedArea) {
+				[_option1detailView setSelectedIndex:1];
+				if (request.distance) {
+					[self.distanceForm.userInputs setValue:[NSString stringWithFormat:@"%i", [request.distance intValue]] forKey:@"distance"];
+					[self.distanceForm setText:[NSString stringWithFormat:@"%i", [request.distance intValue]] forFieldAtIndex:0];
+				}
+				if (request.address) {
+					[self.option1AddressForm.userInputs setValue:request.address.streetAddress forKey:@"streetAddress"];
+					[self.option1AddressForm.userInputs setValue:request.address.city forKey:@"city"];
+					[self.option1AddressForm.userInputs setValue:request.address.zipCode forKey:@"zipCode"];
+					[self.option1AddressForm.userInputs setValue:request.address.state forKey:@"state"];
+					[self.option1AddressForm setText:request.address.streetAddress forFieldAtIndex:0];
+					[self.option1AddressForm setText:request.address.city forFieldAtIndex:1];
+					[self.option1AddressForm setText:request.address.zipCode forFieldAtIndex:2];
+					[self.option1AddressForm setText:request.address.state forFieldAtIndex:3];
+					[self.option1AddressForm updatePickerAtIndex:3];
+				}
+			}
+			else if (request.withinNegotiableArea) {
+				[_option1detailView setSelectedIndex:2];
+			}
+		}
 		
 	}
 	return _option1detailView;
@@ -136,24 +182,11 @@
 		[specifyAddressLabel setTextColor:[SZGlobalConstants darkGray]];
 		[specifyAddressLabel applyWhiteShadow];
 		
-		SZForm* addressForm = [[SZForm alloc] initWithWidth:270.0];
-		[addressForm addItem:[NSDictionary dictionaryWithObjects:
-									  [NSArray arrayWithObjects:@"Street Address", [NSNumber numberWithInt:UIKeyboardTypeDefault], nil] forKeys:
-									  [NSArray arrayWithObjects:FORM_PLACEHOLDER, FORM_INPUT_TYPE, nil]] isLastItem:NO];
-		[addressForm addItem:[NSDictionary dictionaryWithObjects:
-									  [NSArray arrayWithObjects:@"City", [NSNumber numberWithInt:UIKeyboardTypeDefault], nil] forKeys:
-									  [NSArray arrayWithObjects:FORM_PLACEHOLDER, FORM_INPUT_TYPE, nil]] isLastItem:NO];
-		[addressForm addItem:[NSDictionary dictionaryWithObjects:
-									  [NSArray arrayWithObjects:@"ZIP code", [NSNumber numberWithInt:UIKeyboardTypeNumbersAndPunctuation], nil] forKeys:
-									  [NSArray arrayWithObjects:FORM_PLACEHOLDER, FORM_INPUT_TYPE, nil]] isLastItem:NO];
-		[addressForm addItem:[NSDictionary dictionaryWithObjects:
-									  [NSArray arrayWithObjects:@"State", [NSNumber numberWithInt:INPUT_TYPE_PICKER], [NSArray arrayWithObjects:@"California", @"Texas", @"Florida", @"Oregon", nil], nil] forKeys:
-									  [NSArray arrayWithObjects:FORM_PLACEHOLDER, FORM_INPUT_TYPE, PICKER_OPTIONS, nil]] isLastItem:YES];
-		[addressForm setFrame:CGRectMake(0.0, 45.0, addressForm.frame.size.width, addressForm.frame.size.height)];
-		[addressForm setScrollContainer:self.view];
-		[addressForm configureKeyboard];
+		self.option2AddressForm = [SZForm addressFormWithWidth:270.0];
+		[self.option2AddressForm setScrollContainer:self.view];
+		[self.option2AddressForm setFrame:CGRectMake(0.0, 45.0, self.option2AddressForm.frame.size.width, self.option2AddressForm.frame.size.height)];
 		
-		UITextView* noticeText = [[UITextView alloc] initWithFrame:CGRectMake(0.0, addressForm.frame.size.height + 50.0, 270.0, 100.0)];
+		UITextView* noticeText = [[UITextView alloc] initWithFrame:CGRectMake(0.0, self.option2AddressForm.frame.size.height + 50.0, 270.0, 100.0)];
 		[noticeText setTextAlignment:NSTextAlignmentJustified];
 		[noticeText setBackgroundColor:[UIColor clearColor]];
 		[noticeText setText:@"Note that your address will be used to display the request’s approximate location on a map. We will not  reveal your full address to anyone until you have agreed to engange in a deal with them."];
@@ -163,30 +196,27 @@
 		[noticeText setEditable:NO];
 		
 		[_option2detailView addSubview:specifyAddressLabel];
-		[_option2detailView addSubview:addressForm];
+		[_option2detailView addSubview:self.option2AddressForm];
 		[_option2detailView addSubview:noticeText];
+		
+		if (![SZDataManager sharedInstance].currentObjectIsNew) {
+			SZEntryVO* request = (SZEntryVO*)[SZDataManager sharedInstance].currentObject;
+			
+			if (request.address) {
+					[self.option2AddressForm.userInputs setValue:request.address.streetAddress forKey:@"streetAddress"];
+					[self.option2AddressForm.userInputs setValue:request.address.city forKey:@"city"];
+					[self.option2AddressForm.userInputs setValue:request.address.zipCode forKey:@"zipCode"];
+					[self.option2AddressForm.userInputs setValue:request.address.state forKey:@"state"];
+					[self.option2AddressForm setText:request.address.streetAddress forFieldAtIndex:0];
+					[self.option2AddressForm setText:request.address.city forFieldAtIndex:1];
+					[self.option2AddressForm setText:request.address.zipCode forFieldAtIndex:2];
+					[self.option2AddressForm setText:request.address.state forFieldAtIndex:3];
+					[self.option2AddressForm updatePickerAtIndex:3];
+			}
+		}
 		
 	}
 	return _option2detailView;
-}
-
-- (void)segmentedControlVertical:(SZSegmentedControlVertical *)control didSelectItemAtIndex:(NSInteger)index {
-	
-	if ([[self.detailViewContainer subviews] count] > 0) {
-		[UIView animateWithDuration:0.2 animations:^{
-			[self.detailViewContainer setFrame:CGRectMake(330.0,
-														  self.detailViewContainer.frame.origin.y,
-														  self.detailViewContainer.frame.size.width,
-														  self.detailViewContainer.frame.size.height)];
-		} completion:^(BOOL finished) {
-			UIView* currentDetailView = [[self.detailViewContainer subviews] objectAtIndex:0];
-			[currentDetailView removeFromSuperview];
-			[self addNewDetailView:index];
-		}];
-	}
-	else {
-		[self addNewDetailView:index];
-	}
 }
 
 - (void)addNewDetailView:(NSInteger)index {
@@ -204,13 +234,96 @@
 			break;
 	}
 
-	[super newDetailViewAdded];
+	
+	if ([SZDataManager sharedInstance].currentObjectIsNew) {
+		[super newDetailViewAddedAnimated:YES];
+	}
+	else {
+		[super newDetailViewAddedAnimated:NO];
+		[self.mainView setContentOffset:CGPointMake(0.0, 0.0)];
+	}
+}
+
+- (void)formDidBeginEditing:(SZForm *)form {
+	[self.option1detailView setSelectedIndex:1];
 }
 
 
 - (void)continue:(id)sender {
-	SZNewRequestStep4VC* step4 = [[SZNewRequestStep4VC alloc] init];
-	[self.navigationController pushViewController:step4 animated:YES];
+
+#ifndef DEBUG
+	if (self.segmentedControl.selectedIndex == -1) {
+		UIAlertView* alertView = [[UIAlertView alloc] initWithTitle:@"Please select an option." message:nil delegate:self cancelButtonTitle:@"Okay" otherButtonTitles: nil];
+		[alertView show];
+		return;
+	}
+#endif
+	
+	[self storeInputs];
+	
+	if ([[SZDataManager sharedInstance].viewControllerStack count] != 0)
+		[self.navigationController pushViewController:[[SZDataManager sharedInstance].viewControllerStack pop] animated:YES];
+	else
+		[self.navigationController pushViewController:[[SZNewRequestStep4VC alloc] init] animated:YES];
 }
+
+- (void)storeInputs {
+	
+	switch (self.segmentedControl.selectedIndex) {
+		case SZRequestLocationWillGoSomewhereElse:
+			((SZEntryVO*)[SZDataManager sharedInstance].currentObject).locationWillGoSomewhere = YES;
+			((SZEntryVO*)[SZDataManager sharedInstance].currentObject).locationIsRemote = NO;
+			break;
+		case SZRequestLocationWillStayAtHome:
+			((SZEntryVO*)[SZDataManager sharedInstance].currentObject).locationWillGoSomewhere = NO;
+			((SZEntryVO*)[SZDataManager sharedInstance].currentObject).locationIsRemote = NO;
+			break;
+		case SZRequestLocationRemote:
+			((SZEntryVO*)[SZDataManager sharedInstance].currentObject).locationWillGoSomewhere = NO;
+			((SZEntryVO*)[SZDataManager sharedInstance].currentObject).locationIsRemote = YES;
+			break;
+		default:
+			break;
+	}
+	
+	if (self.segmentedControl.selectedIndex == SZRequestLocationWillGoSomewhereElse) {
+		
+		if (self.option1detailView.selectedIndex == 0) {
+			((SZEntryVO*)[SZDataManager sharedInstance].currentObject).withinZipCode = YES;
+			((SZEntryVO*)[SZDataManager sharedInstance].currentObject).withinSpecifiedArea = NO;
+			((SZEntryVO*)[SZDataManager sharedInstance].currentObject).withinNegotiableArea = NO;
+			((SZEntryVO*)[SZDataManager sharedInstance].currentObject).distance = nil;
+			((SZEntryVO*)[SZDataManager sharedInstance].currentObject).address = nil;
+		}
+		else if (self.option1detailView.selectedIndex == 1) {
+			((SZEntryVO*)[SZDataManager sharedInstance].currentObject).withinZipCode = NO;
+			((SZEntryVO*)[SZDataManager sharedInstance].currentObject).withinSpecifiedArea = YES;
+			((SZEntryVO*)[SZDataManager sharedInstance].currentObject).withinNegotiableArea = NO;
+			
+			NSNumberFormatter* formatter = [[NSNumberFormatter alloc] init];
+			[formatter setNumberStyle:NSNumberFormatterDecimalStyle];
+			NSNumber* distance = [formatter numberFromString:[self.distanceForm.userInputs valueForKey:@"distance"]];
+			((SZEntryVO*)[SZDataManager sharedInstance].currentObject).distance = distance;
+			
+			((SZEntryVO*)[SZDataManager sharedInstance].currentObject).address = [SZForm addressVOfromAddressForm:self.option1AddressForm];
+		}
+		else if (self.option1detailView.selectedIndex == 2) {
+			((SZEntryVO*)[SZDataManager sharedInstance].currentObject).withinZipCode = NO;
+			((SZEntryVO*)[SZDataManager sharedInstance].currentObject).withinSpecifiedArea = NO;
+			((SZEntryVO*)[SZDataManager sharedInstance].currentObject).withinNegotiableArea = YES;
+			((SZEntryVO*)[SZDataManager sharedInstance].currentObject).distance = nil;
+			((SZEntryVO*)[SZDataManager sharedInstance].currentObject).address = nil;
+		}
+	}
+	else if (self.segmentedControl.selectedIndex == SZRequestLocationWillStayAtHome) {
+		((SZEntryVO*)[SZDataManager sharedInstance].currentObject).withinZipCode = NO;
+		((SZEntryVO*)[SZDataManager sharedInstance].currentObject).withinSpecifiedArea = NO;
+		((SZEntryVO*)[SZDataManager sharedInstance].currentObject).withinNegotiableArea = NO;
+		((SZEntryVO*)[SZDataManager sharedInstance].currentObject).distance = nil;
+		((SZEntryVO*)[SZDataManager sharedInstance].currentObject).address = [SZForm addressVOfromAddressForm:self.option2AddressForm];
+	}
+	
+}
+
 
 @end

@@ -49,12 +49,12 @@
 		[self setSectionTitle:@"DISCOVER" forSection:2];
 		[self setSectionTitle:@"MORE" forSection:3];
 		
-		[self addItem:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"Profile", @"SZCreateAccountVC", nil] forKeys:[NSArray arrayWithObjects:@"title", @"class", nil]] toSection:0];
-		[self addItem:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObject:@"Balance"] forKeys:[NSArray arrayWithObject:@"title"]] toSection:0];
+		[self addItem:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObject:@"Profile"] forKeys:[NSArray arrayWithObject:@"title"]] toSection:0];
+		[self addItem:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"Balance", nil, nil] forKeys:[NSArray arrayWithObject:@"title"]] toSection:0];
 		[self addItem:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObject:@"Messages"] forKeys:[NSArray arrayWithObject:@"title"]] toSection:0];
 		
 		[self addItem:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObject:@"My Offers"] forKeys:[NSArray arrayWithObject:@"title"]] toSection:1];
-		[self addItem:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObject:@"My Requests"] forKeys:[NSArray arrayWithObject:@"title"]] toSection:1];
+		[self addItem:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"My Requests", @"SZMyRequestsVC", nil] forKeys:[NSArray arrayWithObjects:@"title", @"class", nil]] toSection:1];
 		
 		[self addItem:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObject:@"Search"] forKeys:[NSArray arrayWithObject:@"title"]] toSection:2];
 		[self addItem:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObject:@"Browse"] forKeys:[NSArray arrayWithObject:@"title"]] toSection:2];

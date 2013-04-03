@@ -56,12 +56,14 @@
 	if (_form == nil) {
 		
 		_form = [[SZForm alloc] initWithWidth:290.0];
-		[_form addItem:[NSDictionary dictionaryWithObjects:
-						[NSArray arrayWithObjects:@"Email", [NSNumber numberWithInt:UIKeyboardTypeEmailAddress], nil] forKeys:
-						[NSArray arrayWithObjects:FORM_PLACEHOLDER, FORM_INPUT_TYPE, nil]] isLastItem:NO];
-		[_form addItem:[NSDictionary dictionaryWithObjects:
-						[NSArray arrayWithObjects:@"Password", [NSNumber numberWithInt:INPUT_TYPE_PASSWORD], nil] forKeys:
-						[NSArray arrayWithObjects:FORM_PLACEHOLDER, FORM_INPUT_TYPE, nil]] isLastItem:YES];
+		
+		SZFormFieldVO* emailField = [SZFormFieldVO formFieldValueObjectForTextWithKey:@"email" placeHolderText:@"Email" keyboardType:UIKeyboardTypeDefault];
+		SZFormFieldVO* passwordField = [SZFormFieldVO formFieldValueObjectForTextWithKey:@"password" placeHolderText:@"Password" keyboardType:UIKeyboardTypeDefault];
+		passwordField.isPassword = YES;
+		
+		[_form addItem:emailField isLastItem:NO];
+		[_form addItem:passwordField isLastItem:YES];
+		
 		[_form setCenter:CGPointMake(160.0, FORM_YPOS)];
 		
 		[_form setScrollContainer:self.view];
@@ -120,13 +122,13 @@
 - (void)signInTapped:(id)sender {
 	
 	// check if both fields have inputs
-	if (!([[self.form.userInputs valueForKey:@"Email"] isEqualToString:@""] || [[self.form.userInputs valueForKey:@"Password"] isEqualToString:@""])) {
+	if (!([[self.form.userInputs valueForKey:@"email"] isEqualToString:@""] || [[self.form.userInputs valueForKey:@"password"] isEqualToString:@""])) {
 		MBProgressHUD* hud = [[MBProgressHUD alloc] initWithView:self.view];
 		[self.view addSubview:hud];
 		[hud setDimBackground:YES];
 		[hud setRemoveFromSuperViewOnHide:YES];
 		[hud show:YES];
-		[PFUser logInWithUsernameInBackground:[[self.form.userInputs valueForKey:@"Email"] lowercaseString] password:[self.form.userInputs valueForKey:@"Password"] block:^(PFUser *user, NSError *error) {
+		[PFUser logInWithUsernameInBackground:[[self.form.userInputs valueForKey:@"email"] lowercaseString] password:[self.form.userInputs valueForKey:@"password"] block:^(PFUser *user, NSError *error) {
 			if (user) {
 				[hud hide:YES];
 				if ([[user objectForKey:@"emailVerified"] boolValue]) {

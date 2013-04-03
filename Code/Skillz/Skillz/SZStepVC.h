@@ -8,16 +8,18 @@
 
 #import <UIKit/UIKit.h>
 #import "SZButton.h"
+#import "SZSegmentedControlVertical.h"
+#import "SZDataManager.h"
 
-@interface SZStepVC : UIViewController
+@interface SZStepVC : UIViewController <SZSegmentedControlVerticalDelegate, UIAlertViewDelegate>
 
 @property (nonatomic, strong) UIScrollView* mainView;
 @property (nonatomic, strong) UIView* detailViewContainer;
 @property (nonatomic, strong) SZButton* continueButton;
 
 - (id)initWithStepNumber:(NSInteger)stepNumber totalSteps:(NSInteger)totalSteps;
-- (void)updateBounds;
-- (void)newDetailViewAdded;
+- (void)updateBoundsAnimated:(BOOL)animated;
+- (void)newDetailViewAddedAnimated:(BOOL)animated;
 - (void)setScrollViewHeight:(CGFloat)newHeight;
 
 @end

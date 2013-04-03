@@ -10,4 +10,6 @@
 
 @interface SZNewRequestStep1VC : SZStepVC
 
+- (id)initWithRequest:(SZEntryVO*)request;
+
 @end

@@ -11,6 +11,9 @@
 
 @interface SZRadioButtonControl : UIView
 
+@property (nonatomic, assign) NSInteger selectedIndex;
+
 - (void)addItemWithView:(UIView*)view;
+- (void)setSelectedIndex:(NSInteger)selectedIndex;
 
 @end

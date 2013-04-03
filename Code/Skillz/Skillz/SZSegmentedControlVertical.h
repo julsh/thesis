@@ -15,9 +15,11 @@
 
 /// The object that acts as the delegate of the receiving control.
 @property (nonatomic, weak) id <SZSegmentedControlVerticalDelegate> delegate;
+@property (nonatomic, assign) NSInteger selectedIndex;
 
 - (id)initWithWidth:(CGFloat)width;
 - (void)addItemWithText:(NSString*)text isLast:(BOOL)isLast;
+- (void)selectItemWithIndex:(NSInteger)index;
 
 @end
 

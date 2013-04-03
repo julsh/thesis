@@ -8,15 +8,37 @@
 
 #import <UIKit/UIKit.h>
 #import "BSKeyboardControls.h"
+#import "SZFormFieldVO.h"
+#import "SZAddressVO.h"
+
+@protocol SZFormDelegate;
 
 @interface SZForm : UIView <UITextFieldDelegate, UITextViewDelegate, UIPickerViewDataSource, UIPickerViewDelegate, BSKeyboardControlsDelegate>
 
 @property (nonatomic, strong) NSMutableDictionary* userInputs;
 @property (nonatomic, strong) UIView* scrollContainer;
+@property (nonatomic, weak) id <SZFormDelegate> delegate;
 
 - (id)initWithWidth:(CGFloat)width;
-- (id)initForTextViewWithWidth:(CGFloat)width height:(CGFloat)height;
-- (void)addItem:(NSDictionary*)item isLastItem:(BOOL)isLast;
+- (id)initForTextViewWithItem:(SZFormFieldVO*)item width:(CGFloat)width height:(CGFloat)height;
+- (void)addItem:(SZFormFieldVO*)item isLastItem:(BOOL)isLast;
 - (void)configureKeyboard;
+- (void)setText:(NSString*)text forFieldAtIndex:(NSInteger)index;
+- (void)updatePickerAtIndex:(NSInteger)index;
+- (void)updateDatePickerAtIndex:(NSInteger)index withDate:(NSDate*)date;
+
++ (SZForm*)addressFormWithWidth:(CGFloat)width;
++ (SZAddressVO*)addressVOfromAddressForm:(SZForm*)addressForm;
+
+@end
+
+
+@protocol SZFormDelegate <NSObject>
+
+@optional
+- (BOOL)form:(SZForm*)form didConfirmDatePicker:(UIDatePicker*)datePicker;
+
+@optional
+- (void)formDidBeginEditing:(SZForm*)form;
 
 @end

@@ -13,5 +13,9 @@
 #define LogRect(RECT) NSLog(@"%s: (%0.0f, %0.0f) %0.0f x %0.0f", #RECT, RECT.origin.x, RECT.origin.y, RECT.size.width, RECT.size.height)
 
 + (UIAlertView*)alertViewForError:(NSError*)error delegate:(id)delegate;
++ (NSString*)formattedDateFromDate:(NSDate*)date;
++ (NSDate*)rightNowRoundedUp;
++ (NSNumber*)numberFromDecimalString:(NSString*)string;
++ (UIView*)separatorViewWithHeight:(CGFloat)height;
 
 @end

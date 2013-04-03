@@ -36,6 +36,48 @@
 	return [[UIAlertView alloc] initWithTitle:errorTitle message:errorMessage delegate:delegate cancelButtonTitle:nil otherButtonTitles: nil];
 }
 
++ (NSString*)formattedDateFromDate:(NSDate*)date {
+	NSDateFormatter* dateFormat = [[NSDateFormatter alloc] init];
+	[dateFormat setDateFormat:@"EEE, MMM d, YYYY - hh:mm aaa"];
+	return [dateFormat stringFromDate:date];
+}
 
++ (NSDate*)rightNowRoundedUp {
+	
+	NSDate* date = [NSDate date];
+	NSDateComponents *time = [[NSCalendar currentCalendar]
+    						  components:NSHourCalendarUnit | NSMinuteCalendarUnit
+    						  fromDate:date];
+    NSInteger minutes = [time minute];
+    NSInteger remain = minutes % 15;
+	date = [date dateByAddingTimeInterval:60*(15-remain)];
+	
+    return date;
+}
+
++ (NSNumber*)numberFromDecimalString:(NSString*)string {
+	NSNumberFormatter* formatter = [[NSNumberFormatter alloc] init];
+	[formatter setNumberStyle:NSNumberFormatterDecimalStyle];
+	return [formatter numberFromString:string];
+}
+
++ (UIView*)separatorViewWithHeight:(CGFloat)height {
+	UIView* separator = [[UIView alloc] initWithFrame:CGRectMake(0.0, 0.0, 3.0, height)];
+	
+	UIView* left = [[UIView alloc] initWithFrame:CGRectMake(0.0, 1.0, 1.0, height - 2.0)];
+	[left setBackgroundColor:[UIColor colorWithRed:1.0 green:1.0 blue:1.0 alpha:0.9]];
+	
+	UIView* middle = [[UIView alloc] initWithFrame:CGRectMake(1.0, 0.0, 1.0, height)];
+	[middle setBackgroundColor:[UIColor colorWithRed:0.0 green:0.0 blue:0.0 alpha:0.4]];
+	
+	UIView* right = [[UIView alloc] initWithFrame:CGRectMake(2.0, 1.0, 1.0, height - 2.0)];
+	[right setBackgroundColor:[UIColor colorWithRed:1.0 green:1.0 blue:1.0 alpha:0.9]];
+	
+	[separator addSubview:left];
+	[separator addSubview:middle];
+	[separator addSubview:right];
+	
+	return separator;
+}
 
 @end

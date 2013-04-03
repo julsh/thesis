@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <Parse/Parse.h>
 
 #define NOTIF_SIGN_UP_SUCCESS @"Sign Up Success"
 #define NOTIF_REQUEST_PASSWORD @"Request Password"
@@ -42,11 +43,31 @@ typedef enum {
 	SZButtonColorOrange
 } SZButtonColor;
 
+typedef enum {
+	SZFormFieldInputTypeKeyboard,
+	SZFormFieldInputTypePicker,
+	SZFormFieldInputTypeDatePicker
+} SZFormFieldInputType;
+
+typedef enum {
+	SZRequestLocationWillGoSomewhereElse,
+	SZRequestLocationWillStayAtHome,
+	SZRequestLocationRemote
+} SZRequestLocationType;
+
+typedef enum {
+	SZRequestPriceNegotiable,
+	SZRequestPriceFixedPerHour,
+	SZRequestPriceFixedPerJob
+} SZRequestPriceType;
+
 @interface SZGlobalConstants : NSObject
 
 + (UIColor*)petrol;
 + (UIColor*)darkPetrol;
++ (UIColor*)orange;
 + (UIColor*)darkGray;
++ (UIColor*)gray;
 + (UIColor*)menuCellColor;
 + (UIColor*)menuSectionColor;
 + (UIColor*)menuCellTextColor;

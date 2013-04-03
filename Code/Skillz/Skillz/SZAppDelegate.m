@@ -14,6 +14,7 @@
 #import "SZSignInVC.h"
 #import "SZCreateAccountSuccessVC.h"
 #import "SZNewRequestStep1VC.h"
+#import "SZUtils.h"
 
 @implementation SZAppDelegate
 
@@ -25,13 +26,22 @@
     // Override point for customization after application launch.
 	
 	
+	[Parse setApplicationId:@"ltQB4UH8RtuQ84RTJOWg16IfJh0fojlzrYEbwwUr"
+				  clientKey:@"Hi4lrAsfSq0iWDi6npeYMlgrmL65l5iWFtoKl5Ef"];
+	[PFAnalytics trackAppOpenedWithLaunchOptions:launchOptions];
+	
+	PFUser *currentUser = [PFUser currentUser];
+	if (currentUser) {
+		[SZDataManager sharedInstance].currentUser = [SZUserVO userVOfromPFUser:currentUser];
+	} else {
+		// show the signup or login screen
+	}
+	
+	
 	UIViewController *root = [[SZNavigationController alloc] initWithRootViewController:[[SZSignInVC alloc] init]];
 //	UIViewController *root = [[SZNavigationController alloc] initWithRootViewController:[[SZNewRequestStep1VC alloc] init]];
 	[self.window setRootViewController:root];
 	
-//	[Parse setApplicationId:@"ltQB4UH8RtuQ84RTJOWg16IfJh0fojlzrYEbwwUr"
-//				  clientKey:@"Hi4lrAsfSq0iWDi6npeYMlgrmL65l5iWFtoKl5Ef"];
-//	[PFAnalytics trackAppOpenedWithLaunchOptions:launchOptions];
 	
     return YES;
 }

@@ -19,6 +19,8 @@
 @property (nonatomic, strong) UIView* option1detailView;
 @property (nonatomic, strong) UIView* option2detailView;
 @property (nonatomic, strong) UIView* option3detailView;
+@property (nonatomic, strong) SZForm* hourPriceForm;
+@property (nonatomic, strong) SZForm* jobPriceForm;
 
 @end
 
@@ -37,7 +39,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-	[self.navigationItem setTitle:@"Post a Request"];
+	[self.navigationItem setTitle:[SZDataManager sharedInstance].currentObjectIsNew ? @"Post a Request" : @"Edit Request"];
 	
 	[self.mainView addSubview:[self specifyPriceLabel]];
 	[self.mainView addSubview:self.segmentedControl];
@@ -62,6 +64,22 @@
 		[_segmentedControl addItemWithText:@"Fixed job-based rate" isLast:YES];
 		[_segmentedControl setCenter:CGPointMake(160.0, 160.0)];
 		[_segmentedControl setDelegate:self];
+		
+		if (![SZDataManager sharedInstance].currentObjectIsNew) {
+			SZEntryVO* request = (SZEntryVO*)[SZDataManager sharedInstance].currentObject;
+			if (request.priceIsNegotiable) {
+				[_segmentedControl selectItemWithIndex:0];
+				[_segmentedControl.delegate segmentedControlVertical:_segmentedControl didSelectItemAtIndex:0];
+			}
+			else if (request.priceIsFixedPerHour) {
+				[_segmentedControl selectItemWithIndex:1];
+				[_segmentedControl.delegate segmentedControlVertical:_segmentedControl didSelectItemAtIndex:1];
+			}
+			else if (request.priceIsFixedPerJob) {
+				[_segmentedControl selectItemWithIndex:2];
+				[_segmentedControl.delegate segmentedControlVertical:_segmentedControl didSelectItemAtIndex:2];
+			}
+		}
 	}
 	return _segmentedControl;
 }
@@ -77,6 +95,7 @@
 		[noticeText setFont:[SZGlobalConstants fontWithFontType:SZFontSemiBold size:14.0]];
 		[noticeText setTextColor:[SZGlobalConstants darkGray]];
 		[noticeText applyWhiteShadow];
+		[noticeText setScrollEnabled:NO];
 		[noticeText setEditable:NO];
 		
 		SZButton* editButton = [[SZButton alloc] initWithColor:SZButtonColorOrange size:SZButtonSizeLarge width:290.0];
@@ -92,25 +111,32 @@
 
 - (UIView*)option2detailView {
 	if (_option2detailView == nil) {
-		_option2detailView = [[UIView alloc] initWithFrame:CGRectMake(0.0, 35.0, 290.0, 48.0)];
+		_option2detailView = [[UIView alloc] initWithFrame:CGRectMake(0.0, 0.0, 290.0, 83.0)];
 		
-		SZForm* priceForm = [[SZForm alloc] initWithWidth:60.0];
-		[priceForm addItem:[NSDictionary dictionaryWithObjects:
-							   [NSArray arrayWithObjects:@"15", [NSNumber numberWithInt:UIKeyboardTypeDecimalPad], nil] forKeys:
-							   [NSArray arrayWithObjects:FORM_PLACEHOLDER, FORM_INPUT_TYPE, nil]] isLastItem:YES];
-		[priceForm setScrollContainer:self.view];
-		[priceForm configureKeyboard];
-		[priceForm setFrame:CGRectMake(16.0, 0.0, priceForm.frame.size.width, priceForm.frame.size.height)];
+		self.hourPriceForm = [[SZForm alloc] initWithWidth:60.0];
+		SZFormFieldVO* hourPriceField = [SZFormFieldVO formFieldValueObjectForTextWithKey:@"price" placeHolderText:@"15" keyboardType:UIKeyboardTypeDecimalPad];
+		[self.hourPriceForm addItem:hourPriceField isLastItem:YES];
+		[self.hourPriceForm setScrollContainer:self.view];
+		[self.hourPriceForm configureKeyboard];
+		[self.hourPriceForm setFrame:CGRectMake(16.0, 35.0, self.hourPriceForm.frame.size.width, self.hourPriceForm.frame.size.height)];
 		
-		UILabel* priceLabel = [[UILabel alloc] initWithFrame:CGRectMake(86.0, 0.0, 220.0, 40.0)];
+		UILabel* priceLabel = [[UILabel alloc] initWithFrame:CGRectMake(86.0, 35.0, 220.0, 40.0)];
 		[priceLabel setBackgroundColor:[UIColor clearColor]];
 		[priceLabel setText:@"Skillpoints per hour"];
 		[priceLabel setFont:[SZGlobalConstants fontWithFontType:SZFontSemiBold size:20.0]];
 		[priceLabel setTextColor:[SZGlobalConstants darkGray]];
 		[priceLabel applyWhiteShadow];
 		
-		[_option2detailView addSubview:priceForm];
+		[_option2detailView addSubview:self.hourPriceForm];
 		[_option2detailView addSubview:priceLabel];
+		
+		if (![SZDataManager sharedInstance].currentObjectIsNew) {
+			SZEntryVO* request = (SZEntryVO*)[SZDataManager sharedInstance].currentObject;
+			if (request.price) {
+				[self.hourPriceForm.userInputs setValue:[NSString stringWithFormat:@"%i", [request.price intValue]] forKey:@"price"];
+				[self.hourPriceForm setText:[NSString stringWithFormat:@"%i", [request.price intValue]] forFieldAtIndex:0];
+			}
+		}
 		
 	}
 	return _option2detailView;
@@ -120,13 +146,12 @@
 	if (_option3detailView == nil) {
 		_option3detailView = [[UIView alloc] initWithFrame:CGRectMake(0.0, 5.0, 290.0, 200.0)];
 		
-		SZForm* priceForm = [[SZForm alloc] initWithWidth:80.0];
-		[priceForm addItem:[NSDictionary dictionaryWithObjects:
-							[NSArray arrayWithObjects:@"50", [NSNumber numberWithInt:UIKeyboardTypeDecimalPad], nil] forKeys:
-							[NSArray arrayWithObjects:FORM_PLACEHOLDER, FORM_INPUT_TYPE, nil]] isLastItem:YES];
-		[priceForm setScrollContainer:self.view];
-		[priceForm configureKeyboard];
-		[priceForm setFrame:CGRectMake(50.0, 0.0, priceForm.frame.size.width, priceForm.frame.size.height)];
+		self.jobPriceForm = [[SZForm alloc] initWithWidth:80.0];
+		SZFormFieldVO* jobPriceField = [SZFormFieldVO formFieldValueObjectForTextWithKey:@"price" placeHolderText:@"50" keyboardType:UIKeyboardTypeDecimalPad];
+		[self.jobPriceForm addItem:jobPriceField isLastItem:YES];
+		[self.jobPriceForm setScrollContainer:self.view];
+		[self.jobPriceForm configureKeyboard];
+		[self.jobPriceForm setFrame:CGRectMake(50.0, 0.0, self.jobPriceForm.frame.size.width, self.jobPriceForm.frame.size.height)];
 		
 		UILabel* priceLabel = [[UILabel alloc] initWithFrame:CGRectMake(140.0, 0.0, 140.0, 40.0)];
 		[priceLabel setBackgroundColor:[UIColor clearColor]];
@@ -142,6 +167,7 @@
 		[noticeText setFont:[SZGlobalConstants fontWithFontType:SZFontSemiBold size:14.0]];
 		[noticeText setTextColor:[SZGlobalConstants darkGray]];
 		[noticeText applyWhiteShadow];
+		[noticeText setScrollEnabled:NO];
 		[noticeText setEditable:NO];
 		
 		SZButton* editButton = [[SZButton alloc] initWithColor:SZButtonColorOrange size:SZButtonSizeLarge width:290.0];
@@ -149,33 +175,22 @@
 		[editButton addTarget:self action:@selector(editDescription:) forControlEvents:UIControlEventTouchUpInside];
 		[editButton setFrame:CGRectMake(0.0, 155.0, editButton.frame.size.width, editButton.frame.size.height)];
 		
-		[_option3detailView addSubview:priceForm];
+		[_option3detailView addSubview:self.jobPriceForm];
 		[_option3detailView addSubview:priceLabel];
 		[_option3detailView addSubview:noticeText];
 		[_option3detailView addSubview:editButton];
 		
+		if (![SZDataManager sharedInstance].currentObjectIsNew) {
+			SZEntryVO* request = (SZEntryVO*)[SZDataManager sharedInstance].currentObject;
+			if (request.price) {
+				[self.jobPriceForm.userInputs setValue:[NSString stringWithFormat:@"%i", [request.price intValue]] forKey:@"price"];
+				[self.jobPriceForm setText:[NSString stringWithFormat:@"%i", [request.price intValue]] forFieldAtIndex:0];
+			}
+		}
+		
 		
 	}
 	return _option3detailView;
-}
-
-- (void)segmentedControlVertical:(SZSegmentedControlVertical *)control didSelectItemAtIndex:(NSInteger)index {
-	
-	if ([[self.detailViewContainer subviews] count] > 0) {
-		[UIView animateWithDuration:0.2 animations:^{
-			[self.detailViewContainer setFrame:CGRectMake(330.0,
-														  self.detailViewContainer.frame.origin.y,
-														  self.detailViewContainer.frame.size.width,
-														  self.detailViewContainer.frame.size.height)];
-		} completion:^(BOOL finished) {
-			UIView* currentDetailView = [[self.detailViewContainer subviews] objectAtIndex:0];
-			[currentDetailView removeFromSuperview];
-			[self addNewDetailView:index];
-		}];
-	}
-	else {
-		[self addNewDetailView:index];
-	}
 }
 
 - (void)addNewDetailView:(NSInteger)index {
@@ -194,99 +209,60 @@
 			break;
 	}
 	
-	[super newDetailViewAdded];
-}
-
-- (void)editDescription:(SZButton*)sender {
-	
-	if ([[sender titleForState:UIControlStateNormal] isEqualToString:@"Edit Description"]) {
-		[self showDescription:sender];
+	if ([SZDataManager sharedInstance].currentObjectIsNew) {
+		[super newDetailViewAddedAnimated:YES];
 	}
-	
-	else if ([[sender titleForState:UIControlStateNormal] isEqualToString:@"Save Changes"]) {
-		[self saveAndHideDescription:sender];
+	else {
+		[super newDetailViewAddedAnimated:NO];
+		[self.mainView setContentOffset:CGPointMake(0.0, 0.0)];
 	}
-	
-}
-
-- (void)showDescription:(SZButton*)sender {
-	
-	UIView* parentView = [sender superview];
-	[sender setEnabled:NO];
-	
-	SZForm* descriptionForm = [[SZForm alloc] initForTextViewWithWidth:290.0 height:140.0];
-	descriptionForm.tag = 99;
-	[descriptionForm setScrollContainer:self.view];
-	[descriptionForm setFrame:CGRectMake(330.0,
-										 sender.frame.origin.y + 50.0,
-										 descriptionForm.frame.size.width,
-										 descriptionForm.frame.size.height)];
-	[self.detailViewContainer setFrame:CGRectMake(self.detailViewContainer.frame.origin.x,
-												  self.detailViewContainer.frame.origin.y,
-												  self.detailViewContainer.frame.size.width,
-												  self.detailViewContainer.frame.size.height + 150.0)];
-	[parentView setFrame:CGRectMake(parentView.frame.origin.x,
-									parentView.frame.origin.y,
-									parentView.frame.size.width,
-									parentView.frame.size.height + 150.0)];
-	[parentView addSubview:descriptionForm];
-	
-	[UIView animateWithDuration:0.2 animations:^{
-		[self.mainView setContentSize:CGSizeMake(self.mainView.contentSize.width, self.mainView.contentSize.height + 150.0)];
-		[self.mainView setContentOffset:CGPointMake(0, self.mainView.contentSize.height - self.mainView.bounds.size.height)];
-		CGRect buttonFrame = self.continueButton.frame;
-		buttonFrame.origin.y = self.mainView.contentSize.height - buttonFrame.size.height - 20.0;
-		self.continueButton.frame = buttonFrame;
-	} completion:^(BOOL finished) {
-		[UIView animateWithDuration:0.2 animations:^{
-			[descriptionForm setFrame:CGRectMake(0.0,
-												 descriptionForm.frame.origin.y,
-												 descriptionForm.frame.size.width,
-												 descriptionForm.frame.size.height)];
-		} completion:^(BOOL finished) {
-			[sender setEnabled:YES];
-			[sender setTitle:@"Save Changes" forState:UIControlStateNormal];
-		}];
-	}];
-}
-
-- (void)saveAndHideDescription:(SZButton*)sender {
-	
-	UIView* parentView = [sender superview];
-	UIView* descriptionForm = [parentView viewWithTag:99];
-	[self.detailViewContainer setFrame:CGRectMake(self.detailViewContainer.frame.origin.x,
-												  self.detailViewContainer.frame.origin.y,
-												  self.detailViewContainer.frame.size.width,
-												  self.detailViewContainer.frame.size.height - 150.0)];
-	[parentView setFrame:CGRectMake(parentView.frame.origin.x,
-									parentView.frame.origin.y,
-									parentView.frame.size.width,
-									parentView.frame.size.height - 150.0)];
-	
-	[UIView animateWithDuration:0.2 animations:^{
-		[descriptionForm setFrame:CGRectMake(330.0,
-											 descriptionForm.frame.origin.y,
-											 descriptionForm.frame.size.width,
-											 descriptionForm.frame.size.height)];
-	} completion:^(BOOL finished) {
-		[descriptionForm removeFromSuperview];
-		[UIView animateWithDuration:0.2 animations:^{
-			[self.mainView setContentSize:CGSizeMake(self.mainView.contentSize.width, self.mainView.contentSize.height - 150.0)];
-			[self.mainView setContentOffset:CGPointMake(0, self.mainView.contentSize.height - self.mainView.bounds.size.height)];
-			CGRect buttonFrame = self.continueButton.frame;
-			buttonFrame.origin.y = self.mainView.contentSize.height - buttonFrame.size.height - 20.0;
-			self.continueButton.frame = buttonFrame;
-		} completion:^(BOOL finished) {
-			[sender setEnabled:YES];
-			[sender setTitle:@"Edit Description" forState:UIControlStateNormal];
-		}];
-		
-	}];
 }
 
 - (void)continue:(id)sender {
-	SZNewRequestStep5VC* step5 = [[SZNewRequestStep5VC alloc] init];
-	[self.navigationController pushViewController:step5 animated:YES];
+
+#ifndef DEBUG
+	if (self.segmentedControl.selectedIndex == -1) {
+		UIAlertView* alertView = [[UIAlertView alloc] initWithTitle:@"Please select an option." message:nil delegate:self cancelButtonTitle:@"Okay" otherButtonTitles: nil];
+		[alertView show];
+		return;
+	}
+	else if ((self.segmentedControl.selectedIndex == 1 && [[self.hourPriceForm.userInputs valueForKey:@"price"] isEqualToString:@""]) || (self.segmentedControl.selectedIndex == 2 && [[self.jobPriceForm.userInputs valueForKey:@"price"] isEqualToString:@""])) {
+		UIAlertView* alertView = [[UIAlertView alloc] initWithTitle:@"Please set a price." message:nil delegate:self cancelButtonTitle:@"Okay" otherButtonTitles: nil];
+		[alertView show];
+		return;
+	}
+#endif
+	
+	[self storeInputs];
+	
+	if ([[SZDataManager sharedInstance].viewControllerStack count] != 0)
+		[self.navigationController pushViewController:[[SZDataManager sharedInstance].viewControllerStack pop] animated:YES];
+	else
+		[self.navigationController pushViewController:[[SZNewRequestStep5VC alloc] init] animated:YES];
+}
+
+- (void)storeInputs {
+	switch (self.segmentedControl.selectedIndex) {
+		case SZRequestPriceNegotiable:
+			((SZEntryVO*)[SZDataManager sharedInstance].currentObject).priceIsNegotiable = YES;
+			((SZEntryVO*)[SZDataManager sharedInstance].currentObject).priceIsFixedPerHour = NO;
+			((SZEntryVO*)[SZDataManager sharedInstance].currentObject).priceIsFixedPerJob = NO;((SZEntryVO*)[SZDataManager sharedInstance].currentObject).price = nil;
+			break;
+		case SZRequestPriceFixedPerHour:
+			((SZEntryVO*)[SZDataManager sharedInstance].currentObject).priceIsNegotiable = NO;
+			((SZEntryVO*)[SZDataManager sharedInstance].currentObject).priceIsFixedPerHour = YES;
+			((SZEntryVO*)[SZDataManager sharedInstance].currentObject).priceIsFixedPerJob = NO;
+			((SZEntryVO*)[SZDataManager sharedInstance].currentObject).price = [SZUtils numberFromDecimalString:[self.hourPriceForm.userInputs valueForKey:@"price"]];
+			break;
+		case SZRequestPriceFixedPerJob:
+			((SZEntryVO*)[SZDataManager sharedInstance].currentObject).priceIsNegotiable = NO;
+			((SZEntryVO*)[SZDataManager sharedInstance].currentObject).priceIsFixedPerHour = NO;
+			((SZEntryVO*)[SZDataManager sharedInstance].currentObject).priceIsFixedPerJob = YES;
+			((SZEntryVO*)[SZDataManager sharedInstance].currentObject).price = [SZUtils numberFromDecimalString:[self.jobPriceForm.userInputs valueForKey:@"price"]];
+			break;
+		default:
+			break;
+	}
 }
 
 @end

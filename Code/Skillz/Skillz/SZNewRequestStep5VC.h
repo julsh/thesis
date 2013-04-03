@@ -7,7 +7,9 @@
 //
 
 #import "SZStepVC.h"
+#import "SZSegmentedControlVertical.h"
+#import "SZForm.h"
 
-@interface SZNewRequestStep5VC : SZStepVC
+@interface SZNewRequestStep5VC : SZStepVC <SZSegmentedControlVerticalDelegate, SZFormDelegate>
 
 @end

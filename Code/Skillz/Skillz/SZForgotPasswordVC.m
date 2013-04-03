@@ -48,9 +48,8 @@
 	if (_form == nil) {
 		
 		_form = [[SZForm alloc] initWithWidth:290.0];
-		[_form addItem:[NSDictionary dictionaryWithObjects:
-						[NSArray arrayWithObjects:@"Email", [NSNumber numberWithInt:UIKeyboardTypeEmailAddress], nil] forKeys:
-						[NSArray arrayWithObjects:FORM_PLACEHOLDER, FORM_INPUT_TYPE, nil]] isLastItem:YES];
+		SZFormFieldVO* emailField = [SZFormFieldVO formFieldValueObjectForTextWithKey:@"email" placeHolderText:@"Email" keyboardType:UIKeyboardTypeEmailAddress];
+		[_form addItem:emailField isLastItem:YES];
 		[_form setCenter:CGPointMake(160.0, 300.0)];
 		[_form setScrollContainer:self.view];
 	}
@@ -141,7 +140,7 @@
 	[hud setRemoveFromSuperViewOnHide:YES];
 	[hud show:YES];
 	
-	[PFUser requestPasswordResetForEmailInBackground:[[self.form userInputs] valueForKey:@"Email"] block:^(BOOL succeeded, NSError *error) {
+	[PFUser requestPasswordResetForEmailInBackground:[[self.form userInputs] valueForKey:@"email"] block:^(BOOL succeeded, NSError *error) {
 		[hud hide:YES];
 		if (succeeded) {
 			for (UIView* subview in self.view.subviews) {
