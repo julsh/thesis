@@ -47,11 +47,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "Skillz/SZNavigationController.m"
-         timestampString = "385875556.809707"
+         timestampString = "386778894.169132"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "132"
-         endingLineNumber = "132"
+         startingLineNumber = "141"
+         endingLineNumber = "141"
          landmarkName = "-menu:switchToViewControllerWithClassName:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -73,11 +73,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "Skillz/SZNewRequestStep4VC.m"
-         timestampString = "386646123.80183"
+         timestampString = "386713689.383581"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "93"
-         endingLineNumber = "93"
+         startingLineNumber = "92"
+         endingLineNumber = "92"
          landmarkName = "-option1detailView"
          landmarkType = "5">
       </FileBreakpoint>
@@ -86,11 +86,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "Skillz/SZStepVC.m"
-         timestampString = "386645713.551087"
+         timestampString = "386720904.818081"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "148"
-         endingLineNumber = "148"
+         startingLineNumber = "154"
+         endingLineNumber = "154"
          landmarkName = "-slideInDetailViewAnimated:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -99,11 +99,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "Skillz/SZStepVC.m"
-         timestampString = "386645713.551087"
+         timestampString = "386720904.818081"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "174"
-         endingLineNumber = "174"
+         startingLineNumber = "180"
+         endingLineNumber = "180"
          landmarkName = "-newDetailViewAddedAnimated:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -112,24 +112,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "Skillz/SZStepVC.m"
-         timestampString = "386645713.551087"
+         timestampString = "386720904.818081"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "112"
-         endingLineNumber = "112"
-         landmarkName = "-updateBoundsAnimated:"
-         landmarkType = "5">
-      </FileBreakpoint>
-      <FileBreakpoint
-         shouldBeEnabled = "No"
-         ignoreCount = "0"
-         continueAfterRunningActions = "No"
-         filePath = "Skillz/SZStepVC.m"
-         timestampString = "386645713.551087"
-         startingColumnNumber = "9223372036854775807"
-         endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "130"
-         endingLineNumber = "130"
+         startingLineNumber = "113"
+         endingLineNumber = "113"
          landmarkName = "-updateBoundsAnimated:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -138,11 +125,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "Skillz/SZNewRequestStep4VC.m"
-         timestampString = "386647109.060695"
+         timestampString = "386713689.383581"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "202"
-         endingLineNumber = "202"
+         startingLineNumber = "201"
+         endingLineNumber = "201"
          landmarkName = "-addNewDetailView:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -151,11 +138,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "Skillz/SZNewRequestStep4VC.m"
-         timestampString = "386333452.982236"
+         timestampString = "386713689.383581"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "46"
-         endingLineNumber = "46"
+         startingLineNumber = "48"
+         endingLineNumber = "48"
          landmarkName = "-viewDidLoad"
          landmarkType = "5">
       </FileBreakpoint>
@@ -164,25 +151,12 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "Skillz/SZNewRequestStep3VC.m"
-         timestampString = "386647109.060695"
+         timestampString = "386713689.383581"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
          startingLineNumber = "223"
          endingLineNumber = "223"
          landmarkName = "-addNewDetailView:"
-         landmarkType = "5">
-      </FileBreakpoint>
-      <FileBreakpoint
-         shouldBeEnabled = "No"
-         ignoreCount = "0"
-         continueAfterRunningActions = "No"
-         filePath = "Skillz/SZForm.m"
-         timestampString = "386645713.551087"
-         startingColumnNumber = "9223372036854775807"
-         endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "311"
-         endingLineNumber = "311"
-         landmarkName = "-textFieldDidEndEditing:"
          landmarkType = "5">
       </FileBreakpoint>
       <FileBreakpoint
@@ -229,11 +203,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "Skillz/SZNewRequestStep4VC.m"
-         timestampString = "386647109.060695"
+         timestampString = "386719404.920465"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "245"
-         endingLineNumber = "245"
+         startingLineNumber = "247"
+         endingLineNumber = "247"
          landmarkName = "-storeInputs"
          landmarkType = "5">
       </FileBreakpoint>
@@ -255,7 +229,7 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "Skillz/SZNewRequestStep3VC.m"
-         timestampString = "386647109.060695"
+         timestampString = "386713689.383581"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
          startingLineNumber = "272"
@@ -268,7 +242,7 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "Skillz/SZNewRequestStep3VC.m"
-         timestampString = "386647109.060695"
+         timestampString = "386713689.383581"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
          startingLineNumber = "303"
@@ -450,12 +424,12 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "Skillz/SZDataManager.m"
-         timestampString = "386637523.230968"
+         timestampString = "386728408.285679"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "54"
-         endingLineNumber = "54"
-         landmarkName = "-updateRequestCacheWithRequest:"
+         startingLineNumber = "75"
+         endingLineNumber = "75"
+         landmarkName = "-updateEntryCacheWithEntry:type:"
          landmarkType = "5">
       </FileBreakpoint>
       <FileBreakpoint
@@ -463,24 +437,24 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "Skillz/SZDataManager.m"
-         timestampString = "386637525.413615"
+         timestampString = "386728408.285679"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "55"
-         endingLineNumber = "55"
-         landmarkName = "-updateRequestCacheWithRequest:"
+         startingLineNumber = "76"
+         endingLineNumber = "76"
+         landmarkName = "-updateEntryCacheWithEntry:type:"
          landmarkType = "5">
       </FileBreakpoint>
       <FileBreakpoint
-         shouldBeEnabled = "Yes"
+         shouldBeEnabled = "No"
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "Skillz/SZForm.m"
-         timestampString = "386645713.551087"
+         timestampString = "386791003.9175"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "366"
-         endingLineNumber = "366"
+         startingLineNumber = "380"
+         endingLineNumber = "380"
          landmarkName = "-updatePickerAtIndex:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -528,11 +502,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "Skillz/SZNewRequestStep3VC.m"
-         timestampString = "386648200.675297"
+         timestampString = "386713689.383581"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "44"
-         endingLineNumber = "44"
+         startingLineNumber = "45"
+         endingLineNumber = "45"
          landmarkName = "-viewDidLoad"
          landmarkType = "5">
       </FileBreakpoint>
@@ -541,11 +515,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "Skillz/SZNewRequestStep3VC.m"
-         timestampString = "386648242.916324"
+         timestampString = "386713689.383581"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "71"
-         endingLineNumber = "71"
+         startingLineNumber = "74"
+         endingLineNumber = "74"
          landmarkName = "-segmentedControl"
          landmarkType = "5">
       </FileBreakpoint>
@@ -580,11 +554,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "Skillz/SZStepVC.m"
-         timestampString = "386648574.612059"
+         timestampString = "386720904.818081"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "291"
-         endingLineNumber = "291"
+         startingLineNumber = "299"
+         endingLineNumber = "299"
          landmarkName = "-segmentedControlVertical:didSelectItemAtIndex:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -593,7 +567,7 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "Skillz/SZNewRequestStep3VC.m"
-         timestampString = "386648678.09972"
+         timestampString = "386713689.383581"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
          startingLineNumber = "206"
@@ -606,7 +580,7 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "Skillz/SZNewRequestStep3VC.m"
-         timestampString = "386648765.411323"
+         timestampString = "386713689.383581"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
          startingLineNumber = "147"
@@ -619,7 +593,7 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "Skillz/SZNewRequestStep3VC.m"
-         timestampString = "386648803.189302"
+         timestampString = "386713689.383581"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
          startingLineNumber = "93"
@@ -632,12 +606,155 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "Skillz/SZNewRequestStep3VC.m"
-         timestampString = "386648840.554163"
+         timestampString = "386713689.383581"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
          startingLineNumber = "224"
          endingLineNumber = "224"
          landmarkName = "-addNewDetailView:"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "No"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         filePath = "Skillz/SZStepVC.m"
+         timestampString = "386720904.818081"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "158"
+         endingLineNumber = "158"
+         landmarkName = "-slideInDetailViewAnimated:"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "No"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         filePath = "Skillz/SZStepVC.m"
+         timestampString = "386720904.818081"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "166"
+         endingLineNumber = "166"
+         landmarkName = "-slideInDetailViewAnimated:"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "No"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         filePath = "Skillz/SZStepVC.m"
+         timestampString = "386720904.818081"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "125"
+         endingLineNumber = "125"
+         landmarkName = "-updateBoundsAnimated:"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "No"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         filePath = "Skillz/SZNewRequestStep3VC.m"
+         timestampString = "386713689.383581"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "238"
+         endingLineNumber = "238"
+         landmarkName = "-addNewDetailView:"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "No"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         filePath = "Skillz/SZNewRequestStep3VC.m"
+         timestampString = "386713689.383581"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "241"
+         endingLineNumber = "241"
+         landmarkName = "-addNewDetailView:"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "No"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         filePath = "Skillz/SZNewRequestStep3VC.m"
+         timestampString = "386713689.383581"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "239"
+         endingLineNumber = "239"
+         landmarkName = "-addNewDetailView:"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "No"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         filePath = "Skillz/SZForm.m"
+         timestampString = "386791003.9175"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "384"
+         endingLineNumber = "384"
+         landmarkName = "-updatePickerAtIndex:"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "No"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         filePath = "Skillz/SZStepVC.m"
+         timestampString = "386720725.04359"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "112"
+         endingLineNumber = "112"
+         landmarkName = "-updateBoundsAnimated:"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "No"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         filePath = "Skillz/SZStepVC.m"
+         timestampString = "386720904.818081"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "114"
+         endingLineNumber = "114"
+         landmarkName = "-updateBoundsAnimated:"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "No"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         filePath = "Skillz/SZEntryVO.m"
+         timestampString = "386776834.999603"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "35"
+         endingLineNumber = "35"
+         landmarkName = "+serverObjectFromEntryVO:className:"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "No"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         filePath = "Skillz/SZForm.m"
+         timestampString = "386791003.9175"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "391"
+         endingLineNumber = "391"
+         landmarkName = "-updatePickerOptions:forPickerAtIndex:"
          landmarkType = "5">
       </FileBreakpoint>
    </FileBreakpoints>
