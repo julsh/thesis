@@ -10,6 +10,7 @@
 #import "SZButton.h"
 #import "SZSegmentedControlVertical.h"
 #import "SZDataManager.h"
+#import "UILabel+Shadow.h"
 
 @interface SZStepVC : UIViewController <SZSegmentedControlVerticalDelegate, UIAlertViewDelegate>
 

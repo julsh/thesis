@@ -36,6 +36,7 @@
 
 + (PFObject*)serverObjectFromEntryVO:(SZEntryVO*)entryVO className:(NSString*)className;
 + (SZEntryVO*)entryVOFromPFObject:(PFObject*)object;
++ (SZEntryVO*)entryVOFromPFObject:(PFObject*)object user:(PFUser*)user address:(PFObject*)address;
 + (NSDictionary*)dictionaryFromEntryVO:(SZEntryVO*)entryVO;
 + (SZEntryVO*)entryVOfromDictionary:(NSDictionary*)dict;
 + (PFObject*)updatePFObject:(PFObject*)object withEntryVO:(SZEntryVO*)entryVO;

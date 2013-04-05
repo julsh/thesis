@@ -7,6 +7,7 @@
 //
 
 #import "SZEntryCell.h"
+#import "UILabel+Shadow.h"
 
 @interface SZEntryCell ()
 

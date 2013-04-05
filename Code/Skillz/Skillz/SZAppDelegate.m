@@ -38,7 +38,7 @@
 	}
 	
 //	uncomment following line to reset and reload categories from server
-//	[[NSUserDefaults standardUserDefaults] removeObjectForKey:@"categories"];
+	[[NSUserDefaults standardUserDefaults] removeObjectForKey:@"categories"];
 	if ([[NSUserDefaults standardUserDefaults] objectForKey:@"categories"] == nil) {
 		PFQuery* categoriesQuery = [PFQuery queryWithClassName:@"Category"];
 		[categoriesQuery findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {

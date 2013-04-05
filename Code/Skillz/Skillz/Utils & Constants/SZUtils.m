@@ -80,4 +80,29 @@
 	return separator;
 }
 
++ (NSArray*)sortedCategories {
+	NSMutableArray* categories = [[NSMutableArray alloc] init];
+	NSArray* unsortedCategories = [[NSUserDefaults standardUserDefaults] objectForKey:@"categories"];
+	for (NSDictionary* categoryDict in unsortedCategories) {
+		[categories addObject:[categoryDict objectForKey:@"categoryName"]];
+	}
+	categories = [NSMutableArray arrayWithArray:[categories sortedArrayUsingSelector:@selector(localizedCaseInsensitiveCompare:)]];
+	[categories removeObject:@"Miscellaneous"]; // remove the "misc" category from somewhere in the middle of the array
+	[categories addObject:@"Miscellaneous"];    // and put it back at the end. "misc" should not be in alphabetical order.
+	
+	return categories;
+}
+
++ (NSArray*)sortedSubcategoriesForCategory:(NSString*)category {
+	NSArray* subcategories;
+	NSArray* unsortedSubcategories = [[NSUserDefaults standardUserDefaults] objectForKey:@"categories"];
+	for (NSDictionary* categoryDict in unsortedSubcategories) {
+		if ([[categoryDict valueForKey:@"categoryName"] isEqualToString:category]) {
+			subcategories = [[categoryDict valueForKey:@"subcategories"] sortedArrayUsingSelector:@selector(localizedCaseInsensitiveCompare:)];
+			break;
+		}
+	}
+	return subcategories;
+}
+
 @end

@@ -10,6 +10,7 @@
 
 #import "SZNewEntryStep1VC.h"
 #import "SZNewEntryStep2VC.h"
+#import "SZUtils.h"
 
 @interface SZNewEntryStep1VC ()
 
@@ -74,18 +75,10 @@
 	if (_categoryForm == nil) {
 		_categoryForm = [[SZForm alloc] initWithWidth:290.0];
 		[_categoryForm setDelegate:self];
-		
-		NSMutableArray* choices = [[NSMutableArray alloc] init];
-		NSArray* categoriesArray = [[NSUserDefaults standardUserDefaults] objectForKey:@"categories"];
-		for (NSDictionary* categoryDict in categoriesArray) {
-			[choices addObject:[categoryDict objectForKey:@"categoryName"]];
-		}
-		NSMutableArray* sortedChoices = [NSMutableArray arrayWithArray:[choices sortedArrayUsingSelector:@selector(localizedCaseInsensitiveCompare:)]];
-		[sortedChoices removeObject:@"Miscellaneous"]; // remove the "misc" category from somewhere in the middle of the array
-		[sortedChoices addObject:@"Miscellaneous"];    // and put it back at the end. "misc" should not be in alphabetical order.
+	
 		SZFormFieldVO* categoryField = [SZFormFieldVO formFieldValueObjectForPickerWithKey:@"category"
 																		   placeHolderText:@"Category"
-																			 pickerOptions:sortedChoices];
+																			 pickerOptions:[SZUtils sortedCategories]];
 		[_categoryForm addItem:categoryField isLastItem:YES];
 		[_categoryForm setCenter:CGPointMake(160.0, 150.0)];
 		[_categoryForm configureKeyboard];
@@ -128,13 +121,7 @@
 		if (![SZDataManager sharedInstance].currentEntryIsNew) {
 			SZEntryVO* entry = (SZEntryVO*)[SZDataManager sharedInstance].currentEntry;
 			NSMutableArray* choices = [NSMutableArray arrayWithObject:@"(no subcategory)"];
-			NSArray* categoriesArray = [[NSUserDefaults standardUserDefaults] objectForKey:@"categories"];
-			for (NSDictionary* categoryDict in categoriesArray) {
-				if ([[categoryDict valueForKey:@"categoryName"] isEqualToString:entry.category]) {
-					[choices addObjectsFromArray:[[categoryDict valueForKey:@"subcategories"] sortedArrayUsingSelector:@selector(localizedCaseInsensitiveCompare:)]];
-					break;
-				}
-			}
+			[choices addObjectsFromArray:[SZUtils sortedSubcategoriesForCategory:entry.category]];
 			[self.subCategoryForm updatePickerOptions:choices forPickerAtIndex:0];
 			if (entry.subcategory) {
 				[self.subCategoryForm setText:entry.subcategory forFieldAtIndex:0];
@@ -149,15 +136,10 @@
 }
 
 - (void)form:(SZForm *)form didConfirmPicker:(UIPickerView *)picker {
-	
+
 	NSMutableArray* choices = [NSMutableArray arrayWithObject:@"(no subcategory)"];
-	NSArray* categoriesArray = [[NSUserDefaults standardUserDefaults] objectForKey:@"categories"];
-	for (NSDictionary* categoryDict in categoriesArray) {
-		if ([[categoryDict valueForKey:@"categoryName"] isEqualToString:[form.userInputs valueForKey:@"category"]]) {
-			[choices addObjectsFromArray:[[categoryDict valueForKey:@"subcategories"] sortedArrayUsingSelector:@selector(localizedCaseInsensitiveCompare:)]];
-			break;
-		}
-	}
+	[choices addObjectsFromArray:[SZUtils sortedSubcategoriesForCategory:[form.userInputs valueForKey:@"category"]]];
+	
 	[self.subCategoryForm updatePickerOptions:choices forPickerAtIndex:0];
 	[self.subCategoryForm setUserInteractionEnabled:YES];
 }

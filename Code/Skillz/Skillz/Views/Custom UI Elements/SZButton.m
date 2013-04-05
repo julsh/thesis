@@ -31,7 +31,7 @@
 		case SZButtonSizeExtraLarge:
 			suffix = @"_extra_large";
 			height = 52.0;
-			fontSize = 18.0;
+			fontSize = 24.0;
 			break;
 		case SZButtonSizeLarge:
 			suffix = @"_large";

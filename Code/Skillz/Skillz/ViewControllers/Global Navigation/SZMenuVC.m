@@ -57,7 +57,7 @@
 		[self addItem:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"My Requests", @"SZMyRequestsVC", nil] forKeys:[NSArray arrayWithObjects:@"title", @"class", nil]] toSection:1];
 		
 		[self addItem:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObject:@"Search"] forKeys:[NSArray arrayWithObject:@"title"]] toSection:2];
-		[self addItem:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObject:@"Browse"] forKeys:[NSArray arrayWithObject:@"title"]] toSection:2];
+		[self addItem:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"Browse", @"SZBrowseVC", nil] forKeys:[NSArray arrayWithObjects:@"title", @"class", nil]] toSection:2];
 		
 		[self addItem:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObject:@"Help"] forKeys:[NSArray arrayWithObject:@"title"]] toSection:3];
 		[self addItem:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObject:@"Terms & Conditions"] forKeys:[NSArray arrayWithObject:@"title"]] toSection:3];

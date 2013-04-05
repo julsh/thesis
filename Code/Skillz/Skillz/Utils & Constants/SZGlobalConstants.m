@@ -26,6 +26,10 @@
 	return [UIColor colorWithHue:0.078 saturation:0.99 brightness:0.82 alpha:1.0];
 }
 
++ (UIColor*)lightGray {
+	return [UIColor colorWithHue:0.52 saturation:0.05 brightness:0.76 alpha:1.0];
+}
+
 + (UIColor*)gray {
 	return [UIColor colorWithHue:0.0 saturation:0.0 brightness:0.3 alpha:1.0];
 }

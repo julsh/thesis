@@ -73,8 +73,9 @@ typedef enum {
 + (UIColor*)darkPetrol;
 + (UIColor*)veryDarkPetrol;
 + (UIColor*)orange;
-+ (UIColor*)darkGray;
++ (UIColor*)lightGray;
 + (UIColor*)gray;
++ (UIColor*)darkGray;
 + (UIColor*)menuCellColor;
 + (UIColor*)menuSectionColor;
 + (UIColor*)menuCellTextColor;

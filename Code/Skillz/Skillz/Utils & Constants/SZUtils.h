@@ -17,5 +17,7 @@
 + (NSDate*)rightNowRoundedUp;
 + (NSNumber*)numberFromDecimalString:(NSString*)string;
 + (UIView*)separatorViewWithHeight:(CGFloat)height;
++ (NSArray*)sortedCategories;
++ (NSArray*)sortedSubcategoriesForCategory:(NSString*)category;
 
 @end

@@ -39,6 +39,40 @@
 	return object;
 }
 
++ (SZEntryVO*)entryVOFromPFObject:(PFObject*)object user:(PFUser*)user address:(PFObject*)address {
+	
+	SZEntryVO* entryVO = [[SZEntryVO alloc] init];
+	
+	entryVO.category = [object objectForKey:@"category"] != [NSNull null] ? [object objectForKey:@"category"] : nil;
+	entryVO.subcategory = [object objectForKey:@"subcategory"] != [NSNull null] ? [object objectForKey:@"subcategory"] : nil;
+	entryVO.title = [object objectForKey:@"title"] != [NSNull null] ? [object objectForKey:@"title"] : nil;
+	entryVO.description = [object objectForKey:@"description"] != [NSNull null] ? [object objectForKey:@"description"] : nil;
+	entryVO.locationWillGoSomewhere = [[object objectForKey:@"locationWillGoSomewhere"] boolValue];
+	entryVO.locationIsRemote = [[object objectForKey:@"locationIsRemote"] boolValue];
+	entryVO.withinZipCode = [[object objectForKey:@"withinZipCode"] boolValue];
+	entryVO.withinNegotiableArea = [[object objectForKey:@"withinNegotiableArea"] boolValue];
+	entryVO.distance = [object objectForKey:@"distance"] != [NSNull null] ? [object objectForKey:@"distance"] : nil;
+	entryVO.priceIsNegotiable = [[object objectForKey:@"priceIsNegotiable"] boolValue];
+	entryVO.priceIsFixedPerHour = [[object objectForKey:@"priceIsFixedPerHour"] boolValue];
+	entryVO.priceIsFixedPerJob = [[object objectForKey:@"priceIsFixedPerJob"] boolValue];
+	entryVO.price = [object objectForKey:@"price"] != [NSNull null] ? [object objectForKey:@"price"] : nil;
+	entryVO.hasTimeFrame = [[object objectForKey:@"hasTimeFrame"] boolValue];
+	entryVO.startTime = [object objectForKey:@"startTime"] != [NSNull null] ? [object objectForKey:@"startTime"] : nil;
+	entryVO.endTime = [object objectForKey:@"endTime"] != [NSNull null] ? [object objectForKey:@"endTime"] : nil;
+	entryVO.isActive = [[object objectForKey:@"isActive"] boolValue];
+	entryVO.objectID = object.objectId;
+	
+	if (address) {
+		entryVO.address = [SZAddressVO addressVOFromPFObject:[object objectForKey:@"address"]];
+	}
+	if (user) {
+		entryVO.user = [SZUserVO userVOfromPFUser:[object objectForKey:@"user"]];
+	}
+	
+	return entryVO;
+	
+}
+
 + (SZEntryVO*)entryVOFromPFObject:(PFObject*)object {
 	
 	SZEntryVO* entryVO = [[SZEntryVO alloc] init];
