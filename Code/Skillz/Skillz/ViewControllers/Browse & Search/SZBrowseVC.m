@@ -10,6 +10,7 @@
 #import "SZButton.h"
 #import "UILabel+Shadow.h"
 #import "SZCategoriesVC.h"
+#import "SZDataManager.h"
 
 @implementation SZBrowseVC
 
@@ -77,16 +78,14 @@
 	
 	[self.navigationController pushViewController:[[SZCategoriesVC alloc] init] animated:YES];
 	
-//	switch (sender.tag) {
-//		case 0:
-//			[];
-//			break;
-//		case 1:
-//			<#statements#>
-//			break;
-//		default:
-//			break;
-//	}
+	switch (sender.tag) {
+		case 0:
+			[SZDataManager sharedInstance].currentEntryType = SZEntryTypeRequest;
+			break;
+		case 1:
+			[SZDataManager sharedInstance].currentEntryType = SZEntryTypeOffer;
+			break;
+	}
 	
 }
 

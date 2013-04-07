@@ -26,9 +26,12 @@
 	self = [super initWithStyle:UITableViewStylePlain];
     if (self) {
 		self.category = category;
-        NSMutableArray* subcategories = [NSMutableArray arrayWithObject:[NSNull null]];
-		[subcategories addObjectsFromArray:[SZUtils sortedSubcategoriesForCategory:category]];
-		self.subcategories = subcategories;
+		
+		if (self.category) {
+			NSMutableArray* subcategories = [NSMutableArray arrayWithObject:[NSNull null]];
+			[subcategories addObjectsFromArray:[SZUtils sortedSubcategoriesForCategory:category]];
+			self.subcategories = subcategories;
+		}
     }
     return self;
 }
@@ -70,7 +73,13 @@
 		if (cell == nil) {
 			cell = [[SZCategoryCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:topCell];
 		}
-		[cell.textLabel setText:[NSString stringWithFormat:@"All %@ Requests", self.category]];
+		NSString* offersOrRequests = [SZDataManager sharedInstance].currentEntryType == SZEntryTypeRequest ? @"Requests" : @"Offers";
+		if (self.category) {
+			[cell.textLabel setText:[NSString stringWithFormat:@"All %@ %@", self.category, offersOrRequests]];
+		}
+		else {
+			[cell.textLabel setText:[NSString stringWithFormat:@"All %@", offersOrRequests]];
+		}
 		[cell.textLabel setFont:[SZGlobalConstants fontWithFontType:SZFontExtraBold size:16.0]];
 	}
 	else {
@@ -91,7 +100,9 @@
 {
 	NSString* className = [SZDataManager sharedInstance].currentEntryType == SZEntryTypeRequest ? @"Request" : @"Offer";
     PFQuery* query = [PFQuery queryWithClassName:className];
-	[query whereKey:@"category" equalTo:self.category];
+	if (self.category) {
+		[query whereKey:@"category" equalTo:self.category];
+	}
 	if (indexPath.row > 0) [query whereKey:@"subcategory" equalTo:[self.subcategories objectAtIndex:indexPath.row]];
 	
 	[self.navigationController pushViewController:[[SZSearchResultsVC alloc] initWithQuery:query] animated:YES];

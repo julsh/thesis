@@ -20,6 +20,7 @@
 	userVO.lastName = [user objectForKey:@"lastName"];
 	userVO.zipCode = [user objectForKey:@"zipCode"];
 	userVO.state = [user objectForKey:@"state"];
+	userVO.reviewPoints = [user objectForKey:@"reviewPoints"];
 	
 	return userVO;
 }
@@ -29,7 +30,7 @@
 	return [PFQuery getUserObjectWithId:user.userID];
 }
 
-- (BOOL)isWithinDistance:(NSNumber*)distance ofAddress:(SZAddressVO*)address {
+- (BOOL)isWithinDistance:(NSNumber*)distance ofAddress:(NSDictionary*)address {
 	// TODO calculate real return value
 	
 	return YES;

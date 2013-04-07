@@ -136,7 +136,7 @@
 
 - (void)newRequest:(id)sender {
 	[SZDataManager sharedInstance].currentEntryType = SZEntryTypeOffer;
-	SZNavigationController* navController = [[SZNavigationController alloc] initWithRootViewController:[[SZNewEntryStep1VC alloc] initWithEntry:nil]];
+	SZNavigationController* navController = [[SZNavigationController alloc] initWithRootViewController:[[SZNewEntryStep1VC alloc] initWithEntry:nil] isModal:YES];
 	[navController setModalPresentationStyle:UIModalPresentationFullScreen];
 	[self presentViewController:navController animated:YES completion:nil];
 }
@@ -159,7 +159,7 @@
 	if ([myOffers count] != 0) {
 		for (NSDictionary* reqDict in myOffers) {
 			SZEntryVO* offer = [SZEntryVO entryVOfromDictionary:reqDict];
-			offer.user = [SZDataManager sharedInstance].currentUser;
+			offer.user = [PFUser currentUser];
 			[self.offers addObject:offer];
 		}
 	}

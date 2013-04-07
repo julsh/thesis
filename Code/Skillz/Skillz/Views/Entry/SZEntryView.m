@@ -55,6 +55,8 @@
 		[self.footerView addSubview:self.locationView];
 		
 		[self setFrame:CGRectMake(0.0, 0.0, 320.0, self.contentHeight)];
+		
+		[self setClipsToBounds:NO];
     }
     return self;
 }
@@ -78,7 +80,7 @@
 - (SZTimeFrameView*)timeFrameSection {
 	if (_timeFrameSection == nil) {
 		_timeFrameSection = [[SZTimeFrameView alloc] initWithStartDate:self.entry.startTime endDate:self.entry.endTime];
-		[_timeFrameSection setFrame:CGRectMake(10.0, self.contentHeight, _timeFrameSection.frame.size.width, _timeFrameSection.frame.size.height)];
+		[_timeFrameSection setFrame:CGRectMake(0.0, self.contentHeight, _timeFrameSection.frame.size.width, _timeFrameSection.frame.size.height)];
 		
 		self.contentHeight += _timeFrameSection.frame.size.height;
 	}
@@ -88,7 +90,7 @@
 
 - (SZUserAreaView*)userSection {
 	if (_userSection == nil) {
-		_userSection = [[SZUserAreaView alloc] initWithUser:nil hasTimeFrameView:self.entry.hasTimeFrame];
+		_userSection = [[SZUserAreaView alloc] initWithUser:self.entry.user hasTimeFrameView:self.entry.hasTimeFrame];
 		[_userSection setFrame:CGRectMake(0.0, self.contentHeight, _userSection.frame.size.width, _userSection.frame.size.height)];
 		
 		self.contentHeight += _userSection.frame.size.height;
@@ -108,7 +110,7 @@
 
 - (UIView*)footerView {
 	if (_footerView == nil) {
-		_footerView = [[UIView alloc] initWithFrame:CGRectMake(0.0, self.contentHeight, 290.0, 85.0)];
+		_footerView = [[UIView alloc] initWithFrame:CGRectMake(0.0, self.contentHeight, 290.0, 100.0)];
 		UIImageView* bgImage = [[UIImageView alloc] initWithImage:[[UIImage imageNamed:@"details_bottom"] resizableImageWithCapInsets:UIEdgeInsetsMake(10.0, 20.0, 10.0, 20.0)]];
 		[bgImage setFrame:_footerView.bounds];
 		[_footerView addSubview:bgImage];
@@ -129,27 +131,32 @@
 		_priceView = [[UIView alloc] initWithFrame:CGRectMake(0.0, 0.0, 120.0, self.footerView.frame.size.height)];
 		if (self.entry.priceIsFixedPerHour || self.entry.priceIsFixedPerJob) {
 			
+			UIView* pointsView = [[UIView alloc] initWithFrame:CGRectMake(0.0, 0.0, 35.0, 30.0)];
+			[pointsView addSubview:[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"skillpoints_medium"]]];
 			UILabel* pointsLabel = [self boldPetrolLabelWithSize:30.0];
-			[pointsLabel setFrame:CGRectMake(0.0, 5.0, _priceView.frame.size.width, 32.0)];
 			[pointsLabel setText:[self.entry.price stringValue]];
-			[_priceView addSubview:pointsLabel];
+			[pointsLabel sizeToFit];
+			[pointsLabel setFrame:CGRectMake(35.0, 0.0, pointsLabel.frame.size.width, 30.0)];
+			[pointsView addSubview:pointsLabel];
+			CGRect frame = pointsView.frame;
+			frame.size.width += pointsLabel.frame.size.width;
+			pointsView.frame = frame;
+			[pointsView setCenter:CGPointMake(60.0, 38.0)];
+			[_priceView addSubview:pointsView];
 			
-			UILabel* perLabel = [self semiBoldGrayLabelWithSize:14.0];
-			[perLabel setFrame:CGRectMake(0.0, 37.0, _priceView.frame.size.width, 40.0)];
-			[perLabel setLineBreakMode:NSLineBreakByWordWrapping];
-			[perLabel setNumberOfLines:2];
-			[perLabel setText:self.entry.priceIsFixedPerHour ? @"Skillpoints\nper hour" : @"Skillpoints\nper job"];
+			UILabel* perLabel = [self semiBoldGrayLabelWithSize:16.0];
+			[perLabel setFrame:CGRectMake(0.0, 53.0, _priceView.frame.size.width, 20.0)];
+			[perLabel setText:self.entry.priceIsFixedPerHour ? @"per hour" : @"per job"];
 			[_priceView addSubview:perLabel];
 		}
 		else {
 			
-			UILabel* skillpointsLabel = [self semiBoldGrayLabelWithSize:16.0];
-			[skillpointsLabel setFrame:CGRectMake(0.0, 23.0, _priceView.frame.size.width, 20.0)];
-			[skillpointsLabel setText:@"Skillpoints"];
-			[_priceView addSubview:skillpointsLabel];
+			UIImageView* pointsIcon = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"skillpoints_medium"]];
+			[pointsIcon setCenter:CGPointMake(60.0, 38.0)];
+			[_priceView addSubview:pointsIcon];
 			
 			UILabel* negotiableLabel = [self boldPetrolLabelWithSize:16.0];
-			[negotiableLabel setFrame:CGRectMake(0.0, 43.0, _priceView.frame.size.width, 20.0)];
+			[negotiableLabel setFrame:CGRectMake(0.0, 55.0, _priceView.frame.size.width, 20.0)];
 			[negotiableLabel setText:@"negotiable"];
 			[_priceView addSubview:negotiableLabel];
 		}
@@ -163,25 +170,25 @@
 		
 		if (self.entry.locationIsRemote) {
 			UILabel* canBeDoneLabel = [self semiBoldGrayLabelWithSize:16.0];
-			[canBeDoneLabel setFrame:CGRectMake(0.0, 23.0, _locationView.frame.size.width, 20.0)];
+			[canBeDoneLabel setFrame:CGRectMake(0.0, 26.0, _locationView.frame.size.width, 20.0)];
 			[canBeDoneLabel setText:@"This can be done"];
 			[_locationView addSubview:canBeDoneLabel];
 			
-			UILabel* remotelyLabel = [self boldPetrolLabelWithSize:16.0];
-			[remotelyLabel setFrame:CGRectMake(0.0, 43.0, _locationView.frame.size.width, 20.0)];
+			UILabel* remotelyLabel = [self boldPetrolLabelWithSize:24.0];
+			[remotelyLabel setFrame:CGRectMake(0.0, 44.0, _locationView.frame.size.width, 32.0)];
 			[remotelyLabel setText:@"remotely"];
 			[_locationView addSubview:remotelyLabel];
 		}
 		else if (self.entry.locationWillGoSomewhere) {
 			if (self.entry.withinZipCode) {
-				if ([[SZDataManager sharedInstance].currentUser.zipCode isEqualToString:self.entry.user.zipCode]) { // xy will come to you
+				if ([[[PFUser currentUser] valueForKey:@"zipCode"] isEqualToString:[self.entry.user valueForKey:@"zipCode"]]) { // xy will come to you
 					UILabel* label1 = [self semiBoldGrayLabelWithSize:15.0];
-					[label1 setFrame:CGRectMake(0.0, 8.0, _locationView.frame.size.width, 20.0)];
-					[label1 setText:self.entry.user.firstName];
+					[label1 setFrame:CGRectMake(0.0, 13.0, _locationView.frame.size.width, 20.0)];
+					[label1 setText:[self.entry.user valueForKey:@"firstName"]];
 					[_locationView addSubview:label1];
 					
 					UILabel* label2 = [self semiBoldGrayLabelWithSize:15.0];
-					[label2 setFrame:CGRectMake(0.0, 28.0, _locationView.frame.size.width, 20.0)];
+					[label2 setFrame:CGRectMake(0.0, 33.0, _locationView.frame.size.width, 20.0)];
 					[label2 setText:@"will come to you"];
 					[_locationView addSubview:label2];
 					
@@ -190,13 +197,13 @@
 				}
 				else {
 					UILabel* label1 = [self semiBoldGrayLabelWithSize:15.0]; // you're outside of xy's area
-					[label1 setFrame:CGRectMake(0.0, 8.0, _locationView.frame.size.width, 20.0)];
+					[label1 setFrame:CGRectMake(0.0, 13.0, _locationView.frame.size.width, 20.0)];
 					[label1 setText:@"You're outside of"];
 					[_locationView addSubview:label1];
 					
 					UILabel* label2 = [self semiBoldGrayLabelWithSize:15.0];
-					[label2 setFrame:CGRectMake(0.0, 28.0, _locationView.frame.size.width, 20.0)];
-					[label2 setText:[NSString stringWithFormat:@"%@'s area.", self.entry.user.firstName]];
+					[label2 setFrame:CGRectMake(0.0, 33.0, _locationView.frame.size.width, 20.0)];
+					[label2 setText:[NSString stringWithFormat:@"%@'s area.", [self.entry.user valueForKey:@"firstName"]]];
 					[_locationView addSubview:label2];
 					
 					SZButton* locationButton = [self locationButtonWithTitle:@"See area"];
@@ -204,15 +211,15 @@
 				}
 			}
 			else if (self.entry.withinSpecifiedArea) {
-				if ([SZDataManager sharedInstance].currentUser.hasFullAddress) {
-					if ([[SZDataManager sharedInstance].currentUser isWithinDistance:self.entry.distance ofAddress:self.entry.address]) { // xy will come to you
+				if ([[[PFUser currentUser] valueForKey:@"hasFullAddress"] boolValue]) {
+					if ([SZUtils currentUserisWithinDistance:self.entry.distance ofAddress:self.entry.address]) { // xy will come to you
 						UILabel* label1 = [self semiBoldGrayLabelWithSize:15.0];
-						[label1 setFrame:CGRectMake(0.0, 8.0, _locationView.frame.size.width, 20.0)];
-						[label1 setText:self.entry.user.firstName];
+						[label1 setFrame:CGRectMake(0.0, 13.0, _locationView.frame.size.width, 20.0)];
+						[label1 setText:[self.entry.user valueForKey:@"firstName"]];
 						[_locationView addSubview:label1];
 						
 						UILabel* label2 = [self semiBoldGrayLabelWithSize:15.0];
-						[label2 setFrame:CGRectMake(0.0, 28.0, _locationView.frame.size.width, 20.0)];
+						[label2 setFrame:CGRectMake(0.0, 33.0, _locationView.frame.size.width, 20.0)];
 						[label2 setText:@"will come to you"];
 						[_locationView addSubview:label2];
 						
@@ -221,13 +228,13 @@
 					}
 					else { // you're outside of xy's area
 						UILabel* label1 = [self semiBoldGrayLabelWithSize:15.0]; // you're outside of xy's area
-						[label1 setFrame:CGRectMake(0.0, 8.0, _locationView.frame.size.width, 20.0)];
+						[label1 setFrame:CGRectMake(0.0, 13.0, _locationView.frame.size.width, 20.0)];
 						[label1 setText:@"You're outside of"];
 						[_locationView addSubview:label1];
 						
 						UILabel* label2 = [self semiBoldGrayLabelWithSize:15.0];
-						[label2 setFrame:CGRectMake(0.0, 28.0, _locationView.frame.size.width, 20.0)];
-						[label2 setText:[NSString stringWithFormat:@"%@'s area.", self.entry.user.firstName]];
+						[label2 setFrame:CGRectMake(0.0, 33.0, _locationView.frame.size.width, 20.0)];
+						[label2 setText:[NSString stringWithFormat:@"%@'s area.", [self.entry.user valueForKey:@"firstName"]]];
 						[_locationView addSubview:label2];
 						
 						SZButton* locationButton = [self locationButtonWithTitle:@"See area"];
@@ -236,12 +243,12 @@
 				}
 				else {
 					UILabel* label1 = [self semiBoldGrayLabelWithSize:15.0];
-					[label1 setFrame:CGRectMake(0.0, 8.0, _locationView.frame.size.width, 20.0)];
-					[label1 setText:self.entry.user.firstName];
+					[label1 setFrame:CGRectMake(0.0, 13.0, _locationView.frame.size.width, 20.0)];
+					[label1 setText:[self.entry.user valueForKey:@"firstName"]];
 					[_locationView addSubview:label1];
 					
 					UILabel* label2 = [self semiBoldGrayLabelWithSize:15.0];
-					[label2 setFrame:CGRectMake(0.0, 28.0, _locationView.frame.size.width, 20.0)];
+					[label2 setFrame:CGRectMake(0.0, 33.0, _locationView.frame.size.width, 20.0)];
 					[label2 setText:@"might come to you"];
 					[_locationView addSubview:label2];
 					
@@ -252,7 +259,7 @@
 			else if (self.entry.withinNegotiableArea) { // xy might come to you
 				UILabel* label1 = [self semiBoldGrayLabelWithSize:15.0];
 				[label1 setFrame:CGRectMake(0.0, 10.0, _locationView.frame.size.width, 20.0)];
-				[label1 setText:self.entry.user.firstName];
+				[label1 setText:[self.entry.user valueForKey:@"firstName"]];
 				[_locationView addSubview:label1];
 				
 				UILabel* label2 = [self semiBoldGrayLabelWithSize:15.0];
@@ -261,20 +268,25 @@
 				[_locationView addSubview:label2];
 				
 				UILabel* label3 = [self boldPetrolLabelWithSize:15.0];
-				[label3 setFrame:CGRectMake(0.0, 52.0, _locationView.frame.size.width, 20.0)];
-				[label3 setText:@"(distance negotiable)"];
+				[label3 setFrame:CGRectMake(0.0, 50.0, _locationView.frame.size.width, 20.0)];
+				[label3 setText:@"Distance is"];
 				[_locationView addSubview:label3];
+				
+				UILabel* label4 = [self boldPetrolLabelWithSize:15.0];
+				[label4 setFrame:CGRectMake(0.0, 68.0, _locationView.frame.size.width, 20.0)];
+				[label4 setText:@"negotiable"];
+				[_locationView addSubview:label4];
 			}
 		}
 		else { // you have to go to xy's
 			UILabel* label1 = [self semiBoldGrayLabelWithSize:15.0];
-			[label1 setFrame:CGRectMake(0.0, 8.0, _locationView.frame.size.width, 20.0)];
+			[label1 setFrame:CGRectMake(0.0, 13.0, _locationView.frame.size.width, 20.0)];
 			[label1 setText:@"You have to go to"];
 			[_locationView addSubview:label1];
 			
 			UILabel* label2 = [self semiBoldGrayLabelWithSize:15.0];
-			[label2 setFrame:CGRectMake(0.0, 28.0, _locationView.frame.size.width, 20.0)];
-			[label2 setText:[NSString stringWithFormat:@"%@'s.", self.entry.user.firstName]];
+			[label2 setFrame:CGRectMake(0.0, 33.0, _locationView.frame.size.width, 20.0)];
+			[label2 setText:[NSString stringWithFormat:@"%@'s.", [self.entry.user valueForKey:@"firstName"]]];
 			[_locationView addSubview:label2];
 			
 			SZButton* locationButton = [self locationButtonWithTitle:@"See location"];
@@ -307,7 +319,7 @@
 - (SZButton*)locationButtonWithTitle:(NSString*)title {
 	SZButton* button = [[SZButton alloc] initWithColor:SZButtonColorPetrol size:SZButtonSizeSmall width:120.0];
 	[button setTitle:title forState:UIControlStateNormal];
-	[button setCenter:CGPointMake(self.locationView.frame.size.width/2, self.locationView.frame.size.height - 8.0 - button.frame.size.height/2)];
+	[button setCenter:CGPointMake(self.locationView.frame.size.width/2, self.locationView.frame.size.height - 13.0 - button.frame.size.height/2)];
 	return button;
 }
 

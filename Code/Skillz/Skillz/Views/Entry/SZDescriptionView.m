@@ -15,18 +15,19 @@
     self = [super initWithFrame:CGRectZero];
     if (self) {
         
-		CGSize contentSize = [description sizeWithFont:[SZGlobalConstants fontWithFontType:SZFontSemiBold size:12.0] constrainedToSize:CGSizeMake(270.0, 10000.0)];
+//		CGSize contentSize = [description sizeWithFont:[SZGlobalConstants fontWithFontType:SZFontSemiBold size:12.0] constrainedToSize:CGSizeMake(270.0, 10000.0)];
 //		NSLog(@"%@", NSStringFromCGSize(contentSize));
 		
-		UITextView* textView = [[UITextView alloc] initWithFrame:CGRectMake(10.0, 10.0, 270.0, contentSize.height + 50.0)];
+		UITextView* textView = [[UITextView alloc] initWithFrame:CGRectMake(10.0, 10.0, 270.0, 10000)];
 		[textView setFont:[SZGlobalConstants fontWithFontType:SZFontSemiBold size:12.0]];
 		[textView setTextColor:[UIColor darkGrayColor]];
 		[textView applyWhiteShadow];
 		[textView setText:description];
 		[textView setUserInteractionEnabled:NO];
+		[textView sizeToFit];
 		
 		UIImageView* bgImage = [[UIImageView alloc] initWithImage:[[UIImage imageNamed:@"details_middle2"] resizableImageWithCapInsets:UIEdgeInsetsMake(2.0, 2.0, 1.0, 2.0)]];
-		[bgImage setFrame:CGRectMake(0.0, 0.0, 290.0, contentSize.height + 50.0)];
+		[bgImage setFrame:CGRectMake(0.0, 0.0, 290.0, textView.frame.size.height + 20.0)];
 		[self setFrame:bgImage.frame];
 		
 		[self addSubview:bgImage];

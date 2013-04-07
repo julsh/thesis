@@ -25,7 +25,7 @@
 	[object setObject:[NSNumber numberWithBool:entryVO.withinSpecifiedArea] forKey:@"withinSpecifiedArea"];
 	[object setObject:[NSNumber numberWithBool:entryVO.withinNegotiableArea] forKey:@"withinNegotiableArea"];
 	[object setObject:(entryVO.distance) ? entryVO.distance : [NSNull null] forKey:@"distance"];
-	[object setObject:(entryVO.address) ? [SZAddressVO serverObjectFromAddressVO:entryVO.address] : [NSNull null] forKey:@"address"];
+	[object setObject:(entryVO.address) ? entryVO.address : [NSNull null] forKey:@"address"];
 	[object setObject:[NSNumber numberWithBool:entryVO.priceIsNegotiable] forKey:@"priceIsNegotiable"];
 	[object setObject:[NSNumber numberWithBool:entryVO.priceIsFixedPerHour] forKey:@"priceIsFixedPerHour"];
 	[object setObject:[NSNumber numberWithBool:entryVO.priceIsFixedPerJob] forKey:@"priceIsFixedPerJob"];
@@ -33,13 +33,13 @@
 	[object setObject:[NSNumber numberWithBool:entryVO.hasTimeFrame] forKey:@"hasTimeFrame"];
 	[object setObject:(entryVO.startTime) ? entryVO.startTime : [NSNull null] forKey:@"startTime"];
 	[object setObject:(entryVO.endTime) ? entryVO.endTime : [NSNull null] forKey:@"endTime"];
-	[object setObject:[SZUserVO PFUserFromUserVO:entryVO.user] forKey:@"user"];
+	[object setObject:entryVO.user forKey:@"user"];
 	[object setObject:[NSNumber numberWithBool:entryVO.isActive] forKey:@"isActive"];
 	
 	return object;
 }
 
-+ (SZEntryVO*)entryVOFromPFObject:(PFObject*)object user:(PFUser*)user address:(PFObject*)address {
++ (SZEntryVO*)entryVOFromPFObject:(PFObject*)object user:(PFUser*)user {
 	
 	SZEntryVO* entryVO = [[SZEntryVO alloc] init];
 	
@@ -61,12 +61,10 @@
 	entryVO.endTime = [object objectForKey:@"endTime"] != [NSNull null] ? [object objectForKey:@"endTime"] : nil;
 	entryVO.isActive = [[object objectForKey:@"isActive"] boolValue];
 	entryVO.objectID = object.objectId;
+	entryVO.address = [object objectForKey:@"address"] != [NSNull null] ? [object objectForKey:@"address"] : nil;
 	
-	if (address) {
-		entryVO.address = [SZAddressVO addressVOFromPFObject:[object objectForKey:@"address"]];
-	}
 	if (user) {
-		entryVO.user = [SZUserVO userVOfromPFUser:[object objectForKey:@"user"]];
+		entryVO.user = user;
 	}
 	
 	return entryVO;
@@ -86,7 +84,7 @@
 	entryVO.withinZipCode = [[object objectForKey:@"withinZipCode"] boolValue];
 	entryVO.withinNegotiableArea = [[object objectForKey:@"withinNegotiableArea"] boolValue];
 	entryVO.distance = [object objectForKey:@"distance"] != [NSNull null] ? [object objectForKey:@"distance"] : nil;
-	entryVO.address = [object objectForKey:@"address"] != [NSNull null] ? [SZAddressVO addressVOFromPFObject:[object objectForKey:@"address"]] : nil;
+	entryVO.address = [object objectForKey:@"address"] != [NSNull null] ? [object objectForKey:@"address"] : nil;
 	entryVO.priceIsNegotiable = [[object objectForKey:@"priceIsNegotiable"] boolValue];
 	entryVO.priceIsFixedPerHour = [[object objectForKey:@"priceIsFixedPerHour"] boolValue];
 	entryVO.priceIsFixedPerJob = [[object objectForKey:@"priceIsFixedPerJob"] boolValue];
@@ -94,7 +92,7 @@
 	entryVO.hasTimeFrame = [[object objectForKey:@"hasTimeFrame"] boolValue];
 	entryVO.startTime = [object objectForKey:@"startTime"] != [NSNull null] ? [object objectForKey:@"startTime"] : nil;
 	entryVO.endTime = [object objectForKey:@"endTime"] != [NSNull null] ? [object objectForKey:@"endTime"] : nil;
-	entryVO.user = [SZUserVO userVOfromPFUser:[object objectForKey:@"user"]];
+	entryVO.user = [object objectForKey:@"user"];
 	entryVO.isActive = [[object objectForKey:@"isActive"] boolValue];
 	entryVO.objectID = object.objectId;
 	
@@ -115,7 +113,7 @@
 	[dict setObject:[NSNumber numberWithBool:entryVO.withinSpecifiedArea] forKey:@"withinSpecifiedArea"];
 	[dict setObject:[NSNumber numberWithBool:entryVO.withinNegotiableArea] forKey:@"withinNegotiableArea"];
 	if (entryVO.distance) [dict setObject:entryVO.distance forKey:@"distance"];
-	if (entryVO.address) [dict setObject:[SZAddressVO dictionaryFromAddressVO:entryVO.address] forKey:@"address"];
+	if (entryVO.address) [dict setObject:entryVO.address forKey:@"address"];
 	[dict setObject:[NSNumber numberWithBool:entryVO.priceIsNegotiable] forKey:@"priceIsNegotiable"];
 	[dict setObject:[NSNumber numberWithBool:entryVO.priceIsFixedPerHour] forKey:@"priceIsFixedPerHour"];
 	[dict setObject:[NSNumber numberWithBool:entryVO.priceIsFixedPerJob] forKey:@"priceIsFixedPerJob"];
@@ -143,7 +141,7 @@
 	entryVO.withinSpecifiedArea = [[dict valueForKey:@"withinSpecifiedArea"] boolValue];
 	entryVO.withinNegotiableArea = [[dict valueForKey:@"withinNegotiableArea"] boolValue];
 	entryVO.distance = [dict valueForKey:@"distance"];
-	entryVO.address = [SZAddressVO addressVOFromDictionary:[dict valueForKey:@"address"]];
+	entryVO.address = [dict valueForKey:@"address"];
 	entryVO.priceIsNegotiable = [[dict valueForKey:@"priceIsNegotiable"] boolValue];
 	entryVO.priceIsFixedPerHour = [[dict valueForKey:@"priceIsFixedPerHour"] boolValue];
 	entryVO.priceIsFixedPerJob = [[dict valueForKey:@"priceIsFixedPerJob"] boolValue];
@@ -169,7 +167,7 @@
 	[object setObject:[NSNumber numberWithBool:entryVO.withinSpecifiedArea] forKey:@"withinSpecifiedArea"];
 	[object setObject:[NSNumber numberWithBool:entryVO.withinNegotiableArea] forKey:@"withinNegotiableArea"];
 	[object setObject:(entryVO.distance) ? entryVO.distance : [NSNull null] forKey:@"distance"];
-	[object setObject:(entryVO.address) ? [SZAddressVO serverObjectFromAddressVO:entryVO.address] : [NSNull null] forKey:@"address"];
+	[object setObject:(entryVO.address) ? entryVO.address : [NSNull null] forKey:@"address"];
 	[object setObject:[NSNumber numberWithBool:entryVO.priceIsNegotiable] forKey:@"priceIsNegotiable"];
 	[object setObject:[NSNumber numberWithBool:entryVO.priceIsFixedPerHour] forKey:@"priceIsFixedPerHour"];
 	[object setObject:[NSNumber numberWithBool:entryVO.priceIsFixedPerJob] forKey:@"priceIsFixedPerJob"];
@@ -177,7 +175,7 @@
 	[object setObject:[NSNumber numberWithBool:entryVO.hasTimeFrame] forKey:@"hasTimeFrame"];
 	[object setObject:(entryVO.startTime) ? entryVO.startTime : [NSNull null] forKey:@"startTime"];
 	[object setObject:(entryVO.endTime) ? entryVO.endTime : [NSNull null] forKey:@"endTime"];
-	[object setObject:[SZUserVO PFUserFromUserVO:entryVO.user] forKey:@"user"];
+	[object setObject:entryVO.user forKey:@"user"];
 	[object setObject:[NSNumber numberWithBool:entryVO.isActive] forKey:@"isActive"];
 	
 	return object;

@@ -67,6 +67,17 @@ typedef enum {
 	SZEntryPriceFixedPerJob
 } SZEntryPriceType;
 
+typedef enum {
+	SZStarViewSizeSmall,
+	SZStarViewSizeMedium
+} SZStarViewSize;
+
+typedef enum {
+	SZUserPhotoViewSizeSmall,
+	SZUserPhotoViewSizeMedium,
+	SZUserPhotoViewSizeLarge
+} SZUserPhotoViewSize;
+
 @interface SZGlobalConstants : NSObject
 
 + (UIColor*)petrol;

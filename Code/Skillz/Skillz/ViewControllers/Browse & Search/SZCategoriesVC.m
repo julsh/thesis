@@ -10,6 +10,8 @@
 #import "SZUtils.h"
 #import "SZCategoryCell.h"
 #import "SZSubcategoriesVC.h"
+#import "SZDataManager.h"
+#import "SZSearchResultsVC.h"
 
 @interface SZCategoriesVC ()
 
@@ -91,8 +93,13 @@
 	NSString* category;
 	if (indexPath.row > 0) {
 		category = [self.categories objectAtIndex:indexPath.row];
+		[self.navigationController pushViewController:[[SZSubcategoriesVC alloc] initWithCategory:category] animated:YES];
 	}
-	[self.navigationController pushViewController:[[SZSubcategoriesVC alloc] initWithCategory:category] animated:YES];
+	else {
+		NSString* className = [SZDataManager sharedInstance].currentEntryType == SZEntryTypeRequest ? @"Request" : @"Offer";
+		PFQuery* query = [PFQuery queryWithClassName:className];
+		[self.navigationController pushViewController:[[SZSearchResultsVC alloc] initWithQuery:query] animated:YES];
+	}
 }
 
 @end

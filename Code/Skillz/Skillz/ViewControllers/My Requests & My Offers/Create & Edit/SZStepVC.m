@@ -12,7 +12,6 @@
 #import "UILabel+Shadow.h"
 #import "SZForm.h"
 
-
 #define BUTTON_AREA_HEIGHT 70.0
 
 
@@ -101,7 +100,7 @@
 		
 		[SZDataManager sharedInstance].currentEntry = nil;
 		[SZDataManager sharedInstance].viewControllerStack = nil;
-		[self.navigationController dismissViewControllerAnimated:YES completion:nil];
+		[self.presentingViewController performSelector:@selector(dismiss:) withObject:self];
 	}
 }
 

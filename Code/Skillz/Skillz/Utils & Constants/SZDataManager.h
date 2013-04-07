@@ -15,7 +15,7 @@
 @property (nonatomic, strong) id currentEntry;
 @property (nonatomic, assign) SZEntryType currentEntryType;
 @property (nonatomic, assign) BOOL currentEntryIsNew;
-@property (nonatomic, strong) SZUserVO* currentUser;
+//@property (nonatomic, strong) SZUserVO* currentUser;
 @property (nonatomic, strong) NSMutableArray* viewControllerStack;
 
 + (SZDataManager*)sharedInstance;

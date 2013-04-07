@@ -19,5 +19,8 @@
 + (UIView*)separatorViewWithHeight:(CGFloat)height;
 + (NSArray*)sortedCategories;
 + (NSArray*)sortedSubcategoriesForCategory:(NSString*)category;
++ (UIView*)starViewForReviewArray:(NSArray*)reviews size:(SZStarViewSize)size;
++ (BOOL)currentUserisWithinDistance:(NSNumber*)distance ofAddress:(NSDictionary*)address;
+//+ (UIView*)
 
 @end

@@ -14,26 +14,29 @@
 
 @interface SZNavigationController ()
 
-@property (nonatomic, strong) SZMenuVC* menu;
+//@property (nonatomic, strong) SZMenuVC* menu;
 @property (nonatomic, strong) UINavigationController* mainViewController;
 @property (nonatomic, strong) UISwipeGestureRecognizer *leftSwipeRecognizer;
 @property (nonatomic, strong) UISwipeGestureRecognizer *rightSwipeRecognizer;
 @property (nonatomic, assign) BOOL isMenuVisible;
+@property (nonatomic, assign) BOOL isModal;
 
 @end
 
 @implementation SZNavigationController
 
-@synthesize menu = _menu;
+//@synthesize menu = _menu;
 @synthesize mainViewController = _mainViewController;
 @synthesize leftSwipeRecognizer = _leftSwipeRecognizer;
 @synthesize rightSwipeRecognizer = _rightSwipeRecognizer;
 @synthesize isMenuVisible = _isMenuVisible;
 
-- (id)initWithRootViewController:(UIViewController *)rootViewController {
+- (id)initWithRootViewController:(UIViewController *)rootViewController isModal:(BOOL)isModal {
 	
 	self = [super init];
     if (self) {
+		self.isModal = isModal;
+		
 		self.mainViewController = [[UINavigationController alloc] initWithRootViewController:rootViewController];
 		self.mainViewController.view.layer.shadowPath = [UIBezierPath bezierPathWithRect:self.mainViewController.view.bounds].CGPath;
 		self.mainViewController.view.layer.shadowRadius = 5.0;
@@ -41,8 +44,11 @@
 		self.mainViewController.view.layer.shadowOpacity = 1.0;
 		self.mainViewController.view.layer.shadowColor = [UIColor blackColor].CGColor;
 		
-		self.menu = [SZMenuVC sharedInstance];
-		[self.menu setDelegate:self];
+//		self.menu = [SZMenuVC sharedInstance];
+		
+//		if (!isModal) {
+			[[SZMenuVC sharedInstance] setDelegate:self];
+//		}
 
 		[self addChildViewController:self.mainViewController];
 		[self.view addSubview:self.mainViewController.view];
@@ -72,8 +78,8 @@
 
 - (void)viewDidAppear:(BOOL)animated {
 	
-	[self addChildViewController:self.menu];
-	[self.view insertSubview:self.menu.view atIndex:0];
+	[self addChildViewController:[SZMenuVC sharedInstance]];
+	[self.view insertSubview:[SZMenuVC sharedInstance].view atIndex:0];
 }
 
 - (UISwipeGestureRecognizer *)leftSwipeRecognizer {
@@ -133,14 +139,34 @@
 
 - (void)dismiss:(id)sender {
 	
+	NSLog(@"dismissing");
 	[self.mainViewController dismissViewControllerAnimated:YES completion:nil];
+	[[SZMenuVC sharedInstance] setDelegate:self];
 }
 
 - (void)menu:(SZMenuVC *)menu switchToViewControllerWithClassName:(NSString *)className {
 	
+	NSLog(@"presenting: %@", self.mainViewController.presentingViewController);
+	NSLog(@"presented: %@", self.mainViewController.presentedViewController);
+	
 	UIViewController* vc = [[NSClassFromString(className) alloc] init];
-	[self.mainViewController setViewControllers:[NSArray arrayWithObject:vc]];
-	[self slideInMainViewAnimated:YES];
+	
+	if (self.mainViewController.presentedViewController) {
+		
+		SZNavigationController* modalController = (SZNavigationController*)self.mainViewController.presentedViewController;
+		[modalController.mainViewController setViewControllers:[NSArray arrayWithObject:vc]];
+		[modalController slideInMainViewAnimated:YES];
+	}
+	else {
+		[self.mainViewController setViewControllers:[NSArray arrayWithObject:vc]];
+		[self slideInMainViewAnimated:YES];
+	}
+	
+}
+
+- (void)dismissViewControllerAnimated:(BOOL)flag completion:(void (^)(void))completion {
+	NSLog(@"dismiss");
+	[[SZMenuVC sharedInstance] setDelegate:self];
 }
 
 @end

@@ -17,6 +17,7 @@
 #import "SZNavigationController.h"
 #import "SZCreateAccountSuccessVC.h"
 #import "SZForgotPasswordVC.h"
+#import "UIImage+Resize.h"
 
 #import "MBProgressHUD.h"
 
@@ -163,7 +164,7 @@
 - (void)createAccountTapped:(id)sender {
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(signUpSuccess:) name:NOTIF_SIGN_UP_SUCCESS object:nil];
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(forgotPasswordTapped:) name:NOTIF_REQUEST_PASSWORD object:nil];
-	SZNavigationController* navController = [[SZNavigationController alloc] initWithRootViewController:[[SZCreateAccountVC alloc] init]];
+	SZNavigationController* navController = [[SZNavigationController alloc] initWithRootViewController:[[SZCreateAccountVC alloc] init] isModal:YES];
 	[navController setModalPresentationStyle:UIModalPresentationFullScreen];
 	[self presentViewController:navController animated:YES completion:nil];
 }
@@ -172,6 +173,7 @@
 	NSLog(@"learnMore");
 	// TODO learn more controller
 }
+
 
 #pragma mark - Internal operations
 

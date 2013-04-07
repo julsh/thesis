@@ -7,8 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "SZAddressVO.h"
-#import "SZUserVO.h"
+//#import "SZUserVO.h"
 
 @interface SZEntryVO : NSObject
 
@@ -22,21 +21,21 @@
 @property (nonatomic, assign) BOOL withinSpecifiedArea;
 @property (nonatomic, assign) BOOL withinNegotiableArea;
 @property (nonatomic, strong) NSNumber* distance;
-@property (nonatomic, strong) SZAddressVO* address;
+@property (nonatomic, strong) NSDictionary* address;
 @property (nonatomic, assign) BOOL priceIsNegotiable;
 @property (nonatomic, assign) BOOL priceIsFixedPerHour;
 @property (nonatomic, assign) BOOL priceIsFixedPerJob;
 @property (nonatomic, strong) NSNumber* price;
 @property (nonatomic, assign) BOOL hasTimeFrame;
-@property (nonatomic, assign) NSDate* startTime;
-@property (nonatomic, assign) NSDate* endTime;
-@property (nonatomic, assign) SZUserVO* user;
+@property (nonatomic, strong) NSDate* startTime;
+@property (nonatomic, strong) NSDate* endTime;
+@property (nonatomic, strong) PFUser* user;
 @property (nonatomic, assign) BOOL isActive;
-@property (nonatomic, assign) NSString* objectID;
+@property (nonatomic, strong) NSString* objectID;
 
 + (PFObject*)serverObjectFromEntryVO:(SZEntryVO*)entryVO className:(NSString*)className;
 + (SZEntryVO*)entryVOFromPFObject:(PFObject*)object;
-+ (SZEntryVO*)entryVOFromPFObject:(PFObject*)object user:(PFUser*)user address:(PFObject*)address;
++ (SZEntryVO*)entryVOFromPFObject:(PFObject*)object user:(PFUser*)user;
 + (NSDictionary*)dictionaryFromEntryVO:(SZEntryVO*)entryVO;
 + (SZEntryVO*)entryVOfromDictionary:(NSDictionary*)dict;
 + (PFObject*)updatePFObject:(PFObject*)object withEntryVO:(SZEntryVO*)entryVO;

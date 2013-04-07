@@ -34,7 +34,7 @@
 		}
 		else {
 			SZEntryVO* newEntry = [[SZEntryVO alloc] init];
-			newEntry.user = [SZDataManager sharedInstance].currentUser;
+			newEntry.user = [PFUser currentUser];
 			[[SZDataManager sharedInstance] setCurrentEntry:newEntry];
 			[[SZDataManager sharedInstance] setCurrentEntryIsNew:YES];
 		}

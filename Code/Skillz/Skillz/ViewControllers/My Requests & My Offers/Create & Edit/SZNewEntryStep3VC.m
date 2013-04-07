@@ -156,14 +156,14 @@
 					[self.distanceForm setText:[NSString stringWithFormat:@"%i", [entry.distance intValue]] forFieldAtIndex:0];
 				}
 				if (entry.address) {
-					[self.option1AddressForm.userInputs setValue:entry.address.streetAddress forKey:@"streetAddress"];
-					[self.option1AddressForm.userInputs setValue:entry.address.city forKey:@"city"];
-					[self.option1AddressForm.userInputs setValue:entry.address.zipCode forKey:@"zipCode"];
-					[self.option1AddressForm.userInputs setValue:entry.address.state forKey:@"state"];
-					[self.option1AddressForm setText:entry.address.streetAddress forFieldAtIndex:0];
-					[self.option1AddressForm setText:entry.address.city forFieldAtIndex:1];
-					[self.option1AddressForm setText:entry.address.zipCode forFieldAtIndex:2];
-					[self.option1AddressForm setText:entry.address.state forFieldAtIndex:3];
+					[self.option1AddressForm.userInputs setValue:[entry.address valueForKey:@"streetAddress"] forKey:@"streetAddress"];
+					[self.option1AddressForm.userInputs setValue:[entry.address valueForKey:@"city"] forKey:@"city"];
+					[self.option1AddressForm.userInputs setValue:[entry.address valueForKey:@"zipCode"] forKey:@"zipCode"];
+					[self.option1AddressForm.userInputs setValue:[entry.address valueForKey:@"state"] forKey:@"state"];
+					[self.option1AddressForm setText:[entry.address valueForKey:@"streetAddress"] forFieldAtIndex:0];
+					[self.option1AddressForm setText:[entry.address valueForKey:@"city"] forFieldAtIndex:1];
+					[self.option1AddressForm setText:[entry.address valueForKey:@"zipCode"] forFieldAtIndex:2];
+					[self.option1AddressForm setText:[entry.address valueForKey:@"state"] forFieldAtIndex:3];
 					[self.option1AddressForm updatePickerAtIndex:3];
 				}
 			}
@@ -208,14 +208,14 @@
 			SZEntryVO* entry = (SZEntryVO*)[SZDataManager sharedInstance].currentEntry;
 			
 			if (entry.address) {
-					[self.option2AddressForm.userInputs setValue:entry.address.streetAddress forKey:@"streetAddress"];
-					[self.option2AddressForm.userInputs setValue:entry.address.city forKey:@"city"];
-					[self.option2AddressForm.userInputs setValue:entry.address.zipCode forKey:@"zipCode"];
-					[self.option2AddressForm.userInputs setValue:entry.address.state forKey:@"state"];
-					[self.option2AddressForm setText:entry.address.streetAddress forFieldAtIndex:0];
-					[self.option2AddressForm setText:entry.address.city forFieldAtIndex:1];
-					[self.option2AddressForm setText:entry.address.zipCode forFieldAtIndex:2];
-					[self.option2AddressForm setText:entry.address.state forFieldAtIndex:3];
+					[self.option2AddressForm.userInputs setValue:[entry.address valueForKey:@"streetAddress"] forKey:@"streetAddress"];
+					[self.option2AddressForm.userInputs setValue:[entry.address valueForKey:@"city"] forKey:@"city"];
+					[self.option2AddressForm.userInputs setValue:[entry.address valueForKey:@"zipCode"] forKey:@"zipCode"];
+					[self.option2AddressForm.userInputs setValue:[entry.address valueForKey:@"state"] forKey:@"state"];
+					[self.option2AddressForm setText:[entry.address valueForKey:@"streetAddress"] forFieldAtIndex:0];
+					[self.option2AddressForm setText:[entry.address valueForKey:@"city"] forFieldAtIndex:1];
+					[self.option2AddressForm setText:[entry.address valueForKey:@"zipCode"] forFieldAtIndex:2];
+					[self.option2AddressForm setText:[entry.address valueForKey:@"state"] forFieldAtIndex:3];
 					[self.option2AddressForm updatePickerAtIndex:3];
 			}
 		}
@@ -310,7 +310,7 @@
 			NSNumber* distance = [formatter numberFromString:[self.distanceForm.userInputs valueForKey:@"distance"]];
 			((SZEntryVO*)[SZDataManager sharedInstance].currentEntry).distance = distance;
 			
-			((SZEntryVO*)[SZDataManager sharedInstance].currentEntry).address = [SZForm addressVOfromAddressForm:self.option1AddressForm];
+			((SZEntryVO*)[SZDataManager sharedInstance].currentEntry).address = [SZForm addressDictfromAddressForm:self.option1AddressForm];
 		}
 		else if (self.option1detailView.selectedIndex == 2) {
 			((SZEntryVO*)[SZDataManager sharedInstance].currentEntry).withinZipCode = NO;
@@ -325,7 +325,7 @@
 		((SZEntryVO*)[SZDataManager sharedInstance].currentEntry).withinSpecifiedArea = NO;
 		((SZEntryVO*)[SZDataManager sharedInstance].currentEntry).withinNegotiableArea = NO;
 		((SZEntryVO*)[SZDataManager sharedInstance].currentEntry).distance = nil;
-		((SZEntryVO*)[SZDataManager sharedInstance].currentEntry).address = [SZForm addressVOfromAddressForm:self.option2AddressForm];
+		((SZEntryVO*)[SZDataManager sharedInstance].currentEntry).address = [SZForm addressDictfromAddressForm:self.option2AddressForm];
 	}
 	
 }

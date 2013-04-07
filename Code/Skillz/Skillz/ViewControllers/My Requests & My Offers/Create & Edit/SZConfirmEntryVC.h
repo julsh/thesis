@@ -10,6 +10,6 @@
 
 @interface SZConfirmEntryVC : UIViewController
 
-@property (nonatomic, strong) UIScrollView* mainView;
+//@property (nonatomic, strong) UIScrollView* mainView;
 
 @end

@@ -105,4 +105,63 @@
 	return subcategories;
 }
 
++ (UIView*)starViewForReviewArray:(NSArray*)reviews size:(SZStarViewSize)size {
+	
+	CGFloat totalPoints = 0;
+	for (NSNumber* points in reviews) {
+		totalPoints += points.floatValue;
+	}
+	CGFloat average = totalPoints / [reviews count];
+	NSLog(@"average: %f", average);
+	
+	NSInteger fullStars = floorf(average);
+	NSInteger halfStars = 0;
+	if ((average - fullStars) >= 0.25 && (average - fullStars) <= 0.75) halfStars = 1;
+	else if ((average - fullStars) > 0.75) fullStars++;
+	NSInteger emptyStars = 5 - fullStars - halfStars;
+	
+	CGSize viewSize;
+	CGFloat spacing;
+	NSString* appendix = @"";
+	switch (size) {
+		case SZStarViewSizeSmall:
+			viewSize = CGSizeMake(50.0, 10.0);
+			spacing = 10.0;
+			appendix = @"_small";
+			break;
+		case SZStarViewSizeMedium:
+			viewSize = CGSizeMake(100.0, 20.0);
+			spacing = 20.0;
+			break;
+	}
+	
+	UIView* view = [[UIView alloc] initWithFrame:CGRectMake(0.0, 0.0, viewSize.width, viewSize.height)];
+	CGFloat xPos = 0;
+	for (int i = 0; i < fullStars; i++) {
+		UIImageView* fullStar = [[UIImageView alloc] initWithImage:[UIImage imageNamed:[NSString stringWithFormat:@"star_full%@", appendix]]];
+		[fullStar setFrame:CGRectMake(xPos, 0.0, fullStar.frame.size.width, fullStar.frame.size.height)];
+		[view addSubview:fullStar];
+		xPos += spacing;
+	}
+	for (int i = 0; i < halfStars; i++) {
+		UIImageView* halfStar = [[UIImageView alloc] initWithImage:[UIImage imageNamed:[NSString stringWithFormat:@"star_half%@", appendix]]];
+		[halfStar setFrame:CGRectMake(xPos, 0.0, halfStar.frame.size.width, halfStar.frame.size.height)];
+		[view addSubview:halfStar];
+		xPos += spacing;
+	}
+	for (int i = 0; i < emptyStars; i++) {
+		UIImageView* emptyStar = [[UIImageView alloc] initWithImage:[UIImage imageNamed:[NSString stringWithFormat:@"star_empty%@", appendix]]];
+		[emptyStar setFrame:CGRectMake(xPos, 0.0, emptyStar.frame.size.width, emptyStar.frame.size.height)];
+		[view addSubview:emptyStar];
+		xPos += spacing;
+	}
+	
+	return view;
+	
+}
+
++ (BOOL)currentUserisWithinDistance:(NSNumber*)distance ofAddress:(NSDictionary*)address {
+	return YES;
+}
+
 @end

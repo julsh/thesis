@@ -68,8 +68,8 @@
 
 - (UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
 	
-	static NSString *cellId = @"myRequestCell";
-	static NSString *newCellId = @"newRequestCell";
+	static NSString *cellId = @"myEntryCell";
+	static NSString *newCellId = @"newEntryCell";
 	
 	if (indexPath.row == 0) {
 		UITableViewCell* newRequestCell = [tableView dequeueReusableCellWithIdentifier:newCellId];
@@ -136,7 +136,7 @@
 
 - (void)newRequest:(id)sender {
 	[SZDataManager sharedInstance].currentEntryType = SZEntryTypeRequest;
-	SZNavigationController* navController = [[SZNavigationController alloc] initWithRootViewController:[[SZNewEntryStep1VC alloc] initWithEntry:nil]];
+	SZNavigationController* navController = [[SZNavigationController alloc] initWithRootViewController:[[SZNewEntryStep1VC alloc] initWithEntry:nil] isModal:YES];
 	[navController setModalPresentationStyle:UIModalPresentationFullScreen];
 	[self presentViewController:navController animated:YES completion:nil];
 }
@@ -159,7 +159,7 @@
 	if ([myRequests count] != 0) {
 		for (NSDictionary* reqDict in myRequests) {
 			SZEntryVO* request = [SZEntryVO entryVOfromDictionary:reqDict];
-			request.user = [SZDataManager sharedInstance].currentUser;
+			request.user = [PFUser currentUser];
 			[self.requests addObject:request];
 		}
 	}

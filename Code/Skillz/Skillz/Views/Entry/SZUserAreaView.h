@@ -7,10 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "SZUserVO.h"
+//#import "SZUserVO.h"
 
 @interface SZUserAreaView : UIView
 
-- (id)initWithUser:(SZUserVO*)user hasTimeFrameView:(BOOL)hasTimeFrameView;
+- (id)initWithUser:(PFUser*)user hasTimeFrameView:(BOOL)hasTimeFrameView;
 
 @end

@@ -17,6 +17,7 @@
 
 @interface SZConfirmEntryVC ()
 
+@property (nonatomic, strong) UIScrollView* mainView;
 @property (nonatomic, strong) UIView* topView;
 @property (nonatomic, strong) SZEntryView* entryView;
 @property (nonatomic, strong) UIView* bottomView;
@@ -45,7 +46,7 @@
 			break;
 	}
 	
-	UIBarButtonItem* cancelButton = [[UIBarButtonItem alloc] initWithTitle:@"Cancel" style:UIBarButtonItemStylePlain target:self.navigationController.parentViewController action:@selector(cancel:)];
+	UIBarButtonItem* cancelButton = [[UIBarButtonItem alloc] initWithTitle:@"Cancel" style:UIBarButtonItemStylePlain target:self action:@selector(cancel:)];
 	[self.navigationItem setRightBarButtonItem:cancelButton];
 	[self.navigationItem setBackBarButtonItem:[[UIBarButtonItem alloc] initWithTitle:@"Back" style:UIBarButtonItemStylePlain target:nil action:nil]];
 	[self.view setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"bg_pattern"]]];
@@ -111,31 +112,31 @@
 	if (_bottomView == nil) {
 		
 		if ([SZDataManager sharedInstance].currentEntryIsNew) {
-			_bottomView = [[UIView alloc] initWithFrame:CGRectMake(0.0, self.contentHeight, 320.0, 120.0)];
+			_bottomView = [[UIView alloc] initWithFrame:CGRectMake(0.0, self.contentHeight, 320.0, 105.0)];
 			
 			SZButton* postButton = [[SZButton alloc] initWithColor:SZButtonColorOrange size:SZButtonSizeLarge width:290.0];
 			[postButton setTag:0];
 			[postButton setTitle:[NSString stringWithFormat:@"Post %@", [SZDataManager sharedInstance].currentEntryType == SZEntryTypeRequest ? @"Request" : @"Offer"] forState:UIControlStateNormal];
 			[postButton addTarget:self action:@selector(postEntry:) forControlEvents:UIControlEventTouchUpInside];
-			[postButton setCenter:CGPointMake(160.0, 35.0)];
+			[postButton setCenter:CGPointMake(160.0, 20.0)];
 			
 			SZButton* saveButton = [[SZButton alloc] initWithColor:SZButtonColorPetrol size:SZButtonSizeLarge width:290.0];
 			[saveButton setTag:1];
 			[saveButton setTitle:@"Save & Activate Later" forState:UIControlStateNormal];
 			[saveButton addTarget:self action:@selector(postEntry:) forControlEvents:UIControlEventTouchUpInside];
-			[saveButton setCenter:CGPointMake(160.0, 85.0)];
+			[saveButton setCenter:CGPointMake(160.0, 70.0)];
 			
 			[_bottomView addSubview:postButton];
 			[_bottomView addSubview:saveButton];
 		}
 		else {
-			_bottomView = [[UIView alloc] initWithFrame:CGRectMake(0.0, self.contentHeight, 320.0, 70.0)];
+			_bottomView = [[UIView alloc] initWithFrame:CGRectMake(0.0, self.contentHeight, 320.0, 55.0)];
 			
 			SZButton* saveButton = [[SZButton alloc] initWithColor:SZButtonColorOrange size:SZButtonSizeLarge width:290.0];
 			[saveButton setTag:0];
 			[saveButton setTitle:@"Save Changes" forState:UIControlStateNormal];
 			[saveButton addTarget:self action:@selector(saveChanges:) forControlEvents:UIControlEventTouchUpInside];
-			[saveButton setCenter:CGPointMake(160.0, 35.0)];
+			[saveButton setCenter:CGPointMake(160.0, 20.0)];
 			
 			[_bottomView addSubview:saveButton];
 		}
@@ -143,6 +144,22 @@
 		self.contentHeight += _bottomView.frame.size.height;
 	}
 	return _bottomView;
+}
+
+- (void)cancel:(id)sender {
+	
+	UIAlertView* alertView = [[UIAlertView alloc] initWithTitle:@"Do you really want to cancel?" message:@"All progress will be lost." delegate:self cancelButtonTitle:@"Yes" otherButtonTitles:@"No", nil];
+	[alertView setDelegate:self];
+	[alertView show];
+}
+
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
+	if (buttonIndex == 0) {
+		
+		[SZDataManager sharedInstance].currentEntry = nil;
+		[SZDataManager sharedInstance].viewControllerStack = nil;
+		[self.presentingViewController performSelector:@selector(dismiss:) withObject:self];
+	}
 }
 
 - (void)postEntry:(SZButton*)sender {
@@ -171,7 +188,7 @@
 			[[SZDataManager sharedInstance] updateEntryCacheWithEntry:entry type:[SZDataManager sharedInstance].currentEntryType];
 			[SZDataManager sharedInstance].currentEntry = nil;
 			[hud hide:YES];
-			[self.navigationController dismissViewControllerAnimated:YES completion:nil];
+			[self.presentingViewController performSelector:@selector(dismiss:) withObject:self];
 		}
 		else {
 			if (error) {
@@ -200,7 +217,7 @@
 			[SZDataManager sharedInstance].currentEntry = nil;
 			[hud hide:YES];
 			[[NSNotificationCenter defaultCenter] postNotificationName:NOTIF_ENTRY_UPDATED object:entry userInfo:[NSDictionary dictionaryWithObject:entry forKey:@"entry"]];
-			[self.navigationController dismissViewControllerAnimated:YES completion:nil];
+			[self.presentingViewController performSelector:@selector(dismiss:) withObject:self];
 			
 		}
 		else {

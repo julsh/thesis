@@ -21,7 +21,6 @@
 @property (nonatomic, strong) UIScrollView* mainView;
 @property (nonatomic, strong) UIView* topView;
 @property (nonatomic, strong) SZEntryView* entryView;
-@property (nonatomic, strong) UIView* bottomView;
 @property (nonatomic, assign) CGFloat contentHeight;
 
 @end
@@ -32,7 +31,6 @@
 @synthesize entryType = _entryType;
 @synthesize topView = _topView;
 @synthesize entryView = _entryView;
-@synthesize bottomView = _bottomView;
 @synthesize mainView = _mainView;
 @synthesize contentHeight = _contentHeight;
 
@@ -41,7 +39,6 @@
 	if (self) {
 		self.entry = entry;
 		self.entryType = type;
-		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateEntry:) name:NOTIF_ENTRY_UPDATED object:nil];
 	}
 	return self;
 }
@@ -119,7 +116,7 @@
 
 - (void)editEntry:(id)sender {
 	[SZDataManager sharedInstance].currentEntryType = self.entryType;
-	SZNavigationController* navController = [[SZNavigationController alloc] initWithRootViewController:[[SZNewEntryStep1VC alloc] initWithEntry:self.entry]];
+	SZNavigationController* navController = [[SZNavigationController alloc] initWithRootViewController:[[SZNewEntryStep1VC alloc] initWithEntry:self.entry] isModal:YES];
 	[navController setModalPresentationStyle:UIModalPresentationFullScreen];
 	[self presentViewController:navController animated:YES completion:nil];
 }

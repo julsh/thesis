@@ -31,14 +31,15 @@
 	[PFAnalytics trackAppOpenedWithLaunchOptions:launchOptions];
 	
 	PFUser *currentUser = [PFUser currentUser];
+	[PFUser logOut];
 	if (currentUser) {
-		[SZDataManager sharedInstance].currentUser = [SZUserVO userVOfromPFUser:currentUser];
+//		[SZDataManager sharedInstance].currentUser = [SZUserVO userVOfromPFUser:currentUser];
 	} else {
 		NSLog(@"not logged in!");
 	}
 	
 //	uncomment following line to reset and reload categories from server
-	[[NSUserDefaults standardUserDefaults] removeObjectForKey:@"categories"];
+//	[[NSUserDefaults standardUserDefaults] removeObjectForKey:@"categories"];
 	if ([[NSUserDefaults standardUserDefaults] objectForKey:@"categories"] == nil) {
 		PFQuery* categoriesQuery = [PFQuery queryWithClassName:@"Category"];
 		[categoriesQuery findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
@@ -55,13 +56,12 @@
 				[[NSUserDefaults standardUserDefaults] setObject:categoriesArray forKey:@"categories"];
 				NSLog(@"categories set!!");
 			} else {
-				// Log details of the failure
 				NSLog(@"Error: %@ %@", error, [error userInfo]);
 			}
 		}];
 	}
 	
-	UIViewController *root = [[SZNavigationController alloc] initWithRootViewController:[[SZSignInVC alloc] init]];
+	UIViewController *root = [[SZNavigationController alloc] initWithRootViewController:[[SZSignInVC alloc] init] isModal:NO];
 //	UIViewController *root = [[SZNavigationController alloc] initWithRootViewController:[[SZNewRequestStep1VC alloc] init]];
 	[self.window setRootViewController:root];
 	

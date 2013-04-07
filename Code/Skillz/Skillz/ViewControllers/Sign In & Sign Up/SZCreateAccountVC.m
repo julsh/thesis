@@ -36,7 +36,7 @@
 {
     [super viewDidLoad];
 	
-	UIBarButtonItem* menuButton = [[UIBarButtonItem alloc] initWithTitle:@"Cancel" style:UIBarButtonItemStylePlain target:self.navigationController.parentViewController action:@selector(dismiss:)];
+	UIBarButtonItem* menuButton = [[UIBarButtonItem alloc] initWithTitle:@"Cancel" style:UIBarButtonItemStylePlain target:self.presentingViewController action:@selector(dismiss:)];
 	[self.navigationItem setLeftBarButtonItem:menuButton];
 	[self.navigationItem setTitle:@"Create Account"];
 	
@@ -199,7 +199,7 @@
 		[self createAccount];
 	}
 	else {
-		UIAlertView* alertView = [[UIAlertView alloc] initWithTitle:@"Please resolve the following issues: " message:[errorMessage substringToIndex:[errorMessage length] - 2] delegate:self cancelButtonTitle:@"Okay!" otherButtonTitles: nil];
+		UIAlertView* alertView = [[UIAlertView alloc] initWithTitle:@"Please resolve the following issues: " message:[errorMessage substringToIndex:[errorMessage length] - 2] delegate:nil cancelButtonTitle:@"Okay!" otherButtonTitles: nil];
 		[alertView show];
 	}
 }
@@ -225,10 +225,11 @@
 		if (!error) {
 			[hud hide:YES];
 			[[NSNotificationCenter defaultCenter] postNotificationName:NOTIF_SIGN_UP_SUCCESS object:user];
-			[self dismissViewControllerAnimated:YES completion:nil];
+			[self.presentingViewController performSelector:@selector(dismiss:) withObject:self];
 		} else {
 			[hud hide:YES];
 			UIAlertView* alertView = [SZUtils alertViewForError:error delegate:self];
+			[alertView setTag:2];
 			[alertView addButtonWithTitle:@"Sign In"];
 			[alertView addButtonWithTitle:@"Request new password"];
 			[alertView addButtonWithTitle:@"Use another Email address"];
@@ -242,11 +243,11 @@
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
 	switch (buttonIndex) {
 		case 0: // sign in
-			[self dismissViewControllerAnimated:YES completion:nil];
+			[self.presentingViewController performSelector:@selector(dismiss:) withObject:self];
 			break;
 		case 1: // forgot password
 			[[NSNotificationCenter defaultCenter] postNotificationName:NOTIF_REQUEST_PASSWORD object:nil];
-			[self dismissViewControllerAnimated:YES completion:nil];
+			[self.presentingViewController performSelector:@selector(dismiss:) withObject:self];
 			break;
 		default:
 			break;

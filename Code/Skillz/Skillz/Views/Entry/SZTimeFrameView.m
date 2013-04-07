@@ -15,7 +15,8 @@
 	
 	self = [super initWithFrame:CGRectZero];
 	if (self) {
-		[self setBackgroundColor:[SZGlobalConstants darkPetrol]];
+		[self setClipsToBounds:NO];
+		
 		
 		NSString* timeString;
 		NSInteger numLines = 1;
@@ -30,7 +31,7 @@
 			timeString = [NSString stringWithFormat:@"expires %@", [SZUtils formattedDateFromDate:endDate]];
 		}
 		
-		UILabel* label = [[UILabel alloc] initWithFrame:CGRectMake(10.0, 5.0, 250.0, numLines*20.0)];
+		UILabel* label = [[UILabel alloc] initWithFrame:CGRectMake(0.0, 5.0, 290.0, numLines*20.0)];
 		[label setTextAlignment:NSTextAlignmentCenter];
 		[label setBackgroundColor:[UIColor clearColor]];
 		[label setFont:[SZGlobalConstants fontWithFontType:SZFontSemiBold size:15.0]];
@@ -41,6 +42,18 @@
 			[label setNumberOfLines:numLines];
 		}
 		[label setText:timeString];
+		
+		UIView* bgView = [[UIView alloc] initWithFrame:CGRectMake(-5.0, 0.0, 300.0, 10.0 + label.frame.size.height)];
+		[bgView setBackgroundColor:[SZGlobalConstants darkPetrol]];
+		[self addSubview:bgView];
+		
+		UIImageView* leftEdge = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"edge_left"]];
+		UIImageView* rightEdge = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"edge_right"]];
+		[leftEdge setFrame:CGRectMake(-5.0, -5.0, 5.0, 5.0)];
+		[rightEdge setFrame:CGRectMake(290.0, -5.0, 5.0, 5.0)];
+		
+		[self addSubview:leftEdge];
+		[self addSubview:rightEdge];
 		
 		[self addSubview:label];
 		

@@ -11,7 +11,6 @@
 #import "SZForm.h"
 #import "SZAccessoryArrow.h"
 #import "SZUtils.h"
-#import "SZAddressVO.h"
 
 #define FORM_TOP_IMAGE			@"form_top"
 #define FORM_MIDDLE_IMAGE		@"form_middle"
@@ -121,6 +120,8 @@
 	
 	// setting the textfield
 	UITextField* textField = [[UITextField alloc] init];
+	[textField setAutocorrectionType:UITextAutocorrectionTypeNo];
+	[textField setAutocapitalizationType:UITextAutocapitalizationTypeNone];
 	[textField setTag:[self.userInputs count]];
 	[textField setFont:[SZGlobalConstants fontWithFontType:SZFontRegular size:TEXTFIELD_FONT_SIZE]];
 	[textField setPlaceholder:item.placeHolderText];
@@ -434,12 +435,12 @@
 	return addressForm;
 }
 
-+ (SZAddressVO*)addressVOfromAddressForm:(SZForm*)addressForm {
-	SZAddressVO* address = [[SZAddressVO alloc] init];
-	address.streetAddress = [addressForm.userInputs valueForKey:@"streetAddress"];
-	address.city = [addressForm.userInputs valueForKey:@"city"];
-	address.zipCode = [addressForm.userInputs valueForKey:@"zipCode"];
-	address.state = [addressForm.userInputs valueForKey:@"state"];
++ (NSDictionary*)addressDictfromAddressForm:(SZForm*)addressForm {
+	NSMutableDictionary* address = [[NSMutableDictionary alloc] init];
+	[address setValue:[addressForm.userInputs valueForKey:@"streetAddress"] forKey:@"streetAddress"];
+	[address setValue:[addressForm.userInputs valueForKey:@"city"] forKey:@"city"];
+	[address setValue:[addressForm.userInputs valueForKey:@"zipCode"] forKey:@"zipCode"];
+	[address setValue:[addressForm.userInputs valueForKey:@"state"] forKey:@"state"];
 	return address;
 }
 

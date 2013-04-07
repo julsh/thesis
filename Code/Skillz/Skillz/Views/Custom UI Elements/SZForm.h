@@ -9,7 +9,6 @@
 #import <UIKit/UIKit.h>
 #import "BSKeyboardControls.h"
 #import "SZFormFieldVO.h"
-#import "SZAddressVO.h"
 
 @protocol SZFormDelegate;
 
@@ -30,7 +29,7 @@
 
 
 + (SZForm*)addressFormWithWidth:(CGFloat)width;
-+ (SZAddressVO*)addressVOfromAddressForm:(SZForm*)addressForm;
++ (NSDictionary*)addressDictfromAddressForm:(SZForm*)addressForm;
 
 @end
 
