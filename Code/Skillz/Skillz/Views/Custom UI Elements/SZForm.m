@@ -19,9 +19,12 @@
 #define FORM_CELL_HEIGHT		40.0
 
 #define TEXTFIELD_FONT_SIZE		18.0
-#define TEXTFIELD_SIDE_MARGIN	15.0
+#define TEXTFIELD_LEFT_MARGIN	15.0
+#define TEXTFIELD_RIGHT_MARGIN   5.0
 #define TEXTFIELD_TOP_MARGIN	 8.0
 #define TEXTFIELD_HEIGHT		28.0
+
+#define ACCESSORY_ARROW_TAG_BASE 100
 
 @interface SZForm ()
 
@@ -85,7 +88,7 @@
 	return self;
 }
 
-- (void)addItem:(SZFormFieldVO*)item isLastItem:(BOOL)isLast {
+- (void)addItem:(SZFormFieldVO*)item showsClearButton:(BOOL)showsClearButton isLastItem:(BOOL)isLast {
 	
 	// setting the background image
 	UIImageView* bgImage;
@@ -151,8 +154,9 @@
 		[textField setInputView:pickerView];
 		[pickerView setTag:textField.tag];
 		
-		[self addAccessoryArrowToBackgroundImage:bgImage];
+		[self addAccessoryArrowToBackgroundImage:bgImage forTextFieldTag:textField.tag];
 		[self.userInputs setValue:@"" forKey:item.key];
+		[textField setClearButtonMode:UITextFieldViewModeWhileEditing];
 	}
 	else if (item.inputType == SZFormFieldInputTypeDatePicker) {
 		UIDatePicker* datePicker = [[UIDatePicker alloc] init];
@@ -161,21 +165,24 @@
 		[datePicker setMinuteInterval:item.datePickerMinuteInterval];
 		[datePicker setDate:item.datePickerStartDate];
 		[datePicker setTag:textField.tag];
-		[textField setInputView:datePicker];
-		
-		[self addAccessoryArrowToBackgroundImage:bgImage];
+		[textField setInputView:datePicker];		
+		[self addAccessoryArrowToBackgroundImage:bgImage forTextFieldTag:textField.tag];
 		[self.userInputs setValue:[NSNull null] forKey:item.key];
 	}
 
+	if (showsClearButton) {
+		[textField setClearButtonMode:UITextFieldViewModeWhileEditing];
+	}
+	
 	// saving the texfield views and the corresponding VOs
 	[self.fieldViews addObject:textField];
 	[self.fieldVOs addObject:item];
 
 	// adjusting the textfield's frame
 	frame = textField.frame;
-	frame.origin.x = TEXTFIELD_SIDE_MARGIN;
+	frame.origin.x = TEXTFIELD_LEFT_MARGIN;
 	frame.origin.y = TEXTFIELD_TOP_MARGIN;
-	frame.size.width = bgImage.frame.size.width - 2 * TEXTFIELD_SIDE_MARGIN;
+	frame.size.width = bgImage.frame.size.width - TEXTFIELD_LEFT_MARGIN - TEXTFIELD_RIGHT_MARGIN;
 	frame.size.height = TEXTFIELD_HEIGHT;
 	textField.frame = frame;
 
@@ -190,9 +197,10 @@
     [self.keyboardControls setDelegate:self];
 }
 
-- (void)addAccessoryArrowToBackgroundImage:(UIImageView*)bgImage {
+- (void)addAccessoryArrowToBackgroundImage:(UIImageView*)bgImage forTextFieldTag:(NSInteger)tag; {
 	
 	UIView* arrow = [SZAccessoryArrow largeArrow];
+	arrow.tag = ACCESSORY_ARROW_TAG_BASE + tag;
 	arrow.center = CGPointMake(bgImage.frame.size.width - arrow.frame.size.width + 5.0, bgImage.frame.size.height / 2);
 	[bgImage addSubview:arrow];
 }
@@ -228,18 +236,59 @@
 	}
 }
 
+- (void)resign:(UIView*)firstResponder completion:(void(^)(BOOL finished))completionBlock {
+	
+	self.isActive = NO;
+		
+	if (firstResponder) {
+		[firstResponder resignFirstResponder];
+	}
+	else {
+		for (UIView* subview in [self fieldViews]) {
+			if (subview.isFirstResponder) {
+				[subview resignFirstResponder];
+			}
+		}
+	}
+	[UIView animateWithDuration:0.2 delay:0.0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
+		[self.scrollContainer setContentOffset:CGPointMake(0.0, self.scrollContainer.contentSize.height - 416.0)];
+	} completion:^(BOOL finished) {
+		[self.scrollContainer setFrame:CGRectMake(0.0, 0.0, 320.0, 416.0)];
+		
+		if (completionBlock) {
+			dispatch_async(dispatch_get_main_queue(), ^{
+				completionBlock(YES);
+			});
+		}
+		
+		if (self.delegate && [self.delegate respondsToSelector:@selector(formDidResignFirstResponder:)]) {
+			[self.delegate formDidResignFirstResponder:self];
+		}
+	}];
+}
+
 #pragma mark - Text View Delegate
 
 - (void)textViewDidBeginEditing:(UITextView *)textView {
 	
-	[self.keyboardControls setActiveField:textView];
-	CGPoint globalPosition = [textView.superview convertPoint:textView.frame.origin toView:self.scrollContainer];
+	if (!self.isActive) {
+		self.isActive = YES;
+		
+		if ([self.delegate respondsToSelector:@selector(formDidBeginEditing:)]) {
+			[self.delegate formDidBeginEditing:self];
+		}
+		
+		CGFloat viewSize = self.keyboardControls ? 160.0 : 204.0;
+		
+		CGPoint globalPosition = [textView convertPoint:textView.frame.origin toView:self.scrollContainer];
+		[UIView animateWithDuration:0.2 delay:0.0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
+			[self.scrollContainer setContentOffset:CGPointMake(0.0, globalPosition.y - 15.0)];
+		} completion:^(BOOL finished) {
+			[self.scrollContainer setFrame:CGRectMake(0.0, 0.0, 320.0, viewSize)];
+		}];
+	}
 	
-	[UIView animateWithDuration:0.2 animations:^{
-			CGRect frame = self.scrollContainer.frame;
-			frame.origin.y = - globalPosition.y + 12.0;
-			self.scrollContainer.frame = frame;
-	}];
+	[self.keyboardControls setActiveField:textView];
 }
 
 - (void)textViewDidEndEditing:(UITextView *)textView {
@@ -251,30 +300,29 @@
 
 - (void)textFieldDidBeginEditing:(UITextField *)textField
 {
-	if ([self.delegate respondsToSelector:@selector(formDidBeginEditing:)]) {
-		[self.delegate formDidBeginEditing:self];
+	
+	if (!self.isActive) {
+		self.isActive = YES;
+		
+		if ([self.delegate respondsToSelector:@selector(formDidBeginEditing:)]) {
+			[self.delegate formDidBeginEditing:self];
+		}
+		
+		CGFloat threshold = 120.0;
+		CGFloat viewSize = self.keyboardControls ? 160.0 : 204.0;
+		
+		CGPoint globalPosition = [textField convertPoint:textField.frame.origin toView:self.scrollContainer];
+		[UIView animateWithDuration:0.2 delay:0.0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
+			if (globalPosition.y > self.scrollContainer.contentOffset.y + threshold) {
+				[self.scrollContainer setContentOffset:CGPointMake(0.0, globalPosition.y - threshold)];
+			}
+		} completion:^(BOOL finished) {
+			[self.scrollContainer setFrame:CGRectMake(0.0, 0.0, 320.0, viewSize)];
+		}];
 	}
 	
     [self.keyboardControls setActiveField:textField];
-	CGPoint globalPosition = [textField convertPoint:textField.frame.origin toView:self.scrollContainer];
-	
-	// check if we have to scroll the view in order to keep the field visible when the keyboard appears
-	if (118 - globalPosition.y < 0) {
-		[UIView animateWithDuration:0.2 animations:^{
-			CGRect frame = self.scrollContainer.frame; 
-			frame.origin.y =  118 - globalPosition.y;
-			self.scrollContainer.frame = frame;
-		}];
-	}
-	else {
-		if (self.scrollContainer.frame.origin.y < 0.0) {
-			[UIView animateWithDuration:0.2 animations:^{
-				CGRect frame = self.scrollContainer.frame;
-				frame.origin.y = 0.0;
-				self.scrollContainer.frame = frame;
-			}];
-		}
-	}
+
 	
 	SZFormFieldVO* fieldVO = [self.fieldVOs objectAtIndex:textField.tag];
 	
@@ -282,31 +330,47 @@
 	if ([textField.inputView isKindOfClass:[UIPickerView class]]) {
 		UIPickerView* pickerView = (UIPickerView*)textField.inputView;
 		[self pickerView:pickerView didSelectRow:[pickerView selectedRowInComponent:0] inComponent:0];
+		
+		UIView* arrow = [self viewWithTag:ACCESSORY_ARROW_TAG_BASE + textField.tag];
+		[arrow setHidden:YES];
+		
 	}
 	else if ([textField.inputView isKindOfClass:[UIDatePicker class]]) {
 		UIDatePicker* datePicker = (UIDatePicker*)textField.inputView;
 		if ([[self.userInputs valueForKey:fieldVO.key] isKindOfClass:[NSDate class]]) {
+			NSLog(@"date aready there");
 			[datePicker setDate:[self.userInputs valueForKey:fieldVO.key] animated:NO];
 		}
 		else {
+			NSLog(@"setting date new");
 			[datePicker setDate:[SZUtils rightNowRoundedUp] animated:NO];
 		}
 		[self datePickerValueChanged:datePicker];
+		
+		UIView* arrow = [self viewWithTag:ACCESSORY_ARROW_TAG_BASE + textField.tag];
+		[arrow setHidden:YES];
 	}
 }
 
 - (BOOL)textFieldShouldReturn:( UITextField *)textField {
-	[textField resignFirstResponder];
-	[self checkForScrollUp];
+	
+	[self resign:textField completion:nil];
 	return NO;
 }
 
 - (void)textFieldDidEndEditing:(UITextField *)textField {
 	
+	NSLog(@"did end editing");
+	
 	SZFormFieldVO* fieldVO = [self.fieldVOs objectAtIndex:textField.tag];
 	
 	if ([textField.inputView isKindOfClass:[UIDatePicker class]]) {
-		[self.userInputs setValue:[((UIDatePicker*)textField.inputView) date] forKey:fieldVO.key];
+		
+		if (![textField.text isEqualToString:@""]) {
+			[self.userInputs setValue:[((UIDatePicker*)textField.inputView) date] forKey:fieldVO.key];
+		}
+		UIView* arrow = [self viewWithTag:ACCESSORY_ARROW_TAG_BASE + textField.tag];
+		[arrow setHidden:NO];
 	}
 	else if ([textField.inputView isKindOfClass:[UIPickerView class]]) {
 		
@@ -317,6 +381,9 @@
 		if (![oldInput isEqualToString:textField.text] && self.delegate && [self.delegate respondsToSelector:@selector(form:didConfirmPicker:)]) {
 			[self.delegate form:self didConfirmPicker:(UIPickerView*)textField.inputView];
 		}
+		
+		UIView* arrow = [self viewWithTag:ACCESSORY_ARROW_TAG_BASE + textField.tag];
+		[arrow setHidden:NO];
 	}
 	else {
 		[self.userInputs setValue:textField.text forKey:fieldVO.key];
@@ -324,14 +391,31 @@
 			
 }
 
-- (void)checkForScrollUp {
-	if (self.scrollContainer.frame.origin.y < 0.0) {
-		[UIView animateWithDuration:0.2 animations:^{
-			CGRect frame = self.scrollContainer.frame;
-			frame.origin.y = 0.0;
-			self.scrollContainer.frame = frame;
-		}];
+- (BOOL)textFieldShouldClear:(UITextField *)textField {
+	
+	NSLog(@"should clear");
+	
+	if ([textField.inputView isKindOfClass:[UIDatePicker class]]) {
+		
+		UIDatePicker* datePicker = (UIDatePicker*)textField.inputView;
+//		[datePicker setDate:[SZUtils rightNowRoundedUp]];
+		SZFormFieldVO* fieldVO = [self.fieldVOs objectAtIndex:datePicker.tag];
+		[self.userInputs setValue:[NSNull null] forKey:fieldVO.key];
+		[textField setText:@""];
+		[self keyboardControlsDonePressed:self.keyboardControls];
+		return NO;
 	}
+	else if ([textField.inputView isKindOfClass:[UIPickerView class]]) {
+		
+		UIPickerView* pickerView = (UIPickerView*)textField.inputView;
+		[pickerView selectRow:0 inComponent:0 animated:NO];
+		SZFormFieldVO* fieldVO = [self.fieldVOs objectAtIndex:pickerView.tag];
+		[self.userInputs setValue:@"" forKey:fieldVO.key];
+		[textField setText:@""];
+		[self keyboardControlsDonePressed:self.keyboardControls];
+		return NO;
+	}
+	return YES;
 }
 
 #pragma mark - Keyboard Controls Delegate
@@ -339,17 +423,18 @@
 
 - (void)keyboardControlsDonePressed:(BSKeyboardControls *)keyboardControls
 {
-	BOOL isValid = YES;
-	
-	if ([keyboardControls.activeField.inputView isKindOfClass:[UIDatePicker class]]) {
-		if (self.delegate && [self.delegate respondsToSelector:@selector(form:didConfirmDatePicker:)]) {
-			isValid = [self.delegate form:self didConfirmDatePicker:(UIDatePicker*)keyboardControls.activeField.inputView];
-		}
-	}
-	if (isValid) {
-		[keyboardControls.activeField resignFirstResponder];
-		[self checkForScrollUp];
-	}
+//	BOOL isValid = YES;
+//	
+//	if ([keyboardControls.activeField.inputView isKindOfClass:[UIDatePicker class]]) {
+//		if (self.delegate && [self.delegate respondsToSelector:@selector(form:didConfirmDatePicker:)]) {
+//			isValid = [self.delegate form:self didConfirmDatePicker:(UIDatePicker*)keyboardControls.activeField.inputView];
+//		}
+//	}
+//	if (isValid) {
+		
+		[self resign:keyboardControls.activeField completion:nil];
+		
+//	}
 }
 
 
@@ -373,7 +458,6 @@
 	UITextField* textField = [self.fieldViews objectAtIndex:pickerView.tag];
 	SZFormFieldVO* fieldVO = [self.fieldVOs objectAtIndex:pickerView.tag];
 	NSString* text = [fieldVO.pickerOptions objectAtIndex:row];
-	if ([text isEqualToString:@"(no subcategory)"]) text = @"";
 	[textField setText:text];
 }
 
@@ -425,11 +509,11 @@
 																	   keyboardType:UIKeyboardTypeNumbersAndPunctuation];
 	SZFormFieldVO* stateField = [SZFormFieldVO formFieldValueObjectForPickerWithKey:@"state"
 																	placeHolderText:@"State"
-																	  pickerOptions:[NSArray arrayWithObjects:@"California", @"Texas", @"Florida", @"Oregon", nil]]; // TODO real states
-	[addressForm  addItem:streetField isLastItem:NO];
-	[addressForm  addItem:cityField isLastItem:NO];
-	[addressForm  addItem:zipCodeField isLastItem:NO];
-	[addressForm  addItem:stateField isLastItem:YES];
+																	  pickerOptions:[SZGlobalConstants statesArray]];
+	[addressForm  addItem:streetField showsClearButton:YES isLastItem:NO];
+	[addressForm  addItem:cityField showsClearButton:YES isLastItem:NO];
+	[addressForm  addItem:zipCodeField showsClearButton:YES isLastItem:NO];
+	[addressForm  addItem:stateField showsClearButton:YES isLastItem:YES];
 	[addressForm  configureKeyboard];
 	
 	return addressForm;
@@ -442,6 +526,17 @@
 	[address setValue:[addressForm.userInputs valueForKey:@"zipCode"] forKey:@"zipCode"];
 	[address setValue:[addressForm.userInputs valueForKey:@"state"] forKey:@"state"];
 	return address;
+}
+
+- (void)setAddress:(NSDictionary*)address {
+	[self.userInputs setValue:[address valueForKey:@"streetAddress"] forKey:@"streetAddress"];
+	[self.userInputs setValue:[address valueForKey:@"city"] forKey:@"city"];
+	[self.userInputs setValue:[address valueForKey:@"zipCode"] forKey:@"zipCode"];
+	[self.userInputs setValue:[address valueForKey:@"state"] forKey:@"state"];
+	[self setText:[address valueForKey:@"streetAddress"] forFieldAtIndex:0];
+	[self setText:[address valueForKey:@"city"] forFieldAtIndex:1];
+	[self setText:[address valueForKey:@"zipCode"] forFieldAtIndex:2];
+	[self setText:[address valueForKey:@"state"] forFieldAtIndex:3];
 }
 
 @end

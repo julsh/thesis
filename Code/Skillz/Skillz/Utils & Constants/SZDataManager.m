@@ -37,10 +37,10 @@
 	NSString* key;
 	switch (type) {
 		case SZEntryTypeRequest:
-			key = @"requests";
+			key = REQUESTS;
 			break;
 		case SZEntryTypeOffer:
-			key = @"offers";
+			key = OFFERS;
 			break;
 	}
 	
@@ -58,10 +58,10 @@
 	NSString* key;
 	switch (type) {
 		case SZEntryTypeRequest:
-			key = @"requests";
+			key = REQUESTS;
 			break;
 		case SZEntryTypeOffer:
-			key = @"offers";
+			key = OFFERS;
 			break;
 	}
 	
@@ -81,10 +81,10 @@
 	NSString* key;
 	switch (type) {
 		case SZEntryTypeRequest:
-			key = @"requests";
+			key = REQUESTS;
 			break;
 		case SZEntryTypeOffer:
-			key = @"offers";
+			key = OFFERS;
 			break;
 	}
 	
@@ -96,6 +96,17 @@
 		}
 	}
 	[[NSUserDefaults standardUserDefaults] setObject:[NSArray arrayWithArray:entryArray] forKey:key];
+}
+
+- (void)saveLastEnderedAddress:(NSDictionary*)address {
+	[[NSUserDefaults standardUserDefaults] setObject:address forKey:LAST_ENTERED_ADDRESS];
+}
+
+- (NSDictionary*)lastEnteredAddress {
+	if ([[NSUserDefaults standardUserDefaults] valueForKey:LAST_ENTERED_ADDRESS]) {
+		return (NSDictionary*)[[NSUserDefaults standardUserDefaults] valueForKey:LAST_ENTERED_ADDRESS];
+	}
+	else return nil;
 }
 
 @end

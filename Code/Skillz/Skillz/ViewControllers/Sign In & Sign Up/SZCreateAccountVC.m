@@ -21,6 +21,7 @@
 
 @interface SZCreateAccountVC ()
 
+@property (nonatomic, strong) UIScrollView* scrollView;
 @property (nonatomic, strong) SZCheckBox* checkBox;
 @property (nonatomic, strong) SZForm* form;
 
@@ -28,6 +29,7 @@
 
 @implementation SZCreateAccountVC
 
+@synthesize scrollView = _scrollView;
 @synthesize checkBox = _checkBox;
 @synthesize form = _form;
 
@@ -39,14 +41,37 @@
 	UIBarButtonItem* menuButton = [[UIBarButtonItem alloc] initWithTitle:@"Cancel" style:UIBarButtonItemStylePlain target:self.presentingViewController action:@selector(dismiss:)];
 	[self.navigationItem setLeftBarButtonItem:menuButton];
 	[self.navigationItem setTitle:@"Create Account"];
+	[self.navigationItem.leftBarButtonItem setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys: [SZGlobalConstants fontWithFontType:SZFontBold size:12.0], UITextAttributeFont,nil] forState:UIControlStateNormal];
 	
 	[self.view setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"bg_pattern"]]];
 
-	[self.view addSubview:self.form];
-	[self.view addSubview:self.checkBox];
-	[self.view addSubview:[self acceptLabel]];
-	[self.view addSubview:[self termsButton]];
-	[self.view addSubview:[self createButton]];
+	[self.view addSubview:self.scrollView];
+	
+	[self.scrollView addSubview:self.form];
+	[self.scrollView addSubview:self.checkBox];
+	[self.scrollView addSubview:[self acceptLabel]];
+	[self.scrollView addSubview:[self termsButton]];
+	[self.scrollView addSubview:[self createButton]];
+}
+
+- (UIScrollView*)scrollView {
+	if (_scrollView == nil) {
+		_scrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0.0, 0.0, 320.0, 416.0)];
+		[_scrollView setBackgroundColor:[UIColor clearColor]];
+		[_scrollView setClipsToBounds:NO];
+		[_scrollView setContentSize:CGSizeMake(_scrollView.frame.size.width, _scrollView.frame.size.height)];
+		
+		UITapGestureRecognizer* tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(scrollViewTapped:)];
+		[tapRecognizer setNumberOfTapsRequired:1];
+		[_scrollView addGestureRecognizer:tapRecognizer];
+	}
+	return _scrollView;
+}
+
+- (void)scrollViewTapped:(id)sender {
+	if (self.form.isActive) {
+		[self.form resign:nil completion:nil];
+	}
 }
 
 #pragma mark - UI elements (properties)
@@ -68,7 +93,7 @@
 																		   keyboardType:UIKeyboardTypeNumbersAndPunctuation];
 		SZFormFieldVO* stateField = [SZFormFieldVO formFieldValueObjectForPickerWithKey:@"state"
 																		placeHolderText:@"State"
-																		  pickerOptions:[NSArray arrayWithObjects:@"California", @"Texas", @"Florida", @"Oregon", nil]]; // TODO load states from server or constants class
+																		  pickerOptions:[SZGlobalConstants statesArray]];
 		SZFormFieldVO* emailField = [SZFormFieldVO formFieldValueObjectForTextWithKey:@"email"
 																	  placeHolderText:@"Email"
 																		 keyboardType:UIKeyboardTypeEmailAddress];
@@ -81,17 +106,17 @@
 																				   keyboardType:UIKeyboardTypeDefault];
 		confirmPasswordField.isPassword = YES;
 		
-		[_form addItem:firstNameField isLastItem:NO];
-		[_form addItem:lastNameField isLastItem:NO];
-		[_form addItem:zipCodeField isLastItem:NO];
-		[_form addItem:stateField isLastItem:NO];
-		[_form addItem:emailField isLastItem:NO];
-		[_form addItem:passwordField isLastItem:NO];
-		[_form addItem:confirmPasswordField isLastItem:YES];
+		[_form addItem:firstNameField showsClearButton:YES isLastItem:NO];
+		[_form addItem:lastNameField showsClearButton:YES isLastItem:NO];
+		[_form addItem:zipCodeField showsClearButton:YES isLastItem:NO];
+		[_form addItem:stateField showsClearButton:YES isLastItem:NO];
+		[_form addItem:emailField showsClearButton:YES isLastItem:NO];
+		[_form addItem:passwordField showsClearButton:YES isLastItem:NO];
+		[_form addItem:confirmPasswordField showsClearButton:YES isLastItem:YES];
 		
 		[_form setCenter:CGPointMake(160.0, _form.frame.size.height/2 + FORM_TOP_MARGIN)];
 		
-		[_form setScrollContainer:self.view];
+		[_form setScrollContainer:self.scrollView];
 		[_form configureKeyboard];
 	}
 	return _form;
@@ -253,5 +278,22 @@
 			break;
 	}
 }
+
+
+//- (void)formDidBeginEditing:(SZForm *)form {
+//	[UIView animateWithDuration:0.2 delay:0.0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
+//		[self.scrollView setFrame:CGRectMake(0.0, 0.0, 320.0, 160.0)];
+//	} completion:nil];
+//}
+
+//- (void)formDidEndEditing:(SZForm *)form {
+//	
+//	[UIView animateWithDuration:0.2 delay:0.0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
+//		[self.scrollView setContentOffset:CGPointMake(0.0, 0.0)];
+//	} completion:^(BOOL finished) {
+//		[self.scrollView setFrame:CGRectMake(0.0, 0.0, 320.0, 416.0)];
+//	}];
+//}
+
 
 @end

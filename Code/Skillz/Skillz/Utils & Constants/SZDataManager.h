@@ -10,6 +10,10 @@
 #import "NSMutableArray+Stack.h"
 #import "SZEntryVO.h"
 
+#define REQUESTS 				@"requests"
+#define OFFERS					@"offers"
+#define LAST_ENTERED_ADDRESS 	@"lastEnteredAddress"
+
 @interface SZDataManager : NSObject
 
 @property (nonatomic, strong) id currentEntry;
@@ -22,5 +26,7 @@
 - (void)addEntryToUserCache:(SZEntryVO*)entry type:(SZEntryType)type;
 - (void)updateEntryCacheWithEntry:(SZEntryVO*)entry type:(SZEntryType)type;
 - (void)removeEntryFromCache:(SZEntryVO*)entry type:(SZEntryType)type;
+- (void)saveLastEnderedAddress:(NSDictionary*)address;
+- (NSDictionary*)lastEnteredAddress;
 
 @end

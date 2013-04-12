@@ -37,6 +37,7 @@
         [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
 			if (objects) {
 				if ([objects count] > 0) { // found something!
+					NSLog(@"found something");
 					for (int i = 0; i < [objects count]; i++) {
 						PFObject* result = [objects objectAtIndex:i];
 						if ([[result objectForKey:@"isActive"] boolValue]) { // only display if entry is activated
@@ -44,6 +45,7 @@
 							PFUser *user = [result objectForKey:@"user"]; // fetch the user object that owns the entry
 							[user fetchIfNeededInBackgroundWithBlock:^(PFObject *object, NSError *error) {
 								if (object) {
+									NSLog(@"got user object");
 									[self.results addObject:[SZEntryVO entryVOFromPFObject:result user:(PFUser*)object]];
 									self.fetchCount++;
 									if (self.fetchCount == [objects count]) {
@@ -60,6 +62,9 @@
 									}
 								}
 							}];
+						}
+						else {
+							self.fetchCount++;
 						}
 						
 					}

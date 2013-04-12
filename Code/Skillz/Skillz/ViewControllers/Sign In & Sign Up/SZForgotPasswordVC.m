@@ -19,12 +19,14 @@
 
 @interface SZForgotPasswordVC ()
 
+@property (nonatomic, strong) UIScrollView* scrollView;
 @property (nonatomic, strong) SZForm* form;
 
 @end
 
 @implementation SZForgotPasswordVC
 
+@synthesize scrollView = _scrollView;
 @synthesize form = _form;
 
 - (void)viewDidLoad
@@ -34,10 +36,12 @@
 	[self.view setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"bg_pattern"]]];
 	[self.navigationItem setTitle:@"Forgot Password"];
 	
-	[self.view addSubview:[self noWorriesMessage]];
-	[self.view addSubview:[self resetPasswordMessage]];
-	[self.view addSubview:self.form];
-	[self.view addSubview:[self resetPasswordButton]];
+	[self.view addSubview:self.scrollView];
+	
+	[self.scrollView addSubview:[self noWorriesMessage]];
+	[self.scrollView addSubview:[self resetPasswordMessage]];
+	[self.scrollView addSubview:self.form];
+	[self.scrollView addSubview:[self resetPasswordButton]];
 	
 }
 
@@ -49,11 +53,31 @@
 		
 		_form = [[SZForm alloc] initWithWidth:290.0];
 		SZFormFieldVO* emailField = [SZFormFieldVO formFieldValueObjectForTextWithKey:@"email" placeHolderText:@"Email" keyboardType:UIKeyboardTypeEmailAddress];
-		[_form addItem:emailField isLastItem:YES];
+		[_form addItem:emailField showsClearButton:YES isLastItem:YES];
 		[_form setCenter:CGPointMake(160.0, 300.0)];
-		[_form setScrollContainer:self.view];
+		[_form setScrollContainer:self.scrollView];
 	}
 	return _form;
+}
+
+- (UIScrollView*)scrollView {
+	if (_scrollView == nil) {
+		_scrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0.0, 0.0, 320.0, 416.0)];
+		[_scrollView setBackgroundColor:[UIColor clearColor]];
+		[_scrollView setClipsToBounds:NO];
+		[_scrollView setContentSize:CGSizeMake(_scrollView.frame.size.width, _scrollView.frame.size.height)];
+		
+		UITapGestureRecognizer* tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(scrollViewTapped:)];
+		[tapRecognizer setNumberOfTapsRequired:1];
+		[_scrollView addGestureRecognizer:tapRecognizer];
+	}
+	return _scrollView;
+}
+
+- (void)scrollViewTapped:(id)sender {
+	if (self.form.isActive) {
+		[self.form resign:nil completion:nil];
+	}
 }
 
 #pragma mark - UI elements first view (non-properties)

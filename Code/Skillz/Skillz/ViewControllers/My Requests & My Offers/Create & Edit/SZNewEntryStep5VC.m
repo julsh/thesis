@@ -82,14 +82,15 @@
 - (SZForm*)option1detailView {
 	if (_option1detailView == nil) {
 		_option1detailView = [[SZForm alloc] initWithWidth:290.0];
+		[self.forms addObject:_option1detailView];
 		[_option1detailView setDelegate:self];
 		
 		SZFormFieldVO* fromField = [SZFormFieldVO formFieldValueObjectForDatePickerWithKey:@"fromDate" placeHolderText:@"From" datePickerMode:UIDatePickerModeDateAndTime];
 		SZFormFieldVO* toField = [SZFormFieldVO formFieldValueObjectForDatePickerWithKey:@"toDate" placeHolderText:@"To" datePickerMode:UIDatePickerModeDateAndTime];
 		
-		[_option1detailView addItem:fromField isLastItem:NO];
-		[_option1detailView addItem:toField isLastItem:YES];
-		[_option1detailView setScrollContainer:self.view];
+		[_option1detailView addItem:fromField showsClearButton:YES isLastItem:NO];
+		[_option1detailView addItem:toField showsClearButton:YES isLastItem:YES];
+		[_option1detailView setScrollContainer:self.mainView];
 		[_option1detailView configureKeyboard];
 		
 		[_option1detailView setFrame:CGRectMake(0.0, 10.0, _option1detailView.frame.size.width, _option1detailView.frame.size.height)];
@@ -110,14 +111,34 @@
 	return _option1detailView;
 }
 
+- (void)segmentedControlVertical:(SZSegmentedControlVertical *)control didSelectItemAtIndex:(NSInteger)index {
+
+	NSLog(@"contentsize: %@", NSStringFromCGSize(self.mainView.contentSize));
+	NSLog(@"frame size: %@", NSStringFromCGSize(self.mainView.frame.size));
+	
+	SZForm* activeForm = nil;
+	
+	if (self.option1detailView) {
+		activeForm = self.option1detailView;
+	}
+	
+	// if a form is still in edit mode (showing keyboard or picker), hide the input view before animating the rest.
+	// otherwise the animations will overlap and the layout will be completely screwed up.
+	if (activeForm) {
+		[activeForm resign:nil completion:^(BOOL finished) {
+			[super segmentedControlVertical:control didSelectItemAtIndex:index];
+		}];
+	}
+	else {
+		[super segmentedControlVertical:control didSelectItemAtIndex:index];
+	}
+
+}
+
 - (void)addNewDetailView:(NSInteger)index {
 	
-	switch (index) {
-		case 0:
-			[self.detailViewContainer addSubview:self.option1detailView];
-			break;
-		default:
-			break;
+	if (index == 0) {
+		[self.detailViewContainer addSubview:self.option1detailView];
 	}
 	
 	if ([SZDataManager sharedInstance].currentEntryIsNew || !self.editTaskFirstDisplay) {
@@ -130,40 +151,63 @@
 	}
 }
 
-- (BOOL)form:(SZForm*)form didConfirmDatePicker:(UIDatePicker*)datePicker {
-	if ([[datePicker date] compare:[NSDate date]] == NSOrderedAscending) {
-		UIAlertView* alertView = [[UIAlertView alloc] initWithTitle:@"Invalid Date" message:@"The time you selected is in the past." delegate:nil cancelButtonTitle:@"Oops!" otherButtonTitles:nil];
-		[alertView show];
-		return false;
-	}
-	else if ((datePicker.tag == 1 && [[datePicker date] compare:[self.option1detailView.userInputs valueForKey:@"fromDate"]] == NSOrderedAscending) || (datePicker.tag == 0 && [[datePicker date] compare:[self.option1detailView.userInputs valueForKey:@"toDate"]] == NSOrderedDescending)) {
-		UIAlertView* alertView = [[UIAlertView alloc] initWithTitle:@"Invalid Date" message:@"The time you selected as the end time must be after the time you selected as the start time." delegate:nil cancelButtonTitle:@"Oops!" otherButtonTitles:nil];
-		[alertView show];
-		return false;
-	}
-	else if ((datePicker.tag == 1 && [[datePicker date] compare:[self.option1detailView.userInputs valueForKey:@"fromDate"]] == NSOrderedSame) || (datePicker.tag == 0 && [[datePicker date] compare:[self.option1detailView.userInputs valueForKey:@"toDate"]] == NSOrderedSame)) {
-		UIAlertView* alertView = [[UIAlertView alloc] initWithTitle:@"Invalid Date" message:@"The times you selected as the start and end times are exactly the same. That's a pretty tight time frame :-)" delegate:nil cancelButtonTitle:@"Oops!" otherButtonTitles:nil];
-		[alertView show];
-		return false;
-	}
-	
-	return true;
-}
 
 - (void)continue:(id)sender {
 	
-#ifndef DEBUG
+//#ifndef DEBUG
+	
 	if (self.segmentedControl.selectedIndex == -1) {
-		UIAlertView* alertView = [[UIAlertView alloc] initWithTitle:@"Please select an option." message:nil delegate:self cancelButtonTitle:@"Okay" otherButtonTitles: nil];
+		UIAlertView* alertView = [[UIAlertView alloc] initWithTitle:@"Please select an option." message:nil delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles: nil];
 		[alertView show];
 		return;
 	}
-	else if (self.segmentedControl.selectedIndex == 0 && ([self.option1detailView.userInputs valueForKey:@"fromDate"] == [NSNull null] || [self.option1detailView.userInputs valueForKey:@"toDate"] == [NSNull null])) {
-		UIAlertView* alertView = [[UIAlertView alloc] initWithTitle:@"You have chosen to specify a time frame." message:@"Please specify the start and end times. If you don't want a time frame for your request, simply select the \"No, the timing is flexible\" option." delegate:self cancelButtonTitle:@"Okay" otherButtonTitles: nil];
-		[alertView show];
-		return;
+	else if (self.segmentedControl.selectedIndex == 0) {
+		
+		if ([self.option1detailView.userInputs valueForKey:@"fromDate"] == [NSNull null] && [self.option1detailView.userInputs valueForKey:@"toDate"] == [NSNull null]) {
+			UIAlertView* alertView = [[UIAlertView alloc] initWithTitle:@"You have chosen to specify a time frame." message:@"Please specify the start and end times. If you don't want a time frame for your request, simply select the \"No, the timing is flexible\" option." delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles: nil];
+			[alertView show];
+			return;
+		}
+		
+		else if ([self.option1detailView.userInputs valueForKey:@"fromDate"] != [NSNull null] && [self.option1detailView.userInputs valueForKey:@"toDate"] != [NSNull null]) {
+			NSDate* fromDate = [self.option1detailView.userInputs valueForKey:@"fromDate"];
+			NSDate* toDate = [self.option1detailView.userInputs valueForKey:@"toDate"];
+			if ([fromDate compare:[NSDate date]] == NSOrderedAscending || [toDate compare:[NSDate date]] == NSOrderedAscending) {
+				UIAlertView* alertView = [[UIAlertView alloc] initWithTitle:@"Invalid Date" message:@"The time you selected is in the past." delegate:nil cancelButtonTitle:@"Oops!" otherButtonTitles:nil];
+				[alertView show];
+				return;
+			}
+			else if ([fromDate compare:toDate] == NSOrderedDescending) {
+				UIAlertView* alertView = [[UIAlertView alloc] initWithTitle:@"Invalid Date" message:@"The time you selected as the end time must be after the time you selected as the start time." delegate:nil cancelButtonTitle:@"Oops!" otherButtonTitles:nil];
+				[alertView show];
+				return;
+			}
+			else if ([fromDate compare:toDate] == NSOrderedSame) {
+				UIAlertView* alertView = [[UIAlertView alloc] initWithTitle:@"Invalid Date" message:@"The times you selected as the start and end times are exactly the same. That's a pretty tight time frame :-)" delegate:nil cancelButtonTitle:@"Oops!" otherButtonTitles:nil];
+				[alertView show];
+				return;
+			}
+		}
+		else if ([self.option1detailView.userInputs valueForKey:@"fromDate"] != [NSNull null] && [self.option1detailView.userInputs valueForKey:@"toDate"] == [NSNull null]) {
+			NSDate* fromDate = [self.option1detailView.userInputs valueForKey:@"fromDate"];
+			if ([fromDate compare:[NSDate date]] == NSOrderedAscending) {
+				UIAlertView* alertView = [[UIAlertView alloc] initWithTitle:@"Invalid Date" message:@"The time you selected is in the past." delegate:nil cancelButtonTitle:@"Oops!" otherButtonTitles:nil];
+				[alertView show];
+				return;
+			}
+		}
+		else if ([self.option1detailView.userInputs valueForKey:@"fromDate"] == [NSNull null] && [self.option1detailView.userInputs		valueForKey:@"toDate"] != [NSNull null]) {
+			NSDate* toDate = [self.option1detailView.userInputs valueForKey:@"toDate"];
+			if ([toDate compare:[NSDate date]] == NSOrderedAscending) {
+				UIAlertView* alertView = [[UIAlertView alloc] initWithTitle:@"Invalid Date" message:@"The time you selected is in the past." delegate:nil cancelButtonTitle:@"Oops!" otherButtonTitles:nil];
+				[alertView show];
+				return;
+			}
+		}
+
 	}
-#endif
+	
+//#endif
 	
 	
 	[self storeInputs];

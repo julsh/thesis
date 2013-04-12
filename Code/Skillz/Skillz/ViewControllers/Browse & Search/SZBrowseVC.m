@@ -18,7 +18,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-	[self.navigationItem setTitle:@"Sign In"];
+	[self.navigationItem setTitle:@"Browse"];
 	[self.navigationItem setBackBarButtonItem:[[UIBarButtonItem alloc] initWithTitle:@"Back"
 																			   style:UIBarButtonItemStylePlain
 																			  target:nil

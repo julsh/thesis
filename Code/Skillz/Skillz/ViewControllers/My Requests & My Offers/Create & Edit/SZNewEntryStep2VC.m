@@ -74,6 +74,7 @@
 - (SZForm*)titleForm {
 	if (_titleForm == nil) {
 		_titleForm = [[SZForm alloc] initWithWidth:290.0];
+		[self.forms addObject:_titleForm];
 		
 		NSString* placeHolderText;
 		switch ([SZDataManager sharedInstance].currentEntryType) {
@@ -88,10 +89,10 @@
 		SZFormFieldVO* titleField = [SZFormFieldVO formFieldValueObjectForTextWithKey:@"title"
 																	  placeHolderText:placeHolderText
 																		 keyboardType:UIKeyboardTypeDefault];
-		[_titleForm addItem:titleField isLastItem:YES];
+		[_titleForm addItem:titleField showsClearButton:YES isLastItem:YES];
 		[_titleForm setCenter:CGPointMake(160.0, 120.0)];
 		[_titleForm configureKeyboard];
-		[_titleForm setScrollContainer:self.view];
+		[_titleForm setScrollContainer:self.mainView];
 		
 		if (![SZDataManager sharedInstance].currentEntryIsNew) {
 			SZEntryVO* entry = (SZEntryVO*)[SZDataManager sharedInstance].currentEntry;
@@ -126,8 +127,9 @@
 		SZFormFieldVO* descriptionField = [[SZFormFieldVO alloc] init];
 		descriptionField.key = @"description";
 		_descriptionForm = [[SZForm alloc] initForTextViewWithItem:descriptionField width:290.0 height:140.0];
+		[self.forms addObject:_descriptionForm];
 		[_descriptionForm setCenter:CGPointMake(160.0, 270.0)];
-		[_descriptionForm setScrollContainer:self.view];
+		[_descriptionForm setScrollContainer:self.mainView];
 		
 		if (![SZDataManager sharedInstance].currentEntryIsNew) {
 			SZEntryVO* entry = (SZEntryVO*)[SZDataManager sharedInstance].currentEntry;

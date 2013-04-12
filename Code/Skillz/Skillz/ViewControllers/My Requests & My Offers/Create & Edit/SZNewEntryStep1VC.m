@@ -15,7 +15,9 @@
 @interface SZNewEntryStep1VC ()
 
 @property (nonatomic, strong) SZForm* categoryForm;
+@property (nonatomic, strong) UIView* subCategoryView;
 @property (nonatomic, strong) SZForm* subCategoryForm;
+@property (nonatomic, strong) NSString* currentyCategory;
 
 @end
 
@@ -31,12 +33,14 @@
 		if (entry) {
 			[[SZDataManager sharedInstance] setCurrentEntry:entry];
 			[[SZDataManager sharedInstance] setCurrentEntryIsNew:NO];
+			self.currentyCategory = entry.category;
 		}
 		else {
 			SZEntryVO* newEntry = [[SZEntryVO alloc] init];
 			newEntry.user = [PFUser currentUser];
 			[[SZDataManager sharedInstance] setCurrentEntry:newEntry];
 			[[SZDataManager sharedInstance] setCurrentEntryIsNew:YES];
+			self.currentyCategory = @"";
 		}
 	}
 	return self;
@@ -44,6 +48,8 @@
 
 - (void)viewDidLoad
 {
+	
+	self.editTaskFirstDisplay = YES;
     [super viewDidLoad];
 	switch ([SZDataManager sharedInstance].currentEntryType) {
 		case SZEntryTypeRequest:
@@ -57,8 +63,12 @@
 	
 	[self.mainView addSubview:[self selectCategoryLabel]];
 	[self.mainView addSubview:self.categoryForm];
-	[self.mainView addSubview:[self selectSubCategoryLabel]];
-	[self.mainView addSubview:self.subCategoryForm];
+	[self.mainView addSubview:self.detailViewContainer];
+	[self.detailViewContainer setFrame:CGRectMake(0.0, 200.0, 0.0, 0.0)];
+	
+	if (![SZDataManager sharedInstance].currentEntryIsNew && [[SZUtils sortedSubcategoriesForCategory:self.currentyCategory] count] > 0) {
+		[self addNewDetailView:1];
+	}
 }
 
 - (UILabel*)selectCategoryLabel {
@@ -74,15 +84,16 @@
 - (SZForm*)categoryForm {
 	if (_categoryForm == nil) {
 		_categoryForm = [[SZForm alloc] initWithWidth:290.0];
+		[self.forms addObject:_categoryForm];
 		[_categoryForm setDelegate:self];
 	
 		SZFormFieldVO* categoryField = [SZFormFieldVO formFieldValueObjectForPickerWithKey:@"category"
 																		   placeHolderText:@"Category"
 																			 pickerOptions:[SZUtils sortedCategories]];
-		[_categoryForm addItem:categoryField isLastItem:YES];
+		[_categoryForm addItem:categoryField showsClearButton:YES isLastItem:YES];
 		[_categoryForm setCenter:CGPointMake(160.0, 150.0)];
 		[_categoryForm configureKeyboard];
-		[_categoryForm setScrollContainer:self.view];
+		[_categoryForm setScrollContainer:self.mainView];
 		
 		if (![SZDataManager sharedInstance].currentEntryIsNew) {
 			SZEntryVO* entry = (SZEntryVO*)[SZDataManager sharedInstance].currentEntry;
@@ -96,8 +107,18 @@
 	return _categoryForm;
 }
 
+
+- (UIView*)subCategoryView {
+	if (_subCategoryView == nil) {
+		_subCategoryView = [[UIView alloc] initWithFrame:CGRectMake(5.0, 0.0, 320.0, 100.0)];
+		[_subCategoryView addSubview:[self selectSubCategoryLabel]];
+		[_subCategoryView addSubview:self.subCategoryForm];
+	}
+	return _subCategoryView;
+}
+
 - (UILabel*)selectSubCategoryLabel {
-	UILabel* label = [[UILabel alloc] initWithFrame:CGRectMake(20.0, 200.0, 300.0, 30.0)];
+	UILabel* label = [[UILabel alloc] initWithFrame:CGRectMake(0.0, 15.0, 300.0, 30.0)];
 	[label setBackgroundColor:[UIColor clearColor]];
 	[label setFont:[SZGlobalConstants fontWithFontType:SZFontSemiBold size:16.0]];
 	[label setTextColor:[SZGlobalConstants darkGray]];
@@ -109,39 +130,63 @@
 - (SZForm*)subCategoryForm {
 	if (_subCategoryForm == nil) {
 		_subCategoryForm = [[SZForm alloc] initWithWidth:290.0];
+		[self.forms addObject:_subCategoryForm];
 		
 		SZFormFieldVO* subCategoryField = [SZFormFieldVO formFieldValueObjectForPickerWithKey:@"subcategory"
 																		   placeHolderText:@"Subcategory"
 																			 pickerOptions:nil];
-		[_subCategoryForm addItem:subCategoryField isLastItem:YES];
-		[_subCategoryForm setCenter:CGPointMake(160.0, 260.0)];
+		[_subCategoryForm addItem:subCategoryField showsClearButton:YES isLastItem:YES];
+		[_subCategoryForm setCenter:CGPointMake(140.0, 75.0)];
 		[_subCategoryForm configureKeyboard];
-		[_subCategoryForm setScrollContainer:self.view];
+		[_subCategoryForm setScrollContainer:self.mainView];
 		
 		if (![SZDataManager sharedInstance].currentEntryIsNew) {
 			SZEntryVO* entry = (SZEntryVO*)[SZDataManager sharedInstance].currentEntry;
-			NSMutableArray* choices = [NSMutableArray arrayWithObject:@"(no subcategory)"];
-			[choices addObjectsFromArray:[SZUtils sortedSubcategoriesForCategory:entry.category]];
-			[self.subCategoryForm updatePickerOptions:choices forPickerAtIndex:0];
+			[self.subCategoryForm updatePickerOptions:[SZUtils sortedSubcategoriesForCategory:entry.category] forPickerAtIndex:0];
 			if (entry.subcategory) {
 				[self.subCategoryForm setText:entry.subcategory forFieldAtIndex:0];
 				[self.subCategoryForm updatePickerAtIndex:0];
 			}
 		}
-		else {
-			[_subCategoryForm setUserInteractionEnabled:NO];
-		}
 	}
 	return _subCategoryForm;
 }
 
-- (void)form:(SZForm *)form didConfirmPicker:(UIPickerView *)picker {
 
-	NSMutableArray* choices = [NSMutableArray arrayWithObject:@"(no subcategory)"];
-	[choices addObjectsFromArray:[SZUtils sortedSubcategoriesForCategory:[form.userInputs valueForKey:@"category"]]];
+- (void)formDidResignFirstResponder:(SZForm *)form {
 	
-	[self.subCategoryForm updatePickerOptions:choices forPickerAtIndex:0];
-	[self.subCategoryForm setUserInteractionEnabled:YES];
+	if ([form.userInputs valueForKey:@"category"] && ![[form.userInputs valueForKey:@"category"] isEqualToString:self.currentyCategory]) {
+		self.currentyCategory = [form.userInputs valueForKey:@"category"];
+		NSArray* subCategories = [SZUtils sortedSubcategoriesForCategory:self.currentyCategory];
+		if ([subCategories count] > 0) {
+			if ([[self.detailViewContainer subviews] count] == 0) {
+				[self slideOutDetailViewAndAddNewViewWithIndex:1];
+			}
+			[self.subCategoryForm updatePickerOptions:subCategories forPickerAtIndex:0];
+		}
+		else if ([subCategories count] == 0) {
+			if ([[self.detailViewContainer subviews] count] > 0) {
+				[self slideOutDetailViewAndAddNewViewWithIndex:0];
+				[self.subCategoryForm.userInputs setValue:@"" forKey:@"subcategory"];
+			}
+		}
+	}
+}
+
+- (void)addNewDetailView:(NSInteger)index {
+	
+	if (index == 1) {
+		[self.detailViewContainer addSubview:self.subCategoryView];
+	}
+	
+	if ([SZDataManager sharedInstance].currentEntryIsNew || !self.editTaskFirstDisplay) {
+		[super newDetailViewAddedAnimated:YES];
+	}
+	else {
+		[super newDetailViewAddedAnimated:NO];
+		[self.mainView setContentOffset:CGPointMake(0.0, 0.0)];
+		self.editTaskFirstDisplay = NO;
+	}
 }
 
 - (void)continue:(id)sender {

@@ -16,12 +16,16 @@
 
 @property (nonatomic, strong) UIScrollView* mainView;
 @property (nonatomic, strong) UIView* detailViewContainer;
+@property (nonatomic, strong) UIView* buttonArea;
 @property (nonatomic, strong) SZButton* continueButton;
+@property (nonatomic, strong) SZButton* saveAndCloseButton;
 @property (nonatomic, assign) BOOL editTaskFirstDisplay;
+@property (nonatomic, strong) NSMutableArray* forms;
 
 - (id)initWithStepNumber:(NSInteger)stepNumber totalSteps:(NSInteger)totalSteps;
 - (void)updateBoundsAnimated:(BOOL)animated;
 - (void)newDetailViewAddedAnimated:(BOOL)animated;
 - (void)setScrollViewHeight:(CGFloat)newHeight;
+- (void)slideOutDetailViewAndAddNewViewWithIndex:(NSInteger)index;
 
 @end

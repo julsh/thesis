@@ -52,7 +52,9 @@
     NSInteger remain = minutes % 15;
 	date = [date dateByAddingTimeInterval:60*(15-remain)];
 	
-    return date;
+	NSInteger roundedTimeIgnoreSeconds = [date timeIntervalSinceReferenceDate];
+	NSDate *roundedDate = [NSDate dateWithTimeIntervalSinceReferenceDate:roundedTimeIgnoreSeconds];
+    return roundedDate;
 }
 
 + (NSNumber*)numberFromDecimalString:(NSString*)string {

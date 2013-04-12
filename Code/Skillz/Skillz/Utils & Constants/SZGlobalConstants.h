@@ -93,5 +93,6 @@ typedef enum {
 + (UIColor*)menuCellTextSelectedColor;
 + (UIColor*)menuSectionTextColor;
 + (UIFont*)fontWithFontType:(SZFontType)fontType size:(CGFloat)size;
++ (NSArray*)statesArray;
 
 @end

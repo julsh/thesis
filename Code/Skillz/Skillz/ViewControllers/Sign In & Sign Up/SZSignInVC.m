@@ -28,12 +28,14 @@
 
 @interface SZSignInVC ()
 
+@property (nonatomic, strong) UIScrollView* scrollView;
 @property (nonatomic, strong) SZForm* form;
 
 @end
 
 @implementation SZSignInVC
 
+@synthesize scrollView = _scrollView;
 @synthesize form = _form;
 
 - (void)viewDidLoad
@@ -41,13 +43,16 @@
     [super viewDidLoad];
 	[self.navigationItem setTitle:@"Sign In"];
 	[self.navigationItem setBackBarButtonItem:[[UIBarButtonItem alloc] initWithTitle:@"Back" style:UIBarButtonItemStylePlain target:nil action:nil]];
+	[self.navigationItem.backBarButtonItem setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys: [SZGlobalConstants fontWithFontType:SZFontBold size:12.0], UITextAttributeFont,nil] forState:UIControlStateNormal];
 	
-	[self.view addSubview:self.form];
-	[self.view addSubview:[self logo]];
-	[self.view addSubview:[self signInButton]];
-	[self.view addSubview:[self forgotPasswordButton]];
-	[self.view addSubview:[self createAccountButton]];
-	[self.view addSubview:[self learnMoreButton]];
+	[self.view addSubview:self.scrollView];
+	
+	[self.scrollView addSubview:self.form];
+	[self.scrollView addSubview:[self logo]];
+	[self.scrollView addSubview:[self signInButton]];
+	[self.scrollView addSubview:[self forgotPasswordButton]];
+	[self.scrollView addSubview:[self createAccountButton]];
+	[self.scrollView addSubview:[self learnMoreButton]];
 }
 
 #pragma mark - UI elements (properties)
@@ -62,15 +67,35 @@
 		SZFormFieldVO* passwordField = [SZFormFieldVO formFieldValueObjectForTextWithKey:@"password" placeHolderText:@"Password" keyboardType:UIKeyboardTypeDefault];
 		passwordField.isPassword = YES;
 		
-		[_form addItem:emailField isLastItem:NO];
-		[_form addItem:passwordField isLastItem:YES];
+		[_form addItem:emailField showsClearButton:YES isLastItem:NO];
+		[_form addItem:passwordField showsClearButton:YES isLastItem:YES];
 		
 		[_form setCenter:CGPointMake(160.0, FORM_YPOS)];
 		
-		[_form setScrollContainer:self.view];
+		[_form setScrollContainer:self.scrollView];
 		[_form configureKeyboard];
 	}
 	return _form;
+}
+
+- (UIScrollView*)scrollView {
+	if (_scrollView == nil) {
+		_scrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0.0, 0.0, 320.0, 416.0)];
+		[_scrollView setBackgroundColor:[UIColor clearColor]];
+		[_scrollView setClipsToBounds:NO];
+		[_scrollView setContentSize:CGSizeMake(_scrollView.frame.size.width, _scrollView.frame.size.height)];
+		
+		UITapGestureRecognizer* tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(scrollViewTapped:)];
+		[tapRecognizer setNumberOfTapsRequired:1];
+		[_scrollView addGestureRecognizer:tapRecognizer];
+	}
+	return _scrollView;
+}
+
+- (void)scrollViewTapped:(id)sender {
+	if (self.form.isActive) {
+		[self.form resign:nil completion:nil];
+	}
 }
 
 #pragma mark - UI elements (non-properties)

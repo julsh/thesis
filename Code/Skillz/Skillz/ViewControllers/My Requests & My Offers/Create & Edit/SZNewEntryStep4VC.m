@@ -99,7 +99,7 @@
 
 - (UIView*)option1detailView {
 	if (_option1detailView == nil) {
-		_option1detailView = [[UIView alloc] initWithFrame:CGRectMake(0.0, 0.0, 290.0, 180.0)];
+		_option1detailView = [[UIView alloc] initWithFrame:CGRectMake(0.0, 0.0, 290.0, 170.0)];
 		
 		UITextView* noticeText = [[UITextView alloc] initWithFrame:CGRectMake(0.0, 0.0, 290.0, 120.0)];
 		[noticeText setTextAlignment:NSTextAlignmentJustified];
@@ -127,9 +127,10 @@
 		_option2detailView = [[UIView alloc] initWithFrame:CGRectMake(0.0, 0.0, 290.0, 83.0)];
 		
 		self.hourPriceForm = [[SZForm alloc] initWithWidth:60.0];
+		[self.forms addObject:self.hourPriceForm];
 		SZFormFieldVO* hourPriceField = [SZFormFieldVO formFieldValueObjectForTextWithKey:@"price" placeHolderText:@"15" keyboardType:UIKeyboardTypeDecimalPad];
-		[self.hourPriceForm addItem:hourPriceField isLastItem:YES];
-		[self.hourPriceForm setScrollContainer:self.view];
+		[self.hourPriceForm addItem:hourPriceField showsClearButton:NO isLastItem:YES];
+		[self.hourPriceForm setScrollContainer:self.mainView];
 		[self.hourPriceForm configureKeyboard];
 		[self.hourPriceForm setFrame:CGRectMake(16.0, 35.0, self.hourPriceForm.frame.size.width, self.hourPriceForm.frame.size.height)];
 		
@@ -160,9 +161,10 @@
 		_option3detailView = [[UIView alloc] initWithFrame:CGRectMake(0.0, 5.0, 290.0, 200.0)];
 		
 		self.jobPriceForm = [[SZForm alloc] initWithWidth:80.0];
+		[self.forms addObject:self.jobPriceForm];
 		SZFormFieldVO* jobPriceField = [SZFormFieldVO formFieldValueObjectForTextWithKey:@"price" placeHolderText:@"50" keyboardType:UIKeyboardTypeDecimalPad];
-		[self.jobPriceForm addItem:jobPriceField isLastItem:YES];
-		[self.jobPriceForm setScrollContainer:self.view];
+		[self.jobPriceForm addItem:jobPriceField showsClearButton:NO isLastItem:YES];
+		[self.jobPriceForm setScrollContainer:self.mainView];
 		[self.jobPriceForm configureKeyboard];
 		[self.jobPriceForm setFrame:CGRectMake(50.0, 0.0, self.jobPriceForm.frame.size.width, self.jobPriceForm.frame.size.height)];
 		
@@ -206,6 +208,29 @@
 	return _option3detailView;
 }
 
+- (void)segmentedControlVertical:(SZSegmentedControlVertical *)control didSelectItemAtIndex:(NSInteger)index {
+	
+	SZForm* activeForm = nil;
+	
+	if (self.hourPriceForm.isActive) {
+		activeForm = self.hourPriceForm;
+	}
+	else if (self.jobPriceForm.isActive) {
+		activeForm = self.jobPriceForm;
+	}
+	
+	// if a form is still in edit mode (showing keyboard or picker), hide the input view before animating the rest.
+	// otherwise the animations will overlap and the layout will be completely screwed up.
+	if (activeForm) {
+		[activeForm resign:nil completion:^(BOOL finished) {
+			[super segmentedControlVertical:control didSelectItemAtIndex:index];
+		}];
+	}
+	else {
+		[super segmentedControlVertical:control didSelectItemAtIndex:index];
+	}
+}
+
 - (void)addNewDetailView:(NSInteger)index {
 	
 	switch (index) {
@@ -230,6 +255,8 @@
 		[self.mainView setContentOffset:CGPointMake(0.0, 0.0)];
 		self.editTaskFirstDisplay = NO;
 	}
+	
+	NSLog(@"contentsize: %@", NSStringFromCGSize(self.mainView.contentSize));
 }
 
 - (void)continue:(id)sender {

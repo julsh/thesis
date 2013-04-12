@@ -19,6 +19,7 @@
 
 @property (nonatomic, assign) NSInteger stepNumber;
 @property (nonatomic, assign) NSInteger totalSteps;
+@property (nonatomic, strong) SZForm* editDescriptionForm;
 
 @end
 
@@ -30,6 +31,8 @@
 @synthesize detailViewContainer = _detailViewContainer;
 @synthesize continueButton = _continueButton;
 @synthesize editTaskFirstDisplay = _editTaskFirstDisplay;
+@synthesize forms = _forms;
+
 
 - (id)initWithStepNumber:(NSInteger)stepNumber totalSteps:(NSInteger)totalSteps {
 	self = [super init];
@@ -46,6 +49,11 @@
 	UIBarButtonItem* cancelButton = [[UIBarButtonItem alloc] initWithTitle:@"Cancel" style:UIBarButtonItemStylePlain target:self action:@selector(cancel:)];
 	[self.navigationItem setRightBarButtonItem:cancelButton];
 	[self.navigationItem setBackBarButtonItem:[[UIBarButtonItem alloc] initWithTitle:@"Back" style:UIBarButtonItemStylePlain target:nil action:nil]];
+	
+	
+	[self.navigationItem.rightBarButtonItem setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys: [SZGlobalConstants fontWithFontType:SZFontBold size:12.0], UITextAttributeFont,nil] forState:UIControlStateNormal];
+	[self.navigationItem.backBarButtonItem setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys: [SZGlobalConstants fontWithFontType:SZFontBold size:12.0], UITextAttributeFont,nil] forState:UIControlStateNormal];
+	
 	[self.view setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"bg_pattern"]]];
 	
 	[self.view addSubview:self.mainView];
@@ -55,8 +63,13 @@
 
 - (UIScrollView*)mainView {
 	if (_mainView == nil) {
-		_mainView = [[UIScrollView alloc] initWithFrame:CGRectMake(0.0, 0.0, 320.0, 420.0)];
+		_mainView = [[UIScrollView alloc] initWithFrame:CGRectMake(0.0, 0.0, 320.0, 416.0)];
+		[_mainView setClipsToBounds:NO];
 		[_mainView setContentSize:_mainView.frame.size];
+		
+		UITapGestureRecognizer* tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(mainViewTapped:)];
+		[tapRecognizer setNumberOfTapsRequired:1];
+		[_mainView addGestureRecognizer:tapRecognizer];
 	}
 	return _mainView;
 }
@@ -88,6 +101,23 @@
 	return _continueButton;
 }
 
+- (NSMutableArray*)forms {
+	if (_forms == nil) {
+		_forms = [[NSMutableArray alloc] init];
+	}
+	return _forms;
+}
+
+- (void)mainViewTapped:(id)sender {
+	
+	for (SZForm* form in self.forms) {
+		if (form.isActive) {
+			[form resign:nil completion:nil];
+		}
+	}
+	
+}
+
 - (void)cancel:(id)sender {
 	
 	UIAlertView* alertView = [[UIAlertView alloc] initWithTitle:@"Do you really want to cancel?" message:@"All progress will be lost." delegate:self cancelButtonTitle:@"Yes" otherButtonTitles:@"No", nil];
@@ -104,14 +134,30 @@
 	}
 }
 
+
+- (void)segmentedControlVertical:(SZSegmentedControlVertical *)control didSelectItemAtIndex:(NSInteger)index {
+	
+	if (self.editDescriptionForm && self.editDescriptionForm.isActive) {
+		[self.editDescriptionForm resign:nil completion:^(BOOL finished) {
+			[self slideOutDetailViewAndAddNewViewWithIndex:index];
+		}];
+	}
+	else {
+		[self slideOutDetailViewAndAddNewViewWithIndex:index];
+	}
+}
+
+- (void)addNewDetailView:(NSInteger)index {
+	// WILL BE IMPLEMENTED INDIVIDUALLY BY SUBLASSES
+}
+
 - (void)updateBoundsAnimated:(BOOL)animated {
 	
 	if ([[self.detailViewContainer subviews] count] > 0) {
 		
 		UIView* currentDetailView = [[self.detailViewContainer subviews] objectAtIndex:0];
-		CGPoint detailOrigin = [currentDetailView convertPoint:currentDetailView.frame.origin toView:self.mainView];
-		CGFloat totalHeight = detailOrigin.y + currentDetailView.frame.size.height + BUTTON_AREA_HEIGHT;
-		CGFloat newHeight = MAX(420.0, totalHeight);
+		CGFloat totalHeight = self.detailViewContainer.frame.origin.y + currentDetailView.frame.size.height + BUTTON_AREA_HEIGHT;
+		CGFloat newHeight = MAX(416.0, totalHeight);
 		
 		if (animated) {
 			[UIView animateWithDuration:0.3 animations:^{
@@ -121,18 +167,18 @@
 			}];
 		}
 		else {
-			[self setScrollViewHeight:newHeight + 20.0];
+			[self setScrollViewHeight:newHeight];
 			[self slideInDetailViewAnimated:NO];
 		}
 	}
 	else {
 		if (animated) {
 			[UIView animateWithDuration:0.3 animations:^{
-				[self setScrollViewHeight:420.0];
+				[self setScrollViewHeight:416.0];
 			}];
 		}
 		else {
-			[self setScrollViewHeight:420.0];
+			[self setScrollViewHeight:416.0];
 		}
 	}
 }
@@ -141,8 +187,26 @@
 	[self.mainView setContentSize:CGSizeMake(self.mainView.contentSize.width, newHeight)];
 	[self.mainView setContentOffset:CGPointMake(0, self.mainView.contentSize.height - self.mainView.bounds.size.height)];
 	CGRect buttonFrame = self.continueButton.frame;
-	buttonFrame.origin.y = self.mainView.contentSize.height - buttonFrame.size.height - 20.0;
+	buttonFrame.origin.y = self.mainView.contentSize.height - buttonFrame.size.height - 15.0;
 	self.continueButton.frame = buttonFrame;
+}
+
+- (void)slideOutDetailViewAndAddNewViewWithIndex:(NSInteger)index {
+	if ([[self.detailViewContainer subviews] count] > 0) {
+		[UIView animateWithDuration:0.2 animations:^{
+			[self.detailViewContainer setFrame:CGRectMake(330.0,
+														  self.detailViewContainer.frame.origin.y,
+														  self.detailViewContainer.frame.size.width,
+														  self.detailViewContainer.frame.size.height)];
+		} completion:^(BOOL finished) {
+			UIView* currentDetailView = [[self.detailViewContainer subviews] objectAtIndex:0];
+			[currentDetailView removeFromSuperview];
+			[self addNewDetailView:index];
+		}];
+	}
+	else {
+		[self addNewDetailView:index];
+	}
 }
 
 - (void)slideInDetailViewAnimated:(BOOL)animated {
@@ -199,18 +263,19 @@
 	SZFormFieldVO* descriptionField = [[SZFormFieldVO alloc] init];
 	descriptionField.key = @"description";
 	
-	SZForm* descriptionForm = [[SZForm alloc] initForTextViewWithItem:descriptionField width:290.0 height:140.0];
+	self.editDescriptionForm = [[SZForm alloc] initForTextViewWithItem:descriptionField width:290.0 height:140.0];
+	[self.forms addObject:self.editDescriptionForm];
+	
 	NSString* description;
 	if ([[SZDataManager sharedInstance].currentEntry isKindOfClass:[SZEntryVO class]]) {
 		description = ((SZEntryVO*)[SZDataManager sharedInstance].currentEntry).description;
 	}
-	[descriptionForm setText:description forFieldAtIndex:0];
-	descriptionForm.tag = 99;
-	[descriptionForm setScrollContainer:self.view];
-	[descriptionForm setFrame:CGRectMake(330.0,
+	[self.editDescriptionForm setText:description forFieldAtIndex:0];
+	[self.editDescriptionForm setScrollContainer:self.mainView];
+	[self.editDescriptionForm setFrame:CGRectMake(330.0,
 										 sender.frame.origin.y + 50.0,
-										 descriptionForm.frame.size.width,
-										 descriptionForm.frame.size.height)];
+										 self.editDescriptionForm.frame.size.width,
+										 self.editDescriptionForm.frame.size.height)];
 	[self.detailViewContainer setFrame:CGRectMake(self.detailViewContainer.frame.origin.x,
 												  self.detailViewContainer.frame.origin.y,
 												  self.detailViewContainer.frame.size.width,
@@ -219,20 +284,20 @@
 									parentView.frame.origin.y,
 									parentView.frame.size.width,
 									parentView.frame.size.height + 150.0)];
-	[parentView addSubview:descriptionForm];
+	[parentView addSubview:self.editDescriptionForm];
 	
 	[UIView animateWithDuration:0.2 animations:^{
 		[self.mainView setContentSize:CGSizeMake(self.mainView.contentSize.width, self.mainView.contentSize.height + 150.0)];
 		[self.mainView setContentOffset:CGPointMake(0, self.mainView.contentSize.height - self.mainView.bounds.size.height)];
 		CGRect buttonFrame = self.continueButton.frame;
-		buttonFrame.origin.y = self.mainView.contentSize.height - buttonFrame.size.height - 20.0;
+		buttonFrame.origin.y = self.mainView.contentSize.height - buttonFrame.size.height - 15.0;
 		self.continueButton.frame = buttonFrame;
 	} completion:^(BOOL finished) {
 		[UIView animateWithDuration:0.2 animations:^{
-			[descriptionForm setFrame:CGRectMake(0.0,
-												 descriptionForm.frame.origin.y,
-												 descriptionForm.frame.size.width,
-												 descriptionForm.frame.size.height)];
+			[self.editDescriptionForm setFrame:CGRectMake(0.0,
+												 self.editDescriptionForm.frame.origin.y,
+												 self.editDescriptionForm.frame.size.width,
+												 self.editDescriptionForm.frame.size.height)];
 		} completion:^(BOOL finished) {
 			[sender setEnabled:YES];
 			[sender setTitle:@"Save Changes" forState:UIControlStateNormal];
@@ -243,9 +308,8 @@
 - (void)saveAndHideDescription:(SZButton*)sender {
 	
 	UIView* parentView = [sender superview];
-	SZForm* descriptionForm = (SZForm*)[parentView viewWithTag:99];
 	if ([[SZDataManager sharedInstance].currentEntry isKindOfClass:[SZEntryVO class]]) {
-		((SZEntryVO*)[SZDataManager sharedInstance].currentEntry).description = [descriptionForm.userInputs valueForKey:@"description"];
+		((SZEntryVO*)[SZDataManager sharedInstance].currentEntry).description = [self.editDescriptionForm.userInputs valueForKey:@"description"];
 	}
 	[self.detailViewContainer setFrame:CGRectMake(self.detailViewContainer.frame.origin.x,
 												  self.detailViewContainer.frame.origin.y,
@@ -257,17 +321,17 @@
 									parentView.frame.size.height - 150.0)];
 	
 	[UIView animateWithDuration:0.2 animations:^{
-		[descriptionForm setFrame:CGRectMake(330.0,
-											 descriptionForm.frame.origin.y,
-											 descriptionForm.frame.size.width,
-											 descriptionForm.frame.size.height)];
+		[self.editDescriptionForm setFrame:CGRectMake(330.0,
+											 self.editDescriptionForm.frame.origin.y,
+											 self.editDescriptionForm.frame.size.width,
+											 self.editDescriptionForm.frame.size.height)];
 	} completion:^(BOOL finished) {
-		[descriptionForm removeFromSuperview];
+		[self.editDescriptionForm removeFromSuperview];
 		[UIView animateWithDuration:0.2 animations:^{
 			[self.mainView setContentSize:CGSizeMake(self.mainView.contentSize.width, self.mainView.contentSize.height - 150.0)];
 			[self.mainView setContentOffset:CGPointMake(0, self.mainView.contentSize.height - self.mainView.bounds.size.height)];
 			CGRect buttonFrame = self.continueButton.frame;
-			buttonFrame.origin.y = self.mainView.contentSize.height - buttonFrame.size.height - 20.0;
+			buttonFrame.origin.y = self.mainView.contentSize.height - buttonFrame.size.height - 15.0;
 			self.continueButton.frame = buttonFrame;
 		} completion:^(BOOL finished) {
 			[sender setEnabled:YES];
@@ -276,31 +340,6 @@
 		
 	}];
 	
-}
-
-- (void)segmentedControlVertical:(SZSegmentedControlVertical *)control didSelectItemAtIndex:(NSInteger)index {
-	
-	NSLog(@"did select item at index %i", index);
-	
-	if ([[self.detailViewContainer subviews] count] > 0) {
-		[UIView animateWithDuration:0.2 animations:^{
-			[self.detailViewContainer setFrame:CGRectMake(330.0,
-														  self.detailViewContainer.frame.origin.y,
-														  self.detailViewContainer.frame.size.width,
-														  self.detailViewContainer.frame.size.height)];
-		} completion:^(BOOL finished) {
-			UIView* currentDetailView = [[self.detailViewContainer subviews] objectAtIndex:0];
-			[currentDetailView removeFromSuperview];
-			[self addNewDetailView:index];
-		}];
-	}
-	else {
-		[self addNewDetailView:index];
-	}
-}
-
-- (void)addNewDetailView:(NSInteger)index {
-	// WILL BE IMPLEMENTED INDIVIDUALLY BY SUBLASSES
 }
 
 - (void)viewWillDisappear:(BOOL)animated {

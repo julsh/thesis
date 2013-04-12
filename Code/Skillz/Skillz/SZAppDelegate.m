@@ -31,7 +31,7 @@
 	[PFAnalytics trackAppOpenedWithLaunchOptions:launchOptions];
 	
 	PFUser *currentUser = [PFUser currentUser];
-	[PFUser logOut];
+//	[PFUser logOut];
 	if (currentUser) {
 //		[SZDataManager sharedInstance].currentUser = [SZUserVO userVOfromPFUser:currentUser];
 	} else {
@@ -60,6 +60,17 @@
 			}
 		}];
 	}
+	
+	[[UINavigationBar appearance] setTitleTextAttributes:
+	 [NSDictionary dictionaryWithObjectsAndKeys:
+	  [UIColor colorWithRed:255.0/255.0 green:255.0/255.0 blue:255.0/255.0 alpha:1.0],
+	  UITextAttributeTextColor,
+	  [UIColor colorWithRed:0.0 green:0.0 blue:0.0 alpha:0.8],
+	  UITextAttributeTextShadowColor,
+	  [NSValue valueWithUIOffset:UIOffsetMake(0, -1)],
+	  UITextAttributeTextShadowOffset,
+	  [SZGlobalConstants fontWithFontType:SZFontBold size:18.0],
+	  UITextAttributeFont, nil]];
 	
 	UIViewController *root = [[SZNavigationController alloc] initWithRootViewController:[[SZSignInVC alloc] init] isModal:NO];
 //	UIViewController *root = [[SZNavigationController alloc] initWithRootViewController:[[SZNewRequestStep1VC alloc] init]];
