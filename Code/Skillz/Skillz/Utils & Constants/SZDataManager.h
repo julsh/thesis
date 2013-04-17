@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "NSMutableArray+Stack.h"
-#import "SZEntryVO.h"
+#import "SZEntryObject.h"
 
 #define REQUESTS 				@"requests"
 #define OFFERS					@"offers"
@@ -19,13 +19,13 @@
 @property (nonatomic, strong) id currentEntry;
 @property (nonatomic, assign) SZEntryType currentEntryType;
 @property (nonatomic, assign) BOOL currentEntryIsNew;
-//@property (nonatomic, strong) SZUserVO* currentUser;
 @property (nonatomic, strong) NSMutableArray* viewControllerStack;
 
 + (SZDataManager*)sharedInstance;
-- (void)addEntryToUserCache:(SZEntryVO*)entry type:(SZEntryType)type;
-- (void)updateEntryCacheWithEntry:(SZEntryVO*)entry type:(SZEntryType)type;
-- (void)removeEntryFromCache:(SZEntryVO*)entry type:(SZEntryType)type;
+- (void)updateCaches;
+- (void)addEntryToUserCache:(SZEntryObject*)entry type:(SZEntryType)type;
+- (void)updateEntryCacheWithEntry:(SZEntryObject*)entry type:(SZEntryType)type;
+- (void)removeEntryFromCache:(SZEntryObject*)entry type:(SZEntryType)type;
 - (void)saveLastEnderedAddress:(NSDictionary*)address;
 - (NSDictionary*)lastEnteredAddress;
 

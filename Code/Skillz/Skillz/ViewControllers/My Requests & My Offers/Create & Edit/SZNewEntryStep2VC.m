@@ -47,8 +47,8 @@
 }
 
 - (void)viewDidAppear:(BOOL)animated {
-	if (![((SZEntryVO*)[SZDataManager sharedInstance].currentEntry).description isEqualToString:@""]) {
-		[self.descriptionForm setText:((SZEntryVO*)[SZDataManager sharedInstance].currentEntry).description forFieldAtIndex:0];
+	if (![((SZEntryObject*)[SZDataManager sharedInstance].currentEntry).description isEqualToString:@""]) {
+		[self.descriptionForm setText:((SZEntryObject*)[SZDataManager sharedInstance].currentEntry).description forFieldAtIndex:0];
 	}
 }
 
@@ -95,7 +95,7 @@
 		[_titleForm setScrollContainer:self.mainView];
 		
 		if (![SZDataManager sharedInstance].currentEntryIsNew) {
-			SZEntryVO* entry = (SZEntryVO*)[SZDataManager sharedInstance].currentEntry;
+			SZEntryObject* entry = (SZEntryObject*)[SZDataManager sharedInstance].currentEntry;
 			if (entry.title) {
 				[_titleForm.userInputs setValue:entry.title forKey:@"title"];
 				[_titleForm setText:entry.title forFieldAtIndex:0];
@@ -132,7 +132,7 @@
 		[_descriptionForm setScrollContainer:self.mainView];
 		
 		if (![SZDataManager sharedInstance].currentEntryIsNew) {
-			SZEntryVO* entry = (SZEntryVO*)[SZDataManager sharedInstance].currentEntry;
+			SZEntryObject* entry = (SZEntryObject*)[SZDataManager sharedInstance].currentEntry;
 			if (entry.description) {
 				[_descriptionForm.userInputs setValue:entry.description forKey:@"description"];
 				[_descriptionForm setText:entry.description forFieldAtIndex:0];
@@ -166,8 +166,8 @@
 }
 
 - (void)storeInputs {
-	((SZEntryVO*)[SZDataManager sharedInstance].currentEntry).title = [self.titleForm.userInputs valueForKey:@"title"];
-	((SZEntryVO*)[SZDataManager sharedInstance].currentEntry).description = [self.descriptionForm.userInputs valueForKey:@"description"];
+	((SZEntryObject*)[SZDataManager sharedInstance].currentEntry).title = [self.titleForm.userInputs valueForKey:@"title"];
+	((SZEntryObject*)[SZDataManager sharedInstance].currentEntry).description = [self.descriptionForm.userInputs valueForKey:@"description"];
 }
 
 @end

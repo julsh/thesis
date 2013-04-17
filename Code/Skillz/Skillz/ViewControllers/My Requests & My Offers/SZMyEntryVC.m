@@ -16,7 +16,7 @@
 
 @interface SZMyEntryVC ()
 
-@property (nonatomic, strong) SZEntryVO* entry;
+@property (nonatomic, strong) SZEntryObject* entry;
 @property (nonatomic, assign) SZEntryType entryType;
 @property (nonatomic, strong) UIScrollView* mainView;
 @property (nonatomic, strong) UIView* topView;
@@ -34,7 +34,7 @@
 @synthesize mainView = _mainView;
 @synthesize contentHeight = _contentHeight;
 
-- (id)initWithEntry:(SZEntryVO*)entry type:(SZEntryType)type {
+- (id)initWithEntry:(SZEntryObject*)entry type:(SZEntryType)type {
 	self = [super init];
 	if (self) {
 		self.entry = entry;
@@ -116,6 +116,7 @@
 
 - (void)editEntry:(id)sender {
 	[SZDataManager sharedInstance].currentEntryType = self.entryType;
+	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateEntry:) name:NOTIF_ENTRY_UPDATED object:nil];
 	SZNavigationController* navController = [[SZNavigationController alloc] initWithRootViewController:[[SZNewEntryStep1VC alloc] initWithEntry:self.entry] isModal:YES];
 	[navController setModalPresentationStyle:UIModalPresentationFullScreen];
 	[self presentViewController:navController animated:YES completion:nil];
@@ -141,17 +142,7 @@
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
 	if (buttonIndex == 0) {
 		
-		NSString* className;
-		switch (self.entryType) {
-			case SZEntryTypeRequest:
-				className = @"Request";
-				break;
-			case SZEntryTypeOffer:
-				className = @"Offer";
-				break;
-		}
-		
-		PFObject* serverObject = [PFQuery getObjectOfClass:className objectId:self.entry.objectID];
+		PFObject* serverObject = [PFQuery getObjectOfClass:@"Entry" objectId:self.entry.objectId];
 		[serverObject deleteInBackground];
 		[[SZDataManager sharedInstance] removeEntryFromCache:self.entry type:self.entryType];
 		[self.navigationController popViewControllerAnimated:YES];
@@ -159,7 +150,7 @@
 }
 
 - (void)updateEntry:(NSNotification*)notif {
-	SZEntryVO* entry = [notif.userInfo valueForKey:@"entry"];
+	SZEntryObject* entry = [notif.userInfo valueForKey:@"entry"];
 	self.entry = entry;
 	self.contentHeight = 0.0;
 	for (UIView* view in [self.view subviews]) {

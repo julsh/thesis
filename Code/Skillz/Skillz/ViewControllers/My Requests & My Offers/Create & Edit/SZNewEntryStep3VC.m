@@ -77,7 +77,7 @@
 		[_segmentedControl setDelegate:self];
 		
 		if (![SZDataManager sharedInstance].currentEntryIsNew) {
-			SZEntryVO* entry = (SZEntryVO*)[SZDataManager sharedInstance].currentEntry;
+			SZEntryObject* entry = (SZEntryObject*)[SZDataManager sharedInstance].currentEntry;
 			if (entry.locationWillGoSomewhere) {
 				[_segmentedControl selectItemWithIndex:0];
 			}
@@ -148,7 +148,7 @@
 		[_option1detailView setSelectedIndex:0];
 		
 		if (![SZDataManager sharedInstance].currentEntryIsNew) {
-			SZEntryVO* entry = (SZEntryVO*)[SZDataManager sharedInstance].currentEntry;
+			SZEntryObject* entry = (SZEntryObject*)[SZDataManager sharedInstance].currentEntry;
 			if (entry.withinZipCode) {
 				[_option1detailView setSelectedIndex:0];
 			}
@@ -205,7 +205,7 @@
 		[_option2detailView addSubview:noticeText];
 		
 		if (![SZDataManager sharedInstance].currentEntryIsNew) {
-			SZEntryVO* entry = (SZEntryVO*)[SZDataManager sharedInstance].currentEntry;
+			SZEntryObject* entry = (SZEntryObject*)[SZDataManager sharedInstance].currentEntry;
 			
 			if (entry.address) {
 					[self.option2AddressForm setAddress:entry.address];
@@ -298,16 +298,16 @@
 	
 	switch (self.segmentedControl.selectedIndex) {
 		case SZEntryLocationWillGoSomewhereElse:
-			((SZEntryVO*)[SZDataManager sharedInstance].currentEntry).locationWillGoSomewhere = YES;
-			((SZEntryVO*)[SZDataManager sharedInstance].currentEntry).locationIsRemote = NO;
+			((SZEntryObject*)[SZDataManager sharedInstance].currentEntry).locationWillGoSomewhere = YES;
+			((SZEntryObject*)[SZDataManager sharedInstance].currentEntry).locationIsRemote = NO;
 			break;
 		case SZEntryLocationWillStayAtHome:
-			((SZEntryVO*)[SZDataManager sharedInstance].currentEntry).locationWillGoSomewhere = NO;
-			((SZEntryVO*)[SZDataManager sharedInstance].currentEntry).locationIsRemote = NO;
+			((SZEntryObject*)[SZDataManager sharedInstance].currentEntry).locationWillGoSomewhere = NO;
+			((SZEntryObject*)[SZDataManager sharedInstance].currentEntry).locationIsRemote = NO;
 			break;
 		case SZEntryLocationRemote:
-			((SZEntryVO*)[SZDataManager sharedInstance].currentEntry).locationWillGoSomewhere = NO;
-			((SZEntryVO*)[SZDataManager sharedInstance].currentEntry).locationIsRemote = YES;
+			((SZEntryObject*)[SZDataManager sharedInstance].currentEntry).locationWillGoSomewhere = NO;
+			((SZEntryObject*)[SZDataManager sharedInstance].currentEntry).locationIsRemote = YES;
 			break;
 		default:
 			break;
@@ -316,39 +316,39 @@
 	if (self.segmentedControl.selectedIndex == SZEntryLocationWillGoSomewhereElse) {
 		
 		if (self.option1detailView.selectedIndex == 0) {
-			((SZEntryVO*)[SZDataManager sharedInstance].currentEntry).withinZipCode = YES;
-			((SZEntryVO*)[SZDataManager sharedInstance].currentEntry).withinSpecifiedArea = NO;
-			((SZEntryVO*)[SZDataManager sharedInstance].currentEntry).withinNegotiableArea = NO;
-			((SZEntryVO*)[SZDataManager sharedInstance].currentEntry).distance = nil;
-			((SZEntryVO*)[SZDataManager sharedInstance].currentEntry).address = nil;
+			((SZEntryObject*)[SZDataManager sharedInstance].currentEntry).withinZipCode = YES;
+			((SZEntryObject*)[SZDataManager sharedInstance].currentEntry).withinSpecifiedArea = NO;
+			((SZEntryObject*)[SZDataManager sharedInstance].currentEntry).withinNegotiableArea = NO;
+			((SZEntryObject*)[SZDataManager sharedInstance].currentEntry).distance = nil;
+			((SZEntryObject*)[SZDataManager sharedInstance].currentEntry).address = nil;
 		}
 		else if (self.option1detailView.selectedIndex == 1) {
-			((SZEntryVO*)[SZDataManager sharedInstance].currentEntry).withinZipCode = NO;
-			((SZEntryVO*)[SZDataManager sharedInstance].currentEntry).withinSpecifiedArea = YES;
-			((SZEntryVO*)[SZDataManager sharedInstance].currentEntry).withinNegotiableArea = NO;
+			((SZEntryObject*)[SZDataManager sharedInstance].currentEntry).withinZipCode = NO;
+			((SZEntryObject*)[SZDataManager sharedInstance].currentEntry).withinSpecifiedArea = YES;
+			((SZEntryObject*)[SZDataManager sharedInstance].currentEntry).withinNegotiableArea = NO;
 			
 			NSNumberFormatter* formatter = [[NSNumberFormatter alloc] init];
 			[formatter setNumberStyle:NSNumberFormatterDecimalStyle];
 			NSNumber* distance = [formatter numberFromString:[self.distanceForm.userInputs valueForKey:@"distance"]];
-			((SZEntryVO*)[SZDataManager sharedInstance].currentEntry).distance = distance;
+			((SZEntryObject*)[SZDataManager sharedInstance].currentEntry).distance = distance;
 			
-			((SZEntryVO*)[SZDataManager sharedInstance].currentEntry).address = [SZForm addressDictfromAddressForm:self.option1AddressForm];
+			((SZEntryObject*)[SZDataManager sharedInstance].currentEntry).address = [SZForm addressDictfromAddressForm:self.option1AddressForm];
 			[[SZDataManager sharedInstance] saveLastEnderedAddress:[SZForm addressDictfromAddressForm:self.option1AddressForm]];
 		}
 		else if (self.option1detailView.selectedIndex == 2) {
-			((SZEntryVO*)[SZDataManager sharedInstance].currentEntry).withinZipCode = NO;
-			((SZEntryVO*)[SZDataManager sharedInstance].currentEntry).withinSpecifiedArea = NO;
-			((SZEntryVO*)[SZDataManager sharedInstance].currentEntry).withinNegotiableArea = YES;
-			((SZEntryVO*)[SZDataManager sharedInstance].currentEntry).distance = nil;
-			((SZEntryVO*)[SZDataManager sharedInstance].currentEntry).address = nil;
+			((SZEntryObject*)[SZDataManager sharedInstance].currentEntry).withinZipCode = NO;
+			((SZEntryObject*)[SZDataManager sharedInstance].currentEntry).withinSpecifiedArea = NO;
+			((SZEntryObject*)[SZDataManager sharedInstance].currentEntry).withinNegotiableArea = YES;
+			((SZEntryObject*)[SZDataManager sharedInstance].currentEntry).distance = nil;
+			((SZEntryObject*)[SZDataManager sharedInstance].currentEntry).address = nil;
 		}
 	}
 	else if (self.segmentedControl.selectedIndex == SZEntryLocationWillStayAtHome) {
-		((SZEntryVO*)[SZDataManager sharedInstance].currentEntry).withinZipCode = NO;
-		((SZEntryVO*)[SZDataManager sharedInstance].currentEntry).withinSpecifiedArea = NO;
-		((SZEntryVO*)[SZDataManager sharedInstance].currentEntry).withinNegotiableArea = NO;
-		((SZEntryVO*)[SZDataManager sharedInstance].currentEntry).distance = nil;
-		((SZEntryVO*)[SZDataManager sharedInstance].currentEntry).address = [SZForm addressDictfromAddressForm:self.option2AddressForm];
+		((SZEntryObject*)[SZDataManager sharedInstance].currentEntry).withinZipCode = NO;
+		((SZEntryObject*)[SZDataManager sharedInstance].currentEntry).withinSpecifiedArea = NO;
+		((SZEntryObject*)[SZDataManager sharedInstance].currentEntry).withinNegotiableArea = NO;
+		((SZEntryObject*)[SZDataManager sharedInstance].currentEntry).distance = nil;
+		((SZEntryObject*)[SZDataManager sharedInstance].currentEntry).address = [SZForm addressDictfromAddressForm:self.option2AddressForm];
 		[[SZDataManager sharedInstance] saveLastEnderedAddress:[SZForm addressDictfromAddressForm:self.option2AddressForm]];
 	}
 	

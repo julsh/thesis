@@ -7,10 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "SZEntryVO.h"
+#import "SZEntryObject.h"
 
 @interface SZMyEntryVC : UIViewController <UIAlertViewDelegate>
 
-- (id)initWithEntry:(SZEntryVO*)entry type:(SZEntryType)type;
+- (id)initWithEntry:(SZEntryObject*)entry type:(SZEntryType)type;
 
 @end

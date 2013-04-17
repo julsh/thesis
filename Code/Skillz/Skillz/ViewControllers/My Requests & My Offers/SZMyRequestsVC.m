@@ -94,7 +94,7 @@
 		cell = [[SZEntryCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:cellId];
 	}
 	
-	SZEntryVO *request = [self.requests objectAtIndex:indexPath.row - 1];
+	SZEntryObject *request = [self.requests objectAtIndex:indexPath.row - 1];
 	
 	cell.textLabel.text = request.title;
 	
@@ -115,7 +115,7 @@
 		return;
 	}
 	
-	SZEntryVO* request = [self.requests objectAtIndex:indexPath.row - 1];
+	SZEntryObject* request = [self.requests objectAtIndex:indexPath.row - 1];
 	SZMyEntryVC* vc = [[SZMyEntryVC alloc] initWithEntry:request type:SZEntryTypeRequest];
 	[self.navigationController pushViewController:vc animated:YES];
 	
@@ -123,10 +123,10 @@
 
 - (void)switchChanged:(UISwitch*)sender {
 	
-	SZEntryVO* request = [self.requests objectAtIndex:sender.tag];
+	SZEntryObject* request = [self.requests objectAtIndex:sender.tag];
 	request.isActive = sender.isOn;
 	
-	PFObject* serverObject = [PFQuery getObjectOfClass:@"Request" objectId:request.objectID];
+	PFObject* serverObject = [PFQuery getObjectOfClass:@"Request" objectId:request.objectId];
 	[serverObject setValue:[NSNumber numberWithBool:request.isActive] forKey:@"isActive"];
 	[serverObject saveInBackground];
 	
@@ -158,7 +158,8 @@
 	NSArray* myRequests = [[NSUserDefaults standardUserDefaults] objectForKey:@"requests"];
 	if ([myRequests count] != 0) {
 		for (NSDictionary* reqDict in myRequests) {
-			SZEntryVO* request = [SZEntryVO entryVOfromDictionary:reqDict];
+			SZEntryObject* request = [SZEntryObject entryVOfromDictionary:reqDict];
+			request.type = SZEntryTypeRequest;
 			request.user = [PFUser currentUser];
 			[self.requests addObject:request];
 		}

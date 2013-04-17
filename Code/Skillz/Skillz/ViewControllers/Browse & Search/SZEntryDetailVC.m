@@ -13,7 +13,7 @@
 
 @interface SZEntryDetailVC ()
 
-@property (nonatomic, strong) SZEntryVO* entry;
+@property (nonatomic, strong) SZEntryObject* entry;
 @property (nonatomic, assign) SZEntryType entryType;
 @property (nonatomic, strong) UIScrollView* mainView;
 @property (nonatomic, strong) SZEntryView* entryView;
@@ -31,7 +31,7 @@
 @synthesize mainView = _mainView;
 @synthesize contentHeight = _contentHeight;
 
-- (id)initWithEntry:(SZEntryVO*)entry type:(SZEntryType)type {
+- (id)initWithEntry:(SZEntryObject*)entry type:(SZEntryType)type {
 	self = [super init];
 	if (self) {
 		self.entry = entry;

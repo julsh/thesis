@@ -9,6 +9,7 @@
 #import "SZAppDelegate.h"
 
 #import <Parse/Parse.h>
+#import "SZEntryObject.h"
 
 #import "SZNavigationController.h"
 #import "SZSignInVC.h"
@@ -25,18 +26,11 @@
     [self.window makeKeyAndVisible];
     // Override point for customization after application launch.
 	
-	
+	[SZEntryObject registerSubclass];
 	[Parse setApplicationId:@"ltQB4UH8RtuQ84RTJOWg16IfJh0fojlzrYEbwwUr"
 				  clientKey:@"Hi4lrAsfSq0iWDi6npeYMlgrmL65l5iWFtoKl5Ef"];
 	[PFAnalytics trackAppOpenedWithLaunchOptions:launchOptions];
-	
-	PFUser *currentUser = [PFUser currentUser];
-//	[PFUser logOut];
-	if (currentUser) {
-//		[SZDataManager sharedInstance].currentUser = [SZUserVO userVOfromPFUser:currentUser];
-	} else {
-		NSLog(@"not logged in!");
-	}
+
 	
 //	uncomment following line to reset and reload categories from server
 //	[[NSUserDefaults standardUserDefaults] removeObjectForKey:@"categories"];
@@ -61,19 +55,29 @@
 		}];
 	}
 	
+//	[[SZDataManager sharedInstance] updateCaches];
+	
 	[[UINavigationBar appearance] setTitleTextAttributes:
 	 [NSDictionary dictionaryWithObjectsAndKeys:
-	  [UIColor colorWithRed:255.0/255.0 green:255.0/255.0 blue:255.0/255.0 alpha:1.0],
+	  [UIColor colorWithRed:1.0 green:1.0 blue:1.0 alpha:1.0],
 	  UITextAttributeTextColor,
 	  [UIColor colorWithRed:0.0 green:0.0 blue:0.0 alpha:0.8],
 	  UITextAttributeTextShadowColor,
-	  [NSValue valueWithUIOffset:UIOffsetMake(0, -1)],
+	  [NSValue valueWithUIOffset:UIOffsetMake(0.0, -1.0)],
 	  UITextAttributeTextShadowOffset,
 	  [SZGlobalConstants fontWithFontType:SZFontBold size:18.0],
 	  UITextAttributeFont, nil]];
 	
+	
+	PFUser *currentUser = [PFUser currentUser];
+	//	[PFUser logOut];
+	if (currentUser) {
+		// show home screen
+	} else {
+		// show login screen
+	}
+	
 	UIViewController *root = [[SZNavigationController alloc] initWithRootViewController:[[SZSignInVC alloc] init] isModal:NO];
-//	UIViewController *root = [[SZNavigationController alloc] initWithRootViewController:[[SZNewRequestStep1VC alloc] init]];
 	[self.window setRootViewController:root];
 	
 	

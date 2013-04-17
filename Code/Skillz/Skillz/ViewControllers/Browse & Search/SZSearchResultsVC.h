@@ -6,9 +6,11 @@
 //  Copyright (c) 2013 Julia Roggatz. All rights reserved.
 //
 
+#import <CoreLocation/CoreLocation.h>
+#import <MapKit/MapKit.h>
 #import <UIKit/UIKit.h>
 
-@interface SZSearchResultsVC : UITableViewController
+@interface SZSearchResultsVC : UITableViewController <CLLocationManagerDelegate, MKMapViewDelegate>
 
 - (id)initWithQuery:(PFQuery*)query;
 

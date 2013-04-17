@@ -15,6 +15,7 @@
 #import "SZUtils.h"
 #import "SZDataManager.h"
 #import "SZButton.h"
+#import "SZEntryMapVC.h"
 
 @interface SZEntryView ()
 
@@ -41,7 +42,7 @@
 @synthesize priceView = _priceView;
 @synthesize contentHeight = _contentHeight;
 
-- (id)initWithEntry:(SZEntryVO*)entry
+- (id)initWithEntry:(SZEntryObject*)entry
 {
     self = [super initWithFrame:CGRectZero];
     if (self) {
@@ -320,8 +321,28 @@
 	SZButton* button = [[SZButton alloc] initWithColor:SZButtonColorPetrol size:SZButtonSizeSmall width:120.0];
 	[button setTitle:title forState:UIControlStateNormal];
 	[button setCenter:CGPointMake(self.locationView.frame.size.width/2, self.locationView.frame.size.height - 13.0 - button.frame.size.height/2)];
+	[button addTarget:self action:@selector(showLocation:) forControlEvents:UIControlEventTouchUpInside];
 	return button;
 }
 
+- (void)showLocation:(id)sender {
+	SZEntryMapVC* mapVC = [[SZEntryMapVC alloc] initWithEntry:self.entry];
+	[[self viewController].navigationController pushViewController:mapVC animated:YES];
+}
+
+- (UIViewController*)viewController
+{
+    for (UIView* next = [self superview]; next; next = next.superview)
+    {
+        UIResponder* nextResponder = [next nextResponder];
+		
+        if ([nextResponder isKindOfClass:[UIViewController class]])
+        {
+            return (UIViewController*)nextResponder;
+        }
+    }
+	
+    return nil;
+}
 
 @end

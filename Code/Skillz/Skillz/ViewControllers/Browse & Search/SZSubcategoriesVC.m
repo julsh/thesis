@@ -98,8 +98,10 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-	NSString* className = [SZDataManager sharedInstance].currentEntryType == SZEntryTypeRequest ? @"Request" : @"Offer";
-    PFQuery* query = [PFQuery queryWithClassName:className];
+	NSString* entryType = [SZDataManager sharedInstance].currentEntryType == SZEntryTypeRequest ? @"request" : @"offer";
+	PFQuery* query = [PFQuery queryWithClassName:@"Entry"];
+	[query whereKey:@"entryType" equalTo:entryType];
+	
 	if (self.category) {
 		[query whereKey:@"category" equalTo:self.category];
 	}

@@ -6,19 +6,29 @@
 //  Copyright (c) 2013 Julia Roggatz. All rights reserved.
 //
 
+#import <QuartzCore/QuartzCore.h>
+#import <MapKit/MapKit.h>
+
 #import "SZSearchResultsVC.h"
 #import "SZSearchResultCell.h"
-#import "SZEntryVO.h"
+#import "SZEntryObject.h"
 #import "SZUtils.h"
 #import "MBProgressHUD.h"
 #import "SZEntryDetailVC.h"
 #import "SZDataManager.h"
+#import "SZEntryAnnotation.h"
+#import "SZEntryMapAnnotationView.h"
+#import "SMCalloutView.h"
 
 @interface SZSearchResultsVC ()
 
 @property (nonatomic, strong) NSMutableArray* results;
 @property (nonatomic, assign) NSInteger fetchCount;
 @property (nonatomic, strong) UIView* activityIndicator;
+@property (nonatomic, strong) CLLocation* currentUserLocation;
+@property (nonatomic, strong) CLLocationManager* locationManager;
+@property (nonatomic, strong) MKMapView* mapView;
+@property (nonatomic, strong) UISegmentedControl* mapListSwitcher;
 
 @end
 
@@ -26,6 +36,7 @@
 
 @synthesize results = _results;
 @synthesize activityIndicator = _activityIndicator;
+@synthesize mapView = _mapView;
 
 - (id)initWithQuery:(PFQuery*)query {
 	
@@ -33,6 +44,11 @@
     if (self) {
 
 		[self showActivityIndicator];
+		
+		self.locationManager = [[CLLocationManager alloc] init];
+		self.locationManager.delegate = self;
+		self.locationManager.distanceFilter = kCLDistanceFilterNone;
+		self.locationManager.desiredAccuracy = kCLLocationAccuracyBest;
 		
         [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
 			if (objects) {
@@ -45,12 +61,18 @@
 							PFUser *user = [result objectForKey:@"user"]; // fetch the user object that owns the entry
 							[user fetchIfNeededInBackgroundWithBlock:^(PFObject *object, NSError *error) {
 								if (object) {
-									NSLog(@"got user object");
-									[self.results addObject:[SZEntryVO entryVOFromPFObject:result user:(PFUser*)object]];
+									NSMutableDictionary* entryDict = [[NSMutableDictionary alloc] init];
+									SZEntryObject* entry = (SZEntryObject*)result;
+									entry.user = (PFUser*)object;
+									[entryDict setObject:entry forKey:@"entry"];
+									[self.results addObject:entryDict];
+									[self setLocationForEntryAtIndex:self.fetchCount];
+									
 									self.fetchCount++;
 									if (self.fetchCount == [objects count]) {
 										[self hideActivityIndicator];
 										[self.tableView reloadData]; // once all results are complete, display them
+										[self.mapListSwitcher setUserInteractionEnabled:YES];
 									}
 								}
 								else if (error) {
@@ -59,6 +81,7 @@
 									if (self.fetchCount == [objects count]) {
 										[self hideActivityIndicator];
 										[self.tableView reloadData];
+										[self.mapListSwitcher setUserInteractionEnabled:YES];
 									}
 								}
 							}];
@@ -86,14 +109,70 @@
 {
     [super viewDidLoad];
 
-    [self.navigationItem setTitle:@"Results"];
 	[self.navigationItem setBackBarButtonItem:[[UIBarButtonItem alloc] initWithTitle:@"Back"
 																			   style:UIBarButtonItemStylePlain
 																			  target:nil
 																			  action:nil]];
+	UIImage *filterImage = [UIImage imageNamed:@"buttonIcon_filter"];
+	UIBarButtonItem *filterButton = [[UIBarButtonItem alloc] initWithImage:filterImage style:UIBarButtonItemStylePlain target:self action:@selector(showFilter:)];
+	[self.navigationItem setRightBarButtonItem:filterButton];
+	
+	self.mapListSwitcher = [[UISegmentedControl alloc] initWithFrame:CGRectMake(0.0, 0.0, 140.0, 30.0)];
+	[self.mapListSwitcher insertSegmentWithTitle:@"List" atIndex:0 animated:NO];
+	[self.mapListSwitcher insertSegmentWithTitle:@"Map" atIndex:1 animated:NO];
+	[self.mapListSwitcher setSegmentedControlStyle:UISegmentedControlStyleBar];
+	[self.mapListSwitcher setTintColor:[SZGlobalConstants darkPetrol]];
+	[self.mapListSwitcher setSelectedSegmentIndex:0];
+	[self.mapListSwitcher setUserInteractionEnabled:NO];
+	[self.mapListSwitcher addTarget:self action:@selector(switchViews:) forControlEvents:UIControlEventValueChanged];
+	
+	[self.navigationItem setTitleView:self.mapListSwitcher];
 	
 	[self.view setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"bg_pattern"]]];
 	[self.tableView setSeparatorStyle:UITableViewCellSeparatorStyleNone];
+}
+
+- (void)setLocationForEntryAtIndex:(NSInteger)index {
+	NSMutableDictionary* dict = [self.results objectAtIndex:index];
+	SZEntryObject* entry = [dict valueForKey:@"entry"];
+	if (entry.address || entry.withinZipCode) {
+		NSString* addressString;
+		if (entry.address) addressString = [NSString stringWithFormat:@"%@, %@, %@ %@, USA",
+											[entry.address valueForKey:@"streetAddress"],
+											[entry.address valueForKey:@"city"],
+											[entry.address valueForKey:@"state"],
+											[entry.address valueForKey:@"zipCode"]];
+		else if (entry.withinZipCode) addressString = [NSString stringWithFormat:@"%@ %@, USA",
+													   [entry.user valueForKey:@"zipCode"],
+													   [entry.user valueForKey:@"state"]];
+		
+		CLGeocoder* geoCoder = [[CLGeocoder alloc] init];
+		[geoCoder geocodeAddressString:addressString completionHandler:^(NSArray *placemarks, NSError *error) {
+			if (placemarks && [placemarks count] > 0) {
+				[dict setObject:[placemarks objectAtIndex:0] forKey:@"location"];
+//				NSArray* indexPaths = [NSArray arrayWithObject:[NSIndexPath indexPathForRow:index inSection:0]];
+//				[self.tableView reloadRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationNone];
+			}
+		}];
+	}
+}
+
+- (MKMapView*)mapView {
+	if (_mapView == nil) {
+		_mapView = [[MKMapView alloc] initWithFrame:self.view.bounds];
+		[_mapView setDelegate:self];
+		[_mapView setShowsUserLocation:YES];
+		
+		
+		for (int i = 0; i < [self.results count]; i++) {
+			NSDictionary* dict = [self.results objectAtIndex:i];
+			CLPlacemark* placemark = [dict valueForKey:@"location"];
+			SZEntryAnnotation* anno = [[SZEntryAnnotation alloc] initWithEntry:[dict valueForKey:@"entry"] coordinate:placemark.location.coordinate];
+			anno.tag = i;
+			[_mapView addAnnotation:anno];
+		}
+	}
+	return _mapView;
 }
 
 - (NSMutableArray*)results {
@@ -165,7 +244,9 @@
 		cell = [[SZSearchResultCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:cellId];
 	}
 	
-	SZEntryVO *entry = [self.results objectAtIndex:indexPath.row];
+	NSMutableDictionary* dict = [self.results objectAtIndex:indexPath.row];
+	
+	SZEntryObject *entry = [dict valueForKey:@"entry"];
 	
 	cell.titleLabel.text = entry.title;
 
@@ -201,6 +282,17 @@
 		[cell.starsView setStarsForReviewsArray:[entry.user objectForKey:@"reviewPoints"]];
 	}
 	
+	
+//	if ([dict valueForKey:@"location"]) {
+//		NSLog(@"got location: %@", [dict valueForKey:@"location"]);
+//		CLPlacemark* entryPlacemark = [dict valueForKey:@"location"];
+//		CLLocation* entryLocation = entryPlacemark.location;
+//		CLLocationDistance distance = [entryLocation distanceFromLocation:self.currentUserLocation];
+//		NSLog(@"current user location: %@", self.currentUserLocation);
+//		NSLog(@"distance: %f", distance);
+//		[cell.distanceLabel setText:[NSString stringWithFormat:@"%.2f miles", MetersToMiles(distance)]];
+//	}
+	
 	return cell;
 }
 
@@ -212,16 +304,55 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-	SZEntryVO* request = [self.results objectAtIndex:indexPath.row];
-	SZEntryDetailVC* vc = [[SZEntryDetailVC alloc] initWithEntry:request type:[SZDataManager sharedInstance].currentEntryType];
+	SZEntryObject* entry = [[self.results objectAtIndex:indexPath.row] valueForKey:@"entry"];
+	SZEntryDetailVC* vc = [[SZEntryDetailVC alloc] initWithEntry:entry type:[SZDataManager sharedInstance].currentEntryType];
 	[self.navigationController pushViewController:vc animated:YES];
 }
 
-- (void)setUserPhoto:(UIImage*)photo forCellAtIndex:(NSInteger)index {
-	NSIndexPath* indexPath = [NSIndexPath indexPathForRow:index inSection:0];
-	SZSearchResultCell* cell = (SZSearchResultCell*)[self.tableView cellForRowAtIndexPath:indexPath];
-	[cell.userPhoto.photo setImage:photo];
+
+- (void)switchViews:(UISegmentedControl*)sender {
 	
+//	[self.locationManager startUpdatingLocation];
+	self.currentUserLocation = [[CLLocation alloc] initWithLatitude:37.785834 longitude:-122.406417];
+	
+	if (sender.selectedSegmentIndex == 1) {
+		MKCoordinateRegion region = MKCoordinateRegionMake(self.currentUserLocation.coordinate, MKCoordinateSpanMake(0.05, 0.05));
+		[self.mapView setRegion:region];
+		[self.view addSubview:self.mapView];
+	}
+	else if (sender.selectedSegmentIndex == 0) {
+		if (_mapView != nil) {
+			[self.mapView removeFromSuperview];
+		}
+	}
 }
+
+- (MKAnnotationView*)mapView:(MKMapView *)mapView viewForAnnotation:(id<MKAnnotation>)annotation {
+	if ([annotation isKindOfClass:[MKUserLocation class]])
+        return nil;
+	
+	if ([annotation isKindOfClass:[SZEntryAnnotation class]]) {
+        SZEntryMapAnnotationView* pinView = (SZEntryMapAnnotationView*)[mapView dequeueReusableAnnotationViewWithIdentifier:@"CustomPinAnnotationView"];
+		
+        if (!pinView) {
+			pinView = [[SZEntryMapAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:@"CustomPinAnnotationView"];
+        }
+        else {
+            pinView.annotation = annotation;
+		}
+		pinView.rightCalloutAccessoryView.tag = ((SZEntryAnnotation*)annotation).tag;
+		[(UIButton*)pinView.rightCalloutAccessoryView addTarget:self action:@selector(annotationButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
+			
+        return pinView;
+    }
+	
+    return nil;
+}
+
+- (void)annotationButtonTapped:(UIButton*)sender {
+	NSIndexPath* indexPath = [NSIndexPath indexPathForRow:sender.tag inSection:0];
+	[self tableView:self.tableView didSelectRowAtIndexPath:indexPath];
+}
+
 
 @end

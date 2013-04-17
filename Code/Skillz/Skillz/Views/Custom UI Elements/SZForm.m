@@ -328,9 +328,7 @@
 	
 	// check if input view is picker, set textfield to the first possible choice
 	if ([textField.inputView isKindOfClass:[UIPickerView class]]) {
-		UIPickerView* pickerView = (UIPickerView*)textField.inputView;
-		[self pickerView:pickerView didSelectRow:[pickerView selectedRowInComponent:0] inComponent:0];
-		
+		[self updatePickerAtIndex:textField.tag];
 		UIView* arrow = [self viewWithTag:ACCESSORY_ARROW_TAG_BASE + textField.tag];
 		[arrow setHidden:YES];
 		
@@ -466,7 +464,13 @@
 	UITextField* textField = [self.fieldViews objectAtIndex:index];
 	UIPickerView* picker = (UIPickerView*)textField.inputView;
 	int optionIndex = [fieldVO.pickerOptions indexOfObject:textField.text];
-	if (optionIndex != NSNotFound && optionIndex < [picker numberOfRowsInComponent:0]) [picker selectRow:optionIndex inComponent:0 animated:NO];
+	if (optionIndex != NSNotFound && optionIndex < [picker numberOfRowsInComponent:0]) {
+		[picker selectRow:optionIndex inComponent:0 animated:NO];
+	}
+	else {
+		[picker selectRow:0 inComponent:0 animated:NO];
+		[self pickerView:picker didSelectRow:0 inComponent:0];
+	}
 }
 
 - (void)updatePickerOptions:(NSArray*)options forPickerAtIndex:(NSInteger)index {

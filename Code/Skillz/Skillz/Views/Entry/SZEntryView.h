@@ -7,12 +7,12 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "SZEntryVO.h"
+#import "SZEntryObject.h"
 
 @interface SZEntryView : UIView
 
-@property (nonatomic, strong) SZEntryVO* entry;
+@property (nonatomic, strong) SZEntryObject* entry;
 
-- (id)initWithEntry:(SZEntryVO*)entry;
+- (id)initWithEntry:(SZEntryObject*)entry;
 
 @end

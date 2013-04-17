@@ -97,6 +97,16 @@
 		[self.pointsLabel setHighlightedTextColor:[SZGlobalConstants darkPetrol]];
 		[self.pointsLabel applyWhiteShadow];
 		[self.contentView addSubview:self.pointsLabel];
+		
+		self.distanceLabel = [[UILabel alloc] initWithFrame:CGRectMake(180.0, 88.0, 90.0, 17.0)];
+		[self.distanceLabel setBackgroundColor:[UIColor clearColor]];
+		[self.distanceLabel setNumberOfLines:1];
+		[self.distanceLabel setLineBreakMode:NSLineBreakByTruncatingTail];
+		[self.distanceLabel setFont:[SZGlobalConstants fontWithFontType:SZFontSemiBold size:14.0]];
+		[self.distanceLabel setTextColor:[SZGlobalConstants darkPetrol]];
+		[self.distanceLabel setHighlightedTextColor:[SZGlobalConstants darkPetrol]];
+		[self.distanceLabel applyWhiteShadow];
+		[self.contentView addSubview:self.distanceLabel];
     }
     return self;
 }

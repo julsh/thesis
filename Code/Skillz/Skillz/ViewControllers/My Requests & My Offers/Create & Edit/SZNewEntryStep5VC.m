@@ -66,7 +66,7 @@
 		[_segmentedControl setDelegate:self];
 		
 		if (![SZDataManager sharedInstance].currentEntryIsNew) {
-			SZEntryVO* entry = (SZEntryVO*)[SZDataManager sharedInstance].currentEntry;
+			SZEntryObject* entry = (SZEntryObject*)[SZDataManager sharedInstance].currentEntry;
 			
 			if (entry.hasTimeFrame) {
 				[_segmentedControl selectItemWithIndex:0];
@@ -96,7 +96,7 @@
 		[_option1detailView setFrame:CGRectMake(0.0, 10.0, _option1detailView.frame.size.width, _option1detailView.frame.size.height)];
 		
 		if (![SZDataManager sharedInstance].currentEntryIsNew) {
-			SZEntryVO* entry = (SZEntryVO*)[SZDataManager sharedInstance].currentEntry;
+			SZEntryObject* entry = (SZEntryObject*)[SZDataManager sharedInstance].currentEntry;
 			if (entry.startTime) {
 				[_option1detailView.userInputs setValue:entry.startTime forKey:@"fromDate"];
 				[_option1detailView updateDatePickerAtIndex:0 withDate:entry.startTime];
@@ -218,14 +218,14 @@
 
 - (void)storeInputs {
 	if (self.segmentedControl.selectedIndex == 0) {
-		((SZEntryVO*)[SZDataManager sharedInstance].currentEntry).hasTimeFrame = YES;
-		((SZEntryVO*)[SZDataManager sharedInstance].currentEntry).startTime = [self.option1detailView.userInputs valueForKey:@"fromDate"];
-		((SZEntryVO*)[SZDataManager sharedInstance].currentEntry).endTime = [self.option1detailView.userInputs valueForKey:@"fromDate"];
+		((SZEntryObject*)[SZDataManager sharedInstance].currentEntry).hasTimeFrame = YES;
+		((SZEntryObject*)[SZDataManager sharedInstance].currentEntry).startTime = [self.option1detailView.userInputs valueForKey:@"fromDate"];
+		((SZEntryObject*)[SZDataManager sharedInstance].currentEntry).endTime = [self.option1detailView.userInputs valueForKey:@"toDate"];
 	}
 	else {
-		((SZEntryVO*)[SZDataManager sharedInstance].currentEntry).hasTimeFrame = NO;
-		((SZEntryVO*)[SZDataManager sharedInstance].currentEntry).startTime = nil;
-		((SZEntryVO*)[SZDataManager sharedInstance].currentEntry).endTime = nil;
+		((SZEntryObject*)[SZDataManager sharedInstance].currentEntry).hasTimeFrame = NO;
+		((SZEntryObject*)[SZDataManager sharedInstance].currentEntry).startTime = nil;
+		((SZEntryObject*)[SZDataManager sharedInstance].currentEntry).endTime = nil;
 	}
 }
 

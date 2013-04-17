@@ -96,8 +96,9 @@
 		[self.navigationController pushViewController:[[SZSubcategoriesVC alloc] initWithCategory:category] animated:YES];
 	}
 	else {
-		NSString* className = [SZDataManager sharedInstance].currentEntryType == SZEntryTypeRequest ? @"Request" : @"Offer";
-		PFQuery* query = [PFQuery queryWithClassName:className];
+		NSString* entryType = [SZDataManager sharedInstance].currentEntryType == SZEntryTypeRequest ? @"request" : @"offer";
+		PFQuery* query = [PFQuery queryWithClassName:@"Entry"];
+		[query whereKey:@"entryType" equalTo:entryType];
 		[self.navigationController pushViewController:[[SZSearchResultsVC alloc] initWithQuery:query] animated:YES];
 	}
 }

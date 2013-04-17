@@ -82,7 +82,7 @@
 		[_segmentedControl setDelegate:self];
 		
 		if (![SZDataManager sharedInstance].currentEntryIsNew) {
-			SZEntryVO* entry = (SZEntryVO*)[SZDataManager sharedInstance].currentEntry;
+			SZEntryObject* entry = (SZEntryObject*)[SZDataManager sharedInstance].currentEntry;
 			if (entry.priceIsNegotiable) {
 				[_segmentedControl selectItemWithIndex:0];
 			}
@@ -145,7 +145,7 @@
 		[_option2detailView addSubview:priceLabel];
 		
 		if (![SZDataManager sharedInstance].currentEntryIsNew) {
-			SZEntryVO* entry = (SZEntryVO*)[SZDataManager sharedInstance].currentEntry;
+			SZEntryObject* entry = (SZEntryObject*)[SZDataManager sharedInstance].currentEntry;
 			if (entry.price) {
 				[self.hourPriceForm.userInputs setValue:[NSString stringWithFormat:@"%i", [entry.price intValue]] forKey:@"price"];
 				[self.hourPriceForm setText:[NSString stringWithFormat:@"%i", [entry.price intValue]] forFieldAtIndex:0];
@@ -196,7 +196,7 @@
 		[_option3detailView addSubview:editButton];
 		
 		if (![SZDataManager sharedInstance].currentEntryIsNew) {
-			SZEntryVO* entry = (SZEntryVO*)[SZDataManager sharedInstance].currentEntry;
+			SZEntryObject* entry = (SZEntryObject*)[SZDataManager sharedInstance].currentEntry;
 			if (entry.price) {
 				[self.jobPriceForm.userInputs setValue:[NSString stringWithFormat:@"%i", [entry.price intValue]] forKey:@"price"];
 				[self.jobPriceForm setText:[NSString stringWithFormat:@"%i", [entry.price intValue]] forFieldAtIndex:0];
@@ -285,21 +285,21 @@
 - (void)storeInputs {
 	switch (self.segmentedControl.selectedIndex) {
 		case SZEntryPriceNegotiable:
-			((SZEntryVO*)[SZDataManager sharedInstance].currentEntry).priceIsNegotiable = YES;
-			((SZEntryVO*)[SZDataManager sharedInstance].currentEntry).priceIsFixedPerHour = NO;
-			((SZEntryVO*)[SZDataManager sharedInstance].currentEntry).priceIsFixedPerJob = NO;((SZEntryVO*)[SZDataManager sharedInstance].currentEntry).price = nil;
+			((SZEntryObject*)[SZDataManager sharedInstance].currentEntry).priceIsNegotiable = YES;
+			((SZEntryObject*)[SZDataManager sharedInstance].currentEntry).priceIsFixedPerHour = NO;
+			((SZEntryObject*)[SZDataManager sharedInstance].currentEntry).priceIsFixedPerJob = NO;((SZEntryObject*)[SZDataManager sharedInstance].currentEntry).price = nil;
 			break;
 		case SZEntryPriceFixedPerHour:
-			((SZEntryVO*)[SZDataManager sharedInstance].currentEntry).priceIsNegotiable = NO;
-			((SZEntryVO*)[SZDataManager sharedInstance].currentEntry).priceIsFixedPerHour = YES;
-			((SZEntryVO*)[SZDataManager sharedInstance].currentEntry).priceIsFixedPerJob = NO;
-			((SZEntryVO*)[SZDataManager sharedInstance].currentEntry).price = [SZUtils numberFromDecimalString:[self.hourPriceForm.userInputs valueForKey:@"price"]];
+			((SZEntryObject*)[SZDataManager sharedInstance].currentEntry).priceIsNegotiable = NO;
+			((SZEntryObject*)[SZDataManager sharedInstance].currentEntry).priceIsFixedPerHour = YES;
+			((SZEntryObject*)[SZDataManager sharedInstance].currentEntry).priceIsFixedPerJob = NO;
+			((SZEntryObject*)[SZDataManager sharedInstance].currentEntry).price = [SZUtils numberFromDecimalString:[self.hourPriceForm.userInputs valueForKey:@"price"]];
 			break;
 		case SZEntryPriceFixedPerJob:
-			((SZEntryVO*)[SZDataManager sharedInstance].currentEntry).priceIsNegotiable = NO;
-			((SZEntryVO*)[SZDataManager sharedInstance].currentEntry).priceIsFixedPerHour = NO;
-			((SZEntryVO*)[SZDataManager sharedInstance].currentEntry).priceIsFixedPerJob = YES;
-			((SZEntryVO*)[SZDataManager sharedInstance].currentEntry).price = [SZUtils numberFromDecimalString:[self.jobPriceForm.userInputs valueForKey:@"price"]];
+			((SZEntryObject*)[SZDataManager sharedInstance].currentEntry).priceIsNegotiable = NO;
+			((SZEntryObject*)[SZDataManager sharedInstance].currentEntry).priceIsFixedPerHour = NO;
+			((SZEntryObject*)[SZDataManager sharedInstance].currentEntry).priceIsFixedPerJob = YES;
+			((SZEntryObject*)[SZDataManager sharedInstance].currentEntry).price = [SZUtils numberFromDecimalString:[self.jobPriceForm.userInputs valueForKey:@"price"]];
 			break;
 		default:
 			break;

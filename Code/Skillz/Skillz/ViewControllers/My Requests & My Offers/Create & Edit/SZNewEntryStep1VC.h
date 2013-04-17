@@ -11,6 +11,6 @@
 
 @interface SZNewEntryStep1VC : SZStepVC <SZFormDelegate>
 
-- (id)initWithEntry:(SZEntryVO*)entry;
+- (id)initWithEntry:(SZEntryObject*)entry;
 
 @end

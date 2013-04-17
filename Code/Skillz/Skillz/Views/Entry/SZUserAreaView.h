@@ -7,7 +7,6 @@
 //
 
 #import <UIKit/UIKit.h>
-//#import "SZUserVO.h"
 
 @interface SZUserAreaView : UIView
 

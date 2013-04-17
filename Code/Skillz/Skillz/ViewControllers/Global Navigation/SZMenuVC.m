@@ -30,7 +30,6 @@
 	
 	dispatch_once(&singletonPredicate, ^{
         singleton = [[super allocWithZone:nil] init];
-		NSLog(@"menu singleton created");
 	});
 	return singleton;
 }
@@ -44,24 +43,54 @@
     self = [super init];
     if (self) {
         [self setNumberOfSections:4];
-		[self setSectionTitle:@"MY ACCOUNT" forSection:0];
-		[self setSectionTitle:@"MY LISTINGS" forSection:1];
-		[self setSectionTitle:@"DISCOVER" forSection:2];
+		[self setSectionTitle:@"DISCOVER" forSection:0];
+		[self setSectionTitle:@"MY ACCOUNT" forSection:1];
+		[self setSectionTitle:@"MY LISTINGS" forSection:2];
 		[self setSectionTitle:@"MORE" forSection:3];
 		
-		[self addItem:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObject:@"Profile"] forKeys:[NSArray arrayWithObject:@"title"]] toSection:0];
-		[self addItem:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"Balance", nil, nil] forKeys:[NSArray arrayWithObject:@"title"]] toSection:0];
-		[self addItem:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObject:@"Messages"] forKeys:[NSArray arrayWithObject:@"title"]] toSection:0];
+		// DISCOVER SECTION
+		[self addItem:[NSDictionary dictionaryWithObjects:
+					   [NSArray arrayWithObjects:@"Search", @"SZSearchVC", nil] forKeys:
+					   [NSArray arrayWithObjects:@"title", @"class", nil]] toSection:0];
+		[self addItem:[NSDictionary dictionaryWithObjects:
+					   [NSArray arrayWithObjects:@"Browse", @"SZBrowseVC", nil] forKeys:
+					   [NSArray arrayWithObjects:@"title", @"class", nil]] toSection:0];
 		
-		[self addItem:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"My Offers", @"SZMyOffersVC", nil] forKeys:[NSArray arrayWithObjects:@"title", @"class", nil]] toSection:1];
-		[self addItem:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"My Requests", @"SZMyRequestsVC", nil] forKeys:[NSArray arrayWithObjects:@"title", @"class", nil]] toSection:1];
+		// MY ACCOUNT SECTION
+		[self addItem:[NSDictionary dictionaryWithObjects:
+					   [NSArray arrayWithObject:@"Open Deals"] forKeys:
+					   [NSArray arrayWithObject:@"title"]] toSection:1];
+		[self addItem:[NSDictionary dictionaryWithObjects:
+					   [NSArray arrayWithObject:@"Messages"] forKeys:
+					   [NSArray arrayWithObject:@"title"]] toSection:1];
+		[self addItem:[NSDictionary dictionaryWithObjects:
+					   [NSArray arrayWithObjects:@"Account Balance", nil, nil] forKeys:
+					   [NSArray arrayWithObject:@"title"]] toSection:1];
+		[self addItem:[NSDictionary dictionaryWithObjects:
+					   [NSArray arrayWithObject:@"Profile"] forKeys:
+					   [NSArray arrayWithObject:@"title"]] toSection:1];
 		
-		[self addItem:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObject:@"Search"] forKeys:[NSArray arrayWithObject:@"title"]] toSection:2];
-		[self addItem:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"Browse", @"SZBrowseVC", nil] forKeys:[NSArray arrayWithObjects:@"title", @"class", nil]] toSection:2];
+		// MY LISTINGS SECTION
+		[self addItem:[NSDictionary dictionaryWithObjects:
+					   [NSArray arrayWithObjects:@"My Offers", @"SZMyOffersVC", nil] forKeys:
+					   [NSArray arrayWithObjects:@"title", @"class", nil]] toSection:2];
+		[self addItem:[NSDictionary dictionaryWithObjects:
+					   [NSArray arrayWithObjects:@"My Requests", @"SZMyRequestsVC", nil] forKeys:
+					   [NSArray arrayWithObjects:@"title", @"class", nil]] toSection:2];
 		
-		[self addItem:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObject:@"Help"] forKeys:[NSArray arrayWithObject:@"title"]] toSection:3];
-		[self addItem:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObject:@"Terms & Conditions"] forKeys:[NSArray arrayWithObject:@"title"]] toSection:3];
-		[self addItem:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObject:@"Logout"] forKeys:[NSArray arrayWithObject:@"title"]] toSection:3];
+		// MORE SECTION
+		[self addItem:[NSDictionary dictionaryWithObjects:
+					   [NSArray arrayWithObject:@"Help"] forKeys:
+					   [NSArray arrayWithObject:@"title"]] toSection:3];
+		[self addItem:[NSDictionary dictionaryWithObjects:
+					   [NSArray arrayWithObject:@"Settings"] forKeys:
+					   [NSArray arrayWithObject:@"title"]] toSection:3];
+		[self addItem:[NSDictionary dictionaryWithObjects:
+					   [NSArray arrayWithObject:@"Terms & Conditions"] forKeys:
+					   [NSArray arrayWithObject:@"title"]] toSection:3];
+		[self addItem:[NSDictionary dictionaryWithObjects:
+					   [NSArray arrayWithObject:@"Logout"] forKeys:
+					   [NSArray arrayWithObject:@"title"]] toSection:3];
 		
     }
     return self;

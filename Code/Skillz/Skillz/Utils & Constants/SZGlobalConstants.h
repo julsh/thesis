@@ -51,11 +51,6 @@ typedef enum {
 } SZFormFieldInputType;
 
 typedef enum {
-	SZEntryTypeRequest,
-	SZEntryTypeOffer
-} SZEntryType;
-
-typedef enum {
 	SZEntryLocationWillGoSomewhereElse,
 	SZEntryLocationWillStayAtHome,
 	SZEntryLocationRemote
@@ -77,6 +72,9 @@ typedef enum {
 	SZUserPhotoViewSizeMedium,
 	SZUserPhotoViewSizeLarge
 } SZUserPhotoViewSize;
+
+#define MilesToMeters(MILES) MILES * 1609.344
+#define MetersToMiles(METERS) METERS / 1609.344
 
 @interface SZGlobalConstants : NSObject
 

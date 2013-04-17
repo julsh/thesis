@@ -99,7 +99,7 @@
 
 - (SZEntryView*)entryView {
 	if (_entryView == nil) {
-		_entryView = [[SZEntryView alloc] initWithEntry:(SZEntryVO*)[SZDataManager sharedInstance].currentEntry];
+		_entryView = [[SZEntryView alloc] initWithEntry:(SZEntryObject*)[SZDataManager sharedInstance].currentEntry];
 		[_entryView setFrame:CGRectMake(15.0, self.contentHeight + 15.0, _entryView.frame.size.width, _entryView.frame.size.height + 30.0)];
 		
 		self.contentHeight += _entryView.frame.size.height;
@@ -170,7 +170,7 @@
 	[hud setRemoveFromSuperViewOnHide:YES];
 	[hud show:YES];
 	
-	SZEntryVO* entry = (SZEntryVO*)[SZDataManager sharedInstance].currentEntry;
+	SZEntryObject* entry = (SZEntryObject*)[SZDataManager sharedInstance].currentEntry;
 	
 	if (sender.tag == 0) {
 		entry.isActive = YES;
@@ -180,11 +180,11 @@
 	}
 	
 	// post to server
-	PFObject* serverObject = [SZEntryVO serverObjectFromEntryVO:entry className:[SZDataManager sharedInstance].currentEntryType == SZEntryTypeRequest ? @"Request" : @"Offer"];
-	[serverObject saveEventually:^(BOOL succeeded, NSError *error) {
+//	SZEntryVO* serverObject = [SZ]
+//	PFObject* serverObject = [SZEntryVO serverObjectFromEntryVO:entry className:[SZDataManager sharedInstance].currentEntryType == SZEntryTypeRequest ? @"Request" : @"Offer"];
+	[entry saveEventually:^(BOOL succeeded, NSError *error) {
 		if (succeeded) {
 			// cache the request to be used offline
-			entry.objectID = serverObject.objectId;
 			[[SZDataManager sharedInstance] updateEntryCacheWithEntry:entry type:[SZDataManager sharedInstance].currentEntryType];
 			[SZDataManager sharedInstance].currentEntry = nil;
 			[hud hide:YES];
@@ -206,18 +206,18 @@
 	[hud setRemoveFromSuperViewOnHide:YES];
 	[hud show:YES];
 	
-	SZEntryVO* entry = (SZEntryVO*)[SZDataManager sharedInstance].currentEntry;
-	PFObject* serverObject = [PFQuery getObjectOfClass:[SZDataManager sharedInstance].currentEntryType == SZEntryTypeRequest ? @"Request" : @"Offer" objectId:entry.objectID];
-	serverObject = [SZEntryVO updatePFObject:serverObject withEntryVO:entry];
+//	SZEntryVO* entry = (SZEntryVO*)[SZDataManager sharedInstance].currentEntry;
+//	PFObject* serverObject = [PFQuery getObjectOfClass:[SZDataManager sharedInstance].currentEntryType == SZEntryTypeRequest ? @"Request" : @"Offer" objectId:entry.objectID];
+//	serverObject = [SZEntryVO updatePFObject:serverObject withEntryVO:entry];
 	
-	[serverObject saveEventually:^(BOOL succeeded, NSError *error) {
+	[[SZDataManager sharedInstance].currentEntry saveEventually:^(BOOL succeeded, NSError *error) {
 		if (succeeded) {
 			
-			[[SZDataManager sharedInstance] updateEntryCacheWithEntry:entry type:[SZDataManager sharedInstance].currentEntryType];
-			[SZDataManager sharedInstance].currentEntry = nil;
+			[[SZDataManager sharedInstance] updateEntryCacheWithEntry:[SZDataManager sharedInstance].currentEntry type:[SZDataManager sharedInstance].currentEntryType];
 			[hud hide:YES];
-			[[NSNotificationCenter defaultCenter] postNotificationName:NOTIF_ENTRY_UPDATED object:entry userInfo:[NSDictionary dictionaryWithObject:entry forKey:@"entry"]];
+			[[NSNotificationCenter defaultCenter] postNotificationName:NOTIF_ENTRY_UPDATED object:[SZDataManager sharedInstance].currentEntry userInfo:[NSDictionary dictionaryWithObject:[SZDataManager sharedInstance].currentEntry forKey:@"entry"]];
 			[self.presentingViewController performSelector:@selector(dismiss:) withObject:self];
+			[SZDataManager sharedInstance].currentEntry = nil;
 			
 		}
 		else {

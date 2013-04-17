@@ -15,6 +15,7 @@
 @property (nonatomic, strong) UILabel* titleLabel;
 @property (nonatomic, strong) UILabel* categoryLabel;
 @property (nonatomic, strong) UILabel* pointsLabel;
+@property (nonatomic, strong) UILabel* distanceLabel;
 @property (nonatomic, strong) UILabel* userName;
 @property (nonatomic, strong) SZUserPhotoView* userPhoto;
 @property (nonatomic, strong) SZStarsView* starsView;

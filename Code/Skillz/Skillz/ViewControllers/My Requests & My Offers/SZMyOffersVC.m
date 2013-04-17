@@ -94,7 +94,7 @@
 		cell = [[SZEntryCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:cellId];
 	}
 	
-	SZEntryVO *offer = [self.offers objectAtIndex:indexPath.row - 1];
+	SZEntryObject *offer = [self.offers objectAtIndex:indexPath.row - 1];
 	
 	cell.textLabel.text = offer.title;
 	
@@ -115,18 +115,19 @@
 		return;
 	}
 	
-	SZEntryVO* offer = [self.offers objectAtIndex:indexPath.row - 1];
-	SZMyEntryVC* vc = [[SZMyEntryVC alloc] initWithEntry:offer type:SZEntryTypeRequest];
+	[SZDataManager sharedInstance].currentEntryType = SZEntryTypeOffer;
+	SZEntryObject* offer = [self.offers objectAtIndex:indexPath.row - 1];
+	SZMyEntryVC* vc = [[SZMyEntryVC alloc] initWithEntry:offer type:SZEntryTypeOffer];
 	[self.navigationController pushViewController:vc animated:YES];
 	
 }
 
 - (void)switchChanged:(UISwitch*)sender {
 	
-	SZEntryVO* offer = [self.offers objectAtIndex:sender.tag];
+	SZEntryObject* offer = [self.offers objectAtIndex:sender.tag];
 	offer.isActive = sender.isOn;
 	
-	PFObject* serverObject = [PFQuery getObjectOfClass:@"Request" objectId:offer.objectID];
+	PFObject* serverObject = [PFQuery getObjectOfClass:@"Entry" objectId:offer.objectId];
 	[serverObject setValue:[NSNumber numberWithBool:offer.isActive] forKey:@"isActive"];
 	[serverObject saveInBackground];
 	
@@ -149,16 +150,17 @@
         [self.offersTableView deselectRowAtIndexPath:selection animated:YES];
     }
 	
-	[self reloadRequests];
+	[self reloadOffers];
 	[self.offersTableView reloadData];
 }
 
-- (void)reloadRequests {
+- (void)reloadOffers {
 	self.offers = [[NSMutableArray alloc] init];
 	NSArray* myOffers = [[NSUserDefaults standardUserDefaults] objectForKey:@"offers"];
 	if ([myOffers count] != 0) {
 		for (NSDictionary* reqDict in myOffers) {
-			SZEntryVO* offer = [SZEntryVO entryVOfromDictionary:reqDict];
+			SZEntryObject* offer = [SZEntryObject entryVOfromDictionary:reqDict];
+			offer.type = SZEntryTypeOffer;
 			offer.user = [PFUser currentUser];
 			[self.offers addObject:offer];
 		}

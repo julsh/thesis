@@ -6,6 +6,7 @@
 //  Copyright (c) 2013 Julia Roggatz. All rights reserved.
 //
 
+#import <CoreLocation/CoreLocation.h>
 #import <Foundation/Foundation.h>
 
 @interface SZUtils : NSObject
@@ -21,6 +22,5 @@
 + (NSArray*)sortedSubcategoriesForCategory:(NSString*)category;
 + (UIView*)starViewForReviewArray:(NSArray*)reviews size:(SZStarViewSize)size;
 + (BOOL)currentUserisWithinDistance:(NSNumber*)distance ofAddress:(NSDictionary*)address;
-//+ (UIView*)
 
 @end

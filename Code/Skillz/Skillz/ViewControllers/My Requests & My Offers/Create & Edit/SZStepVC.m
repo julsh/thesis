@@ -96,7 +96,7 @@
 		_continueButton = [[SZButton alloc] initWithColor:SZButtonColorPetrol size:SZButtonSizeLarge width:290.0];
 		[_continueButton setTitle:@"Continue" forState:UIControlStateNormal];
 		[_continueButton addTarget:self action:@selector(continue:) forControlEvents:UIControlEventTouchUpInside];
-		[_continueButton setCenter:CGPointMake(160.0, 380.0)];
+		[_continueButton setCenter:CGPointMake(160.0, 381.0)];
 	}
 	return _continueButton;
 }
@@ -267,8 +267,8 @@
 	[self.forms addObject:self.editDescriptionForm];
 	
 	NSString* description;
-	if ([[SZDataManager sharedInstance].currentEntry isKindOfClass:[SZEntryVO class]]) {
-		description = ((SZEntryVO*)[SZDataManager sharedInstance].currentEntry).description;
+	if ([[SZDataManager sharedInstance].currentEntry isKindOfClass:[SZEntryObject class]]) {
+		description = ((SZEntryObject*)[SZDataManager sharedInstance].currentEntry).description;
 	}
 	[self.editDescriptionForm setText:description forFieldAtIndex:0];
 	[self.editDescriptionForm setScrollContainer:self.mainView];
@@ -308,8 +308,8 @@
 - (void)saveAndHideDescription:(SZButton*)sender {
 	
 	UIView* parentView = [sender superview];
-	if ([[SZDataManager sharedInstance].currentEntry isKindOfClass:[SZEntryVO class]]) {
-		((SZEntryVO*)[SZDataManager sharedInstance].currentEntry).description = [self.editDescriptionForm.userInputs valueForKey:@"description"];
+	if ([[SZDataManager sharedInstance].currentEntry isKindOfClass:[SZEntryObject class]]) {
+		((SZEntryObject*)[SZDataManager sharedInstance].currentEntry).description = [self.editDescriptionForm.userInputs valueForKey:@"description"];
 	}
 	[self.detailViewContainer setFrame:CGRectMake(self.detailViewContainer.frame.origin.x,
 												  self.detailViewContainer.frame.origin.y,

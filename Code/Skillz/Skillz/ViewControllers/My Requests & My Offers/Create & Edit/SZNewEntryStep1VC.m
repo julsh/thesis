@@ -26,7 +26,7 @@
 @synthesize categoryForm = _categoryForm;
 @synthesize subCategoryForm = _subCategoryForm;
 
-- (id)initWithEntry:(SZEntryVO*)entry
+- (id)initWithEntry:(SZEntryObject*)entry
 {
 	self = [super initWithStepNumber:1 totalSteps:5];
 	if (self) {
@@ -36,7 +36,8 @@
 			self.currentyCategory = entry.category;
 		}
 		else {
-			SZEntryVO* newEntry = [[SZEntryVO alloc] init];
+			SZEntryObject* newEntry = [SZEntryObject object];
+			newEntry.type = [SZDataManager sharedInstance].currentEntryType;
 			newEntry.user = [PFUser currentUser];
 			[[SZDataManager sharedInstance] setCurrentEntry:newEntry];
 			[[SZDataManager sharedInstance] setCurrentEntryIsNew:YES];
@@ -96,7 +97,7 @@
 		[_categoryForm setScrollContainer:self.mainView];
 		
 		if (![SZDataManager sharedInstance].currentEntryIsNew) {
-			SZEntryVO* entry = (SZEntryVO*)[SZDataManager sharedInstance].currentEntry;
+			SZEntryObject* entry = (SZEntryObject*)[SZDataManager sharedInstance].currentEntry;
 			if (entry.category) {
 				[_categoryForm.userInputs setValue:entry.category forKey:@"category"];
 				[_categoryForm setText:entry.category forFieldAtIndex:0];
@@ -141,7 +142,7 @@
 		[_subCategoryForm setScrollContainer:self.mainView];
 		
 		if (![SZDataManager sharedInstance].currentEntryIsNew) {
-			SZEntryVO* entry = (SZEntryVO*)[SZDataManager sharedInstance].currentEntry;
+			SZEntryObject* entry = (SZEntryObject*)[SZDataManager sharedInstance].currentEntry;
 			[self.subCategoryForm updatePickerOptions:[SZUtils sortedSubcategoriesForCategory:entry.category] forPickerAtIndex:0];
 			if (entry.subcategory) {
 				[self.subCategoryForm setText:entry.subcategory forFieldAtIndex:0];
@@ -209,12 +210,12 @@
 		
 - (void)storeInputs {
 	// store the inputs
-	((SZEntryVO*)[SZDataManager sharedInstance].currentEntry).category = [self.categoryForm.userInputs valueForKey:@"category"];
+	((SZEntryObject*)[SZDataManager sharedInstance].currentEntry).category = [self.categoryForm.userInputs valueForKey:@"category"];
 	if (![[self.subCategoryForm.userInputs valueForKey:@"subcategory"] isEqualToString:@""]) {
-		((SZEntryVO*)[SZDataManager sharedInstance].currentEntry).subcategory = [self.subCategoryForm.userInputs valueForKey:@"subcategory"];
+		((SZEntryObject*)[SZDataManager sharedInstance].currentEntry).subcategory = [self.subCategoryForm.userInputs valueForKey:@"subcategory"];
 	}
 	else {
-		((SZEntryVO*)[SZDataManager sharedInstance].currentEntry).subcategory = nil;
+		((SZEntryObject*)[SZDataManager sharedInstance].currentEntry).subcategory = nil;
 	}
 }
 
