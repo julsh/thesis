@@ -1009,11 +1009,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "Skillz/Views/Custom UI Elements/SZForm.m"
-         timestampString = "387821647.516458"
+         timestampString = "387927360.630804"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "396"
-         endingLineNumber = "396"
+         startingLineNumber = "403"
+         endingLineNumber = "403"
          landmarkName = "-textFieldShouldClear:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -1022,11 +1022,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "Skillz/Views/Custom UI Elements/SZForm.m"
-         timestampString = "387821647.516458"
+         timestampString = "387927360.630804"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "416"
-         endingLineNumber = "416"
+         startingLineNumber = "423"
+         endingLineNumber = "423"
          landmarkName = "-textFieldShouldClear:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -1223,6 +1223,19 @@
          startingLineNumber = "331"
          endingLineNumber = "331"
          landmarkName = "-mapView:viewForAnnotation:"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "No"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         filePath = "Skillz/Views/Custom UI Elements/SZForm.m"
+         timestampString = "387927283.892979"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "239"
+         endingLineNumber = "239"
+         landmarkName = "-setTextFieldWidth:forFieldAtIndex:"
          landmarkType = "5">
       </FileBreakpoint>
    </FileBreakpoints>

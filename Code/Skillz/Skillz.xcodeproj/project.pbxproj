@@ -25,6 +25,10 @@
 		DE0FA809171F1BA4001F2002 /* segmented_control_right_selected@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = DE0FA801171F1BA4001F2002 /* segmented_control_right_selected@2x.png */; };
 		DE0FA80A171F1BA4001F2002 /* segmented_control_selected.png in Resources */ = {isa = PBXBuildFile; fileRef = DE0FA802171F1BA4001F2002 /* segmented_control_selected.png */; };
 		DE0FA80B171F1BA4001F2002 /* segmented_control_selected@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = DE0FA803171F1BA4001F2002 /* segmented_control_selected@2x.png */; };
+		DE0FA810171F4C3A001F2002 /* button_current_location_selected.png in Resources */ = {isa = PBXBuildFile; fileRef = DE0FA80C171F4C39001F2002 /* button_current_location_selected.png */; };
+		DE0FA811171F4C3A001F2002 /* button_current_location_selected@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = DE0FA80D171F4C39001F2002 /* button_current_location_selected@2x.png */; };
+		DE0FA812171F4C3A001F2002 /* button_current_location.png in Resources */ = {isa = PBXBuildFile; fileRef = DE0FA80E171F4C39001F2002 /* button_current_location.png */; };
+		DE0FA813171F4C3A001F2002 /* button_current_location@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = DE0FA80F171F4C39001F2002 /* button_current_location@2x.png */; };
 		DE243A031707C64E0048FCED /* SZDataManager.m in Sources */ = {isa = PBXBuildFile; fileRef = DE243A021707C64E0048FCED /* SZDataManager.m */; };
 		DE243A061707C79A0048FCED /* NSMutableArray+Stack.m in Sources */ = {isa = PBXBuildFile; fileRef = DE243A051707C79A0048FCED /* NSMutableArray+Stack.m */; };
 		DE243A181708D4770048FCED /* SZEntryObject.m in Sources */ = {isa = PBXBuildFile; fileRef = DE243A171708D4770048FCED /* SZEntryObject.m */; };
@@ -308,6 +312,10 @@
 		DE0FA801171F1BA4001F2002 /* segmented_control_right_selected@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "segmented_control_right_selected@2x.png"; sourceTree = "<group>"; };
 		DE0FA802171F1BA4001F2002 /* segmented_control_selected.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = segmented_control_selected.png; sourceTree = "<group>"; };
 		DE0FA803171F1BA4001F2002 /* segmented_control_selected@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "segmented_control_selected@2x.png"; sourceTree = "<group>"; };
+		DE0FA80C171F4C39001F2002 /* button_current_location_selected.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = button_current_location_selected.png; sourceTree = "<group>"; };
+		DE0FA80D171F4C39001F2002 /* button_current_location_selected@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "button_current_location_selected@2x.png"; sourceTree = "<group>"; };
+		DE0FA80E171F4C39001F2002 /* button_current_location.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = button_current_location.png; sourceTree = "<group>"; };
+		DE0FA80F171F4C39001F2002 /* button_current_location@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "button_current_location@2x.png"; sourceTree = "<group>"; };
 		DE243A011707C64E0048FCED /* SZDataManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SZDataManager.h; sourceTree = "<group>"; };
 		DE243A021707C64E0048FCED /* SZDataManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SZDataManager.m; sourceTree = "<group>"; };
 		DE243A041707C79A0048FCED /* NSMutableArray+Stack.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSMutableArray+Stack.h"; sourceTree = "<group>"; };
@@ -1244,6 +1252,10 @@
 				DE9A89241701157300E71B79 /* radiobutton@2x.png */,
 				DE0FA7DB171DC1F7001F2002 /* buttonIcon_filter.png */,
 				DE0FA7DC171DC1F7001F2002 /* buttonIcon_filter@2x.png */,
+				DE0FA80C171F4C39001F2002 /* button_current_location_selected.png */,
+				DE0FA80D171F4C39001F2002 /* button_current_location_selected@2x.png */,
+				DE0FA80E171F4C39001F2002 /* button_current_location.png */,
+				DE0FA80F171F4C39001F2002 /* button_current_location@2x.png */,
 			);
 			path = buttons;
 			sourceTree = "<group>";
@@ -1600,6 +1612,10 @@
 				DE0FA809171F1BA4001F2002 /* segmented_control_right_selected@2x.png in Resources */,
 				DE0FA80A171F1BA4001F2002 /* segmented_control_selected.png in Resources */,
 				DE0FA80B171F1BA4001F2002 /* segmented_control_selected@2x.png in Resources */,
+				DE0FA810171F4C3A001F2002 /* button_current_location_selected.png in Resources */,
+				DE0FA811171F4C3A001F2002 /* button_current_location_selected@2x.png in Resources */,
+				DE0FA812171F4C3A001F2002 /* button_current_location.png in Resources */,
+				DE0FA813171F4C3A001F2002 /* button_current_location@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

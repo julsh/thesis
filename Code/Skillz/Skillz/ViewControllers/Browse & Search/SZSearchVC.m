@@ -20,6 +20,7 @@
 @property (nonatomic, strong) SZForm* keywordsForm;
 @property (nonatomic, strong) SZForm* categoryForm;
 @property (nonatomic, strong) SZForm* locationForm;
+@property (nonatomic, strong) UIButton* currentLocationButton;
 @property (nonatomic, strong) UILabel* milesLabel;
 @property (nonatomic, strong) UISlider* radiusSlider;
 
@@ -47,6 +48,7 @@
 	[self.scrollView addSubview:self.categoryForm];
 	[self.scrollView addSubview:[self locationLabel]];
 	[self.scrollView addSubview:self.locationForm];
+	[self.scrollView addSubview:self.currentLocationButton];
 	[self.scrollView addSubview:[self radiusLabel]];
 	[self.scrollView addSubview:self.milesLabel];
 	[self.scrollView addSubview:self.radiusSlider];
@@ -70,7 +72,15 @@
 
 
 - (void)scrollViewTapped:(id)sender {
-	NSLog(@"TODO dismiss responders");
+	if (self.keywordsForm.isActive) {
+		[self.keywordsForm resign:nil completion:nil];
+	}
+	else if (self.categoryForm.isActive) {
+		[self.categoryForm resign:nil completion:nil];
+	}
+	else if (self.locationForm.isActive) {
+		[self.locationForm resign:nil completion:nil];
+	}
 }
 
 
@@ -191,10 +201,46 @@
 																	  placeHolderText:@"City, ZIP or full address"
 																		 keyboardType:UIKeyboardTypeDefault];
 		[_locationForm addItem:formField showsClearButton:YES isLastItem:YES];
+		[_locationForm setDelegate:self];
+		[_locationForm setTextFieldWidth:230.0 forFieldAtIndex:0];
 		[_locationForm setCenter:CGPointMake(160.0, 270.0)];
 		[_locationForm setScrollContainer:self.scrollView];
 	}
 	return _locationForm;
+}
+
+- (UIButton*)currentLocationButton {
+	if (_currentLocationButton == nil) {
+		
+		_currentLocationButton = [UIButton buttonWithType:UIButtonTypeCustom];
+		[_currentLocationButton setFrame:CGRectMake(261.0, 250.0, 43.0, 40.0)];
+		[_currentLocationButton setImage:[UIImage imageNamed:@"button_current_location"] forState:UIControlStateNormal];
+		[_currentLocationButton setImage:[UIImage imageNamed:@"button_current_location_selected"] forState:UIControlStateHighlighted];
+		[_currentLocationButton addTarget:self action:@selector(applyCurrentLocation:) forControlEvents:UIControlEventTouchUpInside];
+	}
+	return _currentLocationButton;
+}
+
+- (void)applyCurrentLocation:(id)sender {
+	[self.locationForm setText:@"Current Location" forFieldAtIndex:0];
+	[self.locationForm.userInputs setValue:@"Current Location" forKey:@"location"];
+	[self scrollViewTapped:nil];
+}
+
+- (void)formDidBeginEditing:(SZForm *)form {
+	if (form == self.locationForm && [[form.userInputs valueForKey:@"location"] isEqualToString:@"Current Location"]) {
+		[self.locationForm setText:@"" forFieldAtIndex:0];
+		[self.locationForm.userInputs setValue:@"" forKey:@"location"];
+	}
+}
+
+
+- (UIButton*)searchButton {
+	SZButton* button = [[SZButton alloc] initWithColor:SZButtonColorPetrol size:SZButtonSizeLarge width:290.0];
+	[button setTitle:@"Search!" forState:UIControlStateNormal];
+	[button setCenter:CGPointMake(160.0, 380.0)];
+	[button addTarget:self action:@selector(search:) forControlEvents:UIControlEventTouchUpInside];
+	return button;
 }
 
 - (UILabel*)radiusLabel {
@@ -226,14 +272,6 @@
 		[_radiusSlider setValue:sqrtf((float)self.radius/100.0)];
 	}
 	return _radiusSlider;
-}
-
-- (SZButton*)searchButton {
-	SZButton* button = [[SZButton alloc] initWithColor:SZButtonColorPetrol size:SZButtonSizeLarge width:290.0];
-	[button setTitle:@"Search!" forState:UIControlStateNormal];
-	[button setCenter:CGPointMake(160.0, 380.0)];
-	[button addTarget:self action:@selector(search:) forControlEvents:UIControlEventTouchUpInside];
-	return button;
 }
 
 - (void)radiusChanged:(UISlider*)slider {

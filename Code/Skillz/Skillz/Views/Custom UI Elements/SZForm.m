@@ -236,6 +236,13 @@
 	}
 }
 
+- (void)setTextFieldWidth:(CGFloat)width forFieldAtIndex:(NSInteger)index {
+	UIView* field = [self.fieldViews objectAtIndex:index];
+	CGRect frame = field.frame;
+	frame.size.width = width;
+	field.frame = frame;
+}
+
 - (void)resign:(UIView*)firstResponder completion:(void(^)(BOOL finished))completionBlock {
 	
 	self.isActive = NO;
