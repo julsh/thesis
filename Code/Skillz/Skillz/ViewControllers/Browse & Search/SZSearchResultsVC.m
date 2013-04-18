@@ -66,28 +66,27 @@
 									entry.user = (PFUser*)object;
 									[entryDict setObject:entry forKey:@"entry"];
 									[self.results addObject:entryDict];
-									[self setLocationForEntryAtIndex:self.fetchCount];
+									[self setLocationForEntryDict:entryDict];
 									
 									self.fetchCount++;
 									if (self.fetchCount == [objects count]) {
-										[self hideActivityIndicator];
-										[self.tableView reloadData]; // once all results are complete, display them
-										[self.mapListSwitcher setUserInteractionEnabled:YES];
+										[self displayResults];
 									}
 								}
 								else if (error) {
 									NSLog(@"Error: %@ %@", error, [error userInfo]);
 									self.fetchCount++;
 									if (self.fetchCount == [objects count]) {
-										[self hideActivityIndicator];
-										[self.tableView reloadData];
-										[self.mapListSwitcher setUserInteractionEnabled:YES];
+										[self displayResults];
 									}
 								}
 							}];
 						}
 						else {
 							self.fetchCount++;
+							if (self.fetchCount == [objects count]) {
+								[self displayResults];
+							}
 						}
 						
 					}
@@ -132,8 +131,14 @@
 	[self.tableView setSeparatorStyle:UITableViewCellSeparatorStyleNone];
 }
 
-- (void)setLocationForEntryAtIndex:(NSInteger)index {
-	NSMutableDictionary* dict = [self.results objectAtIndex:index];
+- (void)displayResults {
+	[self hideActivityIndicator];
+	[self.tableView reloadData]; // once all results are complete, display them
+	[self.mapListSwitcher setUserInteractionEnabled:YES];
+}
+
+- (void)setLocationForEntryDict:(NSMutableDictionary*)dict {
+	
 	SZEntryObject* entry = [dict valueForKey:@"entry"];
 	if (entry.address || entry.withinZipCode) {
 		NSString* addressString;
@@ -171,6 +176,10 @@
 			anno.tag = i;
 			[_mapView addAnnotation:anno];
 		}
+		
+		
+		MKCoordinateRegion region = MKCoordinateRegionMake(self.currentUserLocation.coordinate, MKCoordinateSpanMake(0.05, 0.05));
+		[self.mapView setRegion:region];
 	}
 	return _mapView;
 }
@@ -316,8 +325,10 @@
 	self.currentUserLocation = [[CLLocation alloc] initWithLatitude:37.785834 longitude:-122.406417];
 	
 	if (sender.selectedSegmentIndex == 1) {
-		MKCoordinateRegion region = MKCoordinateRegionMake(self.currentUserLocation.coordinate, MKCoordinateSpanMake(0.05, 0.05));
-		[self.mapView setRegion:region];
+		
+		CGRect frame = self.mapView.frame;
+		frame.origin.y = self.tableView.contentOffset.y;
+		self.mapView.frame = frame;
 		[self.view addSubview:self.mapView];
 	}
 	else if (sender.selectedSegmentIndex == 0) {

@@ -290,7 +290,7 @@
 	[query whereKey:@"entryType" equalTo:entryType];
 	
 	if (![[self.keywordsForm.userInputs valueForKey:@"keywords"] isEqualToString:@""]) {
-		// TODO look for keywords
+		[query whereKey:@"title" containsString:[self.keywordsForm.userInputs valueForKey:@"keywords"]];
 	}
 	if (![[self.categoryForm.userInputs valueForKey:@"category"] isEqualToString:@""]) {
 		[query whereKey:@"category" equalTo:[self.categoryForm.userInputs valueForKey:@"category"]];
