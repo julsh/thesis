@@ -210,7 +210,7 @@
 	}
 	
 	inputToEvaluate = [self.form.userInputs valueForKey:@"password"];
-	regEx = @"[a-z0-9._!\\?@-]{6,18}$";
+	regEx = @"[A-Za-z0-9._!\\?@-]{6,18}$";
 	testPredicate = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", regEx];
 	if (![testPredicate evaluateWithObject:inputToEvaluate]) {
 		errorMessage = [errorMessage stringByAppendingString:@"The password must contain 6 to 18 characters. Valid characters are letters, digits and any of the following special characters:\n _ - . ! ? @\n\n"];
