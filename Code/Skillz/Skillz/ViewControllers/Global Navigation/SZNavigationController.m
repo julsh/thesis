@@ -19,6 +19,7 @@
 @property (nonatomic, strong) UISwipeGestureRecognizer *leftSwipeRecognizer;
 @property (nonatomic, strong) UISwipeGestureRecognizer *rightSwipeRecognizer;
 @property (nonatomic, assign) BOOL isMenuVisible;
+@property (nonatomic, assign) BOOL isSortOrFilterMenuVisible;
 @property (nonatomic, assign) BOOL isModal;
 
 @end
@@ -60,15 +61,6 @@
     return self;
 }
 
-- (void)showMenu:(id)sender {
-	
-	if (self.isMenuVisible) {
-		[self slideInMainViewAnimated:YES];
-	}
-	else {
-		[self slideOutMainViewAnimated:YES];
-	}
-}
 
 - (void)viewDidLoad
 {
@@ -80,6 +72,26 @@
 	
 	[self addChildViewController:[SZMenuVC sharedInstance]];
 	[self.view insertSubview:[SZMenuVC sharedInstance].view atIndex:0];
+}
+
+- (void)toggleMenu:(id)sender {
+	
+	if (self.isMenuVisible) {
+		[self slideInMainViewAnimated:YES navigationType:SZNavigationMenu];
+	}
+	else {
+		[self slideOutMainViewAnimated:YES navigationType:SZNavigationMenu];
+	}
+}
+
+- (void)toggleSortOrFilterMenu {
+	NSLog(@"toggle sort or filter menu");
+	if (self.isSortOrFilterMenuVisible) {
+		[self slideInMainViewAnimated:YES navigationType:SZNavigationSortOrFiler];
+	}
+	else {
+		[self slideOutMainViewAnimated:YES navigationType:SZNavigationSortOrFiler];
+	}
 }
 
 - (UISwipeGestureRecognizer *)leftSwipeRecognizer {
@@ -105,49 +117,76 @@
 - (void)handleSwipeFrom:(UISwipeGestureRecognizer *)recognizer {
 	
 	if (recognizer == self.leftSwipeRecognizer) {
-		[self slideInMainViewAnimated:YES];
+		if (!self.isSortOrFilterMenuVisible) {
+			[self slideInMainViewAnimated:YES navigationType:SZNavigationMenu];
+		}
 	} else if (recognizer == self.rightSwipeRecognizer) {
-		[self slideOutMainViewAnimated:YES];
+		if (self.isSortOrFilterMenuVisible) {
+			[self slideInMainViewAnimated:YES navigationType:SZNavigationSortOrFiler];
+		}
+		else {
+			[self slideOutMainViewAnimated:YES navigationType:SZNavigationMenu];
+		}
 	}
 }
-
-- (void)slideInMainViewAnimated:(BOOL)animated {
+ 
+- (void)slideInMainViewAnimated:(BOOL)animated navigationType:(SZNavigationType)navigationType {
 	
 	CGRect frame = self.view.bounds;
 	frame.origin.x  = 0.0;
 
 	[UIView animateWithDuration:0.3 delay:0.0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
 		self.mainViewController.view.frame = frame;
-	} completion:nil];
+	} completion:^(BOOL finished) {
+		
+		switch (navigationType) {
+			case SZNavigationMenu:
+				self.isMenuVisible = NO;
+				break;
+			case SZNavigationSortOrFiler:
+				self.isSortOrFilterMenuVisible = NO;
+				[[NSNotificationCenter defaultCenter] postNotificationName:NOTIF_FILTER_OR_SORT_MENU_HIDDEN object:nil];
+				[[SZMenuVC sharedInstance] hideHiddenMenu];
+				break;
+		}
+		
+	}];
 	
-	self.isMenuVisible = NO;
 	self.mainViewController.visibleViewController.view.userInteractionEnabled = YES;
 }
 
-- (void)slideOutMainViewAnimated:(BOOL)animated {
+- (void)slideOutMainViewAnimated:(BOOL)animated navigationType:(SZNavigationType)navigationType {
 	
 	CGRect frame = self.view.bounds;
-	frame.origin.x  = frame.size.width - 100;
+	switch (navigationType) {
+		case SZNavigationMenu:
+			frame.origin.x  = frame.size.width - 100;
+			self.isMenuVisible = YES;
+			break;
+		case SZNavigationSortOrFiler:
+			self.isSortOrFilterMenuVisible = YES;
+			[[SZMenuVC sharedInstance] showHiddenMenu];
+			frame.origin.x  = -frame.size.width + 90;
+			break;
+	}
 	
 	[UIView animateWithDuration:0.3 delay:0.0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
 		self.mainViewController.view.frame = frame;
-	} completion:nil];
+	} completion:^(BOOL finished) {
+		
+	}];
+	 
 	
-	self.isMenuVisible = YES;
 	self.mainViewController.visibleViewController.view.userInteractionEnabled = NO;
 }
 
 - (void)dismiss:(id)sender {
 	
-	NSLog(@"dismissing");
 	[self.mainViewController dismissViewControllerAnimated:YES completion:nil];
 	[[SZMenuVC sharedInstance] setDelegate:self];
 }
 
 - (void)menu:(SZMenuVC *)menu switchToViewControllerWithClassName:(NSString *)className {
-	
-	NSLog(@"presenting: %@", self.mainViewController.presentingViewController);
-	NSLog(@"presented: %@", self.mainViewController.presentedViewController);
 	
 	UIViewController* vc = [[NSClassFromString(className) alloc] init];
 	
@@ -155,17 +194,16 @@
 		
 		SZNavigationController* modalController = (SZNavigationController*)self.mainViewController.presentedViewController;
 		[modalController.mainViewController setViewControllers:[NSArray arrayWithObject:vc]];
-		[modalController slideInMainViewAnimated:YES];
+		[modalController slideInMainViewAnimated:YES navigationType:SZNavigationMenu];
 	}
 	else {
 		[self.mainViewController setViewControllers:[NSArray arrayWithObject:vc]];
-		[self slideInMainViewAnimated:YES];
+		[self slideInMainViewAnimated:YES navigationType:SZNavigationMenu];
 	}
 	
 }
 
 - (void)dismissViewControllerAnimated:(BOOL)flag completion:(void (^)(void))completion {
-	NSLog(@"dismiss");
 	[[SZMenuVC sharedInstance] setDelegate:self];
 }
 

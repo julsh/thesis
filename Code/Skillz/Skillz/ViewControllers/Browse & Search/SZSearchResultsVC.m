@@ -19,6 +19,9 @@
 #import "SZEntryAnnotation.h"
 #import "SZEntryMapAnnotationView.h"
 #import "SMCalloutView.h"
+#import "SZFilterMenuVC.h"
+#import "SZSortMenuVC.h"
+#import "SZMenuVC.h"
 
 @interface SZSearchResultsVC ()
 
@@ -29,6 +32,9 @@
 @property (nonatomic, strong) CLLocationManager* locationManager;
 @property (nonatomic, strong) MKMapView* mapView;
 @property (nonatomic, strong) UISegmentedControl* mapListSwitcher;
+@property (nonatomic, strong) UISegmentedControl* menuButtons;
+@property (nonatomic, strong) SZSortMenuVC* sortMenu;
+@property (nonatomic, strong) SZFilterMenuVC* filterMenu;
 
 @end
 
@@ -101,22 +107,24 @@
 			}
 		}];
     }
+	
+	self.sortMenu = [[SZSortMenuVC alloc] init];
+	self.filterMenu = [[SZFilterMenuVC alloc] init];
+	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sortOrFilterMenuHidden:) name:NOTIF_FILTER_OR_SORT_MENU_HIDDEN object:nil];
+	
     return self;
 }
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-
+	
 	[self.navigationItem setBackBarButtonItem:[[UIBarButtonItem alloc] initWithTitle:@"Back"
 																			   style:UIBarButtonItemStylePlain
 																			  target:nil
 																			  action:nil]];
-	UIImage *filterImage = [UIImage imageNamed:@"buttonIcon_filter"];
-	UIBarButtonItem *filterButton = [[UIBarButtonItem alloc] initWithImage:filterImage style:UIBarButtonItemStylePlain target:self action:@selector(showFilter:)];
-	[self.navigationItem setRightBarButtonItem:filterButton];
 	
-	self.mapListSwitcher = [[UISegmentedControl alloc] initWithFrame:CGRectMake(0.0, 0.0, 140.0, 30.0)];
+	self.mapListSwitcher = [[UISegmentedControl alloc] initWithFrame:CGRectMake(0.0, 0.0, 120.0, 30.0)];
 	[self.mapListSwitcher insertSegmentWithTitle:@"List" atIndex:0 animated:NO];
 	[self.mapListSwitcher insertSegmentWithTitle:@"Map" atIndex:1 animated:NO];
 	[self.mapListSwitcher setSegmentedControlStyle:UISegmentedControlStyleBar];
@@ -124,11 +132,27 @@
 	[self.mapListSwitcher setSelectedSegmentIndex:0];
 	[self.mapListSwitcher setUserInteractionEnabled:NO];
 	[self.mapListSwitcher addTarget:self action:@selector(switchViews:) forControlEvents:UIControlEventValueChanged];
-	
 	[self.navigationItem setTitleView:self.mapListSwitcher];
+	
+	self.menuButtons = [[UISegmentedControl alloc] initWithFrame:CGRectMake(0.0, 0.0, 80.0, 30.0)];
+	[self.menuButtons insertSegmentWithTitle:@"AA" atIndex:0 animated:NO];
+	[self.menuButtons insertSegmentWithTitle:@"BB" atIndex:1 animated:NO];
+	[self.menuButtons setSegmentedControlStyle:UISegmentedControlStyleBar];
+	[self.menuButtons setTintColor:[SZGlobalConstants darkPetrol]];
+	[self.menuButtons addTarget:self action:@selector(toggleSortOrFilterMenu:) forControlEvents:UIControlEventValueChanged];
+	UIBarButtonItem* menuItem = [[UIBarButtonItem alloc] initWithCustomView:self.menuButtons];
+	
+//	UIImage *filterImage = [UIImage imageNamed:@"buttonIcon_filter"];
+//	UIBarButtonItem *filterButton = [[UIBarButtonItem alloc] initWithImage:filterImage style:UIBarButtonItemStylePlain target:self action:@selector(showFilter:)];
+	[self.navigationItem setRightBarButtonItem:menuItem];
 	
 	[self.view setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"bg_pattern"]]];
 	[self.tableView setSeparatorStyle:UITableViewCellSeparatorStyleNone];
+	
+//	[[SZMenuVC sharedInstance] addHiddenMenu:sortMenu];
+//	[self.navigationController.parentViewController performSelector:@selector(addHiddenViewController:) withObject:sortMenu];
+//	[self.navigationController addChildViewController:sortMenu];
+//	[self.navigationController.parentViewController.view insertSubview:sortMenu.view atIndex:2];
 }
 
 - (void)displayResults {
@@ -363,6 +387,37 @@
 - (void)annotationButtonTapped:(UIButton*)sender {
 	NSIndexPath* indexPath = [NSIndexPath indexPathForRow:sender.tag inSection:0];
 	[self tableView:self.tableView didSelectRowAtIndexPath:indexPath];
+}
+
+- (void)toggleSortOrFilterMenu:(UISegmentedControl*)sender {
+	
+	if (!self.sortMenu.isShowing && ! self.filterMenu.isShowing) {
+		[self.navigationController.parentViewController performSelector:@selector(toggleSortOrFilterMenu)];
+	}
+	
+	[[SZMenuVC sharedInstance] removeHiddenMenu];
+	
+	switch (sender.selectedSegmentIndex) {
+		case 0:
+			[[SZMenuVC sharedInstance] addHiddenMenu:self.sortMenu];
+			self.sortMenu.isShowing = YES;
+			self.filterMenu.isShowing = NO;
+			break;
+		case 1:
+			[[SZMenuVC sharedInstance] addHiddenMenu:self.filterMenu];
+			self.filterMenu.isShowing = YES;
+			self.sortMenu.isShowing = NO;
+			break;
+		default:
+			break;
+	}
+}
+
+- (void)sortOrFilterMenuHidden:(NSNotification*)notif {
+	self.sortMenu.isShowing = NO;
+	self.filterMenu.isShowing = NO;
+	[self.menuButtons setSelectedSegmentIndex:UISegmentedControlNoSegment];
+	
 }
 
 

@@ -9,7 +9,7 @@
 #import "SZSegmentedControlVertical.h"
 #import "SZUtils.h"
 
-#define SEGMENT_HEIGHT 37.0
+//#define SEGMENT_HEIGHT 37.0
 
 @interface SZSegmentedControlVertical ()
 
@@ -58,10 +58,24 @@
 	UIButton* button = [UIButton buttonWithType:UIButtonTypeCustom];
 	[button setTag:self.segmentCount];
 	
+	CGFloat segmentHeight;
+	if (self.segmentCount == 0) {
+		segmentHeight = 39.0;
+	}
+	else {
+		if (isLast) {
+			segmentHeight = 40.0;
+		}
+		else {
+			segmentHeight = 37.0;
+		}
+	}
+	
 	CGRect frame = button.frame;
-	frame.origin.y = self.segmentCount * SEGMENT_HEIGHT;
+	frame.origin.y = self.frame.size.height;
+	if (isLast && self.segmentCount == 1) frame.origin.y -= 1.0;	// fixes case where 2-segment control separator line appears too thick
 	frame.size.width = self.frame.size.width;
-	frame.size.height = SEGMENT_HEIGHT + isLast * 1.0;
+	frame.size.height = segmentHeight;
 	button.frame = frame;
 	
 	frame = self.frame;

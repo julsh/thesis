@@ -12,6 +12,7 @@
 #define NOTIF_SIGN_UP_SUCCESS @"Sign Up Success"
 #define NOTIF_REQUEST_PASSWORD @"Request Password"
 #define NOTIF_ENTRY_UPDATED @"Entry Updated"
+#define NOTIF_FILTER_OR_SORT_MENU_HIDDEN @"Filter or Sort Menu Hidden"
 
 #define FORM_PLACEHOLDER @"Placeholder"
 #define FORM_INPUT_TYPE @"InputType"
@@ -72,6 +73,11 @@ typedef enum {
 	SZUserPhotoViewSizeMedium,
 	SZUserPhotoViewSizeLarge
 } SZUserPhotoViewSize;
+
+typedef enum {
+	SZNavigationMenu,
+	SZNavigationSortOrFiler
+} SZNavigationType;
 
 #define MilesToMeters(MILES) MILES * 1609.344
 #define MetersToMiles(METERS) METERS / 1609.344

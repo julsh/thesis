@@ -18,10 +18,14 @@
 
 @property (nonatomic, strong) NSMutableArray *sections;
 @property (nonatomic, strong) NSMutableDictionary *sectionTitles;
+@property (nonatomic, strong) UIViewController* hiddenViewController;
+@property (nonatomic, strong) UIView* hiddenView;
 
 @end
 
 @implementation SZMenuVC
+
+@synthesize tableView = _tableView;
 
 + (SZMenuVC*)sharedInstance {
 	
@@ -99,13 +103,18 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-	[self.view setFrame:CGRectMake(0.0, 0.0, 240.0, 460.0)];
+	[self.view setFrame:CGRectMake(0.0, 0.0, 320.0, 460.0)];
+	
+	self.hiddenView = [[UIView alloc] initWithFrame:CGRectMake(0.0, 0.0, 320.0, 460.0)];
 	[self.view addSubview:self.tableView];
+	[self.view addSubview:self.hiddenView];
+	[self.hiddenView setHidden:YES];
 }
 
 - (UITableView *)tableView {
     if (_tableView == nil) {
         _tableView = [[UITableView alloc] initWithFrame:self.view.frame style:UITableViewStylePlain];
+		[_tableView setFrame:CGRectMake(0.0, 0.0, 240.0, 460.0)];
 		[_tableView setBackgroundColor:[SZGlobalConstants menuCellColor]];
         [_tableView setDataSource:self];
         [_tableView setDelegate:self];
@@ -278,6 +287,29 @@
 
 - (UITableViewCellEditingStyle)tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath {
 	return UITableViewCellEditingStyleNone;
+}
+
+- (void)addHiddenMenu:(UIViewController*)vc {
+	self.hiddenViewController = vc;
+	[self.hiddenView addSubview:vc.view];
+	[self addChildViewController:vc];
+}
+
+- (void)removeHiddenMenu {
+	for (UIView* subview in [self.hiddenView subviews]) {
+		[subview removeFromSuperview];
+	}
+	[self.hiddenViewController removeFromParentViewController];
+	self.hiddenViewController = nil;
+}
+
+- (void)showHiddenMenu {
+	[self.hiddenView setHidden:NO];
+}
+
+- (void)hideHiddenMenu {
+	[self.hiddenView setHidden:YES];
+
 }
 
 @end

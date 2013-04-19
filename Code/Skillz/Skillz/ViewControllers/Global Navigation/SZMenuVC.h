@@ -45,6 +45,11 @@
 /// @return a dictionary with all section titles
 - (NSDictionary *)getSectionTitles;
 
+- (void)addHiddenMenu:(UIViewController*)vc;
+- (void)removeHiddenMenu;
+- (void)showHiddenMenu;
+- (void)hideHiddenMenu;
+	
 
 @end
 
