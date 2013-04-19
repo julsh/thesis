@@ -18,7 +18,6 @@
 #import "SZDataManager.h"
 #import "SZEntryAnnotation.h"
 #import "SZEntryMapAnnotationView.h"
-#import "SMCalloutView.h"
 #import "SZFilterMenuVC.h"
 #import "SZSortMenuVC.h"
 #import "SZMenuVC.h"
@@ -43,6 +42,8 @@
 @synthesize results = _results;
 @synthesize activityIndicator = _activityIndicator;
 @synthesize mapView = _mapView;
+@synthesize mapListSwitcher = _mapListSwitcher;
+@synthesize menuButtons = _menuButtons;
 
 - (id)initWithQuery:(PFQuery*)query {
 	
@@ -124,35 +125,39 @@
 																			  target:nil
 																			  action:nil]];
 	
-	self.mapListSwitcher = [[UISegmentedControl alloc] initWithFrame:CGRectMake(0.0, 0.0, 120.0, 30.0)];
-	[self.mapListSwitcher insertSegmentWithTitle:@"List" atIndex:0 animated:NO];
-	[self.mapListSwitcher insertSegmentWithTitle:@"Map" atIndex:1 animated:NO];
-	[self.mapListSwitcher setSegmentedControlStyle:UISegmentedControlStyleBar];
-	[self.mapListSwitcher setTintColor:[SZGlobalConstants darkPetrol]];
-	[self.mapListSwitcher setSelectedSegmentIndex:0];
-	[self.mapListSwitcher setUserInteractionEnabled:NO];
-	[self.mapListSwitcher addTarget:self action:@selector(switchViews:) forControlEvents:UIControlEventValueChanged];
 	[self.navigationItem setTitleView:self.mapListSwitcher];
-	
-	self.menuButtons = [[UISegmentedControl alloc] initWithFrame:CGRectMake(0.0, 0.0, 80.0, 30.0)];
-	[self.menuButtons insertSegmentWithTitle:@"AA" atIndex:0 animated:NO];
-	[self.menuButtons insertSegmentWithTitle:@"BB" atIndex:1 animated:NO];
-	[self.menuButtons setSegmentedControlStyle:UISegmentedControlStyleBar];
-	[self.menuButtons setTintColor:[SZGlobalConstants darkPetrol]];
-	[self.menuButtons addTarget:self action:@selector(toggleSortOrFilterMenu:) forControlEvents:UIControlEventValueChanged];
 	UIBarButtonItem* menuItem = [[UIBarButtonItem alloc] initWithCustomView:self.menuButtons];
-	
-//	UIImage *filterImage = [UIImage imageNamed:@"buttonIcon_filter"];
-//	UIBarButtonItem *filterButton = [[UIBarButtonItem alloc] initWithImage:filterImage style:UIBarButtonItemStylePlain target:self action:@selector(showFilter:)];
 	[self.navigationItem setRightBarButtonItem:menuItem];
 	
 	[self.view setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"bg_pattern"]]];
 	[self.tableView setSeparatorStyle:UITableViewCellSeparatorStyleNone];
 	
-//	[[SZMenuVC sharedInstance] addHiddenMenu:sortMenu];
-//	[self.navigationController.parentViewController performSelector:@selector(addHiddenViewController:) withObject:sortMenu];
-//	[self.navigationController addChildViewController:sortMenu];
-//	[self.navigationController.parentViewController.view insertSubview:sortMenu.view atIndex:2];
+}
+
+- (UISegmentedControl*)mapListSwitcher {
+	if (_mapListSwitcher == nil) {
+		_mapListSwitcher = [[UISegmentedControl alloc] initWithFrame:CGRectMake(0.0, 0.0, 120.0, 30.0)];
+		[_mapListSwitcher insertSegmentWithTitle:@"List" atIndex:0 animated:NO];
+		[_mapListSwitcher insertSegmentWithTitle:@"Map" atIndex:1 animated:NO];
+		[_mapListSwitcher setSegmentedControlStyle:UISegmentedControlStyleBar];
+		[_mapListSwitcher setTintColor:[SZGlobalConstants darkPetrol]];
+		[_mapListSwitcher setSelectedSegmentIndex:0];
+		[_mapListSwitcher setUserInteractionEnabled:NO];
+		[_mapListSwitcher addTarget:self action:@selector(switchViews:) forControlEvents:UIControlEventValueChanged];
+	}
+	return _mapListSwitcher;
+}
+
+- (UISegmentedControl*)menuButtons {
+	if (_menuButtons == nil) {
+		_menuButtons = [[UISegmentedControl alloc] initWithFrame:CGRectMake(0.0, 0.0, 80.0, 30.0)];
+		[_menuButtons insertSegmentWithImage:[UIImage imageNamed:@"buttonIcon_sort"] atIndex:0 animated:NO];
+		[_menuButtons insertSegmentWithImage:[UIImage imageNamed:@"buttonIcon_filter"] atIndex:1 animated:NO];
+		[_menuButtons setSegmentedControlStyle:UISegmentedControlStyleBar];
+		[_menuButtons setTintColor:[SZGlobalConstants darkPetrol]];
+		[_menuButtons addTarget:self action:@selector(toggleSortOrFilterMenu:) forControlEvents:UIControlEventValueChanged];
+	}
+	return _menuButtons;
 }
 
 - (void)displayResults {

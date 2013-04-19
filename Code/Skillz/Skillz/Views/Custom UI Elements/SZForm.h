@@ -24,7 +24,7 @@
 - (void)addItem:(SZFormFieldVO*)item showsClearButton:(BOOL)showsClearButton isLastItem:(BOOL)isLast;
 - (void)configureKeyboard;
 - (void)setText:(NSString*)text forFieldAtIndex:(NSInteger)index;
-- (void)setTextFieldWidth:(CGFloat)width forFieldAtIndex:(NSInteger)index;
+- (void)setTextFieldWidth:(CGFloat)width xInset:(CGFloat)xInset forFieldAtIndex:(NSInteger)index;
 - (void)updatePickerAtIndex:(NSInteger)index;
 - (void)updatePickerOptions:(NSArray*)options forPickerAtIndex:(NSInteger)index;
 - (void)updateDatePickerAtIndex:(NSInteger)index withDate:(NSDate*)date;

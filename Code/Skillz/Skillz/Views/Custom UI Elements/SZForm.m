@@ -236,9 +236,10 @@
 	}
 }
 
-- (void)setTextFieldWidth:(CGFloat)width forFieldAtIndex:(NSInteger)index {
+- (void)setTextFieldWidth:(CGFloat)width xInset:(CGFloat)xInset forFieldAtIndex:(NSInteger)index {
 	UIView* field = [self.fieldViews objectAtIndex:index];
 	CGRect frame = field.frame;
+	frame.origin.x -= xInset;
 	frame.size.width = width;
 	field.frame = frame;
 }
@@ -260,7 +261,7 @@
 	[UIView animateWithDuration:0.2 delay:0.0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
 		[self.scrollContainer setContentOffset:CGPointMake(0.0, self.scrollContainer.contentSize.height - 416.0)];
 	} completion:^(BOOL finished) {
-		[self.scrollContainer setFrame:CGRectMake(0.0, 0.0, 320.0, 416.0)];
+		[self.scrollContainer setFrame:CGRectMake(self.scrollContainer.frame.origin.x, self.scrollContainer.frame.origin.y, 320.0, 416.0)];
 		
 		if (completionBlock) {
 			dispatch_async(dispatch_get_main_queue(), ^{
@@ -291,7 +292,7 @@
 		[UIView animateWithDuration:0.2 delay:0.0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
 			[self.scrollContainer setContentOffset:CGPointMake(0.0, globalPosition.y - 15.0)];
 		} completion:^(BOOL finished) {
-			[self.scrollContainer setFrame:CGRectMake(0.0, 0.0, 320.0, viewSize)];
+			[self.scrollContainer setFrame:CGRectMake(self.scrollContainer.frame.origin.x, self.scrollContainer.frame.origin.y, 320.0, viewSize)];
 		}];
 	}
 	
@@ -324,7 +325,7 @@
 				[self.scrollContainer setContentOffset:CGPointMake(0.0, globalPosition.y - threshold)];
 			}
 		} completion:^(BOOL finished) {
-			[self.scrollContainer setFrame:CGRectMake(0.0, 0.0, 320.0, viewSize)];
+			[self.scrollContainer setFrame:CGRectMake(self.scrollContainer.frame.origin.x, self.scrollContainer.frame.origin.y, 320.0, viewSize)];
 		}];
 	}
 	

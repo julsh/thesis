@@ -202,7 +202,7 @@
 																		 keyboardType:UIKeyboardTypeDefault];
 		[_locationForm addItem:formField showsClearButton:YES isLastItem:YES];
 		[_locationForm setDelegate:self];
-		[_locationForm setTextFieldWidth:230.0 forFieldAtIndex:0];
+		[_locationForm setTextFieldWidth:230.0 xInset:0.0 forFieldAtIndex:0];
 		[_locationForm setCenter:CGPointMake(160.0, 270.0)];
 		[_locationForm setScrollContainer:self.scrollView];
 	}
@@ -235,7 +235,7 @@
 }
 
 
-- (UIButton*)searchButton {
+- (SZButton*)searchButton {
 	SZButton* button = [[SZButton alloc] initWithColor:SZButtonColorPetrol size:SZButtonSizeLarge width:290.0];
 	[button setTitle:@"Search!" forState:UIControlStateNormal];
 	[button setCenter:CGPointMake(160.0, 380.0)];
@@ -266,7 +266,7 @@
 
 - (UISlider*)radiusSlider {
 	if (_radiusSlider == nil) {
-		_radiusSlider = [[UISlider alloc] initWithFrame:CGRectMake(85.0, 314.0, 165.0, 20.0)];
+		_radiusSlider = [[UISlider alloc] initWithFrame:CGRectMake(85.0, 314.0, 160.0, 20.0)];
 		[_radiusSlider setMinimumTrackTintColor:[SZGlobalConstants darkPetrol]];
 		[_radiusSlider addTarget:self action:@selector(radiusChanged:) forControlEvents:UIControlEventValueChanged];
 		[_radiusSlider setValue:sqrtf((float)self.radius/100.0)];
@@ -276,11 +276,19 @@
 
 - (void)radiusChanged:(UISlider*)slider {
 	NSInteger roundedValue = powf(slider.value, 2) * 100;
-	if (roundedValue == 0 && slider.value > 0) roundedValue = 1;
+	if (roundedValue >= 99) roundedValue += 1;
 	if (roundedValue != self.radius) {
 		self.radius = roundedValue;
-		[self.milesLabel setText:[NSString stringWithFormat:@"%i mi", self.radius]];
-		NSLog(@"%i", self.radius);
+		NSLog(@"radius: %i", self.radius);
+		if (self.radius == 0) {
+			[self.milesLabel setText:@"0.5 mi"];
+		}
+		else if (self.radius == 101) {
+			[self.milesLabel setText:@"100+ mi"];
+		}
+		else {
+			[self.milesLabel setText:[NSString stringWithFormat:@"%i mi", self.radius]];
+		}
 	}
 }
 

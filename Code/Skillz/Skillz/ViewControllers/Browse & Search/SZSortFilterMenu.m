@@ -42,6 +42,15 @@
 	
 	[navBar setItems:[NSArray arrayWithObject:self.navItem]];
 	
+	self.scrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0.0, 44.0, 230.0, 416.0)];
+	[self.scrollView setClipsToBounds:NO];
+	[self.scrollView setContentSize:self.scrollView.frame.size];
+	
+	UITapGestureRecognizer* tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(scrollViewTapped:)];
+	[tapRecognizer setNumberOfTapsRequired:1];
+	[self.scrollView addGestureRecognizer:tapRecognizer];
+	
+	[self.view addSubview:self.scrollView];
 	[self.view addSubview:navBar];
 	
 }

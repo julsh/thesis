@@ -11,5 +11,6 @@
 @interface SZSortFilterMenu : UIViewController
 
 @property (nonatomic, assign) BOOL isShowing;
+@property (nonatomic, strong) UIScrollView* scrollView;
 
 @end

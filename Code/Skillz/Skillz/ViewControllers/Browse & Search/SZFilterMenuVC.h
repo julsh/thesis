@@ -8,7 +8,8 @@
 
 #import <UIKit/UIKit.h>
 #import "SZSortFilterMenu.h"
+#import "SZForm.h"
 
-@interface SZFilterMenuVC : SZSortFilterMenu
+@interface SZFilterMenuVC : SZSortFilterMenu <SZFormDelegate>
 
 @end

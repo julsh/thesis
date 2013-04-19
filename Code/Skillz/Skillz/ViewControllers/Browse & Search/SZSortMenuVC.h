@@ -7,7 +7,9 @@
 //
 
 #import "SZSortFilterMenu.h"
+#import "SZSegmentedControlVertical.h"
+#import "SZForm.h"
 
-@interface SZSortMenuVC : SZSortFilterMenu
+@interface SZSortMenuVC : SZSortFilterMenu <SZSegmentedControlVerticalDelegate, SZFormDelegate>
 
 @end

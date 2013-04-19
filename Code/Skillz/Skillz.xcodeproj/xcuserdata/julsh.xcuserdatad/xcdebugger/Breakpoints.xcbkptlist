@@ -996,11 +996,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "Skillz/Views/Custom UI Elements/SZForm.m"
-         timestampString = "387927360.630804"
+         timestampString = "388023565.847539"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "403"
-         endingLineNumber = "403"
+         startingLineNumber = "404"
+         endingLineNumber = "404"
          landmarkName = "-textFieldShouldClear:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -1009,11 +1009,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "Skillz/Views/Custom UI Elements/SZForm.m"
-         timestampString = "387927360.630804"
+         timestampString = "388023565.847539"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "423"
-         endingLineNumber = "423"
+         startingLineNumber = "424"
+         endingLineNumber = "424"
          landmarkName = "-textFieldShouldClear:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -1152,11 +1152,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "Skillz/ViewControllers/Browse &amp; Search/SZSearchResultsVC.m"
-         timestampString = "388017603.974474"
+         timestampString = "388027858.694509"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "274"
-         endingLineNumber = "274"
+         startingLineNumber = "279"
+         endingLineNumber = "279"
          landmarkName = "-tableView:cellForRowAtIndexPath:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -1204,11 +1204,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "Skillz/ViewControllers/Browse &amp; Search/SZSearchResultsVC.m"
-         timestampString = "388017603.974474"
+         timestampString = "388027858.694509"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "366"
-         endingLineNumber = "366"
+         startingLineNumber = "371"
+         endingLineNumber = "371"
          landmarkName = "-mapView:viewForAnnotation:"
          landmarkType = "5">
       </FileBreakpoint>
