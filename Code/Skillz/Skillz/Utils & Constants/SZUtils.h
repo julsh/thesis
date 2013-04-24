@@ -8,6 +8,7 @@
 
 #import <CoreLocation/CoreLocation.h>
 #import <Foundation/Foundation.h>
+#import "SZStarsView.h"
 
 @interface SZUtils : NSObject
 

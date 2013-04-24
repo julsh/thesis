@@ -11,6 +11,6 @@
 
 @interface SZMyEntryVC : UIViewController <UIAlertViewDelegate>
 
-- (id)initWithEntry:(SZEntryObject*)entry type:(SZEntryType)type;
+- (id)initWithEntry:(SZEntryObject*)entry;
 
 @end

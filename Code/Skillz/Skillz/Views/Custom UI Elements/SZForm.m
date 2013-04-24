@@ -129,6 +129,7 @@
 	[textField setFont:[SZGlobalConstants fontWithFontType:SZFontRegular size:TEXTFIELD_FONT_SIZE]];
 	[textField setPlaceholder:item.placeHolderText];
 	[textField setDelegate:self];
+	[textField addTarget:self action:@selector(textFieldDidChange:) forControlEvents:UIControlEventEditingChanged];
 	textField.layer.shadowOpacity = 1.0;
 	textField.layer.shadowRadius = 0.0;
 	textField.layer.shadowColor = [UIColor whiteColor].CGColor;
@@ -226,6 +227,14 @@
 	return _fieldViews;
 }
 
+- (UITextField*)textFieldAtIndex:(NSInteger)index {
+	UIView* field = [self.fieldViews objectAtIndex:index];
+	if ([field isKindOfClass:[UITextField class]]) {
+		return (UITextField *)field;
+	}
+	else return nil;
+}
+
 - (void)setText:(NSString*)text forFieldAtIndex:(NSInteger)index {
 	UIView* field = [self.fieldViews objectAtIndex:index];
 	if ([field isKindOfClass:[UITextField class]]) {
@@ -242,6 +251,36 @@
 	frame.origin.x -= xInset;
 	frame.size.width = width;
 	field.frame = frame;
+}
+
+- (void)setTextViewHeight:(CGFloat)height forTextViewAtIndex:(NSInteger)index animated:(BOOL)animated {
+	UIView* field = [self.fieldViews objectAtIndex:index];
+	if ([field isKindOfClass:[UITextView class]]) {
+		UIView* parentView = [field superview];
+		UIView* backgroundView = [[parentView subviews] objectAtIndex:0];
+		if (!animated) {
+			[backgroundView setFrame:CGRectMake(backgroundView.frame.origin.x,
+												backgroundView.frame.origin.y,
+												backgroundView.frame.size.width,
+												height)];
+			[field setFrame:CGRectMake(field.frame.origin.x,
+									   field.frame.origin.y,
+									   field.frame.size.width,
+									   height - 6.0)];
+		}
+		else {
+			[UIView animateWithDuration:0.3 animations:^{
+				[backgroundView setFrame:CGRectMake(backgroundView.frame.origin.x,
+													backgroundView.frame.origin.y,
+													backgroundView.frame.size.width,
+													height)];
+				[field setFrame:CGRectMake(field.frame.origin.x,
+										   field.frame.origin.y,
+										   field.frame.size.width,
+										   height - 6.0)];
+			} completion:nil];
+		}
+	}
 }
 
 - (void)resign:(UIView*)firstResponder completion:(void(^)(BOOL finished))completionBlock {
@@ -300,6 +339,10 @@
 }
 
 - (void)textViewDidEndEditing:(UITextView *)textView {
+	if ([self.delegate respondsToSelector:@selector(formDidEndEditing:)]) {
+		[self.delegate formDidEndEditing:self];
+	}
+	
 	SZFormFieldVO* fieldVO = [self.fieldVOs objectAtIndex:textView.tag];
 	[self.userInputs setValue:textView.text forKey:fieldVO.key];
 }
@@ -422,6 +465,12 @@
 		return NO;
 	}
 	return YES;
+}
+
+- (void)textFieldDidChange:(UITextField*)textField {
+	if ([self.delegate respondsToSelector:@selector(formInputDidChange:)]) {
+		[self.delegate performSelector:@selector(formInputDidChange:) withObject:textField];
+	}
 }
 
 #pragma mark - Keyboard Controls Delegate

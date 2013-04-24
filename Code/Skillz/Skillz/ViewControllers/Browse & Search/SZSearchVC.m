@@ -6,17 +6,19 @@
 //  Copyright (c) 2013 Julia Roggatz. All rights reserved.
 //
 
+#import <CoreLocation/CoreLocation.h>
 #import <Parse/Parse.h>
 #import <QuartzCore/QuartzCore.h>
 #import "SZSearchVC.h"
 #import "SZUtils.h"
 #import "SZButton.h"
 #import "SZSearchResultsVC.h"
+#import "SZSegmentedControlHorizontal.h"
 
 @interface SZSearchVC ()
 
 @property (nonatomic, strong) UIScrollView* scrollView;
-@property (nonatomic, strong) UISegmentedControl* entryTypeSelector;
+@property (nonatomic, strong) SZSegmentedControlHorizontal* entryTypeSelector;
 @property (nonatomic, strong) SZForm* keywordsForm;
 @property (nonatomic, strong) SZForm* categoryForm;
 @property (nonatomic, strong) SZForm* locationForm;
@@ -24,7 +26,7 @@
 @property (nonatomic, strong) UILabel* milesLabel;
 @property (nonatomic, strong) UISlider* radiusSlider;
 
-@property (nonatomic, assign) NSInteger radius;
+@property (nonatomic, assign) CGFloat radius;
 
 @end
 
@@ -84,48 +86,13 @@
 }
 
 
-- (UISegmentedControl*)entryTypeSelector {
+- (SZSegmentedControlHorizontal*)entryTypeSelector {
 	if (_entryTypeSelector == nil) {
 		
-		_entryTypeSelector = [[UISegmentedControl alloc] initWithFrame:CGRectMake(15.0, 15.0, 290.0, 40.0)];
+		_entryTypeSelector = [[SZSegmentedControlHorizontal alloc] initWithFrame:CGRectMake(15.0, 15.0, 290.0, 40.0)];
 		[_entryTypeSelector insertSegmentWithTitle:@"Offers" atIndex:0 animated:NO];
 		[_entryTypeSelector insertSegmentWithTitle:@"Requets" atIndex:1 animated:NO];
-		
-		[_entryTypeSelector setBackgroundImage:[[UIImage imageNamed:@"segmented_control_deselected"] resizableImageWithCapInsets:UIEdgeInsetsMake(0.0, 25.0, 0.0, 25.0)]
-									  forState:UIControlStateNormal
-									barMetrics:UIBarMetricsDefault];
-		
-		[_entryTypeSelector setBackgroundImage:[[UIImage imageNamed:@"segmented_control_selected"] resizableImageWithCapInsets:UIEdgeInsetsMake(0.0, 25.0, 0.0, 25.0)]
-									  forState:UIControlStateSelected
-									barMetrics:UIBarMetricsDefault];
-		
-		[_entryTypeSelector setDividerImage:[UIImage imageNamed:@"segmented_control_left_selected"]
-									 forLeftSegmentState:UIControlStateSelected
-									   rightSegmentState:UIControlStateNormal
-											  barMetrics:UIBarMetricsDefault];
-		[_entryTypeSelector setDividerImage:[UIImage imageNamed:@"segmented_control_right_selected"]
-									 forLeftSegmentState:UIControlStateNormal
-									   rightSegmentState:UIControlStateSelected
-											  barMetrics:UIBarMetricsDefault];
-		
-		[_entryTypeSelector setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:
-													[UIColor grayColor], UITextAttributeTextColor,
-													[UIColor whiteColor], UITextAttributeTextShadowColor,
-													[NSValue valueWithUIOffset:UIOffsetMake(0.0, 1.0)], UITextAttributeTextShadowOffset,
-													[SZGlobalConstants fontWithFontType:SZFontBold size:18.0], UITextAttributeFont, nil]
-										  forState:UIControlStateNormal];
-		
-		[_entryTypeSelector setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:
-													[UIColor whiteColor], UITextAttributeTextColor,
-													[UIColor blackColor], UITextAttributeTextShadowColor,
-													[NSValue valueWithUIOffset:UIOffsetMake(0.0, -1.0)], UITextAttributeTextShadowOffset,
-													[SZGlobalConstants fontWithFontType:SZFontBold size:18.0], UITextAttributeFont, nil]
-										  forState:UIControlStateSelected];
-		
-		
 		[_entryTypeSelector setSelectedSegmentIndex:0];
-		
-		
 	}
 	return _entryTypeSelector;
 }
@@ -234,15 +201,6 @@
 	}
 }
 
-
-- (SZButton*)searchButton {
-	SZButton* button = [[SZButton alloc] initWithColor:SZButtonColorPetrol size:SZButtonSizeLarge width:290.0];
-	[button setTitle:@"Search!" forState:UIControlStateNormal];
-	[button setCenter:CGPointMake(160.0, 380.0)];
-	[button addTarget:self action:@selector(search:) forControlEvents:UIControlEventTouchUpInside];
-	return button;
-}
-
 - (UILabel*)radiusLabel {
 	UILabel* label = [[UILabel alloc] initWithFrame:CGRectMake(20.0, 315.0, 280.0, 20.0)];
 	[label setFont:[SZGlobalConstants fontWithFontType:SZFontBold size:14.0]];
@@ -259,7 +217,7 @@
 		[_milesLabel setTextColor:[SZGlobalConstants darkPetrol]];
 		[_milesLabel applyWhiteShadow];
 		[_milesLabel setTextAlignment:NSTextAlignmentRight];
-		[_milesLabel setText:[NSString stringWithFormat:@"%i mi", self.radius]];
+		[_milesLabel setText:[NSString stringWithFormat:@"%i mi", (NSInteger)self.radius]];
 	}
 	return _milesLabel;
 }
@@ -279,35 +237,96 @@
 	if (roundedValue >= 99) roundedValue += 1;
 	if (roundedValue != self.radius) {
 		self.radius = roundedValue;
-		NSLog(@"radius: %i", self.radius);
+		NSLog(@"radius: %f", self.radius);
 		if (self.radius == 0) {
+			self.radius = 0.5;
 			[self.milesLabel setText:@"0.5 mi"];
 		}
 		else if (self.radius == 101) {
 			[self.milesLabel setText:@"100+ mi"];
 		}
 		else {
-			[self.milesLabel setText:[NSString stringWithFormat:@"%i mi", self.radius]];
+			[self.milesLabel setText:[NSString stringWithFormat:@"%i mi", (NSInteger)self.radius]];
 		}
 	}
 }
 
+- (SZButton*)searchButton {
+	SZButton* button = [[SZButton alloc] initWithColor:SZButtonColorPetrol size:SZButtonSizeLarge width:290.0];
+	[button setTitle:@"Search!" forState:UIControlStateNormal];
+	[button setCenter:CGPointMake(160.0, 380.0)];
+	[button addTarget:self action:@selector(search:) forControlEvents:UIControlEventTouchUpInside];
+	return button;
+}
+
 - (void)search:(id)sender {
+	
 	NSString* entryType = self.entryTypeSelector.selectedSegmentIndex == 0 ? @"offer" : @"request";
-	PFQuery* query = [PFQuery queryWithClassName:@"Entry"];
-	[query whereKey:@"entryType" equalTo:entryType];
+	PFQuery* titleQuery = [PFQuery queryWithClassName:@"Entry"];
+	PFQuery* descriptionQuery = [PFQuery queryWithClassName:@"Entry"];
+	NSString* keywordsInput = [self.keywordsForm.userInputs valueForKey:@"keywords"];
+	if (![keywordsInput isEqualToString:@""]) {
+		NSArray* keywords = [keywordsInput componentsSeparatedByString:@" "];
+		for (NSString* keyword in keywords) {
+			NSLog(@"keyword: %@", keyword);
+			[titleQuery whereKey:@"title" containsString:keyword];
+			[descriptionQuery whereKey:@"description" containsString:keyword];
+		}
+	}
 	
-	if (![[self.keywordsForm.userInputs valueForKey:@"keywords"] isEqualToString:@""]) {
-		[query whereKey:@"title" containsString:[self.keywordsForm.userInputs valueForKey:@"keywords"]];
-	}
-	if (![[self.categoryForm.userInputs valueForKey:@"category"] isEqualToString:@""]) {
-		[query whereKey:@"category" equalTo:[self.categoryForm.userInputs valueForKey:@"category"]];
-	}
-	if (![[self.locationForm.userInputs valueForKey:@"location"] isEqualToString:@""]) {
-		// TODO calculate location
+	PFQuery* orQuery = [PFQuery orQueryWithSubqueries:[NSArray arrayWithObjects:titleQuery, descriptionQuery, nil]];
+	[orQuery whereKey:@"entryType" equalTo:entryType];
+	
+	NSString* categoryInput = [self.categoryForm.userInputs valueForKey:@"category"];
+	if (![categoryInput isEqualToString:@""]) {
+		[orQuery whereKey:@"category" equalTo:categoryInput];
 	}
 	
-	[self.navigationController pushViewController:[[SZSearchResultsVC alloc] initWithQuery:query] animated:YES];
+	NSString* locationInput = [self.locationForm.userInputs valueForKey:@"location"];
+	if (![locationInput isEqualToString:@""] && self.radius <= 100) {
+		
+		if ([locationInput isEqualToString:@"Current Location"]) {
+			NSLog(@"current location");
+			[PFGeoPoint geoPointForCurrentLocationInBackground:^(PFGeoPoint *geoPoint, NSError *error) {
+				if (geoPoint) {
+					[orQuery whereKey:@"geoPoint" nearGeoPoint:geoPoint withinMiles:self.radius];
+					SZSearchResultsVC* searchResultsVC = [[SZSearchResultsVC alloc] initWithQuery:orQuery];
+					searchResultsVC.mapCenter = [[CLLocation alloc] initWithLatitude:geoPoint.latitude longitude:geoPoint.longitude];
+					[self.navigationController pushViewController:searchResultsVC animated:YES];
+				}
+				else {
+					UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"Couldn't determine your location" message:@"Please make sure location services are turned on and your device is connected to the network." delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles: nil];
+					[alert show];
+					return;
+				}
+			}];
+		}
+		else {
+			NSLog(@"some address/city/zip");
+			CLGeocoder* geoCoder = [[CLGeocoder alloc] init];
+			[geoCoder geocodeAddressString:locationInput completionHandler:^(NSArray *placemarks, NSError *error) {
+				if (placemarks && [placemarks count] > 0) {
+					CLPlacemark* placemark = [placemarks objectAtIndex:0];
+					NSLog(@"placemark %@", placemark);
+					CGFloat radiusExtension = MetersToMiles(placemark.region.radius) + self.radius;
+					PFGeoPoint* geoPoint = [PFGeoPoint geoPointWithLocation:placemark.location];
+					[orQuery whereKey:@"geoPoint" nearGeoPoint:geoPoint withinMiles:radiusExtension];
+					SZSearchResultsVC* searchResultsVC = [[SZSearchResultsVC alloc] initWithQuery:orQuery];
+					searchResultsVC.mapCenter = placemark.location;
+					[self.navigationController pushViewController:searchResultsVC animated:YES];
+				}
+				else {
+					UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"Location not found" message:@"We're sorry, but the location information you provided didn't turn up any results. Please try to be more specific." delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles: nil];
+					[alert show];
+					return;
+				}
+			}];
+		}
+	}
+	else {
+		[self.navigationController pushViewController:[[SZSearchResultsVC alloc] initWithQuery:orQuery] animated:YES];
+	}
+	
 }
 
 @end

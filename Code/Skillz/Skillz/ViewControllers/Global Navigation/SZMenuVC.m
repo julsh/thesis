@@ -16,10 +16,34 @@
 
 @interface SZMenuVC ()
 
+/// Returns the number of sections in the table view.  Can also be used to set the number of sections.
+@property (nonatomic, assign) NSInteger numberOfSections;
+/// The table view used to display the different menu options
+@property (nonatomic, strong) UITableView *tableView;
 @property (nonatomic, strong) NSMutableArray *sections;
 @property (nonatomic, strong) NSMutableDictionary *sectionTitles;
 @property (nonatomic, strong) UIViewController* hiddenViewController;
 @property (nonatomic, strong) UIView* hiddenView;
+
+/// Adds an item to the tableview in the specified section.
+/// @param itemDictionary the item too add to the menu
+/// @param sectionIndex the section to which to add the item
+- (void)addItem:(NSDictionary *)itemDictionary toSection:(NSInteger)sectionIndex;
+
+/// Sets the title for the specified section.
+/// @param sectionTitle the new title for the specified section
+/// @param sectionIndex the section for which to set the new title
+- (void)setSectionTitle:(NSString *)sectionTitle forSection:(NSInteger)sectionIndex;
+
+/// Returns the item dictionary for the item at the specified section row.
+/// @param row the row from which the item dictionary should be retrieved
+/// @param sectionIndex the section from which the item dictionary should be retrieved
+/// @return the item dictionary for the specified section and row
+- (NSDictionary *)dictionaryForRow:(NSInteger) rowIndex inSection:(NSInteger)sectionIndex;
+
+/// Returns the dictionary containing all section titles.
+/// @return a dictionary with all section titles
+- (NSDictionary *)getSectionTitles;
 
 @end
 
@@ -65,8 +89,8 @@
 					   [NSArray arrayWithObject:@"Open Deals"] forKeys:
 					   [NSArray arrayWithObject:@"title"]] toSection:1];
 		[self addItem:[NSDictionary dictionaryWithObjects:
-					   [NSArray arrayWithObject:@"Messages"] forKeys:
-					   [NSArray arrayWithObject:@"title"]] toSection:1];
+					   [NSArray arrayWithObjects:@"Messages", @"SZMyMessagesVC", nil] forKeys:
+					   [NSArray arrayWithObjects:@"title", @"class", nil]] toSection:1];
 		[self addItem:[NSDictionary dictionaryWithObjects:
 					   [NSArray arrayWithObjects:@"Account Balance", nil, nil] forKeys:
 					   [NSArray arrayWithObject:@"title"]] toSection:1];

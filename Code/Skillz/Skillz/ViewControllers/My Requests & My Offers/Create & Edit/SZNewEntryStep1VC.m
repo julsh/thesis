@@ -19,6 +19,7 @@
 @property (nonatomic, strong) SZForm* subCategoryForm;
 @property (nonatomic, strong) NSString* currentyCategory;
 
+
 @end
 
 @implementation SZNewEntryStep1VC
@@ -65,15 +66,18 @@
 	[self.mainView addSubview:[self selectCategoryLabel]];
 	[self.mainView addSubview:self.categoryForm];
 	[self.mainView addSubview:self.detailViewContainer];
-	[self.detailViewContainer setFrame:CGRectMake(0.0, 200.0, 0.0, 0.0)];
+	[self.detailViewContainer setFrame:CGRectMake(0.0, 150.0, 0.0, 0.0)];
 	
 	if (![SZDataManager sharedInstance].currentEntryIsNew && [[SZUtils sortedSubcategoriesForCategory:self.currentyCategory] count] > 0) {
 		[self addNewDetailView:1];
 	}
+	if ([SZDataManager sharedInstance].currentEntryIsNew) {
+		[self.mainView addSubview:[self suggestCategoryView]];
+	}
 }
 
 - (UILabel*)selectCategoryLabel {
-	UILabel* label = [[UILabel alloc] initWithFrame:CGRectMake(20.0, 90.0, 200.0, 30.0)];
+	UILabel* label = [[UILabel alloc] initWithFrame:CGRectMake(20.0, 70.0, 200.0, 30.0)];
 	[label setBackgroundColor:[UIColor clearColor]];
 	[label setFont:[SZGlobalConstants fontWithFontType:SZFontSemiBold size:16.0]];
 	[label setTextColor:[SZGlobalConstants darkGray]];
@@ -92,7 +96,7 @@
 																		   placeHolderText:@"Category"
 																			 pickerOptions:[SZUtils sortedCategories]];
 		[_categoryForm addItem:categoryField showsClearButton:YES isLastItem:YES];
-		[_categoryForm setCenter:CGPointMake(160.0, 150.0)];
+		[_categoryForm setCenter:CGPointMake(160.0, 130.0)];
 		[_categoryForm configureKeyboard];
 		[_categoryForm setScrollContainer:self.mainView];
 		
@@ -134,7 +138,7 @@
 		[self.forms addObject:_subCategoryForm];
 		
 		SZFormFieldVO* subCategoryField = [SZFormFieldVO formFieldValueObjectForPickerWithKey:@"subcategory"
-																		   placeHolderText:@"Subcategory"
+																		   placeHolderText:@"No Subcategory"
 																			 pickerOptions:nil];
 		[_subCategoryForm addItem:subCategoryField showsClearButton:YES isLastItem:YES];
 		[_subCategoryForm setCenter:CGPointMake(140.0, 75.0)];
@@ -151,6 +155,27 @@
 		}
 	}
 	return _subCategoryForm;
+}
+
+- (UIView*)suggestCategoryView {
+	UIView* view = [[UIView alloc] initWithFrame:CGRectMake(0.0, 265.0, 320.0, 60.0)];
+	
+	UILabel* label = [[UILabel alloc] initWithFrame:CGRectMake(0.0, 0.0, 320.0, 30.0)];
+	[label setBackgroundColor:[UIColor clearColor]];
+	[label setFont:[SZGlobalConstants fontWithFontType:SZFontSemiBold size:16.0]];
+	[label setTextColor:[SZGlobalConstants darkGray]];
+	[label applyWhiteShadow];
+	[label setTextAlignment:NSTextAlignmentCenter];
+	[label setText:@"Didn't find a fitting category?"];
+	[view addSubview:label];
+	
+	SZButton* button = [[SZButton alloc] initWithColor:SZButtonColorPetrol size:SZButtonSizeMedium width:220.0];
+	[button setTitle:@"Suggest New Category" forState:UIControlStateNormal];
+	[button setCenter:CGPointMake(160.0, 50.0)];
+	[button addTarget:self action:@selector(suggestCategory:) forControlEvents:UIControlEventTouchUpInside];
+	[view addSubview:button];
+	
+	return view;
 }
 
 
@@ -190,11 +215,42 @@
 	}
 }
 
+- (void)suggestCategory:(id)sender {
+
+	UIAlertView* alertView = [[UIAlertView alloc] initWithTitle:@"Suggest a new category" message:nil delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"Send", nil];
+	[alertView setTag:0];
+	[alertView setAlertViewStyle:UIAlertViewStylePlainTextInput];
+	[alertView show];
+	
+}
+
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
+	if (alertView.tag == 0 && buttonIndex == 1) {
+		
+		UIAlertView* newAlertView;
+		if ([alertView textFieldAtIndex:0].text && ![[alertView textFieldAtIndex:0].text isEqualToString:@""]) {
+			newAlertView = [[UIAlertView alloc] initWithTitle:@"Thanks!" message:@"Your suggestion will be considered. If there are several people suggesting the same category, we will add it to the category list." delegate:nil cancelButtonTitle:@"Nice!" otherButtonTitles:nil];
+		}
+		else {
+			newAlertView = [[UIAlertView alloc] initWithTitle:@"Oops!" message:@"Seems like you forgot to\nput in some text." delegate:self cancelButtonTitle:@"Oh, you're totally right!" otherButtonTitles:nil];
+		}
+		
+		[newAlertView setTag:1];
+		[newAlertView show];
+	}
+	else if (alertView.tag == 1) {
+		[self suggestCategory:nil];
+	}
+	else if (alertView.tag == 99) {
+		[super alertView:alertView clickedButtonAtIndex:buttonIndex];
+	}
+}
+
 - (void)continue:(id)sender {
 	
 #ifndef DEBUG
 	if ([[self.categoryForm.userInputs valueForKey:@"category"] isEqualToString:@""]) {
-		UIAlertView* alertView = [[UIAlertView alloc] initWithTitle:@"Category must be specified" message:nil delegate:self cancelButtonTitle:@"Okay" otherButtonTitles: nil];
+		UIAlertView* alertView = [[UIAlertView alloc] initWithTitle:@"Category must be specified" message:nil delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles: nil];
 		[alertView show];
 		return;
 	}

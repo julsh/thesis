@@ -117,7 +117,7 @@
 	
 	[SZDataManager sharedInstance].currentEntryType = SZEntryTypeOffer;
 	SZEntryObject* offer = [self.offers objectAtIndex:indexPath.row - 1];
-	SZMyEntryVC* vc = [[SZMyEntryVC alloc] initWithEntry:offer type:SZEntryTypeOffer];
+	SZMyEntryVC* vc = [[SZMyEntryVC alloc] initWithEntry:offer];
 	[self.navigationController pushViewController:vc animated:YES];
 	
 }
@@ -131,7 +131,7 @@
 	[serverObject setValue:[NSNumber numberWithBool:offer.isActive] forKey:@"isActive"];
 	[serverObject saveInBackground];
 	
-	[[SZDataManager sharedInstance] updateEntryCacheWithEntry:offer type:SZEntryTypeRequest];
+	[[SZDataManager sharedInstance] updateEntryCacheWithEntry:offer];
 	
 }
 

@@ -91,12 +91,16 @@
 
 - (SZUserAreaView*)userSection {
 	if (_userSection == nil) {
+		
+		PFUser* user = self.entry.user;
+		if (![user isDataAvailable]) {
+			[user fetch];
+		}
 		_userSection = [[SZUserAreaView alloc] initWithUser:self.entry.user hasTimeFrameView:self.entry.hasTimeFrame];
 		[_userSection setFrame:CGRectMake(0.0, self.contentHeight, _userSection.frame.size.width, _userSection.frame.size.height)];
-		
 		self.contentHeight += _userSection.frame.size.height;
 	}
-	return _userSection;
+	return _userSection;;
 }
 
 - (SZDescriptionView*)descriptionSection {

@@ -180,12 +180,10 @@
 	}
 	
 	// post to server
-//	SZEntryVO* serverObject = [SZ]
-//	PFObject* serverObject = [SZEntryVO serverObjectFromEntryVO:entry className:[SZDataManager sharedInstance].currentEntryType == SZEntryTypeRequest ? @"Request" : @"Offer"];
 	[entry saveEventually:^(BOOL succeeded, NSError *error) {
 		if (succeeded) {
 			// cache the request to be used offline
-			[[SZDataManager sharedInstance] updateEntryCacheWithEntry:entry type:[SZDataManager sharedInstance].currentEntryType];
+			[[SZDataManager sharedInstance] updateEntryCacheWithEntry:entry];
 			[SZDataManager sharedInstance].currentEntry = nil;
 			[hud hide:YES];
 			[self.presentingViewController performSelector:@selector(dismiss:) withObject:self];
@@ -213,7 +211,7 @@
 	[[SZDataManager sharedInstance].currentEntry saveEventually:^(BOOL succeeded, NSError *error) {
 		if (succeeded) {
 			
-			[[SZDataManager sharedInstance] updateEntryCacheWithEntry:[SZDataManager sharedInstance].currentEntry type:[SZDataManager sharedInstance].currentEntryType];
+			[[SZDataManager sharedInstance] updateEntryCacheWithEntry:[SZDataManager sharedInstance].currentEntry];
 			[hud hide:YES];
 			[[NSNotificationCenter defaultCenter] postNotificationName:NOTIF_ENTRY_UPDATED object:[SZDataManager sharedInstance].currentEntry userInfo:[NSDictionary dictionaryWithObject:[SZDataManager sharedInstance].currentEntry forKey:@"entry"]];
 			[self.presentingViewController performSelector:@selector(dismiss:) withObject:self];

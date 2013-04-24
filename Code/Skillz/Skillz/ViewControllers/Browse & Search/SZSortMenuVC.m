@@ -8,11 +8,12 @@
 
 #import "SZSortMenuVC.h"
 #import "SZButton.h"
+#import "SZSegmentedControlHorizontal.h"
 
 @interface SZSortMenuVC ()
 
 @property (nonatomic, strong) SZSegmentedControlVertical* sortControl;
-@property (nonatomic, strong) UISegmentedControl* arrangeControl;
+@property (nonatomic, strong) SZSegmentedControlHorizontal* arrangeControl;
 @property (nonatomic, strong) SZForm* locationForm;
 @property (nonatomic, strong) UIButton* currentLocationButton;
 
@@ -75,47 +76,14 @@
 	return label;
 }
 
-- (UISegmentedControl*)arrangeControl {
+- (SZSegmentedControlHorizontal*)arrangeControl {
+	
 	if (_arrangeControl == nil) {
-		
-		_arrangeControl = [[UISegmentedControl alloc] initWithFrame:CGRectMake(15.0, 181.0, 205.0, 40.0)];
+		_arrangeControl = [[SZSegmentedControlHorizontal alloc] initWithFrame:CGRectMake(15.0, 181.0, 205.0, 40.0)];
 		[_arrangeControl insertSegmentWithTitle:@"Low To High" atIndex:0 animated:NO];
 		[_arrangeControl insertSegmentWithTitle:@"High To Low" atIndex:1 animated:NO];
-		
-		[_arrangeControl setBackgroundImage:[[UIImage imageNamed:@"segmented_control_deselected"] resizableImageWithCapInsets:UIEdgeInsetsMake(0.0, 25.0, 0.0, 25.0)]
-									  forState:UIControlStateNormal
-									barMetrics:UIBarMetricsDefault];
-		
-		[_arrangeControl setBackgroundImage:[[UIImage imageNamed:@"segmented_control_selected"] resizableImageWithCapInsets:UIEdgeInsetsMake(0.0, 25.0, 0.0, 25.0)]
-									  forState:UIControlStateSelected
-									barMetrics:UIBarMetricsDefault];
-		
-		[_arrangeControl setDividerImage:[UIImage imageNamed:@"segmented_control_left_selected"]
-						forLeftSegmentState:UIControlStateSelected
-						  rightSegmentState:UIControlStateNormal
-								 barMetrics:UIBarMetricsDefault];
-		[_arrangeControl setDividerImage:[UIImage imageNamed:@"segmented_control_right_selected"]
-						forLeftSegmentState:UIControlStateNormal
-						  rightSegmentState:UIControlStateSelected
-								 barMetrics:UIBarMetricsDefault];
-		
-		[_arrangeControl setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:													[UIColor grayColor], UITextAttributeTextColor,
-													[UIColor whiteColor], UITextAttributeTextShadowColor,
-													[NSValue valueWithUIOffset:UIOffsetMake(0.0, 1.0)], UITextAttributeTextShadowOffset,
-													[SZGlobalConstants fontWithFontType:SZFontBold size:12.0], UITextAttributeFont, nil]
-										  forState:UIControlStateNormal];
-		
-		[_arrangeControl setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:
-													[UIColor whiteColor], UITextAttributeTextColor,
-													[UIColor blackColor], UITextAttributeTextShadowColor,
-													[NSValue valueWithUIOffset:UIOffsetMake(0.0, -1.0)], UITextAttributeTextShadowOffset,
-													[SZGlobalConstants fontWithFontType:SZFontBold size:12.0], UITextAttributeFont, nil]
-										  forState:UIControlStateSelected];
-		
-		
+		[_arrangeControl setFontSize:12.0];
 		[_arrangeControl setSelectedSegmentIndex:0];
-		
-		
 	}
 	return _arrangeControl;
 }

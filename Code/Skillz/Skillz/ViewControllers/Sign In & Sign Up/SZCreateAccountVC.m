@@ -38,8 +38,8 @@
 {
     [super viewDidLoad];
 	
-	UIBarButtonItem* menuButton = [[UIBarButtonItem alloc] initWithTitle:@"Cancel" style:UIBarButtonItemStylePlain target:self.presentingViewController action:@selector(dismiss:)];
-	[self.navigationItem setLeftBarButtonItem:menuButton];
+	UIBarButtonItem* cancelButtton = [[UIBarButtonItem alloc] initWithTitle:@"Cancel" style:UIBarButtonItemStylePlain target:self.presentingViewController action:@selector(dismiss:)];
+	[self.navigationItem setLeftBarButtonItem:cancelButtton];
 	[self.navigationItem setTitle:@"Create Account"];
 	[self.navigationItem.leftBarButtonItem setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys: [SZGlobalConstants fontWithFontType:SZFontBold size:12.0], UITextAttributeFont,nil] forState:UIControlStateNormal];
 	

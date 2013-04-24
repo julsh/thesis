@@ -116,7 +116,7 @@
 	}
 	
 	SZEntryObject* request = [self.requests objectAtIndex:indexPath.row - 1];
-	SZMyEntryVC* vc = [[SZMyEntryVC alloc] initWithEntry:request type:SZEntryTypeRequest];
+	SZMyEntryVC* vc = [[SZMyEntryVC alloc] initWithEntry:request];
 	[self.navigationController pushViewController:vc animated:YES];
 	
 }
@@ -130,7 +130,7 @@
 	[serverObject setValue:[NSNumber numberWithBool:request.isActive] forKey:@"isActive"];
 	[serverObject saveInBackground];
 	
-	[[SZDataManager sharedInstance] updateEntryCacheWithEntry:request type:SZEntryTypeRequest];
+	[[SZDataManager sharedInstance] updateEntryCacheWithEntry:request];
 	
 }
 

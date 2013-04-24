@@ -14,4 +14,6 @@
 
 - (id)initWithQuery:(PFQuery*)query;
 
+@property (nonatomic, strong) CLLocation* mapCenter;
+
 @end

@@ -16,20 +16,21 @@
 #import "SZCreateAccountSuccessVC.h"
 #import "SZNewEntryStep1VC.h"
 #import "SZUtils.h"
+#import "SZDataManager.h"
 
 @implementation SZAppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-    self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
-    self.window.backgroundColor = [UIColor blackColor];
-    [self.window makeKeyAndVisible];
-    // Override point for customization after application launch.
-	
 	[SZEntryObject registerSubclass];
 	[Parse setApplicationId:@"ltQB4UH8RtuQ84RTJOWg16IfJh0fojlzrYEbwwUr"
 				  clientKey:@"Hi4lrAsfSq0iWDi6npeYMlgrmL65l5iWFtoKl5Ef"];
 	[PFAnalytics trackAppOpenedWithLaunchOptions:launchOptions];
+	[application registerForRemoteNotificationTypes:UIRemoteNotificationTypeAlert];
+	
+    self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
+    self.window.backgroundColor = [UIColor blackColor];
+    [self.window makeKeyAndVisible];
 
 	
 //	uncomment following line to reset and reload categories from server
@@ -72,7 +73,7 @@
 	PFUser *currentUser = [PFUser currentUser];
 	//	[PFUser logOut];
 	if (currentUser) {
-		// show home screen
+		[[SZDataManager sharedInstance] checkForNewMessages];
 	} else {
 		// show login screen
 	}
@@ -82,6 +83,21 @@
 	
 	
     return YES;
+}
+
+- (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken
+{
+    // Store the deviceToken in the current Installation and save it to Parse.
+    PFInstallation *currentInstallation = [PFInstallation currentInstallation];
+    [currentInstallation setDeviceTokenFromData:deviceToken];
+	[currentInstallation setObject:[PFUser currentUser] forKey:@"user"];
+	[currentInstallation setObject:[[PFUser currentUser] objectId] forKey:@"userId"];
+    [currentInstallation saveInBackground];
+	NSLog(@"did register! yay!");
+}
+
+- (void)application:(UIApplication *)application didFailToRegisterForRemoteNotificationsWithError:(NSError *)error {
+	NSLog(@"register failed. aww. %@", error);
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application

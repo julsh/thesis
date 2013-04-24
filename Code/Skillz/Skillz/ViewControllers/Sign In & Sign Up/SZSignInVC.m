@@ -63,7 +63,7 @@
 		
 		_form = [[SZForm alloc] initWithWidth:290.0];
 		
-		SZFormFieldVO* emailField = [SZFormFieldVO formFieldValueObjectForTextWithKey:@"email" placeHolderText:@"Email" keyboardType:UIKeyboardTypeDefault];
+		SZFormFieldVO* emailField = [SZFormFieldVO formFieldValueObjectForTextWithKey:@"email" placeHolderText:@"Email" keyboardType:UIKeyboardTypeEmailAddress];
 		SZFormFieldVO* passwordField = [SZFormFieldVO formFieldValueObjectForTextWithKey:@"password" placeHolderText:@"Password" keyboardType:UIKeyboardTypeDefault];
 		passwordField.isPassword = YES;
 		

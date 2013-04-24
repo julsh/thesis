@@ -22,11 +22,17 @@
 @property (nonatomic, strong) NSMutableArray* viewControllerStack;
 
 + (SZDataManager*)sharedInstance;
+
 - (void)updateCaches;
-- (void)addEntryToUserCache:(SZEntryObject*)entry type:(SZEntryType)type;
-- (void)updateEntryCacheWithEntry:(SZEntryObject*)entry type:(SZEntryType)type;
-- (void)removeEntryFromCache:(SZEntryObject*)entry type:(SZEntryType)type;
+- (void)addEntryToUserCache:(SZEntryObject*)entry;
+- (void)updateEntryCacheWithEntry:(SZEntryObject*)entry;
+- (void)removeEntryFromCache:(SZEntryObject*)entry;
+
 - (void)saveLastEnderedAddress:(NSDictionary*)address;
 - (NSDictionary*)lastEnteredAddress;
+
+- (void)checkForNewMessages;
+- (void)addMessageToUserCache:(PFObject*)message;
+- (void)updateMessageCacheWithMessageStore:(PFObject*)messageStore;
 
 @end

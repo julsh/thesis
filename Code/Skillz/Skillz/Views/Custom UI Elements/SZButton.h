@@ -12,5 +12,6 @@
 
 - (id)initWithColor:(SZButtonColor)color size:(SZButtonSize)size width:(CGFloat)width;
 - (void)setMultilineTitle:(NSString*)title font:(UIFont*)font lineSpacing:(CGFloat)lineSpacing;
+- (void)changeBackgroundColor:(SZButtonColor)color;
 
 @end

@@ -6,6 +6,7 @@
 //  Copyright (c) 2013 Julia Roggatz. All rights reserved.
 //
 
+#import <CoreLocation/CoreLocation.h>
 #import "SZNewEntryStep3VC.h"
 #import "SZNewEntryStep4VC.h"
 #import "SZRadioButtonControl.h"
@@ -296,18 +297,20 @@
 
 - (void)storeInputs {
 	
+	SZEntryObject* entry = (SZEntryObject*)[SZDataManager sharedInstance].currentEntry;
+	
 	switch (self.segmentedControl.selectedIndex) {
 		case SZEntryLocationWillGoSomewhereElse:
-			((SZEntryObject*)[SZDataManager sharedInstance].currentEntry).locationWillGoSomewhere = YES;
-			((SZEntryObject*)[SZDataManager sharedInstance].currentEntry).locationIsRemote = NO;
+			entry.locationWillGoSomewhere = YES;
+			entry.locationIsRemote = NO;
 			break;
 		case SZEntryLocationWillStayAtHome:
-			((SZEntryObject*)[SZDataManager sharedInstance].currentEntry).locationWillGoSomewhere = NO;
-			((SZEntryObject*)[SZDataManager sharedInstance].currentEntry).locationIsRemote = NO;
+			entry.locationWillGoSomewhere = NO;
+			entry.locationIsRemote = NO;
 			break;
 		case SZEntryLocationRemote:
-			((SZEntryObject*)[SZDataManager sharedInstance].currentEntry).locationWillGoSomewhere = NO;
-			((SZEntryObject*)[SZDataManager sharedInstance].currentEntry).locationIsRemote = YES;
+			entry.locationWillGoSomewhere = NO;
+			entry.locationIsRemote = YES;
 			break;
 		default:
 			break;
@@ -316,42 +319,68 @@
 	if (self.segmentedControl.selectedIndex == SZEntryLocationWillGoSomewhereElse) {
 		
 		if (self.option1detailView.selectedIndex == 0) {
-			((SZEntryObject*)[SZDataManager sharedInstance].currentEntry).withinZipCode = YES;
-			((SZEntryObject*)[SZDataManager sharedInstance].currentEntry).withinSpecifiedArea = NO;
-			((SZEntryObject*)[SZDataManager sharedInstance].currentEntry).withinNegotiableArea = NO;
-			((SZEntryObject*)[SZDataManager sharedInstance].currentEntry).distance = nil;
-			((SZEntryObject*)[SZDataManager sharedInstance].currentEntry).address = nil;
+			entry.withinZipCode = YES;
+			entry.withinSpecifiedArea = NO;
+			entry.withinNegotiableArea = NO;
+			entry.distance = nil;
+			entry.address = nil;
+			
+			
 		}
 		else if (self.option1detailView.selectedIndex == 1) {
-			((SZEntryObject*)[SZDataManager sharedInstance].currentEntry).withinZipCode = NO;
-			((SZEntryObject*)[SZDataManager sharedInstance].currentEntry).withinSpecifiedArea = YES;
-			((SZEntryObject*)[SZDataManager sharedInstance].currentEntry).withinNegotiableArea = NO;
+			entry.withinZipCode = NO;
+			entry.withinSpecifiedArea = YES;
+			entry.withinNegotiableArea = NO;
 			
 			NSNumberFormatter* formatter = [[NSNumberFormatter alloc] init];
 			[formatter setNumberStyle:NSNumberFormatterDecimalStyle];
 			NSNumber* distance = [formatter numberFromString:[self.distanceForm.userInputs valueForKey:@"distance"]];
-			((SZEntryObject*)[SZDataManager sharedInstance].currentEntry).distance = distance;
+			entry.distance = distance;
 			
-			((SZEntryObject*)[SZDataManager sharedInstance].currentEntry).address = [SZForm addressDictfromAddressForm:self.option1AddressForm];
+			entry.address = [SZForm addressDictfromAddressForm:self.option1AddressForm];
 			[[SZDataManager sharedInstance] saveLastEnderedAddress:[SZForm addressDictfromAddressForm:self.option1AddressForm]];
 		}
 		else if (self.option1detailView.selectedIndex == 2) {
-			((SZEntryObject*)[SZDataManager sharedInstance].currentEntry).withinZipCode = NO;
-			((SZEntryObject*)[SZDataManager sharedInstance].currentEntry).withinSpecifiedArea = NO;
-			((SZEntryObject*)[SZDataManager sharedInstance].currentEntry).withinNegotiableArea = YES;
-			((SZEntryObject*)[SZDataManager sharedInstance].currentEntry).distance = nil;
-			((SZEntryObject*)[SZDataManager sharedInstance].currentEntry).address = nil;
+			entry.withinZipCode = NO;
+			entry.withinSpecifiedArea = NO;
+			entry.withinNegotiableArea = YES;
+			entry.distance = nil;
+			entry.address = nil;
 		}
 	}
 	else if (self.segmentedControl.selectedIndex == SZEntryLocationWillStayAtHome) {
-		((SZEntryObject*)[SZDataManager sharedInstance].currentEntry).withinZipCode = NO;
-		((SZEntryObject*)[SZDataManager sharedInstance].currentEntry).withinSpecifiedArea = NO;
-		((SZEntryObject*)[SZDataManager sharedInstance].currentEntry).withinNegotiableArea = NO;
-		((SZEntryObject*)[SZDataManager sharedInstance].currentEntry).distance = nil;
-		((SZEntryObject*)[SZDataManager sharedInstance].currentEntry).address = [SZForm addressDictfromAddressForm:self.option2AddressForm];
+		entry.withinZipCode = NO;
+		entry.withinSpecifiedArea = NO;
+		entry.withinNegotiableArea = NO;
+		entry.distance = nil;
+		entry.address = [SZForm addressDictfromAddressForm:self.option2AddressForm];
 		[[SZDataManager sharedInstance] saveLastEnderedAddress:[SZForm addressDictfromAddressForm:self.option2AddressForm]];
 	}
 	
+	NSString* locationString;
+	if (entry.address) locationString = [NSString stringWithFormat:@"%@, %@, %@ %@, USA",
+											 [entry.address valueForKey:@"streetAddress"],
+											 [entry.address valueForKey:@"city"],
+											 [entry.address valueForKey:@"state"],
+											 [entry.address valueForKey:@"zipCode"]];
+	else if (entry.withinZipCode) locationString = [NSString stringWithFormat:@"%@ %@, USA",
+														[entry.user valueForKey:@"zipCode"],
+														[entry.user valueForKey:@"state"]];
+	
+	if (locationString) {
+		CLGeocoder* geoCoder = [[CLGeocoder alloc] init];
+		[geoCoder geocodeAddressString:locationString completionHandler:^(NSArray *placemarks, NSError *error) {
+			if (placemarks && [placemarks count] > 0) {
+				CLPlacemark* placemark = [placemarks objectAtIndex:0];
+				CLLocation* location = [placemark location];
+				PFGeoPoint* geoPoint = [PFGeoPoint geoPointWithLocation:location];
+				[entry setObject:geoPoint forKey:@"geoPoint"];
+				NSLog(@"geopoint set");
+				[SZDataManager sharedInstance].currentEntry = entry;
+			}
+		}];
+
+	}
 }
 
 

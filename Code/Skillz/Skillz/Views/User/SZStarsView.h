@@ -8,6 +8,11 @@
 
 #import <UIKit/UIKit.h>
 
+typedef enum {
+	SZStarViewSizeSmall,
+	SZStarViewSizeMedium
+} SZStarViewSize;
+
 @interface SZStarsView : UIView
 
 - (id)initWithSize:(SZStarViewSize)size;

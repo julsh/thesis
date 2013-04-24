@@ -19,12 +19,7 @@
 	if (self) {
 		
 		CGFloat height = TITLE_TOP_MARGIN;
-		
-//		CGSize titleSize = [title sizeWithFont:[SZGlobalConstants fontWithFontType:SZFontBold size:28.0] constrainedToSize:CGSizeMake(265.0, 1000.0)];
-//		CGSize categorySize = [category sizeWithFont:[SZGlobalConstants fontWithFontType:SZFontSemiBold size:16.0] constrainedToSize:CGSizeMake(260.0, 1000.0)];
-		
-//		CGFloat sectionHeight = TITLE_TOP_MARGIN + titleSize.height + TITLE_CATEGORY_SPACING + categorySize.height + CATEGORY_BOTTOM_MARGIN;
-		
+				
 		UILabel* titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(15.0, height, 260.0, 1000.0)];
 		[titleLabel setNumberOfLines:0];
 		[titleLabel setLineBreakMode:NSLineBreakByWordWrapping];

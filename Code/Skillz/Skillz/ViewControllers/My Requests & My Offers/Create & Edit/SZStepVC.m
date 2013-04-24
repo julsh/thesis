@@ -120,13 +120,13 @@
 
 - (void)cancel:(id)sender {
 	
-	UIAlertView* alertView = [[UIAlertView alloc] initWithTitle:@"Do you really want to cancel?" message:@"All progress will be lost." delegate:self cancelButtonTitle:@"Yes" otherButtonTitles:@"No", nil];
-	[alertView setDelegate:self];
+	UIAlertView* alertView = [[UIAlertView alloc] initWithTitle:@"Do you really want to cancel?" message:@"All progress will be lost." delegate:self cancelButtonTitle:@"No" otherButtonTitles:@"Yes", nil];
+	[alertView setTag:99];
 	[alertView show];
 }
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
-	if (buttonIndex == 0) {
+	if (buttonIndex == 1) {
 		
 		[SZDataManager sharedInstance].currentEntry = nil;
 		[SZDataManager sharedInstance].viewControllerStack = nil;

@@ -8,6 +8,12 @@
 
 #import <UIKit/UIKit.h>
 
+typedef enum {
+	SZUserPhotoViewSizeSmall,
+	SZUserPhotoViewSizeMedium,
+	SZUserPhotoViewSizeLarge
+} SZUserPhotoViewSize;
+
 @interface SZUserPhotoView : UIView
 
 @property (nonatomic, strong) UIImageView* photo;

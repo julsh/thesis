@@ -25,10 +25,12 @@
 - (void)configureKeyboard;
 - (void)setText:(NSString*)text forFieldAtIndex:(NSInteger)index;
 - (void)setTextFieldWidth:(CGFloat)width xInset:(CGFloat)xInset forFieldAtIndex:(NSInteger)index;
+- (void)setTextViewHeight:(CGFloat)height forTextViewAtIndex:(NSInteger)index animated:(BOOL)animated;
 - (void)updatePickerAtIndex:(NSInteger)index;
 - (void)updatePickerOptions:(NSArray*)options forPickerAtIndex:(NSInteger)index;
 - (void)updateDatePickerAtIndex:(NSInteger)index withDate:(NSDate*)date;
 - (void)resign:(UIView*)firstResponder completion:(void(^)(BOOL finished))completion;
+- (UITextField*)textFieldAtIndex:(NSInteger)index;
 
 + (SZForm*)addressFormWithWidth:(CGFloat)width;
 + (NSDictionary*)addressDictfromAddressForm:(SZForm*)addressForm;
@@ -53,5 +55,8 @@
 
 @optional
 - (void)formDidResignFirstResponder:(SZForm *)form;
+
+@optional
+- (void)formInputDidChange:(UITextField*)textField;
 
 @end

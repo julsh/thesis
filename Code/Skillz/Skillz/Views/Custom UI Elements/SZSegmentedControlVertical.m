@@ -91,7 +91,7 @@
 	[button.titleLabel setFont:[SZGlobalConstants fontWithFontType:SZFontSemiBold size:15.0]];
 	[button.titleLabel setShadowOffset:CGSizeMake(0.0, 1.0)];
 	[button setTitleShadowColor:[UIColor whiteColor] forState:UIControlStateNormal];
-	[button setTitleColor:[SZGlobalConstants darkGray] forState:UIControlStateNormal];
+	[button setTitleColor:[SZGlobalConstants gray] forState:UIControlStateNormal];
 	
 	NSShadow* shadow = [[NSShadow alloc] init];
 	[shadow setShadowOffset:CGSizeMake(0.0, -1.0)];

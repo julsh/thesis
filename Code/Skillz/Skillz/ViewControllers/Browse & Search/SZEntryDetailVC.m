@@ -10,11 +10,11 @@
 #import "SZEntryView.h"
 #import "SZDataManager.h"
 #import "SZButton.h"
+#import "SZNewMessageVC.h"
 
 @interface SZEntryDetailVC ()
 
 @property (nonatomic, strong) SZEntryObject* entry;
-@property (nonatomic, assign) SZEntryType entryType;
 @property (nonatomic, strong) UIScrollView* mainView;
 @property (nonatomic, strong) SZEntryView* entryView;
 @property (nonatomic, strong) UIView* bottomView;
@@ -25,17 +25,26 @@
 @implementation SZEntryDetailVC
 
 @synthesize entry = _entry;
-@synthesize entryType = _entryType;
 @synthesize entryView = _entryView;
 @synthesize bottomView = _bottomView;
 @synthesize mainView = _mainView;
 @synthesize contentHeight = _contentHeight;
 
-- (id)initWithEntry:(SZEntryObject*)entry type:(SZEntryType)type {
+- (id)initWithEntry:(SZEntryObject*)entry {
 	self = [super init];
 	if (self) {
 		self.entry = entry;
-		self.entryType = type;
+		
+		NSString* locationString;
+		if (entry.address) locationString = [NSString stringWithFormat:@"%@, %@, %@ %@, USA",
+											 [entry.address valueForKey:@"streetAddress"],
+											 [entry.address valueForKey:@"city"],
+											 [entry.address valueForKey:@"state"],
+											 [entry.address valueForKey:@"zipCode"]];
+		else if (entry.withinZipCode) locationString = [NSString stringWithFormat:@"%@ %@, USA",
+														[entry.user valueForKey:@"zipCode"],
+														[entry.user valueForKey:@"state"]];
+		
 	}
 	return self;
 }
@@ -44,7 +53,7 @@
 {
     [super viewDidLoad];
 	
-	switch ([SZDataManager sharedInstance].currentEntryType) {
+	switch (self.entry.type) {
 		case SZEntryTypeRequest:
 			[self.navigationItem setTitle:@"Request Details"];
 			break;
@@ -103,8 +112,7 @@
 
 - (void)contact:(SZButton*)sender {
 	
-	NSLog(@"contact");
-	// TODO next big milestone.. contacting people
+	[self.navigationController pushViewController:[[SZNewMessageVC alloc] initWithEntry:self.entry] animated:YES];
 }
 
 @end

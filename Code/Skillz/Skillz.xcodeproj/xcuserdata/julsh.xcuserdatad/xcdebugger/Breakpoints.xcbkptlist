@@ -762,11 +762,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "Skillz/ViewControllers/Global Navigation/SZMenuVC.m"
-         timestampString = "387993334.378429"
+         timestampString = "388535743.535142"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "282"
-         endingLineNumber = "282"
+         startingLineNumber = "306"
+         endingLineNumber = "306"
          landmarkName = "-tableView:didSelectRowAtIndexPath:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -775,11 +775,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "Skillz/ViewControllers/Global Navigation/SZMenuVC.m"
-         timestampString = "387993334.378429"
+         timestampString = "388535743.535142"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "284"
-         endingLineNumber = "284"
+         startingLineNumber = "308"
+         endingLineNumber = "308"
          landmarkName = "-tableView:didSelectRowAtIndexPath:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -801,11 +801,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "Skillz/ViewControllers/Global Navigation/SZNavigationController.m"
-         timestampString = "388017665.897135"
+         timestampString = "388538994.599137"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "185"
-         endingLineNumber = "185"
+         startingLineNumber = "181"
+         endingLineNumber = "181"
          landmarkName = "-dismiss:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -827,11 +827,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "Skillz/ViewControllers/Global Navigation/SZMenuVC.m"
-         timestampString = "387993334.378429"
+         timestampString = "388535743.535142"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "38"
-         endingLineNumber = "38"
+         startingLineNumber = "62"
+         endingLineNumber = "62"
          landmarkName = "+sharedInstance"
          landmarkType = "5">
       </FileBreakpoint>
@@ -866,11 +866,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "Skillz/ViewControllers/My Requests &amp; My Offers/Create &amp; Edit/SZConfirmEntryVC.m"
-         timestampString = "386987150.749123"
+         timestampString = "388461494.380313"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "188"
-         endingLineNumber = "188"
+         startingLineNumber = "186"
+         endingLineNumber = "186"
          landmarkName = "-postEntry:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -879,24 +879,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "Skillz/ViewControllers/My Requests &amp; My Offers/Create &amp; Edit/SZConfirmEntryVC.m"
-         timestampString = "387810976.944404"
+         timestampString = "388461494.380313"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "184"
-         endingLineNumber = "184"
-         landmarkName = "-postEntry:"
-         landmarkType = "5">
-      </FileBreakpoint>
-      <FileBreakpoint
-         shouldBeEnabled = "No"
-         ignoreCount = "0"
-         continueAfterRunningActions = "No"
-         filePath = "Skillz/ViewControllers/My Requests &amp; My Offers/Create &amp; Edit/SZConfirmEntryVC.m"
-         timestampString = "387810976.944404"
-         startingColumnNumber = "9223372036854775807"
-         endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "185"
-         endingLineNumber = "185"
+         startingLineNumber = "183"
+         endingLineNumber = "183"
          landmarkName = "-postEntry:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -996,11 +983,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "Skillz/Views/Custom UI Elements/SZForm.m"
-         timestampString = "388023565.847539"
+         timestampString = "388123094.311179"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "404"
-         endingLineNumber = "404"
+         startingLineNumber = "447"
+         endingLineNumber = "447"
          landmarkName = "-textFieldShouldClear:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -1009,11 +996,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "Skillz/Views/Custom UI Elements/SZForm.m"
-         timestampString = "388023565.847539"
+         timestampString = "388123094.311179"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "424"
-         endingLineNumber = "424"
+         startingLineNumber = "467"
+         endingLineNumber = "467"
          landmarkName = "-textFieldShouldClear:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -1035,11 +1022,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "Skillz/ViewControllers/My Requests &amp; My Offers/Create &amp; Edit/SZNewEntryStep1VC.m"
-         timestampString = "387816958.180642"
+         timestampString = "388447576.688728"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "162"
-         endingLineNumber = "162"
+         startingLineNumber = "187"
+         endingLineNumber = "187"
          landmarkName = "-formDidResignFirstResponder:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -1113,11 +1100,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "Skillz/Utils &amp; Constants/SZDataManager.m"
-         timestampString = "387819999.269764"
+         timestampString = "388340768.188166"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "156"
-         endingLineNumber = "156"
+         startingLineNumber = "162"
+         endingLineNumber = "162"
          landmarkName = "-lastEnteredAddress"
          landmarkType = "5">
       </FileBreakpoint>
@@ -1126,11 +1113,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "Skillz/ViewControllers/My Requests &amp; My Offers/Create &amp; Edit/SZNewEntryStep1VC.m"
-         timestampString = "387816958.180642"
+         timestampString = "388447576.688728"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "189"
-         endingLineNumber = "189"
+         startingLineNumber = "214"
+         endingLineNumber = "214"
          landmarkName = "-addNewDetailView:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -1152,11 +1139,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "Skillz/ViewControllers/Browse &amp; Search/SZSearchResultsVC.m"
-         timestampString = "388027858.694509"
+         timestampString = "388533434.13152"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "279"
-         endingLineNumber = "279"
+         startingLineNumber = "291"
+         endingLineNumber = "291"
          landmarkName = "-tableView:cellForRowAtIndexPath:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -1165,11 +1152,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "Skillz/ViewControllers/My Requests &amp; My Offers/Create &amp; Edit/SZConfirmEntryVC.m"
-         timestampString = "387819436.717193"
+         timestampString = "388461494.380313"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "216"
-         endingLineNumber = "216"
+         startingLineNumber = "214"
+         endingLineNumber = "214"
          landmarkName = "-saveChanges:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -1178,12 +1165,12 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "Skillz/Utils &amp; Constants/SZDataManager.m"
-         timestampString = "387820309.365804"
+         timestampString = "388340768.188166"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "118"
-         endingLineNumber = "118"
-         landmarkName = "-updateEntryCacheWithEntry:type:"
+         startingLineNumber = "124"
+         endingLineNumber = "124"
+         landmarkName = "-updateEntryCacheWithEntry:"
          landmarkType = "5">
       </FileBreakpoint>
       <FileBreakpoint
@@ -1191,11 +1178,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "Skillz/ViewControllers/My Requests &amp; My Offers/SZMyEntryVC.m"
-         timestampString = "387820836.356192"
+         timestampString = "388415868.459253"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "153"
-         endingLineNumber = "153"
+         startingLineNumber = "150"
+         endingLineNumber = "150"
          landmarkName = "-updateEntry:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -1204,11 +1191,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "Skillz/ViewControllers/Browse &amp; Search/SZSearchResultsVC.m"
-         timestampString = "388027858.694509"
+         timestampString = "388533434.13152"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "371"
-         endingLineNumber = "371"
+         startingLineNumber = "383"
+         endingLineNumber = "383"
          landmarkName = "-mapView:viewForAnnotation:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -1217,12 +1204,12 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "Skillz/Views/Custom UI Elements/SZForm.m"
-         timestampString = "387927283.892979"
+         timestampString = "388123094.311179"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "239"
-         endingLineNumber = "239"
-         landmarkName = "-setTextFieldWidth:forFieldAtIndex:"
+         startingLineNumber = "248"
+         endingLineNumber = "248"
+         landmarkName = "-setTextFieldWidth:xInset:forFieldAtIndex:"
          landmarkType = "5">
       </FileBreakpoint>
       <FileBreakpoint
@@ -1236,6 +1223,292 @@
          startingLineNumber = "41"
          endingLineNumber = "41"
          landmarkName = "-viewDidLoad"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "No"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         filePath = "Skillz/Views/Custom UI Elements/SZForm.m"
+         timestampString = "388123094.311179"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "281"
+         endingLineNumber = "281"
+         landmarkName = "-setTextViewHeight:forTextViewAtIndex:animated:"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "No"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         filePath = "Skillz/ViewControllers/Messaging/SZNewMessageVC.m"
+         timestampString = "388336093.760845"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "388"
+         endingLineNumber = "388"
+         landmarkName = "-attachDeal:"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "No"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         filePath = "Skillz/Views/Custom UI Elements/SZForm.h"
+         timestampString = "388123094.311179"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "59"
+         endingLineNumber = "59"
+         landmarkName = "@protocol SZFormDelegate"
+         landmarkType = "2">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "No"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         filePath = "Skillz/ViewControllers/Messaging/SZNewMessageVC.m"
+         timestampString = "388323684.466583"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "271"
+         endingLineNumber = "271"
+         landmarkName = "-formInputDidChange:"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "No"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         filePath = "Skillz/ViewControllers/Messaging/SZMyMessagesVC.m"
+         timestampString = "388419353.362978"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "178"
+         endingLineNumber = "178"
+         landmarkName = "@implementation SZMyMessagesVC"
+         landmarkType = "3">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "No"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         filePath = "Skillz/Utils &amp; Constants/SZDataManager.m"
+         timestampString = "388527304.349575"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "202"
+         endingLineNumber = "202"
+         landmarkName = "-addMessageToUserCache:"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "No"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         filePath = "Skillz/Utils &amp; Constants/SZDataManager.m"
+         timestampString = "388527304.349575"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "215"
+         endingLineNumber = "215"
+         landmarkName = "-addMessageToUserCache:"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "No"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         filePath = "Skillz/Utils &amp; Constants/SZDataManager.m"
+         timestampString = "388527304.349575"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "302"
+         endingLineNumber = "302"
+         landmarkName = "-addProposedDeal:toMessageWithKey:"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "No"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         filePath = "Skillz/Utils &amp; Constants/SZDataManager.m"
+         timestampString = "388527304.349575"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "315"
+         endingLineNumber = "315"
+         landmarkName = "-updateMessageCacheWithMessageStore:"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "No"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         filePath = "Skillz/Utils &amp; Constants/SZDataManager.m"
+         timestampString = "388527304.349575"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "314"
+         endingLineNumber = "314"
+         landmarkName = "-updateMessageCacheWithMessageStore:"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "No"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         filePath = "Skillz/ViewControllers/Messaging/SZMyMessagesVC.m"
+         timestampString = "388419353.362978"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "57"
+         endingLineNumber = "57"
+         landmarkName = "-init"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "No"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         filePath = "Skillz/ViewControllers/Messaging/SZMyMessagesVC.m"
+         timestampString = "388419353.362978"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "61"
+         endingLineNumber = "61"
+         landmarkName = "-init"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "No"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         filePath = "Skillz/ViewControllers/Messaging/SZMyMessagesVC.m"
+         timestampString = "388419353.362978"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "64"
+         endingLineNumber = "64"
+         landmarkName = "-init"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "No"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         filePath = "Skillz/ViewControllers/Messaging/SZMyMessagesVC.m"
+         timestampString = "388350269.289439"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "46"
+         endingLineNumber = "46"
+         landmarkName = "-init"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "No"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         filePath = "Skillz/ViewControllers/Messaging/SZMyMessagesVC.m"
+         timestampString = "388350269.289439"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "50"
+         endingLineNumber = "50"
+         landmarkName = "-init"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "No"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         filePath = "Skillz/ViewControllers/Messaging/SZMyMessagesVC.m"
+         timestampString = "388366626.016815"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "39"
+         endingLineNumber = "39"
+         landmarkName = "-init"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "No"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         filePath = "Skillz/Utils &amp; Constants/SZDataManager.m"
+         timestampString = "388527304.349575"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "280"
+         endingLineNumber = "280"
+         landmarkName = "-addFromUser:toMessageWithKey:"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "No"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         filePath = "Skillz/Utils &amp; Constants/SZDataManager.m"
+         timestampString = "388527304.349575"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "289"
+         endingLineNumber = "289"
+         landmarkName = "-addToUser:toMessageWithKey:"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "No"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         filePath = "Skillz/Utils &amp; Constants/SZDataManager.m"
+         timestampString = "388527304.349575"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "221"
+         endingLineNumber = "221"
+         landmarkName = "-addMessageToUserCache:"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "No"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         filePath = "Skillz/Utils &amp; Constants/SZDataManager.m"
+         timestampString = "388527304.349575"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "239"
+         endingLineNumber = "239"
+         landmarkName = "-addMessageToUserCache:"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "No"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         filePath = "Skillz/Utils &amp; Constants/SZDataManager.m"
+         timestampString = "388527304.349575"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "271"
+         endingLineNumber = "271"
+         landmarkName = "-addMessageToUserCache:"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "No"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         filePath = "Skillz/Views/Entry/SZUserAreaView.m"
+         timestampString = "388416049.262637"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "53"
+         endingLineNumber = "53"
+         landmarkName = "-userPhoto"
          landmarkType = "5">
       </FileBreakpoint>
    </FileBreakpoints>

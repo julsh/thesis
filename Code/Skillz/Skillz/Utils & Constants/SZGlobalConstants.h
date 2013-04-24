@@ -13,6 +13,7 @@
 #define NOTIF_REQUEST_PASSWORD @"Request Password"
 #define NOTIF_ENTRY_UPDATED @"Entry Updated"
 #define NOTIF_FILTER_OR_SORT_MENU_HIDDEN @"Filter or Sort Menu Hidden"
+#define NOTIF_MESSAGES_UPDATED @"Messages Updated"
 
 #define FORM_PLACEHOLDER @"Placeholder"
 #define FORM_INPUT_TYPE @"InputType"
@@ -62,17 +63,6 @@ typedef enum {
 	SZEntryPriceFixedPerHour,
 	SZEntryPriceFixedPerJob
 } SZEntryPriceType;
-
-typedef enum {
-	SZStarViewSizeSmall,
-	SZStarViewSizeMedium
-} SZStarViewSize;
-
-typedef enum {
-	SZUserPhotoViewSizeSmall,
-	SZUserPhotoViewSizeMedium,
-	SZUserPhotoViewSizeLarge
-} SZUserPhotoViewSize;
 
 typedef enum {
 	SZNavigationMenu,

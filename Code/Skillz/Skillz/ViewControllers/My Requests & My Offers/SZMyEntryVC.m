@@ -17,7 +17,6 @@
 @interface SZMyEntryVC ()
 
 @property (nonatomic, strong) SZEntryObject* entry;
-@property (nonatomic, assign) SZEntryType entryType;
 @property (nonatomic, strong) UIScrollView* mainView;
 @property (nonatomic, strong) UIView* topView;
 @property (nonatomic, strong) SZEntryView* entryView;
@@ -28,17 +27,15 @@
 @implementation SZMyEntryVC
 
 @synthesize entry = _entry;
-@synthesize entryType = _entryType;
 @synthesize topView = _topView;
 @synthesize entryView = _entryView;
 @synthesize mainView = _mainView;
 @synthesize contentHeight = _contentHeight;
 
-- (id)initWithEntry:(SZEntryObject*)entry type:(SZEntryType)type {
+- (id)initWithEntry:(SZEntryObject*)entry {
 	self = [super init];
 	if (self) {
 		self.entry = entry;
-		self.entryType = type;
 	}
 	return self;
 }
@@ -47,7 +44,7 @@
 {
     [super viewDidLoad];
 	
-	switch (self.entryType) {
+	switch (self.entry.type) {
 		case SZEntryTypeRequest:
 			[self.navigationItem setTitle:@"My Requests"];
 			break;
@@ -84,7 +81,7 @@
 		[deleteButton addTarget:self action:@selector(deleteEntry:) forControlEvents:UIControlEventTouchUpInside];
 		[deleteButton setCenter:CGPointMake(160.0, 85.0)];
 		
-		switch (self.entryType) {
+		switch (self.entry.type) {
 			case SZEntryTypeRequest:
 				[editButton setTitle:@"Edit Request" forState:UIControlStateNormal];
 				[deleteButton setTitle:@"Delete Request" forState:UIControlStateNormal];
@@ -115,7 +112,7 @@
 }
 
 - (void)editEntry:(id)sender {
-	[SZDataManager sharedInstance].currentEntryType = self.entryType;
+	[SZDataManager sharedInstance].currentEntryType = self.entry.type;
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateEntry:) name:NOTIF_ENTRY_UPDATED object:nil];
 	SZNavigationController* navController = [[SZNavigationController alloc] initWithRootViewController:[[SZNewEntryStep1VC alloc] initWithEntry:self.entry] isModal:YES];
 	[navController setModalPresentationStyle:UIModalPresentationFullScreen];
@@ -125,7 +122,7 @@
 - (void)deleteEntry:(id)sender {
 	
 	NSString* title;
-	switch (self.entryType) {
+	switch (self.entry.type) {
 		case SZEntryTypeRequest:
 			title = @"Do you really want to delete this request?";
 			break;
@@ -144,7 +141,7 @@
 		
 		PFObject* serverObject = [PFQuery getObjectOfClass:@"Entry" objectId:self.entry.objectId];
 		[serverObject deleteInBackground];
-		[[SZDataManager sharedInstance] removeEntryFromCache:self.entry type:self.entryType];
+		[[SZDataManager sharedInstance] removeEntryFromCache:self.entry];
 		[self.navigationController popViewControllerAnimated:YES];
 	}
 }

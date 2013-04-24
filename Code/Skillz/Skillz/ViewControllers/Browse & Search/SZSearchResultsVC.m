@@ -170,24 +170,29 @@
 	
 	SZEntryObject* entry = [dict valueForKey:@"entry"];
 	if (entry.address || entry.withinZipCode) {
-		NSString* addressString;
-		if (entry.address) addressString = [NSString stringWithFormat:@"%@, %@, %@ %@, USA",
-											[entry.address valueForKey:@"streetAddress"],
-											[entry.address valueForKey:@"city"],
-											[entry.address valueForKey:@"state"],
-											[entry.address valueForKey:@"zipCode"]];
-		else if (entry.withinZipCode) addressString = [NSString stringWithFormat:@"%@ %@, USA",
-													   [entry.user valueForKey:@"zipCode"],
-													   [entry.user valueForKey:@"state"]];
-		
 		CLGeocoder* geoCoder = [[CLGeocoder alloc] init];
-		[geoCoder geocodeAddressString:addressString completionHandler:^(NSArray *placemarks, NSError *error) {
-			if (placemarks && [placemarks count] > 0) {
-				[dict setObject:[placemarks objectAtIndex:0] forKey:@"location"];
-//				NSArray* indexPaths = [NSArray arrayWithObject:[NSIndexPath indexPathForRow:index inSection:0]];
-//				[self.tableView reloadRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationNone];
-			}
-		}];
+		
+		if (entry.address) {
+			PFGeoPoint* geoPoint = [entry valueForKey:@"geoPoint"];
+			CLLocation* location = [[CLLocation alloc] initWithLatitude:geoPoint.latitude longitude:geoPoint.longitude];
+			[geoCoder reverseGeocodeLocation:location completionHandler:^(NSArray *placemarks, NSError *error) {
+				if (placemarks && [placemarks count] > 0) {
+					[dict setObject:[placemarks objectAtIndex:0] forKey:@"location"];
+				}
+			}];
+		}
+		else if (entry.withinZipCode) {
+			NSString* addressString;
+			if (entry.withinZipCode) addressString = [NSString stringWithFormat:@"%@ %@, USA",
+													  [entry.user valueForKey:@"zipCode"],
+													  [entry.user valueForKey:@"state"]];
+			
+			[geoCoder geocodeAddressString:addressString completionHandler:^(NSArray *placemarks, NSError *error) {
+				if (placemarks && [placemarks count] > 0) {
+					[dict setObject:[placemarks objectAtIndex:0] forKey:@"location"];
+				}
+			}];
+		}
 	}
 }
 
@@ -206,8 +211,15 @@
 			[_mapView addAnnotation:anno];
 		}
 		
+		CLLocationCoordinate2D coordinate;
+		if (self.mapCenter) {
+			coordinate = self.mapCenter.coordinate;
+		}
+		else {
+			coordinate = self.currentUserLocation.coordinate;
+		}
 		
-		MKCoordinateRegion region = MKCoordinateRegionMake(self.currentUserLocation.coordinate, MKCoordinateSpanMake(0.05, 0.05));
+		MKCoordinateRegion region = MKCoordinateRegionMake(coordinate, MKCoordinateSpanMake(0.05, 0.05));
 		[self.mapView setRegion:region];
 	}
 	return _mapView;
@@ -343,7 +355,7 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
 	SZEntryObject* entry = [[self.results objectAtIndex:indexPath.row] valueForKey:@"entry"];
-	SZEntryDetailVC* vc = [[SZEntryDetailVC alloc] initWithEntry:entry type:[SZDataManager sharedInstance].currentEntryType];
+	SZEntryDetailVC* vc = [[SZEntryDetailVC alloc] initWithEntry:entry];
 	[self.navigationController pushViewController:vc animated:YES];
 }
 

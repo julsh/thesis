@@ -44,12 +44,8 @@
 		self.mainViewController.view.layer.shadowOffset = CGSizeMake(0.0, 0.0);
 		self.mainViewController.view.layer.shadowOpacity = 1.0;
 		self.mainViewController.view.layer.shadowColor = [UIColor blackColor].CGColor;
-		
-//		self.menu = [SZMenuVC sharedInstance];
-		
-//		if (!isModal) {
-			[[SZMenuVC sharedInstance] setDelegate:self];
-//		}
+
+		[[SZMenuVC sharedInstance] setDelegate:self];
 
 		[self addChildViewController:self.mainViewController];
 		[self.view addSubview:self.mainViewController.view];
@@ -191,7 +187,6 @@
 	UIViewController* vc = [[NSClassFromString(className) alloc] init];
 	
 	if (self.mainViewController.presentedViewController) {
-		
 		SZNavigationController* modalController = (SZNavigationController*)self.mainViewController.presentedViewController;
 		[modalController.mainViewController setViewControllers:[NSArray arrayWithObject:vc]];
 		[modalController slideInMainViewAnimated:YES navigationType:SZNavigationMenu];

@@ -9,9 +9,17 @@
 #import "SZButton.h"
 #import "SZUtils.h"
 
+@interface SZButton ()
+
+@property (nonatomic, assign) SZButtonSize size;
+
+@end
+
 @implementation SZButton
 
 - (id)initWithColor:(SZButtonColor)color size:(SZButtonSize)size width:(CGFloat)width {
+	
+	self.size = size;
 	
 	NSString* prefix;
 	switch (color) {
@@ -82,6 +90,45 @@
 								 NSForegroundColorAttributeName : [UIColor whiteColor]};
 	[self setAttributedTitle:[[NSAttributedString alloc] initWithString:title attributes:attributtes] forState:UIControlStateNormal];
 
+}
+
+- (void)changeBackgroundColor:(SZButtonColor)color {
+	
+	NSString* prefix;
+	switch (color) {
+		case SZButtonColorPetrol:
+			prefix = @"button_petrol";
+			break;
+		case SZButtonColorOrange:
+			prefix = @"button_orange";
+		default:
+			break;
+	}
+	
+	NSString* suffix;
+	switch (self.size) {
+		case SZButtonSizeExtraLarge:
+			suffix = @"_extra_large";
+			break;
+		case SZButtonSizeLarge:
+			suffix = @"_large";
+			break;
+		case SZButtonSizeMedium:
+			suffix = @"_medium";
+			break;
+		case SZButtonSizeSmall:
+			suffix = @"_small";
+			break;
+		default:
+			break;
+	}
+	
+	UIImage* bgImage = [[UIImage imageNamed:[NSString stringWithFormat:@"%@%@", prefix, suffix]] resizableImageWithCapInsets:UIEdgeInsetsMake(0.0, 30.0, 0.0, 30.0)];
+	UIImage* selectedImage = [[UIImage imageNamed:[NSString stringWithFormat:@"%@%@%@", prefix, suffix, @"_down"]] resizableImageWithCapInsets:UIEdgeInsetsMake(0.0, 30.0, 0.0, 30.0)];;
+	
+	[self setBackgroundImage:bgImage forState:UIControlStateNormal];
+	[self setBackgroundImage:selectedImage forState:UIControlStateHighlighted];
+	
 }
 
 // override to fix vertical label position for multiline labels
