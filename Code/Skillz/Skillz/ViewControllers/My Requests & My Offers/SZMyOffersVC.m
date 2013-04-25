@@ -137,7 +137,7 @@
 
 - (void)newRequest:(id)sender {
 	[SZDataManager sharedInstance].currentEntryType = SZEntryTypeOffer;
-	SZNavigationController* navController = [[SZNavigationController alloc] initWithRootViewController:[[SZNewEntryStep1VC alloc] initWithEntry:nil] isModal:YES];
+	SZNavigationController* navController = [[SZNavigationController alloc] initWithRootViewController:[[SZNewEntryStep1VC alloc] initWithEntry:nil]];
 	[navController setModalPresentationStyle:UIModalPresentationFullScreen];
 	[self presentViewController:navController animated:YES completion:nil];
 }

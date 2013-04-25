@@ -20,7 +20,6 @@
 @property (nonatomic, strong) UISwipeGestureRecognizer *rightSwipeRecognizer;
 @property (nonatomic, assign) BOOL isMenuVisible;
 @property (nonatomic, assign) BOOL isSortOrFilterMenuVisible;
-@property (nonatomic, assign) BOOL isModal;
 
 @end
 
@@ -32,11 +31,10 @@
 @synthesize rightSwipeRecognizer = _rightSwipeRecognizer;
 @synthesize isMenuVisible = _isMenuVisible;
 
-- (id)initWithRootViewController:(UIViewController *)rootViewController isModal:(BOOL)isModal {
+- (id)initWithRootViewController:(UIViewController *)rootViewController {
 	
 	self = [super init];
     if (self) {
-		self.isModal = isModal;
 		
 		self.mainViewController = [[UINavigationController alloc] initWithRootViewController:rootViewController];
 		self.mainViewController.view.layer.shadowPath = [UIBezierPath bezierPathWithRect:self.mainViewController.view.bounds].CGPath;
@@ -81,7 +79,7 @@
 }
 
 - (void)toggleSortOrFilterMenu {
-	NSLog(@"toggle sort or filter menu");
+	
 	if (self.isSortOrFilterMenuVisible) {
 		[self slideInMainViewAnimated:YES navigationType:SZNavigationSortOrFiler];
 	}
@@ -195,7 +193,6 @@
 		[self.mainViewController setViewControllers:[NSArray arrayWithObject:vc]];
 		[self slideInMainViewAnimated:YES navigationType:SZNavigationMenu];
 	}
-	
 }
 
 - (void)dismissViewControllerAnimated:(BOOL)flag completion:(void (^)(void))completion {

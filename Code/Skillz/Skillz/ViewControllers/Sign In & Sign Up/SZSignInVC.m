@@ -189,7 +189,7 @@
 - (void)createAccountTapped:(id)sender {
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(signUpSuccess:) name:NOTIF_SIGN_UP_SUCCESS object:nil];
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(forgotPasswordTapped:) name:NOTIF_REQUEST_PASSWORD object:nil];
-	SZNavigationController* navController = [[SZNavigationController alloc] initWithRootViewController:[[SZCreateAccountVC alloc] init] isModal:YES];
+	SZNavigationController* navController = [[SZNavigationController alloc] initWithRootViewController:[[SZCreateAccountVC alloc] init]];
 	[navController setModalPresentationStyle:UIModalPresentationFullScreen];
 	[self presentViewController:navController animated:YES completion:nil];
 }

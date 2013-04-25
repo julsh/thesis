@@ -11,6 +11,6 @@
 
 @interface SZNavigationController : UIViewController <SZMenuVCDelegate>
 
-- (id)initWithRootViewController:(UIViewController *)rootViewController isModal:(BOOL)isModal;
+- (id)initWithRootViewController:(UIViewController *)rootViewController;
 
 @end

@@ -114,7 +114,7 @@
 - (void)editEntry:(id)sender {
 	[SZDataManager sharedInstance].currentEntryType = self.entry.type;
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateEntry:) name:NOTIF_ENTRY_UPDATED object:nil];
-	SZNavigationController* navController = [[SZNavigationController alloc] initWithRootViewController:[[SZNewEntryStep1VC alloc] initWithEntry:self.entry] isModal:YES];
+	SZNavigationController* navController = [[SZNavigationController alloc] initWithRootViewController:[[SZNewEntryStep1VC alloc] initWithEntry:self.entry]];
 	[navController setModalPresentationStyle:UIModalPresentationFullScreen];
 	[self presentViewController:navController animated:YES completion:nil];
 }

@@ -78,7 +78,7 @@
 		// show login screen
 	}
 	
-	UIViewController *root = [[SZNavigationController alloc] initWithRootViewController:[[SZSignInVC alloc] init] isModal:NO];
+	UIViewController *root = [[SZNavigationController alloc] initWithRootViewController:[[SZSignInVC alloc] init]];
 	[self.window setRootViewController:root];
 	
 	
