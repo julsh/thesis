@@ -7,7 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "SZSectionRootVC.h"
 
-@interface SZStartScreenVC : UIViewController
+@interface SZStartScreenVC : SZSectionRootVC
 
 @end

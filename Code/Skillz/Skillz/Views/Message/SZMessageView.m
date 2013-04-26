@@ -16,6 +16,8 @@
 - (id)initWithMessage:(NSDictionary*)message image:(UIImage*)image position:(SZMessageViewPosition)position {
     self = [super init];
     if (self) {
+		
+		
         SZUserPhotoView* userPhoto = [SZUserPhotoView emptyUserPhotoWithSize:SZUserPhotoViewSizeSmall];
 		[userPhoto.photo setImage:image];
 		
@@ -31,7 +33,9 @@
 		[timeAgoLabel setFont:[SZGlobalConstants fontWithFontType:SZFontBoldItalic size:11.0]];
 		[timeAgoLabel setTextColor:[SZGlobalConstants darkPetrol]];
 		[timeAgoLabel applyWhiteShadow];
-		[timeAgoLabel setText:[[NSDate dateWithTimeIntervalSince1970:[[message valueForKey:@"timeStamp"] floatValue]] timeAgo]];
+		NSString* timeAgo = [[NSDate dateWithTimeIntervalSince1970:[[message valueForKey:@"timeStamp"] floatValue]] timeAgo];
+		NSLog(@"init message timestamp %@, timeAgo: %@", [message valueForKey:@"timeStamp"], timeAgo);
+		[timeAgoLabel setText:timeAgo];
 		[timeAgoLabel sizeToFit];
 		
 		UIImage* messageBgImg;

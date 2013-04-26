@@ -58,8 +58,6 @@
 		DE304A6B16F947BE005FA4BC /* OpenSans-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = DE304A6116F947BE005FA4BC /* OpenSans-Regular.ttf */; };
 		DE304A6C16F947BE005FA4BC /* OpenSans-Semibold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = DE304A6216F947BE005FA4BC /* OpenSans-Semibold.ttf */; };
 		DE304A6D16F947BE005FA4BC /* OpenSans-SemiboldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = DE304A6316F947BE005FA4BC /* OpenSans-SemiboldItalic.ttf */; };
-		DE304A7016F95A3B005FA4BC /* accessory_arrow.png in Resources */ = {isa = PBXBuildFile; fileRef = DE304A6E16F95A3B005FA4BC /* accessory_arrow.png */; };
-		DE304A7116F95A3B005FA4BC /* accessory_arrow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = DE304A6F16F95A3B005FA4BC /* accessory_arrow@2x.png */; };
 		DE304A7416F95A99005FA4BC /* SZAccessoryArrow.m in Sources */ = {isa = PBXBuildFile; fileRef = DE304A7316F95A99005FA4BC /* SZAccessoryArrow.m */; };
 		DE6086901720252F004718AD /* SZFilterMenuVC.m in Sources */ = {isa = PBXBuildFile; fileRef = DE60868F1720252F004718AD /* SZFilterMenuVC.m */; };
 		DE608693172034FC004718AD /* SZSortFilterMenu.m in Sources */ = {isa = PBXBuildFile; fileRef = DE608692172034FC004718AD /* SZSortFilterMenu.m */; };
@@ -206,14 +204,19 @@
 		DE920C0316FE88D8002633A9 /* form_oneField.png in Resources */ = {isa = PBXBuildFile; fileRef = DE920C0116FE88D8002633A9 /* form_oneField.png */; };
 		DE920C0416FE88D8002633A9 /* form_oneField@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = DE920C0216FE88D8002633A9 /* form_oneField@2x.png */; };
 		DE920C0716FE8B5D002633A9 /* SZForgotPasswordVC.m in Sources */ = {isa = PBXBuildFile; fileRef = DE920C0616FE8B5D002633A9 /* SZForgotPasswordVC.m */; };
-		DE920C0E16FE9A62002633A9 /* checkmark_big.png in Resources */ = {isa = PBXBuildFile; fileRef = DE920C0C16FE9A62002633A9 /* checkmark_big.png */; };
-		DE920C0F16FE9A62002633A9 /* checkmark_big@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = DE920C0D16FE9A62002633A9 /* checkmark_big@2x.png */; };
 		DE920C1216FFB79A002633A9 /* logo.png in Resources */ = {isa = PBXBuildFile; fileRef = DE920C1016FFB79A002633A9 /* logo.png */; };
 		DE920C1316FFB79A002633A9 /* logo@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = DE920C1116FFB79A002633A9 /* logo@2x.png */; };
 		DE920C1616FFBB84002633A9 /* logo_transparent.png in Resources */ = {isa = PBXBuildFile; fileRef = DE920C1416FFBB84002633A9 /* logo_transparent.png */; };
 		DE920C1716FFBB84002633A9 /* logo_transparent@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = DE920C1516FFBB84002633A9 /* logo_transparent@2x.png */; };
 		DE920C1E16FFBE27002633A9 /* SZMenuVC.m in Sources */ = {isa = PBXBuildFile; fileRef = DE920C1D16FFBE26002633A9 /* SZMenuVC.m */; };
 		DE93F18117295E0C00B95D8E /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = DE93F18017295E0C00B95D8E /* Reachability.m */; };
+		DE93F1871729653F00B95D8E /* checkmark_big.png in Resources */ = {isa = PBXBuildFile; fileRef = DE93F1831729653F00B95D8E /* checkmark_big.png */; };
+		DE93F1881729653F00B95D8E /* checkmark_big@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = DE93F1841729653F00B95D8E /* checkmark_big@2x.png */; };
+		DE93F1891729653F00B95D8E /* checkmark_hud.png in Resources */ = {isa = PBXBuildFile; fileRef = DE93F1851729653F00B95D8E /* checkmark_hud.png */; };
+		DE93F18A1729653F00B95D8E /* checkmark_hud@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = DE93F1861729653F00B95D8E /* checkmark_hud@2x.png */; };
+		DE93F18E1729654F00B95D8E /* accessory_arrow.png in Resources */ = {isa = PBXBuildFile; fileRef = DE93F18C1729654F00B95D8E /* accessory_arrow.png */; };
+		DE93F18F1729654F00B95D8E /* accessory_arrow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = DE93F18D1729654F00B95D8E /* accessory_arrow@2x.png */; };
+		DE93F1921729FFE400B95D8E /* SZStartScreenVC.m in Sources */ = {isa = PBXBuildFile; fileRef = DE93F1911729FFE300B95D8E /* SZStartScreenVC.m */; };
 		DE9A892017010E1600E71B79 /* SZRadioButtonControl.m in Sources */ = {isa = PBXBuildFile; fileRef = DE9A891F17010E1600E71B79 /* SZRadioButtonControl.m */; };
 		DE9A89251701157300E71B79 /* radiobutton_selected.png in Resources */ = {isa = PBXBuildFile; fileRef = DE9A89211701157300E71B79 /* radiobutton_selected.png */; };
 		DE9A89261701157300E71B79 /* radiobutton_selected@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = DE9A89221701157300E71B79 /* radiobutton_selected@2x.png */; };
@@ -277,7 +280,6 @@
 		DEB4222A16F9332E001C423A /* form_middle@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = DEB4222416F9332E001C423A /* form_middle@2x.png */; };
 		DEB4222B16F9332E001C423A /* form_top.png in Resources */ = {isa = PBXBuildFile; fileRef = DEB4222516F9332E001C423A /* form_top.png */; };
 		DEB4222C16F9332E001C423A /* form_top@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = DEB4222616F9332E001C423A /* form_top@2x.png */; };
-		DEB9F0EC16FA00E4008AC064 /* SZPickerActionSheet.m in Sources */ = {isa = PBXBuildFile; fileRef = DEB9F0EB16FA00E4008AC064 /* SZPickerActionSheet.m */; };
 		DEB9F10016FA7807008AC064 /* SZButton.m in Sources */ = {isa = PBXBuildFile; fileRef = DEB9F0FF16FA7807008AC064 /* SZButton.m */; };
 		DEB9F10616FA8141008AC064 /* SZUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = DEB9F10516FA8141008AC064 /* SZUtils.m */; };
 		DEB9F10C16FA8420008AC064 /* UILabel+Shadow.m in Sources */ = {isa = PBXBuildFile; fileRef = DEB9F10B16FA8420008AC064 /* UILabel+Shadow.m */; };
@@ -414,8 +416,6 @@
 		DE304A6116F947BE005FA4BC /* OpenSans-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "OpenSans-Regular.ttf"; sourceTree = "<group>"; };
 		DE304A6216F947BE005FA4BC /* OpenSans-Semibold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "OpenSans-Semibold.ttf"; sourceTree = "<group>"; };
 		DE304A6316F947BE005FA4BC /* OpenSans-SemiboldItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "OpenSans-SemiboldItalic.ttf"; sourceTree = "<group>"; };
-		DE304A6E16F95A3B005FA4BC /* accessory_arrow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = accessory_arrow.png; sourceTree = "<group>"; };
-		DE304A6F16F95A3B005FA4BC /* accessory_arrow@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "accessory_arrow@2x.png"; sourceTree = "<group>"; };
 		DE304A7216F95A99005FA4BC /* SZAccessoryArrow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SZAccessoryArrow.h; sourceTree = "<group>"; };
 		DE304A7316F95A99005FA4BC /* SZAccessoryArrow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SZAccessoryArrow.m; sourceTree = "<group>"; };
 		DE60868E1720252F004718AD /* SZFilterMenuVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SZFilterMenuVC.h; sourceTree = "<group>"; };
@@ -586,8 +586,6 @@
 		DE920C0216FE88D8002633A9 /* form_oneField@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "form_oneField@2x.png"; sourceTree = "<group>"; };
 		DE920C0516FE8B5C002633A9 /* SZForgotPasswordVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SZForgotPasswordVC.h; sourceTree = "<group>"; };
 		DE920C0616FE8B5D002633A9 /* SZForgotPasswordVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SZForgotPasswordVC.m; sourceTree = "<group>"; };
-		DE920C0C16FE9A62002633A9 /* checkmark_big.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = checkmark_big.png; sourceTree = "<group>"; };
-		DE920C0D16FE9A62002633A9 /* checkmark_big@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "checkmark_big@2x.png"; sourceTree = "<group>"; };
 		DE920C1016FFB79A002633A9 /* logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = logo.png; sourceTree = "<group>"; };
 		DE920C1116FFB79A002633A9 /* logo@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "logo@2x.png"; sourceTree = "<group>"; };
 		DE920C1416FFBB84002633A9 /* logo_transparent.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = logo_transparent.png; sourceTree = "<group>"; };
@@ -596,6 +594,14 @@
 		DE920C1D16FFBE26002633A9 /* SZMenuVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SZMenuVC.m; sourceTree = "<group>"; };
 		DE93F17F17295E0C00B95D8E /* Reachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Reachability.h; sourceTree = "<group>"; };
 		DE93F18017295E0C00B95D8E /* Reachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Reachability.m; sourceTree = "<group>"; };
+		DE93F1831729653F00B95D8E /* checkmark_big.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = checkmark_big.png; sourceTree = "<group>"; };
+		DE93F1841729653F00B95D8E /* checkmark_big@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "checkmark_big@2x.png"; sourceTree = "<group>"; };
+		DE93F1851729653F00B95D8E /* checkmark_hud.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = checkmark_hud.png; sourceTree = "<group>"; };
+		DE93F1861729653F00B95D8E /* checkmark_hud@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "checkmark_hud@2x.png"; sourceTree = "<group>"; };
+		DE93F18C1729654F00B95D8E /* accessory_arrow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = accessory_arrow.png; sourceTree = "<group>"; };
+		DE93F18D1729654F00B95D8E /* accessory_arrow@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "accessory_arrow@2x.png"; sourceTree = "<group>"; };
+		DE93F1901729FFE300B95D8E /* SZStartScreenVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SZStartScreenVC.h; sourceTree = "<group>"; };
+		DE93F1911729FFE300B95D8E /* SZStartScreenVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SZStartScreenVC.m; sourceTree = "<group>"; };
 		DE9A891E17010E1600E71B79 /* SZRadioButtonControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SZRadioButtonControl.h; sourceTree = "<group>"; };
 		DE9A891F17010E1600E71B79 /* SZRadioButtonControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SZRadioButtonControl.m; sourceTree = "<group>"; };
 		DE9A89211701157300E71B79 /* radiobutton_selected.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = radiobutton_selected.png; sourceTree = "<group>"; };
@@ -676,8 +682,6 @@
 		DEB4222416F9332E001C423A /* form_middle@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "form_middle@2x.png"; sourceTree = "<group>"; };
 		DEB4222516F9332E001C423A /* form_top.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = form_top.png; sourceTree = "<group>"; };
 		DEB4222616F9332E001C423A /* form_top@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "form_top@2x.png"; sourceTree = "<group>"; };
-		DEB9F0EA16FA00E4008AC064 /* SZPickerActionSheet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SZPickerActionSheet.h; sourceTree = "<group>"; };
-		DEB9F0EB16FA00E4008AC064 /* SZPickerActionSheet.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SZPickerActionSheet.m; sourceTree = "<group>"; };
 		DEB9F0FE16FA7807008AC064 /* SZButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SZButton.h; sourceTree = "<group>"; };
 		DEB9F0FF16FA7807008AC064 /* SZButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SZButton.m; sourceTree = "<group>"; };
 		DEB9F10416FA8141008AC064 /* SZUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SZUtils.h; sourceTree = "<group>"; };
@@ -1227,6 +1231,26 @@
 			path = Reachability;
 			sourceTree = "<group>";
 		};
+		DE93F1821729653F00B95D8E /* checkmark */ = {
+			isa = PBXGroup;
+			children = (
+				DE93F1831729653F00B95D8E /* checkmark_big.png */,
+				DE93F1841729653F00B95D8E /* checkmark_big@2x.png */,
+				DE93F1851729653F00B95D8E /* checkmark_hud.png */,
+				DE93F1861729653F00B95D8E /* checkmark_hud@2x.png */,
+			);
+			path = checkmark;
+			sourceTree = "<group>";
+		};
+		DE93F18B1729654F00B95D8E /* accessory-arrow */ = {
+			isa = PBXGroup;
+			children = (
+				DE93F18C1729654F00B95D8E /* accessory_arrow.png */,
+				DE93F18D1729654F00B95D8E /* accessory_arrow@2x.png */,
+			);
+			path = "accessory-arrow";
+			sourceTree = "<group>";
+		};
 		DEAB2D0B170089D9001D53B0 /* Sign In & Sign Up */ = {
 			isa = PBXGroup;
 			children = (
@@ -1238,6 +1262,8 @@
 				DE920BFC16FD2ED5002633A9 /* SZCreateAccountSuccessVC.m */,
 				DE920C0516FE8B5C002633A9 /* SZForgotPasswordVC.h */,
 				DE920C0616FE8B5D002633A9 /* SZForgotPasswordVC.m */,
+				DE93F1901729FFE300B95D8E /* SZStartScreenVC.h */,
+				DE93F1911729FFE300B95D8E /* SZStartScreenVC.m */,
 			);
 			path = "Sign In & Sign Up";
 			sourceTree = "<group>";
@@ -1367,12 +1393,10 @@
 				DE243A1C1708D5680048FCED /* detail-view */,
 				DE0FA7F3171F1820001F2002 /* segmented-control-horizontal */,
 				DEAB2D261700E548001D53B0 /* segmented-control-vertical */,
-				DE304A6E16F95A3B005FA4BC /* accessory_arrow.png */,
-				DE304A6F16F95A3B005FA4BC /* accessory_arrow@2x.png */,
+				DE93F1821729653F00B95D8E /* checkmark */,
+				DE93F18B1729654F00B95D8E /* accessory-arrow */,
 				DEB9F12616FBDDB2008AC064 /* bg_pattern.png */,
 				DEB9F12716FBDDB2008AC064 /* bg_pattern@2x.png */,
-				DE920C0C16FE9A62002633A9 /* checkmark_big.png */,
-				DE920C0D16FE9A62002633A9 /* checkmark_big@2x.png */,
 				DE85BA23170E21250024F8ED /* launch.png */,
 				DE85BA24170E21250024F8ED /* launch@2x.png */,
 			);
@@ -1464,8 +1488,6 @@
 				DEB421F616F92B11001C423A /* SZCheckBox.m */,
 				DEB4221A16F92EC4001C423A /* SZForm.h */,
 				DEB4221B16F92EC4001C423A /* SZForm.m */,
-				DEB9F0EA16FA00E4008AC064 /* SZPickerActionSheet.h */,
-				DEB9F0EB16FA00E4008AC064 /* SZPickerActionSheet.m */,
 				DE9A891E17010E1600E71B79 /* SZRadioButtonControl.h */,
 				DE9A891F17010E1600E71B79 /* SZRadioButtonControl.m */,
 				DEAB2D231700D01D001D53B0 /* SZSegmentedControlVertical.h */,
@@ -1742,8 +1764,6 @@
 				DE304A6B16F947BE005FA4BC /* OpenSans-Regular.ttf in Resources */,
 				DE304A6C16F947BE005FA4BC /* OpenSans-Semibold.ttf in Resources */,
 				DE304A6D16F947BE005FA4BC /* OpenSans-SemiboldItalic.ttf in Resources */,
-				DE304A7016F95A3B005FA4BC /* accessory_arrow.png in Resources */,
-				DE304A7116F95A3B005FA4BC /* accessory_arrow@2x.png in Resources */,
 				DEB9F12516FAA832008AC064 /* BSKeyboardControls.strings in Resources */,
 				DEB9F12816FBDDB2008AC064 /* bg_pattern.png in Resources */,
 				DEB9F12916FBDDB2008AC064 /* bg_pattern@2x.png in Resources */,
@@ -1781,8 +1801,6 @@
 				DE920BEF16FBF1CD002633A9 /* button_petrol_small@2x.png in Resources */,
 				DE920C0316FE88D8002633A9 /* form_oneField.png in Resources */,
 				DE920C0416FE88D8002633A9 /* form_oneField@2x.png in Resources */,
-				DE920C0E16FE9A62002633A9 /* checkmark_big.png in Resources */,
-				DE920C0F16FE9A62002633A9 /* checkmark_big@2x.png in Resources */,
 				DE920C1216FFB79A002633A9 /* logo.png in Resources */,
 				DE920C1316FFB79A002633A9 /* logo@2x.png in Resources */,
 				DE920C1616FFBB84002633A9 /* logo_transparent.png in Resources */,
@@ -1968,6 +1986,12 @@
 				DEFA24FF1726D8A90007EBBE /* hands_shaken_57@2x.png in Resources */,
 				DEFA25011726EC8C0007EBBE /* app_icon@2x.png in Resources */,
 				DEFA25031726EC8F0007EBBE /* app_icon.png in Resources */,
+				DE93F1871729653F00B95D8E /* checkmark_big.png in Resources */,
+				DE93F1881729653F00B95D8E /* checkmark_big@2x.png in Resources */,
+				DE93F1891729653F00B95D8E /* checkmark_hud.png in Resources */,
+				DE93F18A1729653F00B95D8E /* checkmark_hud@2x.png in Resources */,
+				DE93F18E1729654F00B95D8E /* accessory_arrow.png in Resources */,
+				DE93F18F1729654F00B95D8E /* accessory_arrow@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1985,7 +2009,6 @@
 				DEB4221C16F92EC4001C423A /* SZForm.m in Sources */,
 				DEB4221F16F92F31001C423A /* SZGlobalConstants.m in Sources */,
 				DE304A7416F95A99005FA4BC /* SZAccessoryArrow.m in Sources */,
-				DEB9F0EC16FA00E4008AC064 /* SZPickerActionSheet.m in Sources */,
 				DEB9F10016FA7807008AC064 /* SZButton.m in Sources */,
 				DEB9F10616FA8141008AC064 /* SZUtils.m in Sources */,
 				DEB9F10C16FA8420008AC064 /* UILabel+Shadow.m in Sources */,
@@ -2050,6 +2073,7 @@
 				DEDD69A71725B8AE0065667B /* SZMessageThreadVC.m in Sources */,
 				DEFA24E61725D31F0007EBBE /* SZMessageView.m in Sources */,
 				DE93F18117295E0C00B95D8E /* Reachability.m in Sources */,
+				DE93F1921729FFE400B95D8E /* SZStartScreenVC.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -153,6 +153,27 @@
 	[[NSUserDefaults standardUserDefaults] setObject:[NSArray arrayWithArray:entryArray] forKey:key];
 }
 
+- (void)saveCurrentEntry:(void(^)(BOOL finished))completionBlock {
+	
+	[self.currentEntry saveEventually:^(BOOL succeeded, NSError *error) {
+		if (succeeded) {
+			// cache the request to be used offline
+			[self updateEntryCacheWithEntry:self.currentEntry];
+			
+			if (completionBlock) {
+				dispatch_async(dispatch_get_main_queue(), ^{
+					completionBlock(YES);
+				});
+			}
+		}
+		else {
+			if (error) {
+				NSLog(@"%@", error);
+			}
+		}
+	}];
+}
+
 - (void)saveLastEnderedAddress:(NSDictionary*)address {
 	[[NSUserDefaults standardUserDefaults] setObject:address forKey:LAST_ENTERED_ADDRESS];
 }
@@ -407,32 +428,67 @@
 			}
 		}
 	}];
+}
+
+- (NSMutableArray*)getGroupedMessages {
 	
-//	NSArray* messages = [messageStore objectForKey:@"messages"];
-//	
-//	__block NSInteger storeCount = 0;
-//	for (NSDictionary* message in messages) {
-//		NSString* key = [[message allKeys] objectAtIndex:0];
-//		NSLog(@"key: %@", key);
-//		if ([messagesDict valueForKey:key]) { // message already exists
-//			storeCount++;
-//		}
-//		else { // need to fetch the message
-//			PFQuery* query = [PFQuery queryWithClassName:@"Message"];
-//			[query whereKey:@"objectId" equalTo:[message valueForKey:key]];
-//			[query getFirstObjectInBackgroundWithBlock:^(PFObject *object, NSError *error) {
-//				if (object) {
-//					[self addMessageToUserCache:object];
-//					storeCount++;
-//					if (storeCount == [messages count]) {
-//						dispatch_async(dispatch_get_main_queue(), ^{
-//							completionBlock(YES);
-//						});
-//					}
-//				}
-//			}];
-//		}
-//	}
+	NSMutableDictionary* messagesGrouped = [[NSMutableDictionary alloc] init];
+	NSDictionary* messages = [[NSUserDefaults standardUserDefaults] objectForKey:@"messages"];
+	
+	NSMutableArray* messagesGroupedArray = [[NSMutableArray alloc] init];
+	
+	NSArray* messageKeys = [messages allKeys];
+	for (NSString* key in messageKeys) {
+		NSMutableDictionary* message = [[NSMutableDictionary alloc] initWithDictionary:[messages valueForKey:key]];
+		[message setObject:key forKey:@"timeStamp"];
+		
+		NSString* userID;
+		if ([message valueForKey:@"fromUser"]) userID = [message valueForKey:@"fromUser"];
+		else if ([message valueForKey:@"toUser"]) userID = [message valueForKey:@"toUser"];
+		
+		NSMutableArray* messageArray;
+		if ([messagesGrouped valueForKey:userID]) {
+			messageArray = [messagesGrouped valueForKey:userID];
+		}
+		else {
+			messageArray = [[NSMutableArray alloc] init];
+			[messagesGrouped setObject:messageArray forKey:userID];
+			
+		}
+		[messageArray addObject:message];
+	}
+	
+	// sort messages within each message group, display the newest first
+	for (NSString* key in [messagesGrouped allKeys]) {
+		NSMutableArray* messageArray = [messagesGrouped valueForKey:key];
+		[messageArray sortUsingComparator:^NSComparisonResult(id obj1, id obj2) {
+			if ([[obj1 valueForKey:@"timeStamp"] compare:[obj2 valueForKey:@"timeStamp"] options:NSCaseInsensitiveSearch] == NSOrderedAscending) {
+				return NSOrderedDescending;
+			}
+			if ([[obj1 valueForKey:@"timeStamp"] compare:[obj2 valueForKey:@"timeStamp"] options:NSCaseInsensitiveSearch] == NSOrderedDescending) {
+				return NSOrderedAscending;
+			}
+			else {
+				return NSOrderedSame;
+			}
+		}];
+		[messagesGroupedArray addObject:messageArray];
+	}
+	
+	// sort grouped messages, diplay the newest first
+	[messagesGroupedArray sortUsingComparator:^NSComparisonResult(id obj1, id obj2) {
+		if ([[[obj1 objectAtIndex:0] valueForKey:@"timeStamp"] compare:[[obj2 objectAtIndex:0] valueForKey:@"timeStamp"] options:NSCaseInsensitiveSearch] == NSOrderedAscending) {
+			return NSOrderedDescending;
+		}
+		if ([[[obj1 objectAtIndex:0] valueForKey:@"timeStamp"] compare:[[obj2 objectAtIndex:0] valueForKey:@"timeStamp"] options:NSCaseInsensitiveSearch] == NSOrderedDescending) {
+			return NSOrderedAscending;
+		}
+		else {
+			return NSOrderedSame;
+		}
+	}];
+	
+	return messagesGroupedArray;
 }
 
 @end

@@ -7,6 +7,8 @@
 //
 
 #import "SZStartScreenVC.h"
+#import "SZForm.h"
+#import "SZFormFieldVO.h"
 
 @interface SZStartScreenVC ()
 
@@ -26,7 +28,21 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-	// Do any additional setup after loading the view.
+	SZForm* form = [[SZForm alloc] initWithWidth:290.0];
+	SZFormFieldVO* textField = [SZFormFieldVO formFieldValueObjectForTextWithKey:@"text"
+																 placeHolderText:@"Put in some text!" keyboardType:UIKeyboardTypeDefault];
+	SZFormFieldVO* numberField = [SZFormFieldVO formFieldValueObjectForTextWithKey:@"number"
+																   placeHolderText:@"Put in a number!" keyboardType: UIKeyboardTypeDecimalPad];
+	SZFormFieldVO* pickerField = [SZFormFieldVO formFieldValueObjectForPickerWithKey:@"picker"
+																	 placeHolderText:@"Pick!" pickerOptions:[NSArray arrayWithObjects:@"A", @"B", @"C", nil]];
+	[form addItem: textField showsClearButton:YES isLastItem:NO];
+	[form addItem: numberField showsClearButton:YES isLastItem:NO];
+	[form addItem: pickerField showsClearButton:YES isLastItem:YES];
+	
+	[form setCenter:CGPointMake(160.0, 80.0)];
+	[form configureKeyboard];
+	
+	[self.view addSubview:form];
 }
 
 - (void)didReceiveMemoryWarning

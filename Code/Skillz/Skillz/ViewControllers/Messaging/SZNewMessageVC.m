@@ -479,12 +479,8 @@
 			if (succeeded) {
 				
 				[hud setLabelText:@"Message Sent"];
-//				[hud hide:YES];
-//
-//				for (UIView* subview in [self.view subviews]) {
-//					[subview removeFromSuperview];
-//				}
-//				[self.view addSubview:[self successView]];
+				[hud setMode:MBProgressHUDModeCustomView];
+				[hud setCustomView:[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"checkmark_hud"]]];
 				
 				dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, 1.0 * NSEC_PER_SEC);
 				dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
@@ -496,13 +492,13 @@
 				[self storeMessage:message forUser:[PFUser currentUser]];
 				[[SZDataManager sharedInstance] addMessageToUserCache:message completionBlock:nil];
 				
-				PFQuery *pushQuery = [PFInstallation query];
-				[pushQuery whereKey:@"user" equalTo:self.recipient];
-				PFPush *push = [[PFPush alloc] init];
-				[push setQuery:pushQuery];
-				[push setMessage:@"You received a new message!"];
-				[push sendPushInBackground];
-			}
+				PFQuery *pushQuery = [PFInstallation query];			// creating a query
+				[pushQuery whereKey:@"user" equalTo:self.recipient];	// finding the user receiving the message
+				PFPush *push = [[PFPush alloc] init];					// creating the push object
+				[push setQuery:pushQuery];								// assigning the query to the push object
+				[push setMessage:@"You received a new message!"];		// specifying the notification message
+				[push sendPushInBackground];							// sending out the notification
+			}	
 			else if (error) {
 				[hud hide:YES];
 				NSLog(@"%@ %@", error, error.userInfo);

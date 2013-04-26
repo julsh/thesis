@@ -35,18 +35,6 @@ typedef enum {
 } SZFontType;
 
 typedef enum {
-	SZButtonSizeSmall,
-	SZButtonSizeMedium,
-	SZButtonSizeLarge,
-	SZButtonSizeExtraLarge
-} SZButtonSize;
-
-typedef enum {
-	SZButtonColorPetrol,
-	SZButtonColorOrange
-} SZButtonColor;
-
-typedef enum {
 	SZFormFieldInputTypeKeyboard,
 	SZFormFieldInputTypePicker,
 	SZFormFieldInputTypeDatePicker

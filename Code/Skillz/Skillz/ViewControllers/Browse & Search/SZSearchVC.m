@@ -268,7 +268,6 @@
 	if (![keywordsInput isEqualToString:@""]) {
 		NSArray* keywords = [keywordsInput componentsSeparatedByString:@" "];
 		for (NSString* keyword in keywords) {
-			NSLog(@"keyword: %@", keyword);
 			[titleQuery whereKey:@"title" containsString:keyword];
 			[descriptionQuery whereKey:@"description" containsString:keyword];
 		}

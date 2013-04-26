@@ -23,6 +23,7 @@
 
 + (SZDataManager*)sharedInstance;
 
+- (void)saveCurrentEntry:(void(^)(BOOL finished))completionBlock;
 - (void)updateCaches;
 - (void)addEntryToUserCache:(SZEntryObject*)entry;
 - (void)updateEntryCacheWithEntry:(SZEntryObject*)entry;
@@ -34,5 +35,6 @@
 - (void)checkForNewMessagesWithCompletionBlock:(void(^)(BOOL finished))completionBlock;
 - (void)addMessageToUserCache:(PFObject*)message completionBlock:(void(^)(BOOL finished))completionBlock;
 - (void)updateMessageCacheWithCompletionBlock:(void(^)(BOOL finished))completionBlock;
+- (NSMutableArray*)getGroupedMessages;
 
 @end

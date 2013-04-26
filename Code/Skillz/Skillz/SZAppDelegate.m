@@ -17,6 +17,7 @@
 #import "SZNewEntryStep1VC.h"
 #import "SZUtils.h"
 #import "SZDataManager.h"
+#import "SZStartScreenVC.h"
 
 @implementation SZAppDelegate
 
@@ -81,7 +82,7 @@
 		// show login screen
 	}
 	
-	UIViewController *root = [[SZNavigationController alloc] initWithRootViewController:[[SZSignInVC alloc] init]];
+	UIViewController *root = [[SZNavigationController alloc] initWithRootViewController:[[SZStartScreenVC alloc] init]];
 	[self.window setRootViewController:root];
 	
 	

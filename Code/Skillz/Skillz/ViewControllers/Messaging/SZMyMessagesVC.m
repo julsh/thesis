@@ -18,8 +18,6 @@
 
 @property (nonatomic, strong) UITableView* tableView;
 @property (nonatomic, strong) NSMutableArray* messagesGrouped;
-@property (nonatomic, strong) NSMutableDictionary* usersArray;
-//@property (nonatomic, assign) NSInteger fetchCount;
 
 @end
 
@@ -45,7 +43,7 @@
 		if (finished) {
 			[spinner stopAnimating];
 			[spinner removeFromSuperview];
-			[self arrangeMessages];
+			self.messagesGrouped = [[SZDataManager sharedInstance] getGroupedMessages];
 			[self.view addSubview:self.tableView];
 			if ([self.messagesGrouped count] == 0) {
 				[self showNoMessages];
@@ -54,66 +52,10 @@
 	}];
 }
 
-- (void)arrangeMessages {
-	
-	NSMutableDictionary* messagesGrouped = [[NSMutableDictionary alloc] init];
-	NSDictionary* messages = [[NSUserDefaults standardUserDefaults] objectForKey:@"messages"];
-	self.usersArray = [[NSMutableDictionary alloc] init];
-	
-	self.messagesGrouped = [[NSMutableArray alloc] init];
-	
-	NSArray* messageKeys = [messages allKeys];
-	for (NSString* key in messageKeys) {
-		NSMutableDictionary* message = [[NSMutableDictionary alloc] initWithDictionary:[messages valueForKey:key]];
-		[message setObject:key forKey:@"timeStamp"];
-		
-		NSString* userID;
-		if ([message valueForKey:@"fromUser"]) userID = [message valueForKey:@"fromUser"];
-		else if ([message valueForKey:@"toUser"]) userID = [message valueForKey:@"toUser"];
-		
-		NSMutableArray* messageArray;
-		if ([messagesGrouped valueForKey:userID]) {
-			messageArray = [messagesGrouped valueForKey:userID];
-		}
-		else {
-			messageArray = [[NSMutableArray alloc] init];
-			[messagesGrouped setObject:messageArray forKey:userID];
-			
-		}
-		[messageArray addObject:message];
-	}
-	
-	// sort messages within each message group, display the newest first
-	for (NSString* key in [messagesGrouped allKeys]) {
-		NSMutableArray* messageArray = [messagesGrouped valueForKey:key];
-		[messageArray sortUsingComparator:^NSComparisonResult(id obj1, id obj2) {
-			if ([[obj1 valueForKey:@"timeStamp"] compare:[obj2 valueForKey:@"timeStamp"] options:NSCaseInsensitiveSearch] == NSOrderedAscending) {
-				return NSOrderedDescending;
-			}
-			if ([[obj1 valueForKey:@"timeStamp"] compare:[obj2 valueForKey:@"timeStamp"] options:NSCaseInsensitiveSearch] == NSOrderedDescending) {
-				return NSOrderedAscending;
-			}
-			else {
-				return NSOrderedSame;
-			}
-		}];
-		[self.messagesGrouped addObject:messageArray];
-	}
-	
-	// sort grouped messages, diplay the newest first
-	[self.messagesGrouped sortUsingComparator:^NSComparisonResult(id obj1, id obj2) {
-		if ([[[obj1 objectAtIndex:0] valueForKey:@"timeStamp"] compare:[[obj2 objectAtIndex:0] valueForKey:@"timeStamp"] options:NSCaseInsensitiveSearch] == NSOrderedAscending) {
-			return NSOrderedDescending;
-		}
-		if ([[[obj1 objectAtIndex:0] valueForKey:@"timeStamp"] compare:[[obj2 objectAtIndex:0] valueForKey:@"timeStamp"] options:NSCaseInsensitiveSearch] == NSOrderedDescending) {
-			return NSOrderedAscending;
-		}
-		else {
-			return NSOrderedSame;
-		}
-	}];
-	
-//	NSLog(@"%@", self.messagesGrouped);
+- (void)viewDidAppear:(BOOL)animated {
+	self.messagesGrouped = [[SZDataManager sharedInstance] getGroupedMessages];
+	[self.tableView reloadData];
+	[self.tableView deselectRowAtIndexPath:[self.tableView indexPathForSelectedRow] animated:YES];
 }
 
 - (UITableView*)tableView {
@@ -220,8 +162,5 @@
 	[self.navigationController pushViewController:messageThreadVC animated:YES];
 }
 
-- (void)viewDidAppear:(BOOL)animated {
-	[self.tableView deselectRowAtIndexPath:[self.tableView indexPathForSelectedRow] animated:YES];
-}
 
 @end
