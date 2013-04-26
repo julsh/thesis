@@ -9,8 +9,8 @@
 #import <UIKit/UIKit.h>
 #import "SZForm.h"
 
-#import "SZShowMenuButtonVC.h"
+#import "SZSectionRootVC.h"
 
-@interface SZSearchVC : SZShowMenuButtonVC <SZFormDelegate>
+@interface SZSearchVC : SZSectionRootVC <SZFormDelegate>
 
 @end

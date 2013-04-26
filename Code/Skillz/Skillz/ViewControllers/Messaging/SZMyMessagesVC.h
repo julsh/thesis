@@ -7,8 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "SZShowMenuButtonVC.h"
+#import "SZSectionRootVC.h"
 
-@interface SZMyMessagesVC : SZShowMenuButtonVC <UITableViewDelegate, UITableViewDataSource>
+@interface SZMyMessagesVC : SZSectionRootVC <UITableViewDelegate, UITableViewDataSource>
 
 @end

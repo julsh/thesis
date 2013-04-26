@@ -6,11 +6,10 @@
 //  Copyright (c) 2013 Julia Roggatz. All rights reserved.
 //
 
+#import "Reachability.h"
 #import "SZDataManager.h"
 
 @interface SZDataManager ()
-
-//@property (nonatomic, assign) NSInteger messagesToUpdateCount;
 
 @end
 
@@ -165,32 +164,52 @@
 	else return nil;
 }
 
-- (void)checkForNewMessages {
+- (void)checkForNewMessagesWithCompletionBlock:(void(^)(BOOL finished))completionBlock {
 		
 	if ([[NSUserDefaults standardUserDefaults] objectForKey:@"messages"] == nil) {
 		[[NSUserDefaults standardUserDefaults] setObject:[NSDictionary dictionary] forKey:@"messages"];
 	}
 	NSMutableDictionary* messagesDict = [[NSUserDefaults standardUserDefaults] objectForKey:@"messages"];
-//	NSInteger cachedMessagesCount = [messagesDict count];
 	
-	PFQuery* messageQuery = [PFQuery queryWithClassName:@"MessageStore"];
-	[messageQuery whereKey:@"user" equalTo:[PFUser currentUser]];
-	[messageQuery getFirstObjectInBackgroundWithBlock:^(PFObject *object, NSError *error) {
-		if (object) {
-			NSString* timestampString = [object objectForKey:@"lastReceivedMessageAt"];
-			NSLog(@"timestampString: %@", timestampString);
-			if ([messagesDict valueForKey:timestampString]) {
-				NSLog(@"up to date");
+	
+	Reachability* reach = [Reachability reachabilityWithHostname:@"www.google.com"];
+	if (![reach isReachable]) {	// network not available
+		NSLog(@"network not available");
+		dispatch_async(dispatch_get_main_queue(), ^{
+			completionBlock(YES);
+		});
+	}
+	else {	// network available
+		NSLog(@"network available");
+		PFQuery* messageQuery = [PFQuery queryWithClassName:@"MessageStore"];
+		[messageQuery whereKey:@"user" equalTo:[PFUser currentUser]];
+		[messageQuery getFirstObjectInBackgroundWithBlock:^(PFObject *object, NSError *error) {
+			if (object) {
+				NSString* timestampString = [object objectForKey:@"lastReceivedMessageAt"];
+				NSLog(@"timestampString: %@", timestampString);
+				if ([messagesDict valueForKey:timestampString]) {
+					NSLog(@"up to date");
+					if (completionBlock) {
+						dispatch_async(dispatch_get_main_queue(), ^{
+							completionBlock(YES);
+						});
+					}
+				}
+				else {
+					[self updateMessageCacheWithCompletionBlock:completionBlock];
+					NSLog(@"must fetch!!");
+				}
 			}
 			else {
-				[self updateMessageCacheWithMessageStore:object];
-				NSLog(@"must fetch!!");
+				dispatch_async(dispatch_get_main_queue(), ^{
+					completionBlock(YES);
+				});
 			}
-		}
-	}];
+		}];
+	}
 }
 
-- (void)addMessageToUserCache:(PFObject*)message {
+- (void)addMessageToUserCache:(PFObject*)message completionBlock:(void(^)(BOOL finished))completionBlock {
 	
 	if ([[NSUserDefaults standardUserDefaults] objectForKey:@"messages"] == nil) {
 		[[NSUserDefaults standardUserDefaults] setObject:[NSDictionary dictionary] forKey:@"messages"];
@@ -212,6 +231,10 @@
 		[messageDict setValue:[entry objectId] forKey:@"entry"];
 	}
 	
+	__block BOOL fromUserFetched = NO;
+	__block BOOL toUserFetched = NO;
+	__block BOOL dealFetched = NO;
+	
 	PFUser* toUser = [message objectForKey:@"toUser"];
 	PFUser* fromUser = [message objectForKey:@"fromUser"];
 	
@@ -220,14 +243,24 @@
 			[messageDict setValue:[fromUser objectId] forKey:@"fromUser"];
 			[messageDict setValue:[fromUser objectForKey:@"firstName"] forKey:@"fromUserName"];
 		}
+		fromUserFetched = YES;
+		if (fromUserFetched && toUserFetched && dealFetched && completionBlock) {
+			dispatch_async(dispatch_get_main_queue(), ^{
+				completionBlock(YES);
+			});
+		}
 	}
 	else {
 		[fromUser fetchIfNeededInBackgroundWithBlock:^(PFObject *object, NSError *error) {
-			NSLog(@"fetched from user");
 			if (object) {
 				if (![[object objectId] isEqualToString:[[PFUser currentUser] objectId]]) {
-					NSLog(@"will set from user to: %@", [object valueForKey:@"firstName"]);
 					[self addFromUser:object toMessageWithKey:messageDictKey];
+				}
+				fromUserFetched = YES;
+				if (fromUserFetched && toUserFetched && dealFetched && completionBlock) {
+					dispatch_async(dispatch_get_main_queue(), ^{
+						completionBlock(YES);
+					});
 				}
 			}
 		}];
@@ -237,15 +270,26 @@
 		if (![toUser isEqual:[PFUser currentUser]]) {
 			[messageDict setValue:[toUser objectId] forKey:@"toUser"];
 			[messageDict setValue:[toUser objectForKey:@"firstName"] forKey:@"toUserName"];
+			
+		}
+		toUserFetched = YES;
+		if (fromUserFetched && toUserFetched && dealFetched && completionBlock) {
+			dispatch_async(dispatch_get_main_queue(), ^{
+				completionBlock(YES);
+			});
 		}
 	}
 	else {
 		[toUser fetchIfNeededInBackgroundWithBlock:^(PFObject *object, NSError *error) {
-			NSLog(@"fetched to user");
 			if (object) {
 				if (![[object objectId] isEqualToString:[[PFUser currentUser] objectId]]) {
-					NSLog(@"will set to user to: %@", [object valueForKey:@"firstName"]);
 					[self addToUser:object toMessageWithKey:messageDictKey];
+				}
+				toUserFetched = YES;
+				if (fromUserFetched && toUserFetched && dealFetched && completionBlock) {
+					dispatch_async(dispatch_get_main_queue(), ^{
+						completionBlock(YES);
+					});
 				}
 				
 			}
@@ -257,14 +301,33 @@
 		if ([dealProposal isDataAvailable]) {
 			[messageDict setValue:[dealProposal objectId] forKey:@"proposedDeal"];
 			[messageDict setValue:[dealProposal valueForKey:@"isAccepted"] forKey:@"hasAcceptedDeal"];
+			dealFetched = YES;
+			if (fromUserFetched && toUserFetched && dealFetched && completionBlock) {
+				dispatch_async(dispatch_get_main_queue(), ^{
+					completionBlock(YES);
+				});
+			}
 		}
 		else {
 			[dealProposal fetchIfNeededInBackgroundWithBlock:^(PFObject *object, NSError *error) {
-				NSLog(@"fetched proposed deal");
 				if (object) {
 					[self addProposedDeal:object toMessageWithKey:messageDictKey];
+					dealFetched = YES;
+					if (fromUserFetched && toUserFetched && dealFetched && completionBlock) {
+						dispatch_async(dispatch_get_main_queue(), ^{
+							completionBlock(YES);
+						});
+					}
 				}
 			}];
+		}
+	}
+	else {
+		dealFetched = YES;
+		if (fromUserFetched && toUserFetched && dealFetched && completionBlock) {
+			dispatch_async(dispatch_get_main_queue(), ^{
+				completionBlock(YES);
+			});
 		}
 	}
 	
@@ -302,31 +365,74 @@
 	[[NSUserDefaults standardUserDefaults] setObject:messagesDict forKey:@"messages"];
 }
 
-- (void)updateMessageCacheWithMessageStore:(PFObject*)messageStore {
+- (void)updateMessageCacheWithCompletionBlock:(void(^)(BOOL finished))completionBlock {
 	
 	if ([[NSUserDefaults standardUserDefaults] objectForKey:@"messages"] == nil) {
 		[[NSUserDefaults standardUserDefaults] setObject:[NSDictionary dictionary] forKey:@"messages"];
 	}
 	NSMutableDictionary* messagesDict = [[NSMutableDictionary alloc] initWithDictionary:[[NSUserDefaults standardUserDefaults] objectForKey:@"messages"]];
 	
-	NSArray* messages = [messageStore objectForKey:@"messages"];
-	
-	for (NSDictionary* message in messages) {
-		NSString* key = [[message allKeys] objectAtIndex:0];
-		NSLog(@"key: %@", key);
-		if ([messagesDict valueForKey:key]) { // message already exists
-			
-		}
-		else { // need to fetch the message
-			PFQuery* query = [PFQuery queryWithClassName:@"Message"];
-			[query whereKey:@"objectId" equalTo:[message valueForKey:key]];
-			[query getFirstObjectInBackgroundWithBlock:^(PFObject *object, NSError *error) {
-				if (object) {
-					[self addMessageToUserCache:object];
-				}
-			}];
+	uint lastCachedMessageTimeStamp = 0;
+	for (NSString* key in [messagesDict allKeys]) {
+		if (lastCachedMessageTimeStamp < [key intValue]) {
+			lastCachedMessageTimeStamp = [key intValue];
 		}
 	}
+	
+	NSDate* lastCachedMessageDate = [NSDate dateWithTimeIntervalSince1970:lastCachedMessageTimeStamp];
+	NSLog(@"last cached message: %@", lastCachedMessageDate);
+	
+	PFQuery* fromQuery = [PFQuery queryWithClassName:@"Message"];
+	[fromQuery whereKey:@"fromUser" equalTo:[PFUser currentUser]];
+	PFQuery* toQuery = [PFQuery queryWithClassName:@"Message"];
+	[fromQuery whereKey:@"toUser" equalTo:[PFUser currentUser]];
+	
+	PFQuery* messageQuery = [PFQuery orQueryWithSubqueries:[NSArray arrayWithObjects:fromQuery, toQuery, nil]];
+	[messageQuery whereKey:@"createdAt" greaterThan:lastCachedMessageDate];
+	[messageQuery findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+		if (objects && [objects count] > 0) {
+			__block NSInteger storeCount = 0;
+			for (PFObject* message in objects) {
+				NSLog(@"%@", [message valueForKey:@"messageText"]);
+				[self addMessageToUserCache:message completionBlock:^(BOOL finished) {
+					storeCount++;
+					NSLog(@"stored message %i", storeCount);
+					if (storeCount == [objects count] && completionBlock) {
+						dispatch_async(dispatch_get_main_queue(), ^{
+							NSLog(@"dispatching completion block");
+							completionBlock(YES);
+						});
+					}
+				}];
+			}
+		}
+	}];
+	
+//	NSArray* messages = [messageStore objectForKey:@"messages"];
+//	
+//	__block NSInteger storeCount = 0;
+//	for (NSDictionary* message in messages) {
+//		NSString* key = [[message allKeys] objectAtIndex:0];
+//		NSLog(@"key: %@", key);
+//		if ([messagesDict valueForKey:key]) { // message already exists
+//			storeCount++;
+//		}
+//		else { // need to fetch the message
+//			PFQuery* query = [PFQuery queryWithClassName:@"Message"];
+//			[query whereKey:@"objectId" equalTo:[message valueForKey:key]];
+//			[query getFirstObjectInBackgroundWithBlock:^(PFObject *object, NSError *error) {
+//				if (object) {
+//					[self addMessageToUserCache:object];
+//					storeCount++;
+//					if (storeCount == [messages count]) {
+//						dispatch_async(dispatch_get_main_queue(), ^{
+//							completionBlock(YES);
+//						});
+//					}
+//				}
+//			}];
+//		}
+//	}
 }
 
 @end

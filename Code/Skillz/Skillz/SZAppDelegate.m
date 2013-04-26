@@ -73,7 +73,10 @@
 	PFUser *currentUser = [PFUser currentUser];
 	//	[PFUser logOut];
 	if (currentUser) {
-		[[SZDataManager sharedInstance] checkForNewMessages];
+		[[SZDataManager sharedInstance] checkForNewMessagesWithCompletionBlock:^(BOOL finished) {
+			NSLog(@"message check completed");
+			// TODO somehow indicate if there are new messages
+		}];
 	} else {
 		// show login screen
 	}

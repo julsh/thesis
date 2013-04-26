@@ -199,7 +199,7 @@
 		DE920BEE16FBF1CD002633A9 /* button_petrol_small.png in Resources */ = {isa = PBXBuildFile; fileRef = DE920BDE16FBF1CD002633A9 /* button_petrol_small.png */; };
 		DE920BEF16FBF1CD002633A9 /* button_petrol_small@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = DE920BDF16FBF1CD002633A9 /* button_petrol_small@2x.png */; };
 		DE920BF216FBF304002633A9 /* SZSignInVC.m in Sources */ = {isa = PBXBuildFile; fileRef = DE920BF116FBF304002633A9 /* SZSignInVC.m */; };
-		DE920BF516FBF3F1002633A9 /* SZShowMenuButtonVC.m in Sources */ = {isa = PBXBuildFile; fileRef = DE920BF416FBF3F0002633A9 /* SZShowMenuButtonVC.m */; };
+		DE920BF516FBF3F1002633A9 /* SZSectionRootVC.m in Sources */ = {isa = PBXBuildFile; fileRef = DE920BF416FBF3F0002633A9 /* SZSectionRootVC.m */; };
 		DE920BFA16FD1769002633A9 /* MBProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = DE920BF816FD1586002633A9 /* MBProgressHUD.m */; };
 		DE920BFD16FD2ED5002633A9 /* SZCreateAccountSuccessVC.m in Sources */ = {isa = PBXBuildFile; fileRef = DE920BFC16FD2ED5002633A9 /* SZCreateAccountSuccessVC.m */; };
 		DE920C0016FD31BC002633A9 /* UITextView+Shadow.m in Sources */ = {isa = PBXBuildFile; fileRef = DE920BFF16FD31BC002633A9 /* UITextView+Shadow.m */; };
@@ -213,6 +213,7 @@
 		DE920C1616FFBB84002633A9 /* logo_transparent.png in Resources */ = {isa = PBXBuildFile; fileRef = DE920C1416FFBB84002633A9 /* logo_transparent.png */; };
 		DE920C1716FFBB84002633A9 /* logo_transparent@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = DE920C1516FFBB84002633A9 /* logo_transparent@2x.png */; };
 		DE920C1E16FFBE27002633A9 /* SZMenuVC.m in Sources */ = {isa = PBXBuildFile; fileRef = DE920C1D16FFBE26002633A9 /* SZMenuVC.m */; };
+		DE93F18117295E0C00B95D8E /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = DE93F18017295E0C00B95D8E /* Reachability.m */; };
 		DE9A892017010E1600E71B79 /* SZRadioButtonControl.m in Sources */ = {isa = PBXBuildFile; fileRef = DE9A891F17010E1600E71B79 /* SZRadioButtonControl.m */; };
 		DE9A89251701157300E71B79 /* radiobutton_selected.png in Resources */ = {isa = PBXBuildFile; fileRef = DE9A89211701157300E71B79 /* radiobutton_selected.png */; };
 		DE9A89261701157300E71B79 /* radiobutton_selected@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = DE9A89221701157300E71B79 /* radiobutton_selected@2x.png */; };
@@ -573,8 +574,8 @@
 		DE920BDF16FBF1CD002633A9 /* button_petrol_small@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "button_petrol_small@2x.png"; sourceTree = "<group>"; };
 		DE920BF016FBF304002633A9 /* SZSignInVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SZSignInVC.h; sourceTree = "<group>"; };
 		DE920BF116FBF304002633A9 /* SZSignInVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SZSignInVC.m; sourceTree = "<group>"; };
-		DE920BF316FBF3F0002633A9 /* SZShowMenuButtonVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SZShowMenuButtonVC.h; sourceTree = "<group>"; };
-		DE920BF416FBF3F0002633A9 /* SZShowMenuButtonVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SZShowMenuButtonVC.m; sourceTree = "<group>"; };
+		DE920BF316FBF3F0002633A9 /* SZSectionRootVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SZSectionRootVC.h; sourceTree = "<group>"; };
+		DE920BF416FBF3F0002633A9 /* SZSectionRootVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SZSectionRootVC.m; sourceTree = "<group>"; };
 		DE920BF716FD1586002633A9 /* MBProgressHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MBProgressHUD.h; sourceTree = "<group>"; };
 		DE920BF816FD1586002633A9 /* MBProgressHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MBProgressHUD.m; sourceTree = "<group>"; };
 		DE920BFB16FD2ED5002633A9 /* SZCreateAccountSuccessVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SZCreateAccountSuccessVC.h; sourceTree = "<group>"; };
@@ -593,6 +594,8 @@
 		DE920C1516FFBB84002633A9 /* logo_transparent@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "logo_transparent@2x.png"; sourceTree = "<group>"; };
 		DE920C1C16FFBE26002633A9 /* SZMenuVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SZMenuVC.h; sourceTree = "<group>"; };
 		DE920C1D16FFBE26002633A9 /* SZMenuVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SZMenuVC.m; sourceTree = "<group>"; };
+		DE93F17F17295E0C00B95D8E /* Reachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Reachability.h; sourceTree = "<group>"; };
+		DE93F18017295E0C00B95D8E /* Reachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Reachability.m; sourceTree = "<group>"; };
 		DE9A891E17010E1600E71B79 /* SZRadioButtonControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SZRadioButtonControl.h; sourceTree = "<group>"; };
 		DE9A891F17010E1600E71B79 /* SZRadioButtonControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SZRadioButtonControl.m; sourceTree = "<group>"; };
 		DE9A89211701157300E71B79 /* radiobutton_selected.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = radiobutton_selected.png; sourceTree = "<group>"; };
@@ -795,13 +798,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		DE0FA7E5171E14CB001F2002 /* Map */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Map;
-			sourceTree = "<group>";
-		};
 		DE0FA7F3171F1820001F2002 /* segmented-control-horizontal */ = {
 			isa = PBXGroup;
 			children = (
@@ -822,7 +818,6 @@
 			children = (
 				DEFA24E31725D3090007EBBE /* Message */,
 				DEDD69A017238CBE0065667B /* Deal */,
-				DE0FA7E5171E14CB001F2002 /* Map */,
 				DE85BAEA1711B0D30024F8ED /* User */,
 				DE85BA16170E06770024F8ED /* Entry */,
 				DE85BA15170E06140024F8ED /* TableView Cells */,
@@ -973,8 +968,8 @@
 				DE920C1D16FFBE26002633A9 /* SZMenuVC.m */,
 				DEB9F11116FA95C9008AC064 /* SZNavigationController.h */,
 				DEB9F11216FA95C9008AC064 /* SZNavigationController.m */,
-				DE920BF316FBF3F0002633A9 /* SZShowMenuButtonVC.h */,
-				DE920BF416FBF3F0002633A9 /* SZShowMenuButtonVC.m */,
+				DE920BF316FBF3F0002633A9 /* SZSectionRootVC.h */,
+				DE920BF416FBF3F0002633A9 /* SZSectionRootVC.m */,
 			);
 			path = "Global Navigation";
 			sourceTree = "<group>";
@@ -1223,6 +1218,15 @@
 			path = MBProgressHUD;
 			sourceTree = "<group>";
 		};
+		DE93F17E17295E0C00B95D8E /* Reachability */ = {
+			isa = PBXGroup;
+			children = (
+				DE93F17F17295E0C00B95D8E /* Reachability.h */,
+				DE93F18017295E0C00B95D8E /* Reachability.m */,
+			);
+			path = Reachability;
+			sourceTree = "<group>";
+		};
 		DEAB2D0B170089D9001D53B0 /* Sign In & Sign Up */ = {
 			isa = PBXGroup;
 			children = (
@@ -1425,6 +1429,7 @@
 		DEB9F0ED16FA322A008AC064 /* Third Party */ = {
 			isa = PBXGroup;
 			children = (
+				DE93F17E17295E0C00B95D8E /* Reachability */,
 				DEDD69A117243D400065667B /* NSString+MD5 */,
 				DEDD697E17236D8F0065667B /* NSDate+TimeAgo */,
 				DEDD69411720D5880065667B /* NMRangeSlider */,
@@ -1988,7 +1993,7 @@
 				DEB9F11616FA9D49008AC064 /* UIView+FindFirstResponder.m in Sources */,
 				DEB9F12416FAA832008AC064 /* BSKeyboardControls.m in Sources */,
 				DE920BF216FBF304002633A9 /* SZSignInVC.m in Sources */,
-				DE920BF516FBF3F1002633A9 /* SZShowMenuButtonVC.m in Sources */,
+				DE920BF516FBF3F1002633A9 /* SZSectionRootVC.m in Sources */,
 				DE920BFA16FD1769002633A9 /* MBProgressHUD.m in Sources */,
 				DE920BFD16FD2ED5002633A9 /* SZCreateAccountSuccessVC.m in Sources */,
 				DE920C0016FD31BC002633A9 /* UITextView+Shadow.m in Sources */,
@@ -2044,6 +2049,7 @@
 				DEDD69A417243D410065667B /* NSString+MD5.m in Sources */,
 				DEDD69A71725B8AE0065667B /* SZMessageThreadVC.m in Sources */,
 				DEFA24E61725D31F0007EBBE /* SZMessageView.m in Sources */,
+				DE93F18117295E0C00B95D8E /* Reachability.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

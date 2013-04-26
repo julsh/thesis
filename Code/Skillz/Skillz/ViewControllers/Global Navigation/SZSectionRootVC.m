@@ -6,13 +6,13 @@
 //  Copyright (c) 2013 Julia Roggatz. All rights reserved.
 //
 
-#import "SZShowMenuButtonVC.h"
+#import "SZSectionRootVC.h"
 
-@interface SZShowMenuButtonVC ()
+@interface SZSectionRootVC ()
 
 @end
 
-@implementation SZShowMenuButtonVC
+@implementation SZSectionRootVC
 
 
 - (void)viewDidLoad

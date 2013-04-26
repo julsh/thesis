@@ -6,9 +6,9 @@
 //  Copyright (c) 2013 Julia Roggatz. All rights reserved.
 //
 
-#import "SZShowMenuButtonVC.h"
+#import "SZSectionRootVC.h"
 
-@interface SZCreateAccountSuccessVC : SZShowMenuButtonVC
+@interface SZCreateAccountSuccessVC : SZSectionRootVC
 
 - (id)initWithUser:(PFUser*)user;
 

@@ -486,8 +486,10 @@
 #pragma mark - User Actions
 
 - (void)reply:(id)sender {
-	SZNewMessageVC* newMessage = [[SZNewMessageVC alloc] initWithRecipient:self.otherUser];
-	[self.navigationController pushViewController:newMessage animated:YES];
+
+	SZNewMessageVC* newMessageVC = [[SZNewMessageVC alloc] initWithRecipient:self.otherUser];
+	newMessageVC.messageType = SZMessageTypeReply;
+	[self.navigationController pushViewController:newMessageVC animated:YES];
 }
 
 - (void)showEntry:(UIButton*)sender {

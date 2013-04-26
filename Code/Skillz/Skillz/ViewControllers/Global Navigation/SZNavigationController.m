@@ -43,8 +43,6 @@
 		self.mainViewController.view.layer.shadowOpacity = 1.0;
 		self.mainViewController.view.layer.shadowColor = [UIColor blackColor].CGColor;
 
-		[[SZMenuVC sharedInstance] setDelegate:self];
-
 		[self addChildViewController:self.mainViewController];
 		[self.view addSubview:self.mainViewController.view];
 		
@@ -66,6 +64,7 @@
 	
 	[self addChildViewController:[SZMenuVC sharedInstance]];
 	[self.view insertSubview:[SZMenuVC sharedInstance].view atIndex:0];
+	[[SZMenuVC sharedInstance] setDelegate:self];
 }
 
 - (void)toggleMenu:(id)sender {
@@ -195,8 +194,8 @@
 	}
 }
 
-- (void)dismissViewControllerAnimated:(BOOL)flag completion:(void (^)(void))completion {
-	[[SZMenuVC sharedInstance] setDelegate:self];
-}
+//- (void)dismissViewControllerAnimated:(BOOL)flag completion:(void (^)(void))completion {
+//	[[SZMenuVC sharedInstance] setDelegate:self];
+//}
 
 @end

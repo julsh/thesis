@@ -112,7 +112,9 @@
 
 - (void)contact:(SZButton*)sender {
 	
-	[self.navigationController pushViewController:[[SZNewMessageVC alloc] initWithEntry:self.entry] animated:YES];
+	SZNewMessageVC* newMessageVC = [[SZNewMessageVC alloc] initWithEntry:self.entry];
+	newMessageVC.messageType = SZMessageTypeFirstContact;
+	[self.navigationController pushViewController:newMessageVC animated:YES];
 }
 
 @end

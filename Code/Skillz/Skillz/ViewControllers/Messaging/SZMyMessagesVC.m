@@ -12,6 +12,7 @@
 #import "NSDate+TimeAgo.h"
 #import "SZDealView.h"
 #import "SZMessageThreadVC.h"
+#import "SZDataManager.h"
 
 @interface SZMyMessagesVC ()
 
@@ -24,115 +25,95 @@
 
 @implementation SZMyMessagesVC
 
-- (id)init
-{	
-    if (self) {
-		
-		NSMutableDictionary* messagesGrouped = [[NSMutableDictionary alloc] init];
-		NSDictionary* messages = [[NSUserDefaults standardUserDefaults] objectForKey:@"messages"];
-		self.usersArray = [[NSMutableDictionary alloc] init];
-		
-		self.messagesGrouped = [[NSMutableArray alloc] init];
-		
-		NSArray* messageKeys = [messages allKeys];
-		for (NSString* key in messageKeys) {
-			NSMutableDictionary* message = [[NSMutableDictionary alloc] initWithDictionary:[messages valueForKey:key]];
-			[message setObject:key forKey:@"timeStamp"];
-			
-			NSString* userID;
-			if ([message valueForKey:@"fromUser"]) userID = [message valueForKey:@"fromUser"];
-			else if ([message valueForKey:@"toUser"]) userID = [message valueForKey:@"toUser"];
-			
-			NSMutableArray* messageArray;
-			if ([messagesGrouped valueForKey:userID]) {
-				messageArray = [messagesGrouped valueForKey:userID];
+- (void)viewDidLoad
+{
+    [super viewDidLoad];
+	
+    [self.navigationItem setBackBarButtonItem:[[UIBarButtonItem alloc] initWithTitle:@"Back"
+																			   style:UIBarButtonItemStylePlain
+																			  target:nil
+																			  action:nil]];
+	[self setTitle:@"My Messages"];
+	[self.view setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"bg_pattern"]]];
+	
+	UIActivityIndicatorView* spinner = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+	[spinner setCenter:CGPointMake(160.0, 208.0)];
+	[spinner startAnimating];
+	[self.view addSubview:spinner];
+	
+	[[SZDataManager sharedInstance] checkForNewMessagesWithCompletionBlock:^(BOOL finished) {
+		if (finished) {
+			[spinner stopAnimating];
+			[spinner removeFromSuperview];
+			[self arrangeMessages];
+			[self.view addSubview:self.tableView];
+			if ([self.messagesGrouped count] == 0) {
+				[self showNoMessages];
 			}
-			else {
-				messageArray = [[NSMutableArray alloc] init];
-				[messagesGrouped setObject:messageArray forKey:userID];
-				
-			}
-			[messageArray addObject:message];
 		}
+	}];
+}
+
+- (void)arrangeMessages {
+	
+	NSMutableDictionary* messagesGrouped = [[NSMutableDictionary alloc] init];
+	NSDictionary* messages = [[NSUserDefaults standardUserDefaults] objectForKey:@"messages"];
+	self.usersArray = [[NSMutableDictionary alloc] init];
+	
+	self.messagesGrouped = [[NSMutableArray alloc] init];
+	
+	NSArray* messageKeys = [messages allKeys];
+	for (NSString* key in messageKeys) {
+		NSMutableDictionary* message = [[NSMutableDictionary alloc] initWithDictionary:[messages valueForKey:key]];
+		[message setObject:key forKey:@"timeStamp"];
 		
-		// sort messages within each message group, display the newest first
-		for (NSString* key in [messagesGrouped allKeys]) {
-			NSMutableArray* messageArray = [messagesGrouped valueForKey:key];
-			[messageArray sortUsingComparator:^NSComparisonResult(id obj1, id obj2) {
-				if ([[obj1 valueForKey:@"timeStamp"] compare:[obj2 valueForKey:@"timeStamp"] options:NSCaseInsensitiveSearch] == NSOrderedAscending) {
-					return NSOrderedDescending;
-				}
-				if ([[obj1 valueForKey:@"timeStamp"] compare:[obj2 valueForKey:@"timeStamp"] options:NSCaseInsensitiveSearch] == NSOrderedDescending) {
-					return NSOrderedAscending;
-				}
-				else {
-					return NSOrderedSame;
-				}
-			}];
-			[self.messagesGrouped addObject:messageArray];
+		NSString* userID;
+		if ([message valueForKey:@"fromUser"]) userID = [message valueForKey:@"fromUser"];
+		else if ([message valueForKey:@"toUser"]) userID = [message valueForKey:@"toUser"];
+		
+		NSMutableArray* messageArray;
+		if ([messagesGrouped valueForKey:userID]) {
+			messageArray = [messagesGrouped valueForKey:userID];
 		}
-		
-		// sort grouped messages, diplay the newest first
-		[self.messagesGrouped sortUsingComparator:^NSComparisonResult(id obj1, id obj2) {
-			if ([[[obj1 objectAtIndex:0] valueForKey:@"timeStamp"] compare:[[obj2 objectAtIndex:0] valueForKey:@"timeStamp"] options:NSCaseInsensitiveSearch] == NSOrderedAscending) {
+		else {
+			messageArray = [[NSMutableArray alloc] init];
+			[messagesGrouped setObject:messageArray forKey:userID];
+			
+		}
+		[messageArray addObject:message];
+	}
+	
+	// sort messages within each message group, display the newest first
+	for (NSString* key in [messagesGrouped allKeys]) {
+		NSMutableArray* messageArray = [messagesGrouped valueForKey:key];
+		[messageArray sortUsingComparator:^NSComparisonResult(id obj1, id obj2) {
+			if ([[obj1 valueForKey:@"timeStamp"] compare:[obj2 valueForKey:@"timeStamp"] options:NSCaseInsensitiveSearch] == NSOrderedAscending) {
 				return NSOrderedDescending;
 			}
-			if ([[[obj1 objectAtIndex:0] valueForKey:@"timeStamp"] compare:[[obj2 objectAtIndex:0] valueForKey:@"timeStamp"] options:NSCaseInsensitiveSearch] == NSOrderedDescending) {
+			if ([[obj1 valueForKey:@"timeStamp"] compare:[obj2 valueForKey:@"timeStamp"] options:NSCaseInsensitiveSearch] == NSOrderedDescending) {
 				return NSOrderedAscending;
 			}
 			else {
 				return NSOrderedSame;
 			}
 		}];
-		
-		NSLog(@"%@", self.messagesGrouped);
-		
-		
-//		self.fetchCount = 0;
-		
-//		PFQuery* query = [PFQuery queryWithClassName:@"Message"];
-//		[query whereKey:@"toUser" equalTo:[PFUser currentUser]];
-//
-//        [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
-//			if (objects) {
-//				NSLog(@"number of objects: %i", [objects count]);
-//				if ([objects count] > 0) { // found something!
-//					NSLog(@"found something");
-//					for (int i = 0; i < [objects count]; i++) {
-//						PFObject* result = [objects objectAtIndex:i];
-//						PFUser *user = [result objectForKey:@"fromUser"];
-//						[user fetchIfNeededInBackgroundWithBlock:^(PFObject *object, NSError *error) {
-//							NSLog(@"fetched User");
-//							if (object) {
-//								NSLog(@"successfully");
-//								[self.messages addObject:result];
-//								
-//								self.fetchCount++;
-//								NSLog(@"fetchCount: %i", self.fetchCount);
-//								if (self.fetchCount == [objects count]) {
-//									[self.tableView reloadData];
-//								}
-//							}
-//							else if (error) {
-//								NSLog(@"Error: %@ %@", error, [error userInfo]);
-//								self.fetchCount++;
-//								if (self.fetchCount == [objects count]) {
-//									[self.tableView reloadData];
-//								}
-//							}
-//						}];
-//					}
-//				}
-//				else { // nothing found
-//					[self showNoMessages];
-//				}
-//			}
-//			else if (error) {
-//				NSLog(@"Error: %@ %@", error, [error userInfo]);
-//			}
-//		}];
-    }
-    return self;
+		[self.messagesGrouped addObject:messageArray];
+	}
+	
+	// sort grouped messages, diplay the newest first
+	[self.messagesGrouped sortUsingComparator:^NSComparisonResult(id obj1, id obj2) {
+		if ([[[obj1 objectAtIndex:0] valueForKey:@"timeStamp"] compare:[[obj2 objectAtIndex:0] valueForKey:@"timeStamp"] options:NSCaseInsensitiveSearch] == NSOrderedAscending) {
+			return NSOrderedDescending;
+		}
+		if ([[[obj1 objectAtIndex:0] valueForKey:@"timeStamp"] compare:[[obj2 objectAtIndex:0] valueForKey:@"timeStamp"] options:NSCaseInsensitiveSearch] == NSOrderedDescending) {
+			return NSOrderedAscending;
+		}
+		else {
+			return NSOrderedSame;
+		}
+	}];
+	
+//	NSLog(@"%@", self.messagesGrouped);
 }
 
 - (UITableView*)tableView {
@@ -144,24 +125,6 @@
 		[_tableView setBackgroundColor:[UIColor clearColor]];
 	}
 	return _tableView;
-}
-
-- (void)viewDidLoad
-{
-    [super viewDidLoad];
-
-    [self.navigationItem setBackBarButtonItem:[[UIBarButtonItem alloc] initWithTitle:@"Back"
-																			   style:UIBarButtonItemStylePlain
-																			  target:nil
-																			  action:nil]];
-	[self setTitle:@"My Messages"];
-	
-	[self.view setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"bg_pattern"]]];
-	[self.view addSubview:self.tableView];
-	
-	if ([self.messagesGrouped count] == 0) {
-		[self showNoMessages];
-	}
 }
 
 - (void)showNoMessages {

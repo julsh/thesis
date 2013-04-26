@@ -31,8 +31,8 @@
 - (void)saveLastEnderedAddress:(NSDictionary*)address;
 - (NSDictionary*)lastEnteredAddress;
 
-- (void)checkForNewMessages;
-- (void)addMessageToUserCache:(PFObject*)message;
-- (void)updateMessageCacheWithMessageStore:(PFObject*)messageStore;
+- (void)checkForNewMessagesWithCompletionBlock:(void(^)(BOOL finished))completionBlock;
+- (void)addMessageToUserCache:(PFObject*)message completionBlock:(void(^)(BOOL finished))completionBlock;
+- (void)updateMessageCacheWithCompletionBlock:(void(^)(BOOL finished))completionBlock;
 
 @end

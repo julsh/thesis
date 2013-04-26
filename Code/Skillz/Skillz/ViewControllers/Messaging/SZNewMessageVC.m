@@ -14,6 +14,7 @@
 #import "MBProgressHUD.h"
 #import "NSString+MD5.h"
 #import "SZDataManager.h"
+#import "Reachability.h"
 
 @interface SZNewMessageVC ()
 
@@ -63,7 +64,15 @@
 {
     [super viewDidLoad];
 	
-	[self.navigationItem setTitle:[NSString stringWithFormat:@"Contact %@", [self.recipient valueForKey:@"firstName"]]];
+	switch (self.messageType) {
+		case SZMessageTypeFirstContact:
+			[self.navigationItem setTitle:[NSString stringWithFormat:@"Contact %@", [self.recipient valueForKey:@"firstName"]]];
+			break;
+			
+		case SZMessageTypeReply:
+			[self.navigationItem setTitle:@"Reply"];
+			break;
+	}
 	
 	UIBarButtonItem* sendButton = [[UIBarButtonItem alloc] initWithTitle:@"Send" style:UIBarButtonItemStylePlain target:self action:@selector(sendMessage:)];
 	[self.navigationItem setRightBarButtonItem:sendButton];
@@ -424,9 +433,87 @@
 	}];
 }
 
+- (UIView*)successView {
+	
+	UIView* successView = [[UIView alloc] initWithFrame:CGRectMake(0.0, 0.0, 320.0, 416.0)];
+	UIImageView* checkMark = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"checkmark_big"]];
+	[checkMark setCenter:CGPointMake(180.0, 175.0)];
+	[successView addSubview:checkMark];
+	
+	UILabel* sentLabel = [[UILabel alloc] initWithFrame:CGRectMake(0.0, 210.0, 320.0, 100.0)];
+	[sentLabel setFont:[SZGlobalConstants fontWithFontType:SZFontBold size:24.0]];
+	[sentLabel setTextColor:[SZGlobalConstants darkPetrol]];
+	[sentLabel applyWhiteShadow];
+	[sentLabel setTextAlignment:NSTextAlignmentCenter];
+	[sentLabel setText:@"Message Sent"];
+	[successView addSubview:sentLabel];
+	
+	return successView;
+}
+
 - (void)sendMessage:(id)sender {
 	
 	[self resignAllForms];
+	
+	PFObject* message = [self createMessageObject];
+	if (!message) {
+		return;
+	}
+	
+	MBProgressHUD* hud = [[MBProgressHUD alloc] initWithView:self.view];
+	[self.view addSubview:hud];
+	[hud setDimBackground:YES];
+	[hud setRemoveFromSuperViewOnHide:YES];
+	[hud show:YES];
+	
+	Reachability* reach = [Reachability reachabilityWithHostname:@"www.google.com"];
+	if (![reach isReachable]) {	// network not available
+		NSLog(@"network not available");
+		[hud hide:YES];
+		UIAlertView* alertView = [[UIAlertView alloc] initWithTitle:@"Error" message:@"Couldn't send your message. Please check your network connection and try again." delegate:nil cancelButtonTitle:@"Okay!" otherButtonTitles:nil];
+		[alertView show];
+		return;
+	}
+	else {	// network available
+		[message saveEventually:^(BOOL succeeded, NSError *error) {
+			if (succeeded) {
+				
+				[hud setLabelText:@"Message Sent"];
+//				[hud hide:YES];
+//
+//				for (UIView* subview in [self.view subviews]) {
+//					[subview removeFromSuperview];
+//				}
+//				[self.view addSubview:[self successView]];
+				
+				dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, 1.0 * NSEC_PER_SEC);
+				dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
+					[hud hide:YES];
+					[self.navigationController popViewControllerAnimated:YES];
+				});
+				
+				[self storeMessage:message forUser:self.recipient];
+				[self storeMessage:message forUser:[PFUser currentUser]];
+				[[SZDataManager sharedInstance] addMessageToUserCache:message completionBlock:nil];
+				
+				PFQuery *pushQuery = [PFInstallation query];
+				[pushQuery whereKey:@"user" equalTo:self.recipient];
+				PFPush *push = [[PFPush alloc] init];
+				[push setQuery:pushQuery];
+				[push setMessage:@"You received a new message!"];
+				[push sendPushInBackground];
+			}
+			else if (error) {
+				[hud hide:YES];
+				NSLog(@"%@ %@", error, error.userInfo);
+			}
+		}];
+	}
+	
+	
+}
+
+- (PFObject*)createMessageObject {
 	
 	PFObject* message = [PFObject objectWithClassName:@"Message"];
 	[message setObject:self.recipient forKey:@"toUser"];
@@ -436,7 +523,7 @@
 	if (![self.messageForm.userInputs valueForKey:@"message"] && !self.hasDealProposal) {
 		UIAlertView* alertView = [[UIAlertView alloc] initWithTitle:@"No Content." message:@"To send a message, you should provide at least a message text or a deal proposal" delegate:self cancelButtonTitle:@"Okay!" otherButtonTitles:nil];
 		[alertView show];
-		return;
+		return nil;
 	}
 	
 	if ([self.messageForm.userInputs valueForKey:@"message"]) {
@@ -455,7 +542,7 @@
 			if (self.totalLabel.isHidden) {
 				UIAlertView* alertView = [[UIAlertView alloc] initWithTitle:@"Incomplete Deal Proposal" message:@"Please enter the number of hours and the hourly rate." delegate:self cancelButtonTitle:@"Okay!" otherButtonTitles:nil];
 				[alertView show];
-				return;
+				return nil;
 			}
 			else {
 				CGFloat value = [[self.hourForm textFieldAtIndex:0].text floatValue] * [[self.hourRateForm textFieldAtIndex:0].text floatValue];
@@ -468,7 +555,7 @@
 			if (![self.jobRateForm.userInputs valueForKey:@"jobRate"]) {
 				UIAlertView* alertView = [[UIAlertView alloc] initWithTitle:@"Incomplete Deal Proposal" message:@"Please enter a price for the deal." delegate:self cancelButtonTitle:@"Okay!" otherButtonTitles:nil];
 				[alertView show];
-				return;
+				return nil;
 			}
 			else {
 				CGFloat value = [[self.jobRateForm textFieldAtIndex:0].text floatValue];
@@ -486,58 +573,30 @@
 		
 		[message setObject:dealProposal forKey:@"proposedDeal"];
 	}
-
-	MBProgressHUD* hud = [[MBProgressHUD alloc] initWithView:self.view];
-	[self.view addSubview:hud];
-	[hud setDimBackground:YES];
-	[hud setRemoveFromSuperViewOnHide:YES];
-	[hud show:YES];
-
-	[message saveEventually:^(BOOL succeeded, NSError *error) {
-		if (succeeded) {
-			[hud hide:YES];
-			
-			[self storeMessage:message forUser:self.recipient];
-			[self storeMessage:message forUser:[PFUser currentUser]];
-			[[SZDataManager sharedInstance] addMessageToUserCache:message];
-			
-			PFQuery *pushQuery = [PFInstallation query];
-			[pushQuery whereKey:@"user" equalTo:self.recipient];
-			PFPush *push = [[PFPush alloc] init];
-			[push setQuery:pushQuery];
-			[push setMessage:@"You received a new message!"];
-			[push sendPushInBackground];
-		}
-		else if (error) {
-			[hud hide:YES];
-			NSLog(@"%@ %@", error, error.userInfo);
-		}
-	}];
-
+	
+	return message;
+	
 }
 
 - (void)storeMessage:(PFObject*)message forUser:(PFUser*)user {
 	
 	PFQuery* query = [PFQuery queryWithClassName:@"MessageStore"];
 	[query whereKey:@"user" equalTo:user];
-	[query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+	[query getFirstObjectInBackgroundWithBlock:^(PFObject *object, NSError *error) {
 		
 		NSMutableDictionary* messageDict = [[NSMutableDictionary alloc] init];
 		[messageDict setValue:[message objectId] forKey:[NSString stringWithFormat:@"%.0f", [[message createdAt] timeIntervalSince1970]]];
 		
-		PFObject* object;		
-		if (objects && [objects count] > 0) {
-			object = [objects objectAtIndex:0];
-			[object addObject:messageDict forKey:@"messages"];
+		PFObject* store;
+		if (object) {
+			store = object;
 		}
 		else {
-			object = [PFObject objectWithClassName:@"MessageStore"];
-			[object setObject:user forKey:@"user"];
-			[object setObject:[NSArray arrayWithObject:messageDict] forKey:@"messages"];
+			store = [PFObject objectWithClassName:@"MessageStore"];
+			[store setObject:user forKey:@"user"];
 		}
-		[object setObject:[NSString stringWithFormat:@"%.0f", [[message createdAt] timeIntervalSince1970]] forKey:@"lastReceivedMessageAt"];
-		[object saveInBackground];
-		NSLog(@"saving message to message store");
+		[store setObject:[NSString stringWithFormat:@"%.0f", [[message createdAt] timeIntervalSince1970]] forKey:@"lastReceivedMessageAt"];
+		[store saveInBackground];
 		
 		if (error) {
 			NSLog(@"%@ %@", error, error.userInfo);
