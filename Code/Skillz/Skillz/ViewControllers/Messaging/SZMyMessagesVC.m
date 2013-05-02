@@ -42,16 +42,14 @@
 	__block BOOL messagesUpdated;
 	__block BOOL dealsUpdated;
 	
-	[[SZDataManager sharedInstance] updateMessageCacheWithCompletionBlock:^(BOOL finished) {
-		if (finished) {
+	[[SZDataManager sharedInstance] updateMessageCacheWithCompletionBlock:^(NSArray* newMessages) {
 			messagesUpdated = YES;
 			if (dealsUpdated) {
 				[spinner removeFromSuperview];
 				[self displayMessages];
 			}
-		}
 	}];
-	[[SZDataManager sharedInstance] updateMessageCacheWithCompletionBlock:^(BOOL finished) {
+	[[SZDataManager sharedInstance] updateOpenDealsCacheWithCompletionBlock:^(BOOL finished) {
 		if (finished) {
 			dealsUpdated = YES;
 			if (messagesUpdated) {
@@ -166,11 +164,11 @@
 			dealType = SZDealSealed;
 		}
 		else {
-			if ([deal valueForKey:@"fromUser"]) {
-				dealType = SZDealOfferedFromOtherUser;
+			if ([[deal valueForKey:@"fromUser"] isEqualToString:[[PFUser currentUser] objectId]]) {
+				dealType = SZDealOfferedToOtherUser;
 			}
 			else {
-				dealType = SZDealOfferedToOtherUser;
+				dealType = SZDealOfferedFromOtherUser;
 			}
 		}
 		UIView* dealBadge = [SZDealView dealBadgeForDealType:dealType];

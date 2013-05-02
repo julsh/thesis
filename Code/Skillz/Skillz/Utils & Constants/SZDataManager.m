@@ -185,13 +185,13 @@
 	else return nil;
 }
 
-- (void)updateMessageCacheWithCompletionBlock:(void(^)(BOOL finished))completionBlock {
+- (void)updateMessageCacheWithCompletionBlock:(void(^)(NSArray* newMessages))completionBlock {
 	
 	Reachability* reach = [Reachability reachabilityWithHostname:@"www.google.com"];
 	if (![reach isReachable]) {	// network not available
 		NSLog(@"network not available");
 		dispatch_async(dispatch_get_main_queue(), ^{
-			completionBlock(YES);
+			completionBlock(nil);
 		});
 	}
 	else {	// network available
@@ -223,15 +223,13 @@
 			if (objects && [objects count] > 0) {
 				__block NSInteger storeCount = 0;
 				for (PFObject* message in objects) {
-					NSLog(@"from: %@, to: %@", [[message valueForKey:@"fromUser"] objectId], [[message valueForKey:@"toUser"] objectId]);
-					NSLog(@"%@", [message valueForKey:@"messageText"]);
 					[self addMessageToUserCache:message completionBlock:^(BOOL finished) {
 						storeCount++;
 						NSLog(@"stored message %i", storeCount);
 						if (storeCount == [objects count] && completionBlock) {
 							dispatch_async(dispatch_get_main_queue(), ^{
 								NSLog(@"dispatching completion block");
-								completionBlock(YES);
+								completionBlock(objects);
 							});
 						}
 					}];
@@ -241,7 +239,7 @@
 				// up to date
 				NSLog(@"up to date!");
 				dispatch_async(dispatch_get_main_queue(), ^{
-					completionBlock(YES);
+					completionBlock(nil);
 				});
 			}
 		}];

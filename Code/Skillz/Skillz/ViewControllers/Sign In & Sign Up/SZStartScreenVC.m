@@ -32,10 +32,12 @@
 	[self.view addSubview:self.scrollView];
 	[self.scrollView addSubview:[self logo]];
 	[self.hud show:YES];
-	[[SZDataManager sharedInstance] updateMessageCacheWithCompletionBlock:^(BOOL finished) {
+	[[SZDataManager sharedInstance] updateMessageCacheWithCompletionBlock:^(NSArray* newMessages) {
 		NSLog(@"message check completed");
 		[self.hud hide:YES];
-		// TODO somehow indicate if there are new messages
+		if (newMessages && [newMessages count] > 0) {
+			NSLog(@"new messages: %i", [newMessages count]);
+		}
 	}];
 	[[SZDataManager sharedInstance] updateOpenDealsCacheWithCompletionBlock:^(BOOL finished) {
 		NSLog(@"deals check completed");
@@ -70,6 +72,10 @@
 		[self.view addSubview:_hud];
 	}
 	return _hud;
+}
+
+- (UIView*)newMessagesView {
+	
 }
 
 
