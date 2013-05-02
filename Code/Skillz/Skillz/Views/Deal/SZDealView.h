@@ -8,8 +8,14 @@
 
 #import <UIKit/UIKit.h>
 
+typedef enum {
+	SZDealOfferedToOtherUser,
+	SZDealOfferedFromOtherUser,
+	SZDealSealed
+} SZDealType;
+
 @interface SZDealView : UIView
 
-+ (UIView*)dealBadgeForDealAccepted:(BOOL)accepted;
++ (UIView*)dealBadgeForDealType:(SZDealType)dealType;
 
 @end

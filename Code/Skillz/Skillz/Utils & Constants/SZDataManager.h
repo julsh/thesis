@@ -32,9 +32,11 @@
 - (void)saveLastEnderedAddress:(NSDictionary*)address;
 - (NSDictionary*)lastEnteredAddress;
 
-- (void)checkForNewMessagesWithCompletionBlock:(void(^)(BOOL finished))completionBlock;
 - (void)addMessageToUserCache:(PFObject*)message completionBlock:(void(^)(BOOL finished))completionBlock;
-- (void)updateMessageCacheWithCompletionBlock:(void(^)(BOOL finished))completionBlock;
+- (void)updateOpenDealsCacheWithCompletionBlock:(void(^)(BOOL finished))completionBlock;
+- (void)updateMessageCacheWithCompletionBlock:(void(^)(NSArray* newMessages))completionBlock;
 - (NSMutableArray*)getGroupedMessages;
+- (void)addOpenDealToUserCache:(PFObject*)openDeal;
+- (void)markDealAccepted:(NSString*)dealId;
 
 @end

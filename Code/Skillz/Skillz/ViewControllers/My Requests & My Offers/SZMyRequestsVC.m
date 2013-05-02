@@ -163,7 +163,24 @@
 			request.user = [PFUser currentUser];
 			[self.requests addObject:request];
 		}
+		if ([self.requestsTableView viewWithTag:99]) {
+			[[self.requestsTableView viewWithTag:99] removeFromSuperview];
+		}
 	}
+	else {
+		[self showNoRequests];
+	}
+}
+
+- (void)showNoRequests {
+	UILabel* label = [[UILabel alloc] initWithFrame:CGRectMake(0.0, 160.0, 320.0, 80.0)];
+	[label setTag:99];
+	[label setTextAlignment:NSTextAlignmentCenter];
+	[label setFont:[SZGlobalConstants fontWithFontType:SZFontBold size:30.0]];
+	[label setTextColor:[UIColor colorWithRed:0.0 green:0.0 blue:0.0 alpha:0.5]];
+	[label applyWhiteShadow];
+	[label setText:@"No requests"];
+	[self.requestsTableView addSubview:label];
 }
 
 @end

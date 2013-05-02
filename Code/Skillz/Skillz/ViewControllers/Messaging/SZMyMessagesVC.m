@@ -31,7 +31,7 @@
 																			   style:UIBarButtonItemStylePlain
 																			  target:nil
 																			  action:nil]];
-	[self setTitle:@"My Messages"];
+	[self setTitle:@"Messages"];
 	[self.view setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"bg_pattern"]]];
 	
 	UIActivityIndicatorView* spinner = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
@@ -39,17 +39,35 @@
 	[spinner startAnimating];
 	[self.view addSubview:spinner];
 	
-	[[SZDataManager sharedInstance] checkForNewMessagesWithCompletionBlock:^(BOOL finished) {
+	__block BOOL messagesUpdated;
+	__block BOOL dealsUpdated;
+	
+	[[SZDataManager sharedInstance] updateMessageCacheWithCompletionBlock:^(BOOL finished) {
 		if (finished) {
-			[spinner stopAnimating];
-			[spinner removeFromSuperview];
-			self.messagesGrouped = [[SZDataManager sharedInstance] getGroupedMessages];
-			[self.view addSubview:self.tableView];
-			if ([self.messagesGrouped count] == 0) {
-				[self showNoMessages];
+			messagesUpdated = YES;
+			if (dealsUpdated) {
+				[spinner removeFromSuperview];
+				[self displayMessages];
 			}
 		}
 	}];
+	[[SZDataManager sharedInstance] updateMessageCacheWithCompletionBlock:^(BOOL finished) {
+		if (finished) {
+			dealsUpdated = YES;
+			if (messagesUpdated) {
+				[spinner removeFromSuperview];
+				[self displayMessages];
+			}
+		}
+	}];
+}
+
+- (void)displayMessages {
+	self.messagesGrouped = [[SZDataManager sharedInstance] getGroupedMessages];
+	[self.view addSubview:self.tableView];
+	if ([self.messagesGrouped count] == 0) {
+		[self showNoMessages];
+	}
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -142,7 +160,20 @@
 	
 	if ([message objectForKey:@"proposedDeal"]) {
 		
-		UIView* dealBadge = [SZDealView dealBadgeForDealAccepted:[[message valueForKey:@"hasAcceptedDeal"] boolValue]];
+		NSDictionary* deal = [message objectForKey:@"proposedDeal"];
+		SZDealType dealType;
+		if ([[deal valueForKey:@"isAccepted"] boolValue]) {
+			dealType = SZDealSealed;
+		}
+		else {
+			if ([deal valueForKey:@"fromUser"]) {
+				dealType = SZDealOfferedFromOtherUser;
+			}
+			else {
+				dealType = SZDealOfferedToOtherUser;
+			}
+		}
+		UIView* dealBadge = [SZDealView dealBadgeForDealType:dealType];
 		CGRect frame = dealBadge.frame;
 		frame.origin.x = 220.0;
 		frame.origin.y = 2.0;

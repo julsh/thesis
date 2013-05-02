@@ -178,7 +178,7 @@
 				return;
 			}
 			else if ([fromDate compare:toDate] == NSOrderedDescending) {
-				UIAlertView* alertView = [[UIAlertView alloc] initWithTitle:@"Invalid Date" message:@"The time you selected as the end time must be after the time you selected as the start time." delegate:nil cancelButtonTitle:@"Oops!" otherButtonTitles:nil];
+				UIAlertView* alertView = [[UIAlertView alloc] initWithTitle:@"Invalid time frame" message:@"The time you selected as the end time must be after the time you selected as the start time." delegate:nil cancelButtonTitle:@"Oops!" otherButtonTitles:nil];
 				[alertView show];
 				return;
 			}

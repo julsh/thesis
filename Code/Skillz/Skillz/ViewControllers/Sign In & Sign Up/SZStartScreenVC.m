@@ -9,46 +9,68 @@
 #import "SZStartScreenVC.h"
 #import "SZForm.h"
 #import "SZFormFieldVO.h"
+#import "SZDataManager.h"
+#import "MBProgressHUD.h"
 
 @interface SZStartScreenVC ()
+
+@property (nonatomic, strong) UIScrollView* scrollView;
+@property (nonatomic, strong) MBProgressHUD* hud;
 
 @end
 
 @implementation SZStartScreenVC
 
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
-{
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    if (self) {
-        // Custom initialization
-    }
-    return self;
-}
+@synthesize scrollView = _scrollView;
+@synthesize hud = _hud;
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-	SZForm* form = [[SZForm alloc] initWithWidth:290.0];
-	SZFormFieldVO* textField = [SZFormFieldVO formFieldValueObjectForTextWithKey:@"text"
-																 placeHolderText:@"Put in some text!" keyboardType:UIKeyboardTypeDefault];
-	SZFormFieldVO* numberField = [SZFormFieldVO formFieldValueObjectForTextWithKey:@"number"
-																   placeHolderText:@"Put in a number!" keyboardType: UIKeyboardTypeDecimalPad];
-	SZFormFieldVO* pickerField = [SZFormFieldVO formFieldValueObjectForPickerWithKey:@"picker"
-																	 placeHolderText:@"Pick!" pickerOptions:[NSArray arrayWithObjects:@"A", @"B", @"C", nil]];
-	[form addItem: textField showsClearButton:YES isLastItem:NO];
-	[form addItem: numberField showsClearButton:YES isLastItem:NO];
-	[form addItem: pickerField showsClearButton:YES isLastItem:YES];
+	[self.navigationItem setTitle:@"Welcome!"];
 	
-	[form setCenter:CGPointMake(160.0, 80.0)];
-	[form configureKeyboard];
-	
-	[self.view addSubview:form];
+	[self.view addSubview:self.scrollView];
+	[self.scrollView addSubview:[self logo]];
+	[self.hud show:YES];
+	[[SZDataManager sharedInstance] updateMessageCacheWithCompletionBlock:^(BOOL finished) {
+		NSLog(@"message check completed");
+		[self.hud hide:YES];
+		// TODO somehow indicate if there are new messages
+	}];
+	[[SZDataManager sharedInstance] updateOpenDealsCacheWithCompletionBlock:^(BOOL finished) {
+		NSLog(@"deals check completed");
+		// TODO somehow indicate if there are new messages
+	}];
 }
 
-- (void)didReceiveMemoryWarning
-{
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+- (UIScrollView*)scrollView {
+	if (_scrollView == nil) {
+		_scrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0.0, 0.0, 320.0, 416.0)];
+		[_scrollView setBackgroundColor:[UIColor clearColor]];
+		[_scrollView setClipsToBounds:NO];
+		[_scrollView setContentSize:CGSizeMake(_scrollView.frame.size.width, _scrollView.frame.size.height)];
+	}
+	return _scrollView;
 }
+
+- (UIImageView*)logo {
+	UIImageView* logo = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"logo_transparent_shadow"]];
+	[logo setCenter:CGPointMake(160.0, 80.0)];
+	return logo;
+}
+
+- (MBProgressHUD*)hud {
+	
+	if (_hud == nil) {
+		_hud = [[MBProgressHUD alloc] initWithView:self.view];
+		[_hud setLabelFont:[SZGlobalConstants fontWithFontType:SZFontSemiBold size:16.0]];
+		[_hud setLabelText:@"Checking for new messages"];
+		[_hud setDimBackground:YES];
+		[_hud setRemoveFromSuperViewOnHide:YES];
+		[self.view addSubview:_hud];
+	}
+	return _hud;
+}
+
 
 @end

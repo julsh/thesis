@@ -57,8 +57,6 @@
 		}];
 	}
 	
-//	[[SZDataManager sharedInstance] updateCaches];
-	
 	[[UINavigationBar appearance] setTitleTextAttributes:
 	 [NSDictionary dictionaryWithObjectsAndKeys:
 	  [UIColor colorWithRed:1.0 green:1.0 blue:1.0 alpha:1.0],
@@ -70,19 +68,17 @@
 	  [SZGlobalConstants fontWithFontType:SZFontBold size:18.0],
 	  UITextAttributeFont, nil]];
 	
-	
+	UIViewController* rootVC;
 	PFUser *currentUser = [PFUser currentUser];
-	//	[PFUser logOut];
 	if (currentUser) {
-		[[SZDataManager sharedInstance] checkForNewMessagesWithCompletionBlock:^(BOOL finished) {
-			NSLog(@"message check completed");
-			// TODO somehow indicate if there are new messages
-		}];
+		// show start screen
+		rootVC = [[SZStartScreenVC alloc] init];
 	} else {
 		// show login screen
+		rootVC = [[SZSignInVC alloc] init];
 	}
 	
-	UIViewController *root = [[SZNavigationController alloc] initWithRootViewController:[[SZStartScreenVC alloc] init]];
+	UIViewController *root = [[SZNavigationController alloc] initWithRootViewController:rootVC];
 	[self.window setRootViewController:root];
 	
 	

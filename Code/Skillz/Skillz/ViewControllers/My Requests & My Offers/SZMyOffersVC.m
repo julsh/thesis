@@ -164,7 +164,25 @@
 			offer.user = [PFUser currentUser];
 			[self.offers addObject:offer];
 		}
+		if ([self.offersTableView viewWithTag:99]) {
+			[[self.offersTableView viewWithTag:99] removeFromSuperview];
+		}
+	}
+	else {
+		[self showNoOffers];
 	}
 }
+
+- (void)showNoOffers {
+	UILabel* label = [[UILabel alloc] initWithFrame:CGRectMake(0.0, 160.0, 320.0, 80.0)];
+	[label setTag:99];
+	[label setTextAlignment:NSTextAlignmentCenter];
+	[label setFont:[SZGlobalConstants fontWithFontType:SZFontBold size:30.0]];
+	[label setTextColor:[UIColor colorWithRed:0.0 green:0.0 blue:0.0 alpha:0.5]];
+	[label applyWhiteShadow];
+	[label setText:@"No offers"];
+	[self.offersTableView addSubview:label];
+}
+
 
 @end

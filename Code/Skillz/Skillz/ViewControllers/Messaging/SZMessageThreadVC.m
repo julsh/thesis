@@ -14,6 +14,7 @@
 #import "SZMyEntryVC.h"
 #import "SZButton.h"
 #import "SZDataManager.h"
+#import "Reachability.h"
 
 @interface SZMessageThreadVC ()
 
@@ -25,10 +26,10 @@
 @property (nonatomic, strong) PFUser* otherUser;
 @property (nonatomic, strong) UIImage* ownUserImage;
 @property (nonatomic, strong) UIImage* otherUserImage;
-@property (nonatomic, assign) BOOL hasEntry;
+@property (nonatomic, strong) NSDictionary* entryDict;
 @property (nonatomic, strong) SZEntryObject* entry;
 @property (nonatomic, strong) UIButton* entryButton;
-@property (nonatomic, assign) BOOL hasPendingDeal;
+@property (nonatomic, strong) NSMutableDictionary* pendingDealDict;
 @property (nonatomic, strong) PFObject* pendingDeal;
 @property (nonatomic, strong) UIView* pendingDealView;
 
@@ -41,6 +42,7 @@
 	self = [super init];
 	if (self) {
 		self.messageThreadArray = messageThread;
+		NSLog(@"%@", self.messageThreadArray);
 		
 		if ([[self.messageThreadArray objectAtIndex:0] valueForKey:@"otherUser"] && [[self.messageThreadArray objectAtIndex:0] valueForKey:@"otherUserImage"]) {
 			self.otherUser = [[self.messageThreadArray objectAtIndex:0] valueForKey:@"otherUser"];
@@ -116,10 +118,10 @@
 			break;
 		}
 	}
-	self.hasEntry = NO;
-	self.hasPendingDeal = NO;
-	[self checkForEntry];
-	[self checkForPendingDeal];
+//	self.hasEntry = NO;
+//	self.hasPendingDeal = NO;
+//	[self checkForEntry];
+//	[self checkForPendingDeal];
 	[self displayContent];
 }
 
@@ -129,10 +131,12 @@
 		[view removeFromSuperview];
 	}
 	
-	BOOL entryLoaded = (self.hasEntry && self.entry) || !self.hasEntry;
-	BOOL dealLoaded = (self.hasPendingDeal && self.pendingDeal) || !self.hasPendingDeal;
+//	BOOL entryLoaded = (self.hasEntry && self.entry) || !self.hasEntry;
+//	BOOL dealLoaded = (self.hasPendingDeal && self.pendingDeal) || !self.hasPendingDeal;
 	
-	if (self.ownUserImage && self.otherUserImage && entryLoaded && dealLoaded) {
+	Reachability* reach = [Reachability reachabilityWithHostname:@"www.google.com"];
+	
+	if ((self.ownUserImage && self.otherUserImage) || ![reach isReachable]) {
 		
 		[self.spinner stopAnimating];
 		[self.spinner removeFromSuperview];
@@ -141,17 +145,41 @@
 		
 		CGFloat contentHeight = 0.0;
 		
-		if (self.hasEntry) {
-			[self.scrollView addSubview:self.entryButton];
-			contentHeight+= self.entryButton.frame.size.height;
+		
+		for (NSDictionary* message in self.messageThreadArray) {
+			if ([message valueForKey:@"entry"]) {
+				self.entryDict = [message valueForKey:@"entry"];
+				[self.scrollView addSubview:self.entryButton];
+				contentHeight+= self.entryButton.frame.size.height;
+				
+				PFObject* object = [PFObject objectWithoutDataWithClassName:@"Entry" objectId:[self.entryDict valueForKey:@"objectId"]];
+				[object fetchIfNeededInBackgroundWithBlock:^(PFObject *object, NSError *error) {
+					if (object) {
+						self.entry = (SZEntryObject*)object;
+					}
+				}];
+				break;
+			}
 		}
 		
-		if (self.hasPendingDeal) {
-			[self.scrollView addSubview:self.pendingDealView];
-			CGRect frame = self.pendingDealView.frame;
-			frame.origin.y = contentHeight;
-			self.pendingDealView.frame = frame;
-			contentHeight += self.pendingDealView.frame.size.height;
+		for (NSDictionary* message in self.messageThreadArray) {
+			if ([message valueForKey:@"proposedDeal"]) {
+				self.pendingDealDict = [[NSMutableDictionary alloc] initWithDictionary:[message valueForKey:@"proposedDeal"]];
+				self.pendingDealView = [self pendingDealViewContainer];
+				[self.scrollView addSubview:self.pendingDealView];
+				CGRect frame = self.pendingDealView.frame;
+				frame.origin.y = contentHeight;
+				self.pendingDealView.frame = frame;
+				contentHeight += self.pendingDealView.frame.size.height;
+				
+				PFObject* object = [PFObject objectWithoutDataWithClassName:@"Deal" objectId:[self.pendingDealDict valueForKey:@"objectId"]];
+				[object fetchIfNeededInBackgroundWithBlock:^(PFObject *object, NSError *error) {
+					if (object) {
+						self.pendingDeal = object;
+					}
+				}];
+				break;
+			}
 		}
 		
 		self.messageAreaView = [[UIView alloc] initWithFrame:CGRectMake(0.0, contentHeight + 15.0, 320.0, 0.0)];
@@ -195,36 +223,36 @@
 
 #pragma mark - Entry View
 
-- (void)checkForEntry {
-	
-	// display entry that the message thread is referring to (if applicable)
-	NSString* entryId;
-	for (NSDictionary* message in self.messageThreadArray) {
-		if ([message valueForKey:@"entry"]) {
-			entryId = [message valueForKey:@"entry"];
-			self.hasEntry = YES;
-			break;
-		}
-	}
-	if (entryId) {
-		PFObject* entry = [PFObject objectWithoutDataWithClassName:@"Entry" objectId:entryId];
-		if ([entry isDataAvailable]) {
-			self.entry = (SZEntryObject*)entry;
-			[self displayContent];
-		}
-		else {
-			[entry fetchIfNeededInBackgroundWithBlock:^(PFObject *object, NSError *error) {
-				if (object) {
-					self.entry = (SZEntryObject*)entry;
-					[self displayContent];
-				}
-			}];
-		}
-	}
-	else {
-		[self displayContent];
-	}
-}
+//- (void)checkForEntry {
+//	
+//	// display entry that the message thread is referring to (if applicable)
+//	NSString* entryId;
+//	for (NSDictionary* message in self.messageThreadArray) {
+//		if ([message valueForKey:@"entry"]) {
+//			entryId = [message valueForKey:@"entry"];
+//			self.hasEntry = YES;
+//			break;
+//		}
+//	}
+//	if (entryId) {
+//		PFObject* entry = [PFObject objectWithoutDataWithClassName:@"Entry" objectId:entryId];
+//		if ([entry isDataAvailable]) {
+//			self.entry = (SZEntryObject*)entry;
+//			[self displayContent];
+//		}
+//		else {
+//			[entry fetchIfNeededInBackgroundWithBlock:^(PFObject *object, NSError *error) {
+//				if (object) {
+//					self.entry = (SZEntryObject*)entry;
+//					[self displayContent];
+//				}
+//			}];
+//		}
+//	}
+//	else {
+//		[self displayContent];
+//	}
+//}
 
 
 - (UIButton*)entryButton {
@@ -248,36 +276,26 @@
 		[regLabel setTextColor:[SZGlobalConstants gray]];
 		[regLabel applyWhiteShadow];
 		
-		NSString* entryType;
-		switch (self.entry.type) {
-			case SZEntryTypeOffer:
-				entryType = @"Offer";
-				break;
-			case SZEntryTypeRequest:
-				entryType = @"Request";
-				break;
-		}
-		
 		NSString* whoseEntry;
-		if ([[[self.entry valueForKey:@"user"] objectId] isEqualToString:[self.otherUser objectId]]) {
-			whoseEntry = [NSString stringWithFormat:@"Regarding %@'s %@:", [self.otherUser valueForKey:@"firstName"], entryType];
+		if ([[self.entryDict valueForKey:@"user"] isEqualToString:[self.otherUser objectId]]) {
+			whoseEntry = [NSString stringWithFormat:@"Regarding %@'s %@:", [self.otherUser valueForKey:@"firstName"], [self.entryDict valueForKey:@"entryType"]];
 		}
-		else if ([[[self.entry valueForKey:@"user"] objectId] isEqualToString:[[PFUser currentUser] objectId]]) {
-			whoseEntry = [NSString stringWithFormat:@"Regarding Your %@:", entryType];
+		else if ([[self.entryDict valueForKey:@"user"] isEqualToString:[[PFUser currentUser] objectId]]) {
+			whoseEntry = [NSString stringWithFormat:@"Regarding Your %@:", [self.entryDict valueForKey:@"entryType"]];
 		}
 		[regLabel setText:whoseEntry];
 		[_entryButton addSubview:regLabel];
 		
-		UILabel* entryTitleLabel = [[UILabel alloc] initWithFrame:CGRectMake(40.0, 30.0, 260.0, 18.0)];
+		UILabel* entryTitleLabel = [[UILabel alloc] initWithFrame:CGRectMake(40.0, 30.0, 250.0, 18.0)];
 		[entryTitleLabel setFont:[SZGlobalConstants fontWithFontType:SZFontBold size:14.0]];
 		[entryTitleLabel setTextColor:[SZGlobalConstants darkPetrol]];
 		[entryTitleLabel applyWhiteShadow];
-		[entryTitleLabel setText:self.entry.title];
+		[entryTitleLabel setText:[self.entryDict valueForKey:@"title"]];
 		[_entryButton addSubview:entryTitleLabel];
 		
-		NSString* categoriesString = self.entry.category;
-		if (self.entry.subcategory != nil) {
-			categoriesString = [categoriesString stringByAppendingFormat:@" > %@", self.entry.subcategory];
+		NSString* categoriesString = [self.entryDict valueForKey:@"category"];
+		if ([self.entryDict valueForKey:@"subcategory"] != nil) {
+			categoriesString = [categoriesString stringByAppendingFormat:@" > %@", [self.entryDict valueForKey:@"subcategory"]];
 		}
 		UILabel* categoriesLabel = [[UILabel alloc] initWithFrame:CGRectMake(40.0, 50.0, 260.0, 14.0)];
 		[categoriesLabel setFont:[SZGlobalConstants fontWithFontType:SZFontSemiBoldItalic size:11.0]];
@@ -308,201 +326,211 @@
 
 #pragma mark - Pending Deal View
 
-- (void)checkForPendingDeal {
-	
-	// display pending deal (if applicable)
-	NSString* pendingDealId;
-	for (NSDictionary* message in self.messageThreadArray) {
-		if ([message valueForKey:@"proposedDeal"]) {
-			pendingDealId = [message valueForKey:@"proposedDeal"];
-			self.hasPendingDeal = YES;
-			break;
-		}
-	}
-	if (pendingDealId) {
-		PFObject* pendingDeal = [PFObject objectWithoutDataWithClassName:@"Deal" objectId:pendingDealId];
-		if ([pendingDeal isDataAvailable]) {
-			self.pendingDeal = pendingDeal;
-			self.pendingDealView = [self pendingDealViewContainer];
-			[self displayContent];
-		}
-		else {
-			[pendingDeal fetchIfNeededInBackgroundWithBlock:^(PFObject *object, NSError *error) {
-				if (object) {
-					self.pendingDeal = object;
-					self.pendingDealView = [self pendingDealViewContainer];
-					[self displayContent];
-				}
-			}];
-		}
-	}
-	else {
-		[self displayContent];
-	}
-	
-}
+//- (void)checkForPendingDeal {
+//	
+//	// display pending deal (if applicable)
+//	NSString* pendingDealId;
+//	for (NSDictionary* message in self.messageThreadArray) {
+//		if ([message valueForKey:@"proposedDeal"]) {
+//			pendingDealId = [message valueForKey:@"proposedDeal"];
+//			self.hasPendingDeal = YES;
+//			break;
+//		}
+//	}
+//	if (pendingDealId) {
+//		PFObject* pendingDeal = [PFObject objectWithoutDataWithClassName:@"Deal" objectId:pendingDealId];
+//		if ([pendingDeal isDataAvailable]) {
+//			self.pendingDeal = pendingDeal;
+//			self.pendingDealView = [self pendingDealViewContainer];
+//			[self displayContent];
+//		}
+//		else {
+//			[pendingDeal fetchIfNeededInBackgroundWithBlock:^(PFObject *object, NSError *error) {
+//				if (object) {
+//					self.pendingDeal = object;
+//					self.pendingDealView = [self pendingDealViewContainer];
+//					[self displayContent];
+//				}
+//			}];
+//		}
+//	}
+//	else {
+//		[self displayContent];
+//	}
+//	
+//}
 
 - (UIView*)pendingDealViewContainer {
 	
-	UIView* pendingDealView = [[UIView alloc] initWithFrame:CGRectMake(0.0, 0.0, 320.0, 70.0)];
-		[pendingDealView setBackgroundColor:[SZGlobalConstants petrol]];
+	UIView* pendingDealView = [[UIView alloc] initWithFrame:CGRectMake(0.0, 0.0, 320.0, 80.0)];
+	[pendingDealView setBackgroundColor:[SZGlobalConstants petrol]];
+	
+	UIView* darkUpperHighlight = [[UIView alloc] initWithFrame:CGRectMake(0.0, 0.0, 320.0, 1.0)];
+	[darkUpperHighlight setBackgroundColor:[UIColor colorWithWhite:0.0 alpha:0.7]];
+	[pendingDealView addSubview:darkUpperHighlight];
+	
+	UIView* brightUpperHighlight = [[UIView alloc] initWithFrame:CGRectMake(0.0, 1.0, 320.0, 1.0)];
+	[brightUpperHighlight setBackgroundColor:[UIColor colorWithWhite:1.0 alpha:0.2]];
+	[pendingDealView addSubview:brightUpperHighlight];
+	
+	UIView* brightLowerHighlight = [[UIView alloc] initWithFrame:CGRectMake(0.0, 78.0, 320.0, 1.0)];
+	[brightLowerHighlight setBackgroundColor:[UIColor colorWithWhite:1.0 alpha:0.2]];
+	[pendingDealView addSubview:brightLowerHighlight];
+	
+	UIView* darkLowerHighlight = [[UIView alloc] initWithFrame:CGRectMake(0.0, 79.0, 320.0, 1.0)];
+	[darkLowerHighlight setBackgroundColor:[UIColor colorWithWhite:0.0 alpha:0.7]];
+	[pendingDealView addSubview:darkLowerHighlight];
+	
+	
+	if ([[self.pendingDealDict valueForKey:@"isAccepted"] boolValue]) {
+		UIImageView* shakeHandsView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"hands_shaken_57"]];
+		CGRect frame = shakeHandsView.frame;
+		frame.origin.x = 7.0;
+		frame.origin.y = 12.0;
+		shakeHandsView.frame = frame;
+		[pendingDealView addSubview: shakeHandsView];
 		
-		UIView* darkUpperHighlight = [[UIView alloc] initWithFrame:CGRectMake(0.0, 0.0, 320.0, 1.0)];
-		[darkUpperHighlight setBackgroundColor:[UIColor colorWithWhite:0.0 alpha:0.7]];
-		[pendingDealView addSubview:darkUpperHighlight];
+		UILabel* dealSealed = [[UILabel alloc] initWithFrame:CGRectMake(100.0, 21.0, 180.0, 14.0)];
+		[dealSealed setFont:[SZGlobalConstants fontWithFontType:SZFontSemiBold size:13.0]];
+		[dealSealed setTextColor:[UIColor whiteColor]];
+		[dealSealed applyBlackShadow];
+		[dealSealed setText:@"Deal Sealed!"];
+		[pendingDealView addSubview:dealSealed];
 		
-		UIView* brightUpperHighlight = [[UIView alloc] initWithFrame:CGRectMake(0.0, 1.0, 320.0, 1.0)];
-		[brightUpperHighlight setBackgroundColor:[UIColor colorWithWhite:1.0 alpha:0.2]];
-		[pendingDealView addSubview:brightUpperHighlight];
+		UIImageView* skillPointsImg = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"skillpoints_small"]];
+		[skillPointsImg setFrame:CGRectMake(100.0, 41.0, skillPointsImg.frame.size.width, skillPointsImg.frame.size.height)];
+		[pendingDealView addSubview:skillPointsImg];
 		
-		UIView* brightLowerHighlight = [[UIView alloc] initWithFrame:CGRectMake(0.0, 68.0, 320.0, 1.0)];
-		[brightLowerHighlight setBackgroundColor:[UIColor colorWithWhite:1.0 alpha:0.2]];
-		[pendingDealView addSubview:brightLowerHighlight];
-		
-		UIView* darkLowerHighlight = [[UIView alloc] initWithFrame:CGRectMake(0.0, 69.0, 320.0, 1.0)];
-		[darkLowerHighlight setBackgroundColor:[UIColor colorWithWhite:0.0 alpha:0.7]];
-		[pendingDealView addSubview:darkLowerHighlight];
-		
-		
-		if ([[self.pendingDeal valueForKey:@"isAccepted"] boolValue]) {
-			UIImageView* shakeHandsView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"hands_shaken_57"]];
-			CGRect frame = shakeHandsView.frame;
-			frame.origin.x = 7.0;
-			frame.origin.y = 7.0;
-			shakeHandsView.frame = frame;
-			[pendingDealView addSubview: shakeHandsView];
-			
-			UILabel* dealSealed = [[UILabel alloc] initWithFrame:CGRectMake(100.0, 16.0, 180.0, 14.0)];
-			[dealSealed setFont:[SZGlobalConstants fontWithFontType:SZFontSemiBold size:13.0]];
-			[dealSealed setTextColor:[UIColor whiteColor]];
-			[dealSealed applyBlackShadow];
-			[dealSealed setText:@"Deal Sealed!"];
-			[pendingDealView addSubview:dealSealed];
-			
-			UIImageView* skillPointsImg = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"skillpoints_small"]];
-			[skillPointsImg setFrame:CGRectMake(100.0, 36.0, skillPointsImg.frame.size.width, skillPointsImg.frame.size.height)];
-			[pendingDealView addSubview:skillPointsImg];
-			
-			NSNumber* value = [self.pendingDeal valueForKey:@"dealValue"];
-			NSString* valueString = [NSString stringWithFormat:@"%i", [value intValue]];
-			if ([self.pendingDeal valueForKey:@"hours"]) {
-				NSNumber* hours = [self.pendingDeal valueForKey:@"hours"];
-				valueString = [valueString stringByAppendingFormat:@" for %i hours", [hours intValue]];
-			}
-			else {
-				valueString = [valueString stringByAppendingString:@" for the job"];
-			}
-			UILabel* valueLabel = [[UILabel alloc] initWithFrame:CGRectMake(123.0, 34.0, 180.0, 24.0)];
-			[valueLabel setFont:[SZGlobalConstants fontWithFontType:SZFontBold size:18.0]];
-			[valueLabel setTextColor:[UIColor whiteColor]];
-			[valueLabel applyBlackShadow];
-			[valueLabel setText:valueString];
-			[pendingDealView addSubview:valueLabel];
+		NSNumber* value = [self.pendingDealDict valueForKey:@"dealValue"];
+		NSString* valueString = [NSString stringWithFormat:@"%i", [value intValue]];
+		if ([self.pendingDeal valueForKey:@"hours"]) {
+			NSNumber* hours = [self.pendingDealDict valueForKey:@"hours"];
+			valueString = [valueString stringByAppendingFormat:@" for %i hours", [hours intValue]];
 		}
-		
 		else {
-			
-			UILabel* pendingDealProposal = [[UILabel alloc] initWithFrame:CGRectMake(10.0, 8.0, 180.0, 14.0)];
-			[pendingDealProposal setFont:[SZGlobalConstants fontWithFontType:SZFontSemiBold size:11.0]];
-			[pendingDealProposal setTextColor:[UIColor whiteColor]];
-			[pendingDealProposal applyBlackShadow];
-			[pendingDealProposal setText:@"Pending Deal Proposal:"];
-			[pendingDealView addSubview:pendingDealProposal];
-			
-			UIImageView* skillPointsImg = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"skillpoints_small"]];
-			[skillPointsImg setFrame:CGRectMake(10.0, 25.0, skillPointsImg.frame.size.width, skillPointsImg.frame.size.height)];
-			[pendingDealView addSubview:skillPointsImg];
-			
-			NSNumber* value = [self.pendingDeal valueForKey:@"dealValue"];
-			NSString* valueString = [NSString stringWithFormat:@"%i", [value intValue]];
-			if ([self.pendingDeal valueForKey:@"hours"]) {
-				NSNumber* hours = [self.pendingDeal valueForKey:@"hours"];
-				valueString = [valueString stringByAppendingFormat:@" for %i hours", [hours intValue]];
-			}
-			else {
-				valueString = [valueString stringByAppendingString:@" for the job"];
-			}
-			UILabel* valueLabel = [[UILabel alloc] initWithFrame:CGRectMake(33.0, 25.0, 180.0, 20.0)];
-			[valueLabel setFont:[SZGlobalConstants fontWithFontType:SZFontBold size:14.0]];
-			[valueLabel setTextColor:[UIColor whiteColor]];
-			[valueLabel applyBlackShadow];
-			[valueLabel setText:valueString];
-			[pendingDealView addSubview:valueLabel];
-			
-			
-			if ([[[self.pendingDeal valueForKey:@"fromUser"] objectId] isEqualToString:[self.otherUser objectId]]) {
-				UIImageView* rightHandView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"hand_stretched_right_57"]];
-				
-				CGRect frame = pendingDealView.frame;
-				frame.size.height = 80.0;
-				pendingDealView.frame = frame;
-				
-				frame = brightLowerHighlight.frame;
-				frame.origin.y = 78.0;
-				brightLowerHighlight.frame = frame;
-				
-				frame = darkLowerHighlight.frame;
-				frame.origin.y = 79.0;
-				darkLowerHighlight.frame = frame;
-				
-				frame = rightHandView.frame;
-				frame.origin.x = 240.0;
-				frame.origin.y = 12.0;
-				rightHandView.frame = frame;
-				[pendingDealView addSubview: rightHandView];
-				
-				SZButton* acceptButton = [[SZButton alloc] initWithColor:SZButtonColorOrange size:SZButtonSizeSmall width:80.0];
-				[acceptButton setTitle:@"Accept" forState:UIControlStateNormal];
-				frame = acceptButton.frame;
-				frame.origin.x = 33.0;
-				frame.origin.y = 50.0;
-				acceptButton.frame = frame;
-				[pendingDealView addSubview:acceptButton];
-				
-				SZButton* declineButton = [[SZButton alloc] initWithColor:SZButtonColorOrange size:SZButtonSizeSmall width:80.0];
-				[declineButton setTitle:@"Decline" forState:UIControlStateNormal];
-				frame = declineButton.frame;
-				frame.origin.x = 123.0;
-				frame.origin.y = 50.0;
-				declineButton.frame = frame;
-				[pendingDealView addSubview:declineButton];
-			}
-			else if ([[[self.pendingDeal valueForKey:@"fromUser"] objectId] isEqualToString:[[PFUser currentUser] objectId]]) {
-				UIImageView* leftHandView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"hand_stretched_left_57"]];
-				CGRect frame = leftHandView.frame;
-				frame.origin.x = 5.0;
-				frame.origin.y = 7.0;
-				leftHandView.frame = frame;
-				
-				frame = pendingDealProposal.frame;
-				frame.origin.x = 90.0;
-				pendingDealProposal.frame = frame;
-				
-				frame = skillPointsImg.frame;
-				frame.origin.x = 90.0;
-				skillPointsImg.frame = frame;
-				
-				frame = valueLabel.frame;
-				frame.origin.x = 113.0;
-				valueLabel.frame = frame;
-				
-				[pendingDealView addSubview: leftHandView];
-				
-				UILabel* waitingForResponseLabel = [[UILabel alloc] initWithFrame:CGRectMake(90.0, 49.0, 220.0, 14.0)];
-				[waitingForResponseLabel setFont:[SZGlobalConstants fontWithFontType:SZFontSemiBoldItalic size:11.0]];
-				[waitingForResponseLabel setTextColor:[UIColor whiteColor]];
-				[waitingForResponseLabel applyBlackShadow];
-				[waitingForResponseLabel setText:[NSString stringWithFormat:@"Waiting for %@'s Respose", [self.otherUser valueForKey:@"firstName"]]];
-				[pendingDealView addSubview:waitingForResponseLabel];
-				
-			}
+			valueString = [valueString stringByAppendingString:@" for the job"];
 		}
+		UILabel* valueLabel = [[UILabel alloc] initWithFrame:CGRectMake(123.0, 39.0, 180.0, 24.0)];
+		[valueLabel setFont:[SZGlobalConstants fontWithFontType:SZFontBold size:18.0]];
+		[valueLabel setTextColor:[UIColor whiteColor]];
+		[valueLabel applyBlackShadow];
+		[valueLabel setText:valueString];
+		[pendingDealView addSubview:valueLabel];
+	}
+	
+	else {
+		
+		UILabel* pendingDealProposal = [[UILabel alloc] initWithFrame:CGRectMake(10.0, 8.0, 180.0, 14.0)];
+		[pendingDealProposal setFont:[SZGlobalConstants fontWithFontType:SZFontSemiBold size:11.0]];
+		[pendingDealProposal setTextColor:[UIColor whiteColor]];
+		[pendingDealProposal applyBlackShadow];
+		[pendingDealProposal setText:@"Pending Deal Proposal:"];
+		[pendingDealView addSubview:pendingDealProposal];
+		
+		UIImageView* skillPointsImg = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"skillpoints_small"]];
+		[skillPointsImg setFrame:CGRectMake(40.0, 25.0, skillPointsImg.frame.size.width, skillPointsImg.frame.size.height)];
+		[pendingDealView addSubview:skillPointsImg];
+		
+		NSNumber* value = [self.pendingDealDict valueForKey:@"dealValue"];
+		NSString* valueString = [NSString stringWithFormat:@"%i", [value intValue]];
+		if ([self.pendingDeal valueForKey:@"hours"]) {
+			NSNumber* hours = [self.pendingDealDict valueForKey:@"hours"];
+			valueString = [valueString stringByAppendingFormat:@" for %i hours", [hours intValue]];
+		}
+		else {
+			valueString = [valueString stringByAppendingString:@" for the job"];
+		}
+		UILabel* valueLabel = [[UILabel alloc] initWithFrame:CGRectMake(63.0, 25.0, 180.0, 20.0)];
+		[valueLabel setFont:[SZGlobalConstants fontWithFontType:SZFontBold size:14.0]];
+		[valueLabel setTextColor:[UIColor whiteColor]];
+		[valueLabel applyBlackShadow];
+		[valueLabel setText:valueString];
+		[pendingDealView addSubview:valueLabel];
+		
+		
+		if ([[self.pendingDealDict valueForKey:@"fromUser"] isEqualToString:[self.otherUser objectId]]) {
+			UIImageView* rightHandView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"hand_stretched_right_57"]];
+			
+			CGRect frame = rightHandView.frame;
+			frame.origin.x = 240.0;
+			frame.origin.y = 12.0;
+			rightHandView.frame = frame;
+			[pendingDealView addSubview: rightHandView];
+			
+			SZButton* acceptButton = [[SZButton alloc] initWithColor:SZButtonColorOrange size:SZButtonSizeSmall width:80.0];
+			[acceptButton addTarget:self action:@selector(acceptDeal:) forControlEvents:UIControlEventTouchUpInside];
+			[acceptButton setTitle:@"Accept" forState:UIControlStateNormal];
+			frame = acceptButton.frame;
+			frame.origin.x = 38.0;
+			frame.origin.y = 50.0;
+			acceptButton.frame = frame;
+			[pendingDealView addSubview:acceptButton];
+			
+			SZButton* declineButton = [[SZButton alloc] initWithColor:SZButtonColorOrange size:SZButtonSizeSmall width:80.0];
+			[acceptButton addTarget:self action:@selector(declineDeal:) forControlEvents:UIControlEventTouchUpInside];
+			[declineButton setTitle:@"Decline" forState:UIControlStateNormal];
+			frame = declineButton.frame;
+			frame.origin.x = 128.0;
+			frame.origin.y = 50.0;
+			declineButton.frame = frame;
+			[pendingDealView addSubview:declineButton];
+		}
+		else {
+			UIImageView* leftHandView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"hand_stretched_left_57"]];
+			CGRect frame = leftHandView.frame;
+			frame.origin.x = 5.0;
+			frame.origin.y = 12.0;
+			leftHandView.frame = frame;
+			[pendingDealView addSubview: leftHandView];
+			
+			frame = pendingDealProposal.frame;
+			frame.origin.x = 90.0;
+			pendingDealProposal.frame = frame;
+			
+			frame = skillPointsImg.frame;
+			frame.origin.y += 5;
+			frame.origin.x = 120.0;
+			skillPointsImg.frame = frame;
+			
+			frame = valueLabel.frame;
+			frame.origin.x = 143.0;
+			frame.origin.y += 5;
+			valueLabel.frame = frame;
+			
+			[pendingDealView addSubview: leftHandView];
+			
+			UILabel* waitingForResponseLabel = [[UILabel alloc] initWithFrame:CGRectMake(120.0, 54.0, 220.0, 14.0)];
+			[waitingForResponseLabel setFont:[SZGlobalConstants fontWithFontType:SZFontSemiBoldItalic size:11.0]];
+			[waitingForResponseLabel setTextColor:[UIColor whiteColor]];
+			[waitingForResponseLabel applyBlackShadow];
+			[waitingForResponseLabel setText:[NSString stringWithFormat:@"Waiting for %@'s Respose", [self.otherUser valueForKey:@"firstName"]]];
+			[pendingDealView addSubview:waitingForResponseLabel];
+			
+		}
+	}
 	
 	
 	return pendingDealView;
 }
 
 #pragma mark - User Actions
+
+- (void)acceptDeal:(id)sender {
+	[self.pendingDealDict setValue:[NSNumber numberWithBool:YES] forKey:@"isAccepted"];
+	[[SZDataManager sharedInstance] markDealAccepted:[self.pendingDealDict valueForKey:@"objectId"]];
+	[self.pendingDeal setValue:[NSNumber numberWithBool:YES] forKey:@"isAccepted"];
+	[self.pendingDeal saveInBackground];
+	[[SZDataManager sharedInstance] addOpenDealToUserCache:self.pendingDeal];
+	[self.pendingDealView removeFromSuperview];
+	CGFloat y = self.pendingDealView.frame.origin.y;
+	self.pendingDealView = [self pendingDealViewContainer];
+	[self.pendingDealView setFrame:CGRectMake(0.0, y, self.pendingDealView.frame.size.width, self.pendingDealView.frame.size.height)];
+	[self.scrollView addSubview:self.pendingDealView];
+}
+
+- (void)declineDeal:(id)sender {
+	
+}
 
 - (void)reply:(id)sender {
 

@@ -17,7 +17,6 @@
 #import "SZNavigationController.h"
 #import "SZCreateAccountSuccessVC.h"
 #import "SZForgotPasswordVC.h"
-#import "UIImage+Resize.h"
 
 #import "MBProgressHUD.h"
 

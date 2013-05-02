@@ -19,35 +19,30 @@
     return self;
 }
 
-+ (UIView*)dealBadgeForDealAccepted:(BOOL)accepted {
-	UIView* view = [[UIView alloc] initWithFrame:CGRectMake(0.0, 0.0, 72.0, 47.0)];
++ (UIView*)dealBadgeForDealType:(SZDealType)dealType {
+	UIView* view = [[UIView alloc] initWithFrame:CGRectMake(0.0, 0.0, 46.0, 30.0)];
 	UIImageView* bgView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"deal_badge"]];
-	UIImageView* imgView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:accepted ? @"hands_shaken_27" : @"hand_stretched_27"]];
+	UIImageView* imgView;
 	
-	if (accepted) {
-		[imgView setCenter:CGPointMake(35.0, 17.0)];
-		UILabel* acceptedLabel = [[UILabel alloc] initWithFrame:CGRectMake(4.0, 32.0, 62.0, 14.0)];
-		[acceptedLabel setTextColor:[UIColor whiteColor]];
-		[acceptedLabel setFont:[SZGlobalConstants fontWithFontType:SZFontBold size:10.0]];
-		[acceptedLabel applyBlackShadow];
-		[acceptedLabel setTextAlignment:NSTextAlignmentCenter];
-		[acceptedLabel setText:@"Deal Sealed"];
-		[bgView addSubview:acceptedLabel];
+	switch (dealType) {
+		case SZDealSealed:
+			imgView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"hands_shaken_27"]];
+			break;
+		case SZDealOfferedFromOtherUser:
+			imgView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"hand_stretched_right_27"]];
+			break;
+		case SZDealOfferedToOtherUser:
+			imgView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"hand_stretched_left_27"]];
+			break;
+		default:
+			break;
 	}
-	else {
-		[imgView setCenter:CGPointMake(48.0, 17.0)];
-		UILabel* proposedLabel = [[UILabel alloc] initWithFrame:CGRectMake(5.0, 15.0, 62.0, 28.0)];
-		[proposedLabel setTextColor:[UIColor whiteColor]];
-		[proposedLabel setFont:[SZGlobalConstants fontWithFontType:SZFontBold size:10.0]];
-		[proposedLabel applyBlackShadow];
-		[proposedLabel setNumberOfLines:0];
-		[proposedLabel setText:@"Deal\nProposed"];
-		[bgView addSubview:proposedLabel];
-	}
+	
+	[imgView setCenter:CGPointMake(22.0, 15.0)];
 	
 	[view addSubview:bgView];
 	[view addSubview:imgView];
-	
+
 	return view;
 }
 

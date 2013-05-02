@@ -185,13 +185,7 @@
 	else return nil;
 }
 
-- (void)checkForNewMessagesWithCompletionBlock:(void(^)(BOOL finished))completionBlock {
-		
-	if ([[NSUserDefaults standardUserDefaults] objectForKey:@"messages"] == nil) {
-		[[NSUserDefaults standardUserDefaults] setObject:[NSDictionary dictionary] forKey:@"messages"];
-	}
-	NSMutableDictionary* messagesDict = [[NSUserDefaults standardUserDefaults] objectForKey:@"messages"];
-	
+- (void)updateMessageCacheWithCompletionBlock:(void(^)(BOOL finished))completionBlock {
 	
 	Reachability* reach = [Reachability reachabilityWithHostname:@"www.google.com"];
 	if (![reach isReachable]) {	// network not available
@@ -202,26 +196,50 @@
 	}
 	else {	// network available
 		NSLog(@"network available");
-		PFQuery* messageQuery = [PFQuery queryWithClassName:@"MessageStore"];
-		[messageQuery whereKey:@"user" equalTo:[PFUser currentUser]];
-		[messageQuery getFirstObjectInBackgroundWithBlock:^(PFObject *object, NSError *error) {
-			if (object) {
-				NSString* timestampString = [object objectForKey:@"lastReceivedMessageAt"];
-				NSLog(@"timestampString: %@", timestampString);
-				if ([messagesDict valueForKey:timestampString]) {
-					NSLog(@"up to date");
-					if (completionBlock) {
-						dispatch_async(dispatch_get_main_queue(), ^{
-							completionBlock(YES);
-						});
-					}
-				}
-				else {
-					[self updateMessageCacheWithCompletionBlock:completionBlock];
-					NSLog(@"must fetch!!");
+		if ([[NSUserDefaults standardUserDefaults] objectForKey:@"messages"] == nil) {
+			[[NSUserDefaults standardUserDefaults] setObject:[NSDictionary dictionary] forKey:@"messages"];
+		}
+		NSMutableDictionary* messagesDict = [[NSMutableDictionary alloc] initWithDictionary:[[NSUserDefaults standardUserDefaults] objectForKey:@"messages"]];
+		
+		uint lastCachedMessageTimeStamp = 0;
+		for (NSString* key in [messagesDict allKeys]) {
+			if (lastCachedMessageTimeStamp < [key intValue]) {
+				lastCachedMessageTimeStamp = [key intValue];
+			}
+		}
+		
+		NSDate* lastCachedMessageDate = [NSDate dateWithTimeIntervalSince1970:lastCachedMessageTimeStamp];
+		NSLog(@"last cached message: %@", lastCachedMessageDate);
+		NSLog(@"my object id: %@", [[PFUser currentUser] objectId]);
+		
+		PFQuery* fromQuery = [PFQuery queryWithClassName:@"Message"];
+		[fromQuery whereKey:@"fromUser" equalTo:[PFUser currentUser]];
+		PFQuery* toQuery = [PFQuery queryWithClassName:@"Message"];
+		[toQuery whereKey:@"toUser" equalTo:[PFUser currentUser]];
+		
+		PFQuery* messageQuery = [PFQuery orQueryWithSubqueries:[NSArray arrayWithObjects:fromQuery, toQuery, nil]];
+		[messageQuery  whereKey:@"createdAt" greaterThan:lastCachedMessageDate];
+		[messageQuery findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+			if (objects && [objects count] > 0) {
+				__block NSInteger storeCount = 0;
+				for (PFObject* message in objects) {
+					NSLog(@"from: %@, to: %@", [[message valueForKey:@"fromUser"] objectId], [[message valueForKey:@"toUser"] objectId]);
+					NSLog(@"%@", [message valueForKey:@"messageText"]);
+					[self addMessageToUserCache:message completionBlock:^(BOOL finished) {
+						storeCount++;
+						NSLog(@"stored message %i", storeCount);
+						if (storeCount == [objects count] && completionBlock) {
+							dispatch_async(dispatch_get_main_queue(), ^{
+								NSLog(@"dispatching completion block");
+								completionBlock(YES);
+							});
+						}
+					}];
 				}
 			}
 			else {
+				// up to date
+				NSLog(@"up to date!");
 				dispatch_async(dispatch_get_main_queue(), ^{
 					completionBlock(YES);
 				});
@@ -247,17 +265,16 @@
 	if ([message valueForKey:@"messageText"]) {
 		[messageDict setValue:[message objectForKey:@"messageText"] forKey:@"messageText"];
 	}
-	if ([message valueForKey:@"entry"]) {
-		PFObject* entry = [message valueForKey:@"entry"];
-		[messageDict setValue:[entry objectId] forKey:@"entry"];
-	}
 	
 	__block BOOL fromUserFetched = NO;
 	__block BOOL toUserFetched = NO;
 	__block BOOL dealFetched = NO;
+	__block BOOL entryFetched = NO;
 	
 	PFUser* toUser = [message objectForKey:@"toUser"];
 	PFUser* fromUser = [message objectForKey:@"fromUser"];
+	
+	//------------------------ saving message sender
 	
 	if ([fromUser isDataAvailable]) {
 		if (![fromUser isEqual:[PFUser currentUser]]) {
@@ -265,7 +282,7 @@
 			[messageDict setValue:[fromUser objectForKey:@"firstName"] forKey:@"fromUserName"];
 		}
 		fromUserFetched = YES;
-		if (fromUserFetched && toUserFetched && dealFetched && completionBlock) {
+		if (fromUserFetched && toUserFetched && entryFetched && dealFetched && completionBlock) {
 			dispatch_async(dispatch_get_main_queue(), ^{
 				completionBlock(YES);
 			});
@@ -278,7 +295,7 @@
 					[self addFromUser:object toMessageWithKey:messageDictKey];
 				}
 				fromUserFetched = YES;
-				if (fromUserFetched && toUserFetched && dealFetched && completionBlock) {
+				if (fromUserFetched && toUserFetched && entryFetched && dealFetched && completionBlock) {
 					dispatch_async(dispatch_get_main_queue(), ^{
 						completionBlock(YES);
 					});
@@ -287,6 +304,8 @@
 		}];
 	}
 	
+	//------------------------ saving message recipien
+	
 	if ([toUser isDataAvailable]) {
 		if (![toUser isEqual:[PFUser currentUser]]) {
 			[messageDict setValue:[toUser objectId] forKey:@"toUser"];
@@ -294,7 +313,7 @@
 			
 		}
 		toUserFetched = YES;
-		if (fromUserFetched && toUserFetched && dealFetched && completionBlock) {
+		if (fromUserFetched && toUserFetched && entryFetched && dealFetched && completionBlock) {
 			dispatch_async(dispatch_get_main_queue(), ^{
 				completionBlock(YES);
 			});
@@ -307,7 +326,7 @@
 					[self addToUser:object toMessageWithKey:messageDictKey];
 				}
 				toUserFetched = YES;
-				if (fromUserFetched && toUserFetched && dealFetched && completionBlock) {
+				if (fromUserFetched && toUserFetched && entryFetched && dealFetched && completionBlock) {
 					dispatch_async(dispatch_get_main_queue(), ^{
 						completionBlock(YES);
 					});
@@ -317,13 +336,63 @@
 		}];
 	}
 	
+	//------------------------ saving referenced entry (if applicable)
+	
+	if ([message objectForKey:@"entry"] && [message objectForKey:@"entry"] != [NSNull null]) {
+		PFObject* entry = [message objectForKey:@"entry"];
+		if ([entry isDataAvailable]) {
+			NSMutableDictionary* entryDict = [[NSMutableDictionary alloc] init];
+			[entryDict setValue:[entry objectId] forKey:@"objectId"];
+			[entryDict setValue:[entry valueForKey:@"title"] forKey:@"title"];
+			[entryDict setValue:[[entry valueForKey:@"user"] objectId] forKey:@"user"];
+			[entryDict setValue:[entry valueForKey:@"entryType"] forKey:@"entryType"];
+			[messageDict setValue:entryDict forKey:@"entry"];
+			entryFetched = YES;
+			if (fromUserFetched && toUserFetched && entryFetched && dealFetched && completionBlock) {
+				dispatch_async(dispatch_get_main_queue(), ^{
+					completionBlock(YES);
+				});
+			}
+		}
+		else {
+			[entry fetchIfNeededInBackgroundWithBlock:^(PFObject *object, NSError *error) {
+				if (object) {
+					[self addEntry:object toMessageWithKey:messageDictKey];
+					entryFetched = YES;
+					if (fromUserFetched && toUserFetched && entryFetched && dealFetched && completionBlock) {
+						dispatch_async(dispatch_get_main_queue(), ^{
+							completionBlock(YES);
+						});
+					}
+				}
+			}];
+		}
+	}
+	else {
+		entryFetched = YES;
+		if (fromUserFetched && toUserFetched && entryFetched && dealFetched && completionBlock) {
+			dispatch_async(dispatch_get_main_queue(), ^{
+				completionBlock(YES);
+			});
+		}
+	}
+	
+	//------------------------ saving proposed deal (if applicable)
+	
 	if ([message objectForKey:@"proposedDeal"] && [message objectForKey:@"proposedDeal"] != [NSNull null]) {
+		NSLog(@"has deal proposal");
 		PFObject* dealProposal = [message objectForKey:@"proposedDeal"];
 		if ([dealProposal isDataAvailable]) {
-			[messageDict setValue:[dealProposal objectId] forKey:@"proposedDeal"];
-			[messageDict setValue:[dealProposal valueForKey:@"isAccepted"] forKey:@"hasAcceptedDeal"];
+			NSMutableDictionary* proposedDeal = [[NSMutableDictionary alloc] init];
+			[proposedDeal setValue:[dealProposal objectId] forKey:@"objectId"];
+			[proposedDeal setValue:[[dealProposal valueForKey:@"fromUser"] objectId] forKey:@"fromUser"];
+			[proposedDeal setValue:[dealProposal valueForKey:@"isAccepted"] forKey:@"isAccepted"];
+			[proposedDeal setValue:[dealProposal valueForKey:@"dealValue"] forKey:@"dealValue"];
+			if ([proposedDeal valueForKey:@"hours"]) [proposedDeal setValue:[dealProposal valueForKey:@"hours"] forKey:@"hours"];
+			if ([proposedDeal valueForKey:@"isDone"]) [proposedDeal setValue:[dealProposal valueForKey:@"isDone"] forKey:@"isDone"];
+			[messageDict setValue:proposedDeal forKey:@"proposedDeal"];
 			dealFetched = YES;
-			if (fromUserFetched && toUserFetched && dealFetched && completionBlock) {
+			if (fromUserFetched && toUserFetched && entryFetched && dealFetched && completionBlock) {
 				dispatch_async(dispatch_get_main_queue(), ^{
 					completionBlock(YES);
 				});
@@ -334,7 +403,7 @@
 				if (object) {
 					[self addProposedDeal:object toMessageWithKey:messageDictKey];
 					dealFetched = YES;
-					if (fromUserFetched && toUserFetched && dealFetched && completionBlock) {
+					if (fromUserFetched && toUserFetched && entryFetched && dealFetched && completionBlock) {
 						dispatch_async(dispatch_get_main_queue(), ^{
 							completionBlock(YES);
 						});
@@ -345,7 +414,7 @@
 	}
 	else {
 		dealFetched = YES;
-		if (fromUserFetched && toUserFetched && dealFetched && completionBlock) {
+		if (fromUserFetched && toUserFetched && entryFetched && dealFetched && completionBlock) {
 			dispatch_async(dispatch_get_main_queue(), ^{
 				completionBlock(YES);
 			});
@@ -374,61 +443,46 @@
 	[[NSUserDefaults standardUserDefaults] setObject:messagesDict forKey:@"messages"];
 }
 
-- (void)addProposedDeal:(PFObject*)proposedDeal toMessageWithKey:(NSString*)key {
+- (void)addProposedDeal:(PFObject*)dealProposal toMessageWithKey:(NSString*)key {
+	NSLog(@"adding proposed deal");
 	if ([[NSUserDefaults standardUserDefaults] objectForKey:@"messages"] == nil) {
 		[[NSUserDefaults standardUserDefaults] setObject:[NSDictionary dictionary] forKey:@"messages"];
 	}
 	NSMutableDictionary* messagesDict = [[NSMutableDictionary alloc] initWithDictionary:[[NSUserDefaults standardUserDefaults] objectForKey:@"messages"]];
 	NSMutableDictionary* messageDict = [[NSMutableDictionary alloc] initWithDictionary:[messagesDict valueForKey:key]];
-	[messageDict setValue:[proposedDeal objectId] forKey:@"proposedDeal"];
-	[messageDict setValue:[proposedDeal valueForKey:@"isAccepted"] forKey:@"hasAcceptedDeal"];
+	NSMutableDictionary* proposedDeal = [[NSMutableDictionary alloc] init];
+	[proposedDeal setValue:[dealProposal objectId] forKey:@"objectId"];
+	[proposedDeal setValue:[[dealProposal valueForKey:@"fromUser"] objectId] forKey:@"fromUser"];
+	[proposedDeal setValue:[dealProposal valueForKey:@"isAccepted"] forKey:@"isAccepted"];
+	if ([[dealProposal valueForKey:@"isAccepted"] boolValue]) {
+		[self addOpenDealToUserCache:dealProposal];
+	}
+	[proposedDeal setValue:[dealProposal valueForKey:@"dealValue"] forKey:@"dealValue"];
+	if ([dealProposal valueForKey:@"hours"]) [proposedDeal setValue:[dealProposal valueForKey:@"hours"] forKey:@"hours"];
+	if ([dealProposal valueForKey:@"isDone"]) [proposedDeal setValue:[dealProposal valueForKey:@"isDone"] forKey:@"isDone"];
+	[messageDict setValue:proposedDeal forKey:@"proposedDeal"];
 	[messagesDict setValue:messageDict forKey:key];
 	[[NSUserDefaults standardUserDefaults] setObject:messagesDict forKey:@"messages"];
 }
 
-- (void)updateMessageCacheWithCompletionBlock:(void(^)(BOOL finished))completionBlock {
-	
+- (void)addEntry:(PFObject*)entry toMessageWithKey:(NSString*)key {
 	if ([[NSUserDefaults standardUserDefaults] objectForKey:@"messages"] == nil) {
 		[[NSUserDefaults standardUserDefaults] setObject:[NSDictionary dictionary] forKey:@"messages"];
 	}
 	NSMutableDictionary* messagesDict = [[NSMutableDictionary alloc] initWithDictionary:[[NSUserDefaults standardUserDefaults] objectForKey:@"messages"]];
-	
-	uint lastCachedMessageTimeStamp = 0;
-	for (NSString* key in [messagesDict allKeys]) {
-		if (lastCachedMessageTimeStamp < [key intValue]) {
-			lastCachedMessageTimeStamp = [key intValue];
-		}
-	}
-	
-	NSDate* lastCachedMessageDate = [NSDate dateWithTimeIntervalSince1970:lastCachedMessageTimeStamp];
-	NSLog(@"last cached message: %@", lastCachedMessageDate);
-	
-	PFQuery* fromQuery = [PFQuery queryWithClassName:@"Message"];
-	[fromQuery whereKey:@"fromUser" equalTo:[PFUser currentUser]];
-	PFQuery* toQuery = [PFQuery queryWithClassName:@"Message"];
-	[fromQuery whereKey:@"toUser" equalTo:[PFUser currentUser]];
-	
-	PFQuery* messageQuery = [PFQuery orQueryWithSubqueries:[NSArray arrayWithObjects:fromQuery, toQuery, nil]];
-	[messageQuery whereKey:@"createdAt" greaterThan:lastCachedMessageDate];
-	[messageQuery findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
-		if (objects && [objects count] > 0) {
-			__block NSInteger storeCount = 0;
-			for (PFObject* message in objects) {
-				NSLog(@"%@", [message valueForKey:@"messageText"]);
-				[self addMessageToUserCache:message completionBlock:^(BOOL finished) {
-					storeCount++;
-					NSLog(@"stored message %i", storeCount);
-					if (storeCount == [objects count] && completionBlock) {
-						dispatch_async(dispatch_get_main_queue(), ^{
-							NSLog(@"dispatching completion block");
-							completionBlock(YES);
-						});
-					}
-				}];
-			}
-		}
-	}];
+	NSMutableDictionary* messageDict = [[NSMutableDictionary alloc] initWithDictionary:[messagesDict valueForKey:key]];
+	NSMutableDictionary* entryDict = [[NSMutableDictionary alloc] init];
+	[entryDict setValue:[entry objectId] forKey:@"objectId"];
+	[entryDict setValue:[entry valueForKey:@"title"] forKey:@"title"];
+	[entryDict setValue:[[entry valueForKey:@"user"] objectId] forKey:@"user"];
+	[entryDict setValue:[entry valueForKey:@"entryType"] forKey:@"entryType"];
+	[entryDict setValue:[entry valueForKey:@"category"] forKey:@"category"];
+	[entryDict setValue:[entry valueForKey:@"subcategory"] forKey:@"subcategory"];
+	[messageDict setValue:entryDict forKey:@"entry"];
+	[messagesDict setValue:messageDict forKey:key];
+	[[NSUserDefaults standardUserDefaults] setObject:messagesDict forKey:@"messages"];
 }
+
 
 - (NSMutableArray*)getGroupedMessages {
 	
@@ -490,5 +544,147 @@
 	
 	return messagesGroupedArray;
 }
+
+- (void)addOpenDealToUserCache:(PFObject*)openDeal {
+	if ([[NSUserDefaults standardUserDefaults] objectForKey:@"openDeals"] == nil) {
+		[[NSUserDefaults standardUserDefaults] setObject:[NSArray array] forKey:@"openDeals"];
+	}
+	NSMutableArray* openDealsArr = [[NSMutableArray alloc] initWithArray:[[NSUserDefaults standardUserDefaults] objectForKey:@"openDeals"]];
+	
+	for (NSDictionary* cachedDeal in openDealsArr) {
+		if ([[cachedDeal valueForKey:@"objectId"] isEqualToString:[openDeal objectId]]) {
+			return; // already chached
+		}
+	}
+	
+	NSMutableDictionary* deal = [[NSMutableDictionary alloc] init];
+	[deal setValue:[openDeal objectId] forKey:@"objectId"];
+	[deal setValue:[openDeal valueForKey:@"isAccepted"] forKey:@"isAccepted"];
+	[deal setValue:[openDeal valueForKey:@"dealValue"] forKey:@"dealValue"];
+	if ([openDeal valueForKey:@"hours"]) [deal setValue:[openDeal valueForKey:@"hours"] forKey:@"hours"];
+	if ([openDeal valueForKey:@"isDone"]) [deal setValue:[openDeal valueForKey:@"isDone"] forKey:@"isDone"];
+	
+	__block BOOL entryFetchted = NO;
+	__block BOOL otherUserFetched = NO;
+	
+	if ([openDeal valueForKey:@"entry"]) {
+		PFObject* entry = [openDeal valueForKey:@"entry"];
+		[entry fetchIfNeededInBackgroundWithBlock:^(PFObject *object, NSError *error) {
+			if (object) {
+				NSLog(@"fetched entry");
+				[deal setValue:[object valueForKey:@"title"] forKey:@"entryTitle"];
+				[deal setValue:[object valueForKey:@"entryType"] forKey:@"entryType"];
+				if ([[object valueForKey:@"user"] isEqual:[PFUser currentUser]]) {
+					[deal setValue:[NSNumber numberWithBool:YES] forKey:@"isOwnEntry"];
+				}
+				else {
+					[deal setValue:[NSNumber numberWithBool:NO] forKey:@"isOwnEntry"];
+				}
+				entryFetchted = YES;
+				if ( otherUserFetched) {
+					[openDealsArr addObject:deal];
+					[[NSUserDefaults standardUserDefaults] setObject:openDealsArr forKey:@"openDeals"];
+					NSLog(@"added deal to cache");
+				}
+			}
+		}];
+	}
+	
+	if ([[openDeal valueForKey:@"fromUser"] isEqual:[PFUser currentUser]]) { // we're proposing the deal to someone else
+		[deal setValue:@"self" forKey:@"fromUser"];
+		PFUser* toUser = [openDeal valueForKey:@"toUser"];
+		[toUser fetchIfNeededInBackgroundWithBlock:^(PFObject *object, NSError *error) {
+				if (object) {
+					NSLog(@"fetched from user");
+					[deal setValue:[object objectId] forKey:@"toUser"];
+					[deal setValue:[object valueForKey:@"firstName"] forKey:@"toUserName"];
+					otherUserFetched = YES;
+					if (entryFetchted) {
+						[openDealsArr addObject:deal];
+						[[NSUserDefaults standardUserDefaults] setObject:openDealsArr forKey:@"openDeals"];
+						NSLog(@"added deal to cache");
+					}
+				}
+		}];
+	}
+	else { // someone else is proposing a deal to us
+		[deal setValue:@"self" forKey:@"toUser"];
+		PFUser* fromUser = [openDeal valueForKey:@"fromUser"];
+		[fromUser fetchIfNeededInBackgroundWithBlock:^(PFObject *object, NSError *error) {
+			if (object) {
+				NSLog(@"fetched from user");
+				[deal setValue:[object objectId] forKey:@"fromUser"];
+				[deal setValue:[object valueForKey:@"firstName"] forKey:@"fromUserName"];
+				otherUserFetched = YES;
+				if (entryFetchted) {
+					[openDealsArr addObject:deal];
+					[[NSUserDefaults standardUserDefaults] setObject:openDealsArr forKey:@"openDeals"];
+					NSLog(@"added deal to cache");
+				}
+			}
+		}];
+	}
+}
+
+- (void)markDealAccepted:(NSString*)dealId {
+	
+	NSMutableDictionary* messages = [[NSMutableDictionary alloc] initWithDictionary:[[NSUserDefaults standardUserDefaults] objectForKey:@"messages"]];
+	NSArray* keys = [messages allKeys];
+	for (NSString* key in keys) {
+		NSMutableDictionary* messageDict = [[NSMutableDictionary alloc] initWithDictionary:[messages valueForKey:key]];
+		if ([messageDict valueForKey:@"proposedDeal"]) {
+			NSMutableDictionary* dealDict = [[NSMutableDictionary alloc] initWithDictionary:[messageDict valueForKey:@"proposedDeal"]];
+			if ([[dealDict valueForKey:@"objectId"] isEqualToString:dealId]) {
+				[dealDict setValue:[NSNumber numberWithBool:YES] forKey:@"isAccepted"];
+				NSLog(@"marked deal as accepted");
+				[messageDict setValue:dealDict forKey:@"proposedDeal"];
+				[messages setValue:messageDict forKey:key];
+				[[NSUserDefaults standardUserDefaults] setValue:messages forKey:@"messages"];
+				break;
+			}
+		}
+	}
+}
+
+- (void)updateOpenDealsCacheWithCompletionBlock:(void(^)(BOOL finished))completionBlock {
+	
+	Reachability* reach = [Reachability reachabilityWithHostname:@"www.google.com"];
+	if (![reach isReachable]) {	// network not available
+		NSLog(@"network not available");
+		dispatch_async(dispatch_get_main_queue(), ^{
+			completionBlock(YES);
+		});
+	}
+	else {
+		PFQuery* fromQuery = [PFQuery queryWithClassName:@"Deal"];
+		[fromQuery whereKey:@"fromUser" equalTo:[PFUser currentUser]];
+		PFQuery* toQuery = [PFQuery queryWithClassName:@"Deal"];
+		[toQuery whereKey:@"toUser" equalTo:[PFUser currentUser]];
+		
+		PFQuery* query = [PFQuery orQueryWithSubqueries:[NSArray arrayWithObjects:fromQuery, toQuery, nil]];
+		[query whereKey:@"isAccepted" equalTo:[NSNumber numberWithBool:YES]];
+		[query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+			if (objects && [objects count] > 0) {
+				__block NSInteger storeCount = 0;
+				for (PFObject* deal in objects) {
+					[self markDealAccepted:[deal objectId]];
+					[self addOpenDealToUserCache:deal];
+					storeCount++;
+					if (storeCount == [objects count] && completionBlock) {
+						dispatch_async(dispatch_get_main_queue(), ^{
+							completionBlock(YES);
+						});
+					}
+				}
+			}
+			else {
+				dispatch_async(dispatch_get_main_queue(), ^{
+					completionBlock(YES);
+				});
+			}
+		}];
+	}
+}
+
 
 @end

@@ -81,6 +81,9 @@
 		}
 		
 		if ([message valueForKey:@"proposedDeal"]) {
+			
+			NSDictionary* deal = [message valueForKey:@"proposedDeal"];
+			
 			UIImage* dealBgImg = [[UIImage imageNamed:@"message_deal_bg"] resizableImageWithCapInsets:UIEdgeInsetsMake(6.0, 6.0, 6.0, 6.0)];
 			UIImageView* dealBg = [[UIImageView alloc] initWithFrame:CGRectMake(1.0 + ((position == SZMessageViewPositionLeft) * 5.0), messageBg.frame.size.height - 1.0, messageBg.frame.size.width - 7.0, 28.0)];
 			[dealBg setImage:dealBgImg];
@@ -91,39 +94,35 @@
 			
 			[messageBg addSubview:dealBg];
 			
-			PFQuery* query = [PFQuery queryWithClassName:@"Deal"];
-			[query getObjectInBackgroundWithId:[message valueForKey:@"proposedDeal"] block:^(PFObject *object, NSError *error) {
-				if (object) {
-					NSNumber* value = [object valueForKey:@"dealValue"];
-					NSString* valueString = [NSString stringWithFormat:@"%i", [value intValue]];
-					if ([object valueForKey:@"hours"]) {
-						NSNumber* hours = [object valueForKey:@"hours"];
-						valueString = [valueString stringByAppendingFormat:@" for %i hours", [hours intValue]];
-					}
-					else {
-						valueString = [valueString stringByAppendingString:@" for the job"];
-					}
-					
-					UILabel* proposedDealLabel = [[UILabel alloc] initWithFrame:CGRectMake(7.0, 4.0, 90.0, 20.0)];
-					[proposedDealLabel setFont:[SZGlobalConstants fontWithFontType:SZFontBold size:11.0]];
-					[proposedDealLabel setTextColor:[UIColor whiteColor]];
-					[proposedDealLabel applyBlackShadow];
-					[proposedDealLabel setText:@"Proposed Deal:"];
-					
-					UIImageView* skillPointsImg = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"skillpoints_small"]];
-					[skillPointsImg setFrame:CGRectMake(97.0, 4.0, skillPointsImg.frame.size.width, skillPointsImg.frame.size.height)];
-					
-					UILabel* valueLabel = [[UILabel alloc] initWithFrame:CGRectMake(120.0, 4.0, 125.0, 20.0)];
-					[valueLabel setFont:[SZGlobalConstants fontWithFontType:SZFontBold size:11.0]];
-					[valueLabel setTextColor:[UIColor whiteColor]];
-					[valueLabel applyBlackShadow];
-					[valueLabel setText:valueString];
-				
-					[dealBg addSubview:proposedDealLabel];
-					[dealBg addSubview:skillPointsImg];
-					[dealBg addSubview:valueLabel];
-				}
-			}];
+			NSNumber* value = [deal valueForKey:@"dealValue"];
+			NSString* valueString = [NSString stringWithFormat:@"%i", [value intValue]];
+			if ([deal valueForKey:@"hours"]) {
+				NSNumber* hours = [deal valueForKey:@"hours"];
+				valueString = [valueString stringByAppendingFormat:@" for %i hours", [hours intValue]];
+			}
+			else {
+				valueString = [valueString stringByAppendingString:@" for the job"];
+			}
+			
+			UILabel* proposedDealLabel = [[UILabel alloc] initWithFrame:CGRectMake(7.0, 4.0, 90.0, 20.0)];
+			[proposedDealLabel setFont:[SZGlobalConstants fontWithFontType:SZFontBold size:11.0]];
+			[proposedDealLabel setTextColor:[UIColor whiteColor]];
+			[proposedDealLabel applyBlackShadow];
+			[proposedDealLabel setText:@"Proposed Deal:"];
+			
+			UIImageView* skillPointsImg = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"skillpoints_small"]];
+			[skillPointsImg setFrame:CGRectMake(97.0, 4.0, skillPointsImg.frame.size.width, skillPointsImg.frame.size.height)];
+			
+			UILabel* valueLabel = [[UILabel alloc] initWithFrame:CGRectMake(120.0, 4.0, 125.0, 20.0)];
+			[valueLabel setFont:[SZGlobalConstants fontWithFontType:SZFontBold size:11.0]];
+			[valueLabel setTextColor:[UIColor whiteColor]];
+			[valueLabel applyBlackShadow];
+			[valueLabel setText:valueString];
+			
+			[dealBg addSubview:proposedDealLabel];
+			[dealBg addSubview:skillPointsImg];
+			[dealBg addSubview:valueLabel];
+			
 		}
 		
 		CGFloat viewHeight = MAX(userPhoto.frame.size.height + 15.0, messageBg.frame.size.height + 25.0);

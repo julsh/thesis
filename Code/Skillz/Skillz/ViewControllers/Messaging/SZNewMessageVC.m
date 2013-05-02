@@ -12,7 +12,6 @@
 #import "SZFormFieldVO.h"
 #import "SZUtils.h"
 #import "MBProgressHUD.h"
-#import "NSString+MD5.h"
 #import "SZDataManager.h"
 #import "Reachability.h"
 
@@ -488,8 +487,6 @@
 					[self.navigationController popViewControllerAnimated:YES];
 				});
 				
-				[self storeMessage:message forUser:self.recipient];
-				[self storeMessage:message forUser:[PFUser currentUser]];
 				[[SZDataManager sharedInstance] addMessageToUserCache:message completionBlock:nil];
 				
 				PFQuery *pushQuery = [PFInstallation query];			// creating a query
@@ -571,33 +568,6 @@
 	}
 	
 	return message;
-	
-}
-
-- (void)storeMessage:(PFObject*)message forUser:(PFUser*)user {
-	
-	PFQuery* query = [PFQuery queryWithClassName:@"MessageStore"];
-	[query whereKey:@"user" equalTo:user];
-	[query getFirstObjectInBackgroundWithBlock:^(PFObject *object, NSError *error) {
-		
-		NSMutableDictionary* messageDict = [[NSMutableDictionary alloc] init];
-		[messageDict setValue:[message objectId] forKey:[NSString stringWithFormat:@"%.0f", [[message createdAt] timeIntervalSince1970]]];
-		
-		PFObject* store;
-		if (object) {
-			store = object;
-		}
-		else {
-			store = [PFObject objectWithClassName:@"MessageStore"];
-			[store setObject:user forKey:@"user"];
-		}
-		[store setObject:[NSString stringWithFormat:@"%.0f", [[message createdAt] timeIntervalSince1970]] forKey:@"lastReceivedMessageAt"];
-		[store saveInBackground];
-		
-		if (error) {
-			NSLog(@"%@ %@", error, error.userInfo);
-		}
-	}];
 	
 }
 
