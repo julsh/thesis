@@ -10,6 +10,15 @@
 		DE0A97BC1706FDBF00E34E9B /* SZFormFieldVO.m in Sources */ = {isa = PBXBuildFile; fileRef = DE0A97BB1706FDBF00E34E9B /* SZFormFieldVO.m */; };
 		DE0DE4D71735EA4500459659 /* SZViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DE0DE4D61735EA4500459659 /* SZViewController.m */; };
 		DE0DE4DA1735ED0E00459659 /* SZTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DE0DE4D91735ED0D00459659 /* SZTableViewController.m */; };
+		DE0DE4DD1736C1E300459659 /* location_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = DE0DE4DB1736C1E300459659 /* location_icon.png */; };
+		DE0DE4DE1736C1E300459659 /* location_icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = DE0DE4DC1736C1E300459659 /* location_icon@2x.png */; };
+		DE0DE4E11736D98600459659 /* SZOpenDealCell.m in Sources */ = {isa = PBXBuildFile; fileRef = DE0DE4E01736D98500459659 /* SZOpenDealCell.m */; };
+		DE0DE4E51736DB3A00459659 /* SZOpenDealsVC.m in Sources */ = {isa = PBXBuildFile; fileRef = DE0DE4E41736DB3A00459659 /* SZOpenDealsVC.m */; };
+		DE0DE4EA17371CB700459659 /* SZAccountBalanceVC.m in Sources */ = {isa = PBXBuildFile; fileRef = DE0DE4E917371CB700459659 /* SZAccountBalanceVC.m */; };
+		DE0DE4ED17371CF300459659 /* SZProfileVC.m in Sources */ = {isa = PBXBuildFile; fileRef = DE0DE4EC17371CF300459659 /* SZProfileVC.m */; };
+		DE0DE4F317371D6300459659 /* SZHelpVC.m in Sources */ = {isa = PBXBuildFile; fileRef = DE0DE4F217371D6300459659 /* SZHelpVC.m */; };
+		DE0DE4F617371D7600459659 /* SZSettingsVC.m in Sources */ = {isa = PBXBuildFile; fileRef = DE0DE4F517371D7600459659 /* SZSettingsVC.m */; };
+		DE0DE4F917371D8C00459659 /* SZTermsConditionsVC.m in Sources */ = {isa = PBXBuildFile; fileRef = DE0DE4F817371D8C00459659 /* SZTermsConditionsVC.m */; };
 		DE0FA7DA171D9A61001F2002 /* Parse.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DE0FA7D9171D9A61001F2002 /* Parse.framework */; };
 		DE0FA7DD171DC1F7001F2002 /* buttonIcon_filter.png in Resources */ = {isa = PBXBuildFile; fileRef = DE0FA7DB171DC1F7001F2002 /* buttonIcon_filter.png */; };
 		DE0FA7DE171DC1F7001F2002 /* buttonIcon_filter@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = DE0FA7DC171DC1F7001F2002 /* buttonIcon_filter@2x.png */; };
@@ -355,6 +364,22 @@
 		DE0DE4D61735EA4500459659 /* SZViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SZViewController.m; sourceTree = "<group>"; };
 		DE0DE4D81735ED0C00459659 /* SZTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SZTableViewController.h; sourceTree = "<group>"; };
 		DE0DE4D91735ED0D00459659 /* SZTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SZTableViewController.m; sourceTree = "<group>"; };
+		DE0DE4DB1736C1E300459659 /* location_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = location_icon.png; sourceTree = "<group>"; };
+		DE0DE4DC1736C1E300459659 /* location_icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "location_icon@2x.png"; sourceTree = "<group>"; };
+		DE0DE4DF1736D98400459659 /* SZOpenDealCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SZOpenDealCell.h; sourceTree = "<group>"; };
+		DE0DE4E01736D98500459659 /* SZOpenDealCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SZOpenDealCell.m; sourceTree = "<group>"; };
+		DE0DE4E31736DB3A00459659 /* SZOpenDealsVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SZOpenDealsVC.h; sourceTree = "<group>"; };
+		DE0DE4E41736DB3A00459659 /* SZOpenDealsVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SZOpenDealsVC.m; sourceTree = "<group>"; };
+		DE0DE4E817371CB700459659 /* SZAccountBalanceVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SZAccountBalanceVC.h; sourceTree = "<group>"; };
+		DE0DE4E917371CB700459659 /* SZAccountBalanceVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SZAccountBalanceVC.m; sourceTree = "<group>"; };
+		DE0DE4EB17371CF300459659 /* SZProfileVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SZProfileVC.h; sourceTree = "<group>"; };
+		DE0DE4EC17371CF300459659 /* SZProfileVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SZProfileVC.m; sourceTree = "<group>"; };
+		DE0DE4F117371D6300459659 /* SZHelpVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SZHelpVC.h; sourceTree = "<group>"; };
+		DE0DE4F217371D6300459659 /* SZHelpVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SZHelpVC.m; sourceTree = "<group>"; };
+		DE0DE4F417371D7600459659 /* SZSettingsVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SZSettingsVC.h; sourceTree = "<group>"; };
+		DE0DE4F517371D7600459659 /* SZSettingsVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SZSettingsVC.m; sourceTree = "<group>"; };
+		DE0DE4F717371D8C00459659 /* SZTermsConditionsVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SZTermsConditionsVC.h; sourceTree = "<group>"; };
+		DE0DE4F817371D8C00459659 /* SZTermsConditionsVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SZTermsConditionsVC.m; sourceTree = "<group>"; };
 		DE0FA7D9171D9A61001F2002 /* Parse.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Parse.framework; sourceTree = "<group>"; };
 		DE0FA7DB171DC1F7001F2002 /* buttonIcon_filter.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = buttonIcon_filter.png; sourceTree = "<group>"; };
 		DE0FA7DC171DC1F7001F2002 /* buttonIcon_filter@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "buttonIcon_filter@2x.png"; sourceTree = "<group>"; };
@@ -799,6 +824,60 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		DE0DE4E21736DB1B00459659 /* Open Deals */ = {
+			isa = PBXGroup;
+			children = (
+				DE0DE4E31736DB3A00459659 /* SZOpenDealsVC.h */,
+				DE0DE4E41736DB3A00459659 /* SZOpenDealsVC.m */,
+			);
+			path = "Open Deals";
+			sourceTree = "<group>";
+		};
+		DE0DE4E617370A6500459659 /* Account Balance */ = {
+			isa = PBXGroup;
+			children = (
+				DE0DE4E817371CB700459659 /* SZAccountBalanceVC.h */,
+				DE0DE4E917371CB700459659 /* SZAccountBalanceVC.m */,
+			);
+			path = "Account Balance";
+			sourceTree = "<group>";
+		};
+		DE0DE4E717370A6700459659 /* Profile */ = {
+			isa = PBXGroup;
+			children = (
+				DE0DE4EB17371CF300459659 /* SZProfileVC.h */,
+				DE0DE4EC17371CF300459659 /* SZProfileVC.m */,
+			);
+			path = Profile;
+			sourceTree = "<group>";
+		};
+		DE0DE4EE17371D3900459659 /* Help */ = {
+			isa = PBXGroup;
+			children = (
+				DE0DE4F117371D6300459659 /* SZHelpVC.h */,
+				DE0DE4F217371D6300459659 /* SZHelpVC.m */,
+			);
+			path = Help;
+			sourceTree = "<group>";
+		};
+		DE0DE4EF17371D3B00459659 /* Settings */ = {
+			isa = PBXGroup;
+			children = (
+				DE0DE4F417371D7600459659 /* SZSettingsVC.h */,
+				DE0DE4F517371D7600459659 /* SZSettingsVC.m */,
+			);
+			path = Settings;
+			sourceTree = "<group>";
+		};
+		DE0DE4F017371D3D00459659 /* Terms & Conditions */ = {
+			isa = PBXGroup;
+			children = (
+				DE0DE4F717371D8C00459659 /* SZTermsConditionsVC.h */,
+				DE0DE4F817371D8C00459659 /* SZTermsConditionsVC.m */,
+			);
+			path = "Terms & Conditions";
+			sourceTree = "<group>";
+		};
 		DE0FA7F3171F1820001F2002 /* segmented-control-horizontal */ = {
 			isa = PBXGroup;
 			children = (
@@ -939,6 +1018,8 @@
 				DE85BA33170E36640024F8ED /* SZCategoryCell.m */,
 				DEDD697B1723643A0065667B /* SZMessageCell.h */,
 				DEDD697C1723643A0065667B /* SZMessageCell.m */,
+				DE0DE4DF1736D98400459659 /* SZOpenDealCell.h */,
+				DE0DE4E01736D98500459659 /* SZOpenDealCell.m */,
 			);
 			path = "TableView Cells";
 			sourceTree = "<group>";
@@ -1075,6 +1156,8 @@
 				DE85BA83170F2B870024F8ED /* result_cell@2x.png */,
 				DE85BA84170F2B870024F8ED /* result_cell_selected.png */,
 				DE85BA85170F2B870024F8ED /* result_cell_selected@2x.png */,
+				DE0DE4DB1736C1E300459659 /* location_icon.png */,
+				DE0DE4DC1736C1E300459659 /* location_icon@2x.png */,
 			);
 			path = "result-cell";
 			sourceTree = "<group>";
@@ -1504,6 +1587,12 @@
 				DE85BA2B170E22CD0024F8ED /* Browse & Search */,
 				DEAB2D0C170089EE001D53B0 /* My Requests & My Offers */,
 				DEDD6968172209090065667B /* Messaging */,
+				DE0DE4E21736DB1B00459659 /* Open Deals */,
+				DE0DE4E617370A6500459659 /* Account Balance */,
+				DE0DE4E717370A6700459659 /* Profile */,
+				DE0DE4EE17371D3900459659 /* Help */,
+				DE0DE4EF17371D3B00459659 /* Settings */,
+				DE0DE4F017371D3D00459659 /* Terms & Conditions */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -1970,6 +2059,8 @@
 				DE58AB4E17331BD90080593E /* hands_shaken_27@2x.png in Resources */,
 				DE58AB4F17331BD90080593E /* hands_shaken_57.png in Resources */,
 				DE58AB5017331BD90080593E /* hands_shaken_57@2x.png in Resources */,
+				DE0DE4DD1736C1E300459659 /* location_icon.png in Resources */,
+				DE0DE4DE1736C1E300459659 /* location_icon@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2051,6 +2142,13 @@
 				DEB24204173578FC005ADD80 /* SZMyEntriesVC.m in Sources */,
 				DE0DE4D71735EA4500459659 /* SZViewController.m in Sources */,
 				DE0DE4DA1735ED0E00459659 /* SZTableViewController.m in Sources */,
+				DE0DE4E11736D98600459659 /* SZOpenDealCell.m in Sources */,
+				DE0DE4E51736DB3A00459659 /* SZOpenDealsVC.m in Sources */,
+				DE0DE4EA17371CB700459659 /* SZAccountBalanceVC.m in Sources */,
+				DE0DE4ED17371CF300459659 /* SZProfileVC.m in Sources */,
+				DE0DE4F317371D6300459659 /* SZHelpVC.m in Sources */,
+				DE0DE4F617371D7600459659 /* SZSettingsVC.m in Sources */,
+				DE0DE4F917371D8C00459659 /* SZTermsConditionsVC.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

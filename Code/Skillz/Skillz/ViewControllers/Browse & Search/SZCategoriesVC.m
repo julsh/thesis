@@ -100,7 +100,7 @@
 		if (category) [query whereKey:@"category" equalTo:category];
 		[PFGeoPoint geoPointForCurrentLocationInBackground:^(PFGeoPoint *geoPoint, NSError *error) {
 			if (geoPoint) {
-				NSMutableDictionary* locationDict = [[NSMutableDictionary alloc] initWithObjectsAndKeys:geoPoint, @"geoPoint", nil];
+				NSMutableDictionary* locationDict = [[NSMutableDictionary alloc] initWithObjectsAndKeys:geoPoint, @"geoPoint", @"Current Location", @"textInput", nil];
 				[SZDataManager sharedInstance].searchLocationBase = locationDict;
 			}
 			[self.navigationController pushViewController:[[SZSearchResultsVC alloc] initWithQuery:query] animated:YES];

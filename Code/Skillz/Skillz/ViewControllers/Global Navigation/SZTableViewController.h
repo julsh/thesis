@@ -12,4 +12,9 @@
  */
 @interface SZTableViewController : UITableViewController
 
+/**
+ Adds a menu button to the top left of the navigation bar.
+ */
+- (void)addMenuButton;
+
 @end

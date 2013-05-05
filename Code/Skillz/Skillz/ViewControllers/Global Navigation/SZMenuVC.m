@@ -62,17 +62,17 @@
 		
 		// MY ACCOUNT SECTION
 		[self addItem:[NSDictionary dictionaryWithObjects:
-					   [NSArray arrayWithObject:@"Open Deals"] forKeys:
-					   [NSArray arrayWithObject:@"title"]] toSection:1];
+					   [NSArray arrayWithObjects:@"Open Deals", @"SZOpenDealsVC", nil]  forKeys:
+					   [NSArray arrayWithObjects:@"title", @"class", nil]] toSection:1];
 		[self addItem:[NSDictionary dictionaryWithObjects:
 					   [NSArray arrayWithObjects:@"Messages", @"SZMyMessagesVC", nil] forKeys:
 					   [NSArray arrayWithObjects:@"title", @"class", nil]] toSection:1];
 		[self addItem:[NSDictionary dictionaryWithObjects:
-					   [NSArray arrayWithObjects:@"Account Balance", nil, nil] forKeys:
-					   [NSArray arrayWithObject:@"title"]] toSection:1];
+					   [NSArray arrayWithObjects:@"Account Balance", @"SZAccountBalanceVC", nil] forKeys:
+					   [NSArray arrayWithObjects:@"title", @"class", nil]] toSection:1];
 		[self addItem:[NSDictionary dictionaryWithObjects:
-					   [NSArray arrayWithObject:@"Profile"] forKeys:
-					   [NSArray arrayWithObject:@"title"]] toSection:1];
+					   [NSArray arrayWithObjects:@"Profile", @"SZProfileVC", nil] forKeys:
+					   [NSArray arrayWithObjects:@"title", @"class", nil]] toSection:1];
 		
 		// MY LISTINGS SECTION
 		[self addItem:[NSDictionary dictionaryWithObjects:
@@ -84,17 +84,17 @@
 		
 		// MORE SECTION
 		[self addItem:[NSDictionary dictionaryWithObjects:
-					   [NSArray arrayWithObject:@"Help"] forKeys:
-					   [NSArray arrayWithObject:@"title"]] toSection:3];
+					   [NSArray arrayWithObjects:@"Help", @"SZHelpVC", nil] forKeys:
+					   [NSArray arrayWithObjects:@"title", @"class", nil]] toSection:3];
 		[self addItem:[NSDictionary dictionaryWithObjects:
-					   [NSArray arrayWithObject:@"Settings"] forKeys:
-					   [NSArray arrayWithObject:@"title"]] toSection:3];
+					   [NSArray arrayWithObjects:@"Settings", @"SZSettingsVC", nil] forKeys:
+					   [NSArray arrayWithObjects:@"title", @"class", nil]] toSection:3];
 		[self addItem:[NSDictionary dictionaryWithObjects:
-					   [NSArray arrayWithObject:@"Terms & Conditions"] forKeys:
-					   [NSArray arrayWithObject:@"title"]] toSection:3];
+					   [NSArray arrayWithObjects:@"Terms & Conditions", @"SZTermsConditionsVC", nil] forKeys:
+					   [NSArray arrayWithObjects:@"title", @"class", nil]] toSection:3];
 		[self addItem:[NSDictionary dictionaryWithObjects:
-					   [NSArray arrayWithObject:@"Logout"] forKeys:
-					   [NSArray arrayWithObject:@"title"]] toSection:3];
+					   [NSArray arrayWithObjects:@"Logout", @"SZSignInVC", nil] forKeys:
+					   [NSArray arrayWithObjects:@"title", @"class", nil]] toSection:3];
 		
     }
     return self;
@@ -158,7 +158,6 @@
 	
 	NSMutableArray *sectionArray = [self.sections objectAtIndex:sectionIndex];
 	[sectionArray addObject:itemDictionary];
-	
 	[self.tableView reloadData];
 }
 

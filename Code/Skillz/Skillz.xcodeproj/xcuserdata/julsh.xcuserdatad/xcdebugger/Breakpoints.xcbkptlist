@@ -762,11 +762,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "Skillz/ViewControllers/Global Navigation/SZMenuVC.m"
-         timestampString = "389456969.975639"
+         timestampString = "389488427.041981"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "294"
-         endingLineNumber = "294"
+         startingLineNumber = "293"
+         endingLineNumber = "293"
          landmarkName = "-tableView:didSelectRowAtIndexPath:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -775,11 +775,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "Skillz/ViewControllers/Global Navigation/SZMenuVC.m"
-         timestampString = "389456969.975639"
+         timestampString = "389488427.041981"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "296"
-         endingLineNumber = "296"
+         startingLineNumber = "295"
+         endingLineNumber = "295"
          landmarkName = "-tableView:didSelectRowAtIndexPath:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -1053,7 +1053,7 @@
          endingColumnNumber = "9223372036854775807"
          startingLineNumber = "185"
          endingLineNumber = "185"
-         landmarkName = "-lastEnteredAddress"
+         landmarkName = "+lastEnteredAddress"
          landmarkType = "5">
       </FileBreakpoint>
       <FileBreakpoint
@@ -1087,11 +1087,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "Skillz/ViewControllers/Browse &amp; Search/SZSearchResultsVC.m"
-         timestampString = "389462511.022359"
+         timestampString = "389469492.429825"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "284"
-         endingLineNumber = "284"
+         startingLineNumber = "286"
+         endingLineNumber = "286"
          landmarkName = "-tableView:cellForRowAtIndexPath:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -1113,11 +1113,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "Skillz/ViewControllers/Browse &amp; Search/SZSearchResultsVC.m"
-         timestampString = "389464484.798648"
+         timestampString = "389469620.732649"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "376"
-         endingLineNumber = "376"
+         startingLineNumber = "377"
+         endingLineNumber = "377"
          landmarkName = "-mapView:viewForAnnotation:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -1248,7 +1248,7 @@
          endingColumnNumber = "9223372036854775807"
          startingLineNumber = "416"
          endingLineNumber = "416"
-         landmarkName = "-addProposedDeal:toMessageWithKey:"
+         landmarkName = "+addProposedDeal:toMessageWithKey:"
          landmarkType = "5">
       </FileBreakpoint>
       <FileBreakpoint
@@ -1321,12 +1321,12 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "Skillz/Utils &amp; Constants/SZDataManager.m"
-         timestampString = "389455668.701876"
+         timestampString = "389472885.109686"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "621"
-         endingLineNumber = "621"
-         landmarkName = "-markDealAccepted:"
+         startingLineNumber = "630"
+         endingLineNumber = "630"
+         landmarkName = "+markDealAccepted:"
          landmarkType = "5">
       </FileBreakpoint>
       <FileBreakpoint
@@ -1334,12 +1334,12 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "Skillz/Utils &amp; Constants/SZDataManager.m"
-         timestampString = "389455668.701876"
+         timestampString = "389472885.109686"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "622"
-         endingLineNumber = "622"
-         landmarkName = "-markDealAccepted:"
+         startingLineNumber = "631"
+         endingLineNumber = "631"
+         landmarkName = "+markDealAccepted:"
          landmarkType = "5">
       </FileBreakpoint>
       <FileBreakpoint
@@ -1347,11 +1347,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "Skillz/ViewControllers/Startup/SZStartScreenVC.m"
-         timestampString = "389415384.495394"
+         timestampString = "389490315.067855"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "198"
-         endingLineNumber = "198"
+         startingLineNumber = "235"
+         endingLineNumber = "235"
          landmarkName = "-tableView:didSelectRowAtIndexPath:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -1404,7 +1404,7 @@
          endingColumnNumber = "9223372036854775807"
          startingLineNumber = "456"
          endingLineNumber = "456"
-         landmarkName = "-getGroupedMessages"
+         landmarkName = "+getGroupedMessages"
          landmarkType = "5">
       </FileBreakpoint>
       <FileBreakpoint
@@ -1430,7 +1430,20 @@
          endingColumnNumber = "9223372036854775807"
          startingLineNumber = "465"
          endingLineNumber = "465"
-         landmarkName = "-getGroupedMessages"
+         landmarkName = "+getGroupedMessages"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "No"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         filePath = "Skillz/Views/TableView Cells/SZSearchResultCell.m"
+         timestampString = "389480796.852465"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "100"
+         endingLineNumber = "100"
+         landmarkName = "-initWithStyle:reuseIdentifier:"
          landmarkType = "5">
       </FileBreakpoint>
    </FileBreakpoints>

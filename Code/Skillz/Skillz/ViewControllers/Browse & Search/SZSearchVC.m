@@ -325,9 +325,9 @@
 					// if the user specifically searches with a certain radius around current location,
 					// this will be added as a constraint to the query
 					[orQuery whereKey:@"geoPoint" nearGeoPoint:geoPoint withinMiles:self.radius];
-					[locationDict setValue:locationInput forKey:@"textInput"];
 					[locationDict setValue:[NSNumber numberWithFloat:self.radius] forKey:@"radius"];
 				}
+				[locationDict setValue:@"Current Location" forKey:@"textInput"];
 				[SZDataManager sharedInstance].searchLocationBase = locationDict;
 				SZSearchResultsVC* searchResultsVC = [[SZSearchResultsVC alloc] initWithQuery:orQuery];
 				[self.navigationController pushViewController:searchResultsVC animated:YES];

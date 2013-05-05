@@ -82,7 +82,6 @@
 		[self.categoryLabel applyWhiteShadow];
 		[self.contentView addSubview:self.categoryLabel];
 		
-		// points view
 		UIImageView* pointsIcon = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"skillpoints_small"]];
 		[pointsIcon setFrame:CGRectMake(15.0, 85.0, pointsIcon.frame.size.width, pointsIcon.frame.size.height)];
 		[self.contentView addSubview:pointsIcon];
@@ -98,7 +97,7 @@
 		[self.contentView addSubview:self.priceLabel];
 		
 		self.distanceIcon = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"location_icon"]];
-		[self.distanceIcon setFrame:CGRectMake(130.0, 85.0, self.distanceIcon.frame.size.width, self.distanceIcon.frame.size.height)];
+		[self.distanceIcon setFrame:CGRectMake(140.0, 85.0, self.distanceIcon.frame.size.width, self.distanceIcon.frame.size.height)];
 		[self.contentView addSubview:self.distanceIcon];
 		
 		self.distanceLabel = [[UILabel alloc] initWithFrame:CGRectMake(160.0, 89.0, 90.0, 17.0)];

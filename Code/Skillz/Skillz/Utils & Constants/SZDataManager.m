@@ -577,12 +577,15 @@
 		}];
 	}
 	
-	if ([[openDeal valueForKey:FROM_USER] isEqual:[PFUser currentUser]]) { // we're proposing the deal to someone else
+	NSLog(@"deal: %@", openDeal);
+	
+	if ([[[openDeal valueForKey:FROM_USER] objectId] isEqual:[[PFUser currentUser] objectId]]) { // we're proposing the deal to someone else
+		NSLog(@"we're proposing the deal to someone else");
 		[deal setValue:@"self" forKey:FROM_USER];
 		PFUser* toUser = [openDeal valueForKey:TO_USER];
 		[toUser fetchIfNeededInBackgroundWithBlock:^(PFObject *object, NSError *error) {
 				if (object) {
-					NSLog(@"fetched from user");
+					NSLog(@"fetched to user");
 					[deal setValue:[object objectId] forKey:TO_USER];
 					[deal setValue:[object valueForKey:FIRST_NAME] forKey:TO_USER_NAME];
 					otherUserFetched = YES;
@@ -595,6 +598,7 @@
 		}];
 	}
 	else { // someone else is proposing a deal to us
+		NSLog(@"someone else is proposing a deal to us");
 		[deal setValue:@"self" forKey:TO_USER];
 		PFUser* fromUser = [openDeal valueForKey:FROM_USER];
 		[fromUser fetchIfNeededInBackgroundWithBlock:^(PFObject *object, NSError *error) {
@@ -611,6 +615,11 @@
 			}
 		}];
 	}
+}
+
++ (NSArray*)getOpenDeals {
+	
+	return [[NSUserDefaults standardUserDefaults] objectForKey:OPEN_DEALS];
 }
 
 + (void)markDealAccepted:(NSString*)dealId {

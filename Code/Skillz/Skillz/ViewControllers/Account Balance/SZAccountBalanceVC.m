@@ -14,25 +14,20 @@
 
 @implementation SZAccountBalanceVC
 
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
-{
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    if (self) {
-        // Custom initialization
-    }
-    return self;
-}
-
-- (void)viewDidLoad
-{
+- (void)viewDidLoad {
     [super viewDidLoad];
-	// Do any additional setup after loading the view.
+	[self addMenuButton];
+	[self.navigationItem setTitle:@"Account Balance"];
+	
+	UILabel* toDoLabel = [[UILabel alloc] initWithFrame:CGRectMake(0.0, 140.0, 320.0, 120.0)];
+	[toDoLabel setTextAlignment:NSTextAlignmentCenter];
+	[toDoLabel setNumberOfLines:0];
+	[toDoLabel setFont:[SZGlobalConstants fontWithFontType:SZFontExtraBold size:28.0]];
+	[toDoLabel setTextColor:[UIColor grayColor]];
+	[toDoLabel applyWhiteShadow];
+	[toDoLabel setText:@"Not\nimplemented\nyet"];
+	[self.view addSubview:toDoLabel];
 }
 
-- (void)didReceiveMemoryWarning
-{
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
 
 @end

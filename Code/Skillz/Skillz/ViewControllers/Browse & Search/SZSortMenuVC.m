@@ -49,6 +49,7 @@
 		_sortDict = [[NSMutableDictionary alloc] init];
 		[_sortDict setValue:@"User Rating" forKey:@"sortBy"];
 		[_sortDict setValue:@"desc" forKey:@"sortOrder"];
+		[_sortDict setValue:[[SZDataManager sharedInstance].searchLocationBase valueForKey:@"textInput"] forKey:@"sortLocation"];
 	}
 	return _sortDict;
 }
@@ -166,7 +167,7 @@
 }
 
 - (void)formDidEndEditing:(SZForm *)form {
-	[[SZDataManager sharedInstance].searchLocationBase setValue:[form textForFieldAtIndex:0] forKey:@"textInput"];
+//	[[SZDataManager sharedInstance].searchLocationBase setValue:[form textForFieldAtIndex:0] forKey:@"textInput"];
 	[self.sortDict setValue:[form textForFieldAtIndex:0] forKey:@"sortLocation"];
 }
 

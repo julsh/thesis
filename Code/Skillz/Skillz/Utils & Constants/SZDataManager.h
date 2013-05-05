@@ -119,6 +119,11 @@
  */
 + (void)updateOpenDealsCacheWithCompletionBlock:(void(^)(BOOL finished))completionBlock;
 
+/** Retrieves an array with all currently open deals from the local cache
+ @return An array with all currently open deals
+ */
++ (NSArray*)getOpenDeals;
+
 /** @name Retrieving messages */
 
 /** Retrieves all messages from the cache and arranges them into a nested array, grouped by conversation partner and sorted by date (newest messages first)

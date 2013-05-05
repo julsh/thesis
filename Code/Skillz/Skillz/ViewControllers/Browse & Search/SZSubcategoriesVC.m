@@ -100,7 +100,13 @@
 	}
 	if (indexPath.row > 0) [query whereKey:@"subcategory" equalTo:[self.subcategories objectAtIndex:indexPath.row]];
 	
-	[self.navigationController pushViewController:[[SZSearchResultsVC alloc] initWithQuery:query] animated:YES];
+	[PFGeoPoint geoPointForCurrentLocationInBackground:^(PFGeoPoint *geoPoint, NSError *error) {
+		if (geoPoint) {
+			NSMutableDictionary* locationDict = [[NSMutableDictionary alloc] initWithObjectsAndKeys:geoPoint, @"geoPoint", @"Current Location", @"textInput", nil];
+			[SZDataManager sharedInstance].searchLocationBase = locationDict;
+		}
+		[self.navigationController pushViewController:[[SZSearchResultsVC alloc] initWithQuery:query] animated:YES];
+	}];
 }
 
 @end

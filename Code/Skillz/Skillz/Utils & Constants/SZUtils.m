@@ -49,6 +49,8 @@
     						  components:NSHourCalendarUnit | NSMinuteCalendarUnit
     						  fromDate:date];
     NSInteger minutes = [time minute];
+	
+	// the following two lines change the date to be rounded up to the next full 15 minuntes (00, 15, 30 or 45)
     NSInteger remain = minutes % 15;
 	date = [date dateByAddingTimeInterval:60*(15-remain)];
 	

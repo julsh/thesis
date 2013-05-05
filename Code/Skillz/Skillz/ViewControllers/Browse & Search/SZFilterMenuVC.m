@@ -29,11 +29,15 @@
 @property (nonatomic, assign) NSInteger minimumPrice;
 @property (nonatomic, assign) NSInteger maximumPrice;
 @property (nonatomic, assign) NSInteger maximusRadius;
+@property (nonatomic, strong) UIImageView* pointsIcon;
+
+@property (nonatomic, strong) NSMutableDictionary* filterDict;
 
 @end
 
 @implementation SZFilterMenuVC
 
+@synthesize filterDict = _filterDict;
 @synthesize locationForm = _locationForm;
 @synthesize currentLocationButton = _currentLocationButton;
 
@@ -54,6 +58,27 @@
 		[self.locationForm.userInputs setValue:[[SZDataManager sharedInstance].searchLocationBase valueForKey:@"textInput"] forKey:@"location"];
 	}
 }
+
+- (NSMutableDictionary*)filterDict {
+	if (_filterDict == nil) {
+		_filterDict = [[NSMutableDictionary alloc] init];
+		[_filterDict setValue:[NSNumber numberWithInt:0] forKey:@"minRating"];
+		[_filterDict setValue:[NSNumber numberWithInt:0] forKey:@"minPrice"];
+		[_filterDict setValue:[NSNumber numberWithInt:100] forKey:@"maxPrice"];
+		
+		if ([[SZDataManager sharedInstance].searchLocationBase valueForKey:@"radius"]) {
+			[_filterDict setValue:[[SZDataManager sharedInstance].searchLocationBase valueForKey:@"radius"] forKey:@"radius"];
+			NSLog(@"has radius");
+		}
+		else {
+			[_filterDict setValue:[NSNumber numberWithInt:100] forKey:@"radius"];
+			NSLog(@"no radius");
+		}
+		[_filterDict setValue:[[SZDataManager sharedInstance].searchLocationBase valueForKey:@"textInput"] forKey:@"sortLocation"];
+	}
+	return _filterDict;
+}
+
 
 - (UIView*)ratingView {
 	
@@ -107,8 +132,12 @@
 	[self.priceLabel setFont:[SZGlobalConstants fontWithFontType:SZFontBold size:14.0]];
 	[self.priceLabel setTextColor:[SZGlobalConstants darkPetrol]];
 	[self.priceLabel applyWhiteShadow];
-	[self.priceLabel setText:@"0 - 100+ Skillpoints"];
+	[self.priceLabel setText:@"0 - 100+"];
 	
+	self.pointsIcon = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"skillpoints_small"]];
+	[self.pointsIcon setFrame:CGRectMake(128.0, 55.0, self.pointsIcon.frame.size.width, self.pointsIcon.frame.size.height)];
+	
+	[priceView addSubview:self.pointsIcon];
 	[priceView addSubview:label];
 	[priceView addSubview:self.priceSlider];
 	[priceView addSubview:self.priceLabel];
@@ -118,7 +147,7 @@
 
 - (UIView*)radiusView {
 	
-	self.maximusRadius = 4;
+	self.maximusRadius = [[self.filterDict valueForKey:@"radius"] integerValue];
 	
 	UIView* radiusView = [self backgroundViewWithRect:CGRectMake(10.0, 175.0, 215.0, 127.0)];
 	
@@ -202,6 +231,8 @@
 	[slider setValue:roundedValue/5.0 animated:NO];
 	self.minimumUserRating = roundedValue;
 	[self.userRatingLabel setText:roundedValue > 0 ? [NSString stringWithFormat:@"%i Stars", self.minimumUserRating] : @"doesn't matter"];
+	
+	[self.filterDict setValue:[NSNumber numberWithInt:self.minimumUserRating] forKey:@"minRating"];
 }
 
 - (void)priceRangeValueChanged:(NMRangeSlider*)slider {
@@ -212,9 +243,21 @@
 		self.minimumPrice = lowerValue;
 		self.maximumPrice = upperValue;
 		NSInteger upper = self.maximumPrice == 101 ? 100 : self.maximumPrice;
-		[self.priceLabel setText:[NSString stringWithFormat:@"%i - %i%@ Skillpoints", self.minimumPrice, upper, self.maximumPrice == 101 ? @"+" : @""]];
+		[self.priceLabel setText:[NSString stringWithFormat:@"%i - %i%@", self.minimumPrice, upper, self.maximumPrice == 101 ? @"+" : @""]];
 	}
 	
+	[self.filterDict setValue:[NSNumber numberWithInt:self.minimumPrice] forKey:@"minPrice"];
+	if (self.maximumPrice < 101) {
+		[self.filterDict setValue:[NSNumber numberWithInt:self.maximumPrice] forKey:@"maxPrice"];
+	}
+	
+	[self.priceLabel sizeToFit];
+	CGRect frame = self.priceLabel.frame;
+	frame.origin.x = 230.0 - frame.size.width - 30.0;
+	self.priceLabel.frame = frame;
+	frame = self.pointsIcon.frame;
+    frame.origin.x = self.priceLabel.frame.origin.x - 25.0;
+	self.pointsIcon.frame = frame;
 	
 }
 
@@ -252,7 +295,7 @@
 	frame.origin.x = 15.0;
 	frame.origin.y = 316.0;
 	button.frame = frame;
-	[button addTarget:self action:@selector(sort:) forControlEvents:UIControlEventTouchUpInside];
+	[button addTarget:self action:@selector(filter:) forControlEvents:UIControlEventTouchUpInside];
 	return button;
 }
 
@@ -273,8 +316,9 @@
 	}
 }
 
-- (void)sort:(SZButton*)sender {
-	NSLog(@"sort");
+- (void)filter:(SZButton*)sender {
+	[[NSNotificationCenter defaultCenter] postNotificationName:NOTIF_FILTER object:nil userInfo:self.filterDict];
+	[self toggle];
 }
 
 - (void)cancel:(SZButton*)sender {

@@ -45,6 +45,8 @@
 	
 	<option value="//api/name/formDidBeginEditing:">&nbsp;&nbsp;&nbsp;&nbsp;- formDidBeginEditing:</option>
 	
+	<option value="//api/name/formDidEndEditing:">&nbsp;&nbsp;&nbsp;&nbsp;- formDidEndEditing:</option>
+	
 	<option value="//api/name/segmentedControlVertical:didSelectItemAtIndex:">&nbsp;&nbsp;&nbsp;&nbsp;- segmentedControlVertical:didSelectItemAtIndex:</option>
 	
 	
@@ -76,6 +78,8 @@
 <li role="treeitem" class="children"><span class="disclosure"></span><span class="sectionName"><a href="#instance_methods">Instance Methods</a></span><ul>
 	
 	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/formDidBeginEditing:">formDidBeginEditing:</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/formDidEndEditing:">formDidEndEditing:</a></span></li>
 	
 	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/segmentedControlVertical:didSelectItemAtIndex:">segmentedControlVertical:didSelectItemAtIndex:</a></span></li>
 	
@@ -144,8 +148,15 @@
 	
 </li><li>
 	<span class="tooltip">
+		<code><a href="#//api/name/formDidEndEditing:">&ndash;&nbsp;formDidEndEditing:</a></code>
+		<span class="tooltip"><p>Tells the delegate that the user ended editing a form</p></span>
+	</span>
+	
+	
+</li><li>
+	<span class="tooltip">
 		<code><a href="#//api/name/segmentedControlVertical:didSelectItemAtIndex:">&ndash;&nbsp;segmentedControlVertical:didSelectItemAtIndex:</a></code>
-		
+		<span class="tooltip"><p>Tells the delegate when a segment of the control was selected by the user.</p></span>
 	</span>
 	
 	
@@ -213,16 +224,81 @@
 </div>
 						
 						<div class="section-method">
+	<a name="//api/name/formDidEndEditing:" title="formDidEndEditing:"></a>
+	<h3 class="subsubtitle method-title">formDidEndEditing:</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>Tells the delegate that the user ended editing a form</p>
+	</div>		
+	
+    
+
+	<div class="method-subsection method-declaration"><code>- (void)formDidEndEditing:(SZForm *)<em>form</em></code></div>
+
+    
+	
+	<div class="method-subsection arguments-section parameters">
+		<h4 class="method-subtitle parameter-title">Parameters</h4>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>form</em></dt>
+			<dd><p>The <a href="../Classes/SZForm.html">SZForm</a> instance which the user resigned from editing</p></dd>
+		</dl>
+		
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">SZSortMenuVC.m</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
 	<a name="//api/name/segmentedControlVertical:didSelectItemAtIndex:" title="segmentedControlVertical:didSelectItemAtIndex:"></a>
 	<h3 class="subsubtitle method-title">segmentedControlVertical:didSelectItemAtIndex:</h3>
 	
 	
+	
+	<div class="method-subsection brief-description">
+		<p>Tells the delegate when a segment of the control was selected by the user.</p>
+	</div>		
 	
     
 
 	<div class="method-subsection method-declaration"><code>- (void)segmentedControlVertical:(SZSegmentedControlVertical *)<em>control</em> didSelectItemAtIndex:(NSInteger)<em>index</em></code></div>
 
     
+	
+	<div class="method-subsection arguments-section parameters">
+		<h4 class="method-subtitle parameter-title">Parameters</h4>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>control</em></dt>
+			<dd><p>The control that was received the event</p></dd>
+		</dl>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>index</em></dt>
+			<dd><p>The index that was selected</p></dd>
+		</dl>
+		
+	</div>
 	
 	
 	

@@ -25,6 +25,7 @@
 @interface SZSearchResultsVC ()
 
 @property (nonatomic, strong) NSMutableArray* results;
+@property (nonatomic, strong) NSMutableArray* filteredResults;
 @property (nonatomic, assign) NSInteger fetchCount;
 @property (nonatomic, strong) UIView* activityIndicator;
 @property (nonatomic, strong) CLLocation* currentUserLocation;
@@ -157,6 +158,7 @@
 }
 
 - (void)displayResults {
+	self.filteredResults = self.results;
 	[self sortByRating:YES];
 	[self hideActivityIndicator];
 	[self.tableView reloadData]; // once all results are complete, display them
@@ -274,7 +276,7 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-   return [self.results count];
+   return [self.filteredResults count];
 }
 
 - (SZSearchResultCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -287,7 +289,7 @@
 		cell = [[SZSearchResultCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:cellId];
 	}
 	
-	NSMutableDictionary* dict = [self.results objectAtIndex:indexPath.row];
+	NSMutableDictionary* dict = [self.filteredResults objectAtIndex:indexPath.row];
 	
 	SZEntryObject *entry = [dict valueForKey:@"entry"];
 	
@@ -332,9 +334,6 @@
 		CGFloat distance = [entryPoint distanceInMilesTo:searchPoint];
 		[cell.distanceLabel setText:[NSString stringWithFormat:@"%.1f miles", distance]];
 	}
-	else {
-		cell.distanceIcon.hidden = YES;
-	}
 	
 	return cell;
 }
@@ -347,11 +346,13 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-	SZEntryObject* entry = [[self.results objectAtIndex:indexPath.row] valueForKey:@"entry"];
+	SZEntryObject* entry = [[self.filteredResults objectAtIndex:indexPath.row] valueForKey:@"entry"];
 	SZEntryDetailVC* vc = [[SZEntryDetailVC alloc] initWithEntry:entry];
 	[self.navigationController pushViewController:vc animated:YES];
 }
 
+
+#pragma mark - map view
 
 - (void)switchViews:(UISegmentedControl*)sender {
 	
@@ -399,16 +400,57 @@
 	[self tableView:self.tableView didSelectRowAtIndexPath:indexPath];
 }
 
+#pragma mark - Sorting and filtering
+
+- (void)applyFilter:(NSNotification*)notif {
+	
+	NSDictionary* filterDict = notif.userInfo;
+	NSLog(@"filterDict: %@", filterDict);
+	
+	NSMutableArray* entriesToDelete = [[NSMutableArray alloc] init];
+	
+	self.filteredResults = [NSMutableArray arrayWithArray:self.results];
+	
+	for (NSDictionary* result in self.results) {
+		SZEntryObject* entry = [result valueForKey:@"entry"];
+		CGFloat rating = [SZUtils getAverageValueOfNumberArray:[entry.user valueForKey:@"reviewPoints"]];
+		if (rating < [[filterDict valueForKey:@"minRating"] floatValue]) {
+			[entriesToDelete addObject:result];
+		}
+	}
+	
+	for (NSDictionary* entryToDelete in entriesToDelete) {
+		[self.filteredResults removeObject:entryToDelete];
+	}
+	
+	[self.tableView reloadData];
+}
+
 - (void)applySort:(NSNotification*)notif {
 	NSDictionary* sortDict = notif.userInfo;
-	NSLog(@"sortDict %@", sortDict);
+	
+	// sort by user rating
 	if ([[sortDict valueForKey:@"sortBy"] isEqual:@"User Rating"]) {
-		if ([[sortDict valueForKey:@"sortOrder"] isEqual:@"asc"]) [self sortByRating:YES];
-		else [self sortByRating:NO];
+		if ([[sortDict valueForKey:@"sortOrder"] isEqual:@"asc"])
+			[self sortByRating:YES];
+		else
+			[self sortByRating:NO];
 	}
+	
+	// sort by price
 	else if ([[sortDict valueForKey:@"sortBy"] isEqual:@"Price"]) {
-		if ([[sortDict valueForKey:@"sortOrder"] isEqual:@"asc"]) [self sortByPrice:YES];
-		else [self sortByPrice:NO];
+		if ([[sortDict valueForKey:@"sortOrder"] isEqual:@"asc"])
+			[self sortByPrice:YES];
+		else
+			[self sortByPrice:NO];
+	}
+	
+	// sort by distance
+	else if ([[sortDict valueForKey:@"sortBy"] isEqual:@"Distance"]) {
+		if ([[sortDict valueForKey:@"sortOrder"] isEqual:@"asc"])
+			[self sortByDistanceToLocation:[sortDict valueForKey:@"sortLocation"] acending:YES];
+		else
+			[self sortByDistanceToLocation:[sortDict valueForKey:@"sortLocation"] acending:NO];
 	}
 
 	[self.tableView reloadData];
@@ -457,7 +499,7 @@
 
 - (void)sortByRating:(BOOL)ascending {
 	
-	[self.results sortUsingComparator:^NSComparisonResult(id obj1, id obj2) {
+	[self.filteredResults sortUsingComparator:^NSComparisonResult(id obj1, id obj2) {
 		SZEntryObject* entry1 = (SZEntryObject*)[obj1 valueForKey:@"entry"];
 		SZEntryObject* entry2 = (SZEntryObject*)[obj2 valueForKey:@"entry"];
 		
@@ -476,7 +518,7 @@
 
 - (void)sortByPrice:(BOOL)ascending {
 	
-	[self.results sortUsingComparator:^NSComparisonResult(id obj1, id obj2) {
+	[self.filteredResults sortUsingComparator:^NSComparisonResult(id obj1, id obj2) {
 		SZEntryObject* entry1 = (SZEntryObject*)[obj1 valueForKey:@"entry"];
 		SZEntryObject* entry2 = (SZEntryObject*)[obj2 valueForKey:@"entry"];
 		
@@ -491,6 +533,67 @@
 		}
 		else return NSOrderedSame;
 	}];
+}
+
+- (void)sortByDistanceToLocation:(NSString*)locationString acending:(BOOL)ascending {
+
+	if ([locationString isEqualToString:[[SZDataManager sharedInstance].searchLocationBase valueForKey:@"textInput"]] && [[SZDataManager sharedInstance].searchLocationBase valueForKey:@"geoPoint"]) { // location was already determined
+		
+		[self.filteredResults sortUsingComparator:^NSComparisonResult(id obj1, id obj2) {
+			SZEntryObject* entry1 = (SZEntryObject*)[obj1 valueForKey:@"entry"];
+			SZEntryObject* entry2 = (SZEntryObject*)[obj2 valueForKey:@"entry"];
+			
+			NSLog(@"search Point %@", [[SZDataManager sharedInstance].searchLocationBase valueForKey:@"geoPoint"]);
+			
+			CGFloat dist1, dist2;
+			if ([entry1 valueForKey:@"geoPoint"]) 
+				dist1 = [[entry1 valueForKey:@"geoPoint"] distanceInMilesTo:[[SZDataManager sharedInstance].searchLocationBase valueForKey:@"geoPoint"]];
+			else 
+				dist1 = 1000000.0;
+			
+			if ([entry2 valueForKey:@"geoPoint"])
+				dist2 = [[entry2 valueForKey:@"geoPoint"] distanceInMilesTo:[[SZDataManager sharedInstance].searchLocationBase valueForKey:@"geoPoint"]];
+			else
+				dist2 = 1000000.0;
+			
+			if (dist1 > dist2) {
+				return ascending ? NSOrderedAscending : NSOrderedDescending;
+			}
+			else if (dist2 > dist1) {
+				return ascending ? NSOrderedDescending : NSOrderedAscending;
+			}
+			else return NSOrderedSame;
+		}];
+		
+	}
+	else { // location needs to be determined
+		[[SZDataManager sharedInstance].searchLocationBase setValue:locationString forKey:@"textInput"];
+		if ([locationString isEqualToString:@"Current Location"]) {
+			[PFGeoPoint geoPointForCurrentLocationInBackground:^(PFGeoPoint *geoPoint, NSError *error) {
+				if (geoPoint) {
+					NSLog(@"");
+					[[SZDataManager sharedInstance].searchLocationBase setValue:geoPoint forKey:@"geoPoint"];
+					[self sortByDistanceToLocation:locationString acending:ascending];
+				}
+			}];
+			// recursively call this function again, now it should sort
+			[self sortByDistanceToLocation:locationString acending:ascending];
+		}
+		else {
+			if (![locationString isEqualToString:@""]) {
+				CLGeocoder* geoCoder = [[CLGeocoder alloc] init];
+				[geoCoder geocodeAddressString:locationString completionHandler:^(NSArray *placemarks, NSError *error) {
+					if (placemarks && [placemarks count] > 0) {
+						CLPlacemark* placemark = [placemarks objectAtIndex:0];
+						PFGeoPoint* geoPoint = [PFGeoPoint geoPointWithLocation:placemark.location];
+						[[SZDataManager sharedInstance].searchLocationBase setValue:geoPoint forKey:@"textInput"];
+						// recursively call this function again, now it should sort
+						[self sortByDistanceToLocation:locationString acending:ascending];
+					}
+				}];
+			}
+		}
+	}
 }
 
 

@@ -8,6 +8,9 @@
 
 #import "SZTableViewController.h"
 
-@interface SZOpenDealsVC : SZTableViewController
+/**
+ This class represents a list of all open deals. The user can view them, contact the deal partner, mark the deal as done etc.
+ */
+@interface SZOpenDealsVC : SZTableViewController <UITableViewDataSource, UITableViewDelegate>
 
 @end

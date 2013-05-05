@@ -66,6 +66,8 @@
 	
 	<option value="//api/name/getMessageThreadForUserId:">&nbsp;&nbsp;&nbsp;&nbsp;+ getMessageThreadForUserId:</option>
 	
+	<option value="//api/name/getOpenDeals">&nbsp;&nbsp;&nbsp;&nbsp;+ getOpenDeals</option>
+	
 	<option value="//api/name/lastEnteredAddress">&nbsp;&nbsp;&nbsp;&nbsp;+ lastEnteredAddress</option>
 	
 	<option value="//api/name/removeEntryFromCache:">&nbsp;&nbsp;&nbsp;&nbsp;+ removeEntryFromCache:</option>
@@ -158,6 +160,8 @@
 	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/getGroupedMessages">getGroupedMessages</a></span></li>
 	
 	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/getMessageThreadForUserId:">getMessageThreadForUserId:</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/getOpenDeals">getOpenDeals</a></span></li>
 	
 	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/lastEnteredAddress">lastEnteredAddress</a></span></li>
 	
@@ -398,6 +402,13 @@ It is saved in a dictionary using the following keys:</p></span>
 	</span>
 	
 	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/getOpenDeals">+&nbsp;getOpenDeals</a></code>
+		<span class="tooltip"><p>Retrieves an array with all currently open deals from the local cache</p></span>
+	</span>
+	
+	
 </li>
 						</ul>
 						
@@ -576,7 +587,7 @@ It is saved in a dictionary using the following keys:</p>
 	
     
 
-	<div class="method-subsection method-declaration"><code>@property (nonatomic, strong) PFGeoPoint *searchLocationBase</code></div>
+	<div class="method-subsection method-declaration"><code>@property (nonatomic, strong) NSMutableDictionary *searchLocationBase</code></div>
 
     
 	
@@ -922,6 +933,47 @@ It is saved in a dictionary using the following keys:</p>
 	<div class="method-subsection return">
 		<h4 class="method-subtitle parameter-title">Return Value</h4>
 		<p>An array of dictionaries, each of which represents a distinct message. The array is sorted by date with the most recent message being the first object.</p>
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">SZDataManager.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/getOpenDeals" title="getOpenDeals"></a>
+	<h3 class="subsubtitle method-title">getOpenDeals</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>Retrieves an array with all currently open deals from the local cache</p>
+	</div>		
+	
+    
+
+	<div class="method-subsection method-declaration"><code>+ (NSArray *)getOpenDeals</code></div>
+
+    
+	
+	
+	
+	<div class="method-subsection return">
+		<h4 class="method-subtitle parameter-title">Return Value</h4>
+		<p>An array with all currently open deals</p>
 	</div>
 	
 	

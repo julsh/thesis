@@ -45,6 +45,8 @@
 	
 	<option value="//api/name/formattedDateFromDate:">&nbsp;&nbsp;&nbsp;&nbsp;+ formattedDateFromDate:</option>
 	
+	<option value="//api/name/getAverageValueOfNumberArray:">&nbsp;&nbsp;&nbsp;&nbsp;+ getAverageValueOfNumberArray:</option>
+	
 	<option value="//api/name/numberFromDecimalString:">&nbsp;&nbsp;&nbsp;&nbsp;+ numberFromDecimalString:</option>
 	
 	<option value="//api/name/rightNowRoundedUp">&nbsp;&nbsp;&nbsp;&nbsp;+ rightNowRoundedUp</option>
@@ -82,6 +84,8 @@
 	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/alertViewForError:delegate:">alertViewForError:delegate:</a></span></li>
 	
 	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/formattedDateFromDate:">formattedDateFromDate:</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/getAverageValueOfNumberArray:">getAverageValueOfNumberArray:</a></span></li>
 	
 	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/numberFromDecimalString:">numberFromDecimalString:</a></span></li>
 	
@@ -168,6 +172,13 @@ While it&rsquo;s theoretically possible to instantiate the SZUtils class, there 
 	<span class="tooltip">
 		<code><a href="#//api/name/numberFromDecimalString:">+&nbsp;numberFromDecimalString:</a></code>
 		<span class="tooltip"><p>Helper method to convert a decimal string into an NSNumber object.</p></span>
+	</span>
+	
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/getAverageValueOfNumberArray:">+&nbsp;getAverageValueOfNumberArray:</a></code>
+		<span class="tooltip"><p>Calculates the average from an array of numbers.</p></span>
 	</span>
 	
 	
@@ -273,6 +284,57 @@ While it&rsquo;s theoretically possible to instantiate the SZUtils class, there 
 	<div class="method-subsection return">
 		<h4 class="method-subtitle parameter-title">Return Value</h4>
 		<p>An <code>NSString</code> object representing the date in a humanly readable format</p>
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">SZUtils.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/getAverageValueOfNumberArray:" title="getAverageValueOfNumberArray:"></a>
+	<h3 class="subsubtitle method-title">getAverageValueOfNumberArray:</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>Calculates the average from an array of numbers.</p>
+	</div>		
+	
+    
+
+	<div class="method-subsection method-declaration"><code>+ (CGFloat)getAverageValueOfNumberArray:(NSArray *)<em>numbers</em></code></div>
+
+    
+	
+	<div class="method-subsection arguments-section parameters">
+		<h4 class="method-subtitle parameter-title">Parameters</h4>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>numbers</em></dt>
+			<dd><p>An array containing <code>NSNumber</code> objects</p></dd>
+		</dl>
+		
+	</div>
+	
+	
+	
+	<div class="method-subsection return">
+		<h4 class="method-subtitle parameter-title">Return Value</h4>
+		<p>The average of all numbers contained in the array</p>
 	</div>
 	
 	
