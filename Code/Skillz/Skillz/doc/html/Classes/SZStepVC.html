@@ -1,0 +1,856 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="html/html; charset=utf-8" />
+		<title>SZStepVC Class Reference</title>
+		<meta id="xcode-display" name="xcode-display" content="render"/>
+		<link rel="stylesheet" type="text/css" href="../css/styles.css" media="all" />
+		<link rel="stylesheet" type="text/css" media="print" href="../css/stylesPrint.css" />
+		<meta name="generator" content="appledoc 2.1 (build 858)" />
+	</head>
+	<body>
+		<header id="top_header">
+			<div id="library" class="hideInXcode">
+				<h1><a id="libraryTitle" href="../index.html">Skillz </a></h1>
+				<a id="developerHome" href="../index.html">de.juliaroggatz</a>
+			</div>
+			
+			<div id="title" role="banner">
+				<h1 class="hideInXcode">SZStepVC Class Reference</h1>
+			</div>
+			<ul id="headerButtons" role="toolbar">
+				<li id="toc_button">
+					<button aria-label="Show Table of Contents" role="checkbox" class="open" id="table_of_contents"><span class="disclosure"></span>Table of Contents</button>
+				</li>
+				<li id="jumpto_button" role="navigation">
+					<select id="jumpTo">
+	<option value="top">Jump To&#133;</option>
+	
+	<option value="overview">Overview</option>
+	
+	
+	
+	
+	<option value="tasks">Tasks</option>
+	
+	
+	
+	
+	
+	<option value="properties">Properties</option>
+	
+	<option value="//api/name/continueButton">&nbsp;&nbsp;&nbsp;&nbsp;continueButton</option>
+	
+	<option value="//api/name/detailViewContainer">&nbsp;&nbsp;&nbsp;&nbsp;detailViewContainer</option>
+	
+	<option value="//api/name/firstDisplay">&nbsp;&nbsp;&nbsp;&nbsp;firstDisplay</option>
+	
+	<option value="//api/name/forms">&nbsp;&nbsp;&nbsp;&nbsp;forms</option>
+	
+	<option value="//api/name/mainView">&nbsp;&nbsp;&nbsp;&nbsp;mainView</option>
+	
+	
+	
+	
+	
+	
+	<option value="instance_methods">Instance Methods</option>
+	
+	<option value="//api/name/initWithStepNumber:totalSteps:">&nbsp;&nbsp;&nbsp;&nbsp;- initWithStepNumber:totalSteps:</option>
+	
+	<option value="//api/name/newDetailViewAddedAnimated:">&nbsp;&nbsp;&nbsp;&nbsp;- newDetailViewAddedAnimated:</option>
+	
+	<option value="//api/name/segmentedControlVertical:didSelectItemAtIndex:">&nbsp;&nbsp;&nbsp;&nbsp;- segmentedControlVertical:didSelectItemAtIndex:</option>
+	
+	<option value="//api/name/setScrollViewHeight:">&nbsp;&nbsp;&nbsp;&nbsp;- setScrollViewHeight:</option>
+	
+	<option value="//api/name/slideOutDetailViewAndAddNewViewWithIndex:">&nbsp;&nbsp;&nbsp;&nbsp;- slideOutDetailViewAndAddNewViewWithIndex:</option>
+	
+	<option value="//api/name/updateBoundsAnimated:">&nbsp;&nbsp;&nbsp;&nbsp;- updateBoundsAnimated:</option>
+	
+	
+	
+</select>
+				</li>
+			</ul>
+		</header>
+		<nav id="tocContainer" class="isShowingTOC">
+			<ul id="toc" role="tree">
+				
+<li role="treeitem"><span class="nodisclosure"></span><span class="sectionName"><a href="#overview">Overview</a></span></li>
+
+
+
+
+<li role="treeitem" id="task_treeitem"><span class="nodisclosure"></span><span class="sectionName"><a href="#tasks">Tasks</a></span><ul>
+	
+</ul></li>
+
+
+
+
+
+<li role="treeitem" class="children"><span class="disclosure"></span><span class="sectionName"><a href="#properties">Properties</a></span><ul>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/continueButton">continueButton</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/detailViewContainer">detailViewContainer</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/firstDisplay">firstDisplay</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/forms">forms</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/mainView">mainView</a></span></li>
+	
+</ul></li>
+
+
+
+
+
+<li role="treeitem" class="children"><span class="disclosure"></span><span class="sectionName"><a href="#instance_methods">Instance Methods</a></span><ul>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/initWithStepNumber:totalSteps:">initWithStepNumber:totalSteps:</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/newDetailViewAddedAnimated:">newDetailViewAddedAnimated:</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/segmentedControlVertical:didSelectItemAtIndex:">segmentedControlVertical:didSelectItemAtIndex:</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/setScrollViewHeight:">setScrollViewHeight:</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/slideOutDetailViewAndAddNewViewWithIndex:">slideOutDetailViewAndAddNewViewWithIndex:</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/updateBoundsAnimated:">updateBoundsAnimated:</a></span></li>
+	
+</ul></li>
+
+
+			</ul>
+		</nav>
+		<article>
+			<div id="contents" class="isShowingTOC" role="main">
+				<a title="SZStepVC Class Reference" name="top"></a>
+				<div class="main-navigation navigation-top">
+					<ul>
+	<li><a href="../index.html">Index</a></li>
+	<li><a href="../hierarchy.html">Hierarchy</a></li>
+</ul>
+				</div>
+				<div id="header">
+					<div class="section-header">
+						<h1 class="title title-header">SZStepVC Class Reference</h1>
+					</div>		
+				</div>
+				<div id="container">	
+					
+					<div class="section section-specification"><table cellspacing="0"><tbody>
+						<tr>
+	<td class="specification-title">Inherits from</td>
+	<td class="specification-value"><a href="../Classes/SZViewController.html">SZViewController</a> : UIViewController</td>
+</tr><tr>
+	<td class="specification-title">Conforms to</td>
+	<td class="specification-value"><a href="../Protocols/SZSegmentedControlVerticalDelegate.html">SZSegmentedControlVerticalDelegate</a><br />UIAlertViewDelegate</td>
+</tr><tr>
+	<td class="specification-title">Declared in</td>
+	<td class="specification-value">SZStepVC.h<br />SZStepVC.m</td>
+</tr>
+						</tbody></table></div>
+					
+					
+					
+					
+					<div class="section section-overview">
+						<a title="Overview" name="overview"></a>
+						<h2 class="subtitle subtitle-overview">Overview</h2>
+						<p>This class acts as the super class for the view controllers representing the 5 different steps required to create or edit an entry. Since the respective SZEntryStep*VCs share much of the same functionality (for example the &ldquo;Continue&rdquo; button at the bottom of the view or the behavior of the scroll view), this class was created to reduce code redundancy.</p>
+					</div>
+					
+					
+					
+					
+					
+					<div class="section section-tasks">
+						<a title="Tasks" name="tasks"></a>
+						<h2 class="subtitle subtitle-tasks">Tasks</h2>
+						
+						
+						
+						<h3 class="subsubtitle task-title">Other Methods</h3>
+
+						<ul class="task-list">
+							<li>
+	<span class="tooltip">
+		<code><a href="#//api/name/mainView">&nbsp;&nbsp;mainView</a></code>
+		<span class="tooltip"><p>The scroll view acting as the root view of all added subviews. Needed because the view controllers that subclass SZStepVC will display one or more <a href="../Classes/SZForm.html">SZForm</a> objects.</p></span>
+	</span>
+	<span class="task-item-suffix">property</span>
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/detailViewContainer">&nbsp;&nbsp;detailViewContainer</a></code>
+		<span class="tooltip"><p>A view container that can carry additional information or controls when a user selected a segmented of the <a href="../Classes/SZSegmentedControlVertical.html">SZSegmentedControlVertical</a> that many of the view controllers that subclass SZStepVC will use. Will get a fancypants slide-in-slide-out animation. I wonder if anyone will actually read this documentation.</p></span>
+	</span>
+	<span class="task-item-suffix">property</span>
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/continueButton">&nbsp;&nbsp;continueButton</a></code>
+		<span class="tooltip"><p>The button that will bring the user to the next step.</p></span>
+	</span>
+	<span class="task-item-suffix">property</span>
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/firstDisplay">&nbsp;&nbsp;firstDisplay</a></code>
+		<span class="tooltip"><p>A property indicating whether a view controller is displayed for the first time or whether it has been displayed before. Needed to properly align and layout the subviews and set the correct position of the scroll view.</p></span>
+	</span>
+	<span class="task-item-suffix">property</span>
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/forms">&nbsp;&nbsp;forms</a></code>
+		<span class="tooltip"><p>An array holding references to all forms used with in view controller subclassing the SZStepVC. Used to resign whatever form is currently active when a user taps anywhere on the background.</p></span>
+	</span>
+	<span class="task-item-suffix">property</span>
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/initWithStepNumber:totalSteps:">&ndash;&nbsp;initWithStepNumber:totalSteps:</a></code>
+		<span class="tooltip"><p>Initializes an SZStepVC instance with a specified step number and a number of total steps.</p></span>
+	</span>
+	
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/updateBoundsAnimated:">&ndash;&nbsp;updateBoundsAnimated:</a></code>
+		<span class="tooltip"><p>Updates the frame of the scroll view according to its content size.</p></span>
+	</span>
+	
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/newDetailViewAddedAnimated:">&ndash;&nbsp;newDetailViewAddedAnimated:</a></code>
+		<span class="tooltip"><p>Updates the frame of the scroll view according to its content size.<br/>
+Does some additional laying out after a new detail view has been added.</p></span>
+	</span>
+	
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/setScrollViewHeight:">&ndash;&nbsp;setScrollViewHeight:</a></code>
+		<span class="tooltip"><p>Sets the scroll view height to a specified height. Used to enable proper scrolling when a form is active (showing a keyboard or picker input view).</p></span>
+	</span>
+	
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/slideOutDetailViewAndAddNewViewWithIndex:">&ndash;&nbsp;slideOutDetailViewAndAddNewViewWithIndex:</a></code>
+		<span class="tooltip"><p>Slides out the currently displayed detail view and adds a new detail view with a specified index</p></span>
+	</span>
+	
+	
+</li>
+						</ul>
+						
+						
+						
+						<h3 class="subsubtitle task-title">Other Methods</h3>
+
+						<ul class="task-list">
+							<li>
+	<span class="tooltip">
+		<code><a href="#//api/name/segmentedControlVertical:didSelectItemAtIndex:">&ndash;&nbsp;segmentedControlVertical:didSelectItemAtIndex:</a></code>
+		
+	</span>
+	
+	
+</li>
+						</ul>
+						
+					</div>
+					
+					
+					
+					
+					
+					<div class="section section-methods">
+						<a title="Properties" name="properties"></a>
+						<h2 class="subtitle subtitle-methods">Properties</h2>
+						
+						<div class="section-method">
+	<a name="//api/name/continueButton" title="continueButton"></a>
+	<h3 class="subsubtitle method-title">continueButton</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>The button that will bring the user to the next step.</p>
+	</div>		
+	
+    
+
+	<div class="method-subsection method-declaration"><code>@property (nonatomic, strong) SZButton *continueButton</code></div>
+
+    
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">SZStepVC.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/detailViewContainer" title="detailViewContainer"></a>
+	<h3 class="subsubtitle method-title">detailViewContainer</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>A view container that can carry additional information or controls when a user selected a segmented of the <a href="../Classes/SZSegmentedControlVertical.html">SZSegmentedControlVertical</a> that many of the view controllers that subclass SZStepVC will use. Will get a fancypants slide-in-slide-out animation. I wonder if anyone will actually read this documentation.</p>
+	</div>		
+	
+    
+
+	<div class="method-subsection method-declaration"><code>@property (nonatomic, strong) UIView *detailViewContainer</code></div>
+
+    
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">SZStepVC.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/firstDisplay" title="firstDisplay"></a>
+	<h3 class="subsubtitle method-title">firstDisplay</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>A property indicating whether a view controller is displayed for the first time or whether it has been displayed before. Needed to properly align and layout the subviews and set the correct position of the scroll view.</p>
+	</div>		
+	
+    
+
+	<div class="method-subsection method-declaration"><code>@property (nonatomic, assign) BOOL firstDisplay</code></div>
+
+    
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">SZStepVC.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/forms" title="forms"></a>
+	<h3 class="subsubtitle method-title">forms</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>An array holding references to all forms used with in view controller subclassing the SZStepVC. Used to resign whatever form is currently active when a user taps anywhere on the background.</p>
+	</div>		
+	
+    
+
+	<div class="method-subsection method-declaration"><code>@property (nonatomic, strong) NSMutableArray *forms</code></div>
+
+    
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">SZStepVC.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/mainView" title="mainView"></a>
+	<h3 class="subsubtitle method-title">mainView</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>The scroll view acting as the root view of all added subviews. Needed because the view controllers that subclass SZStepVC will display one or more <a href="../Classes/SZForm.html">SZForm</a> objects.</p>
+	</div>		
+	
+    
+
+	<div class="method-subsection method-declaration"><code>@property (nonatomic, strong) UIScrollView *mainView</code></div>
+
+    
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">SZStepVC.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+					</div>
+					
+					
+					
+					
+					
+					<div class="section section-methods">
+						<a title="Instance Methods" name="instance_methods"></a>
+						<h2 class="subtitle subtitle-methods">Instance Methods</h2>
+						
+						<div class="section-method">
+	<a name="//api/name/initWithStepNumber:totalSteps:" title="initWithStepNumber:totalSteps:"></a>
+	<h3 class="subsubtitle method-title">initWithStepNumber:totalSteps:</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>Initializes an SZStepVC instance with a specified step number and a number of total steps.</p>
+	</div>		
+	
+    
+
+	<div class="method-subsection method-declaration"><code>- (id)initWithStepNumber:(NSInteger)<em>stepNumber</em> totalSteps:(NSInteger)<em>totalSteps</em></code></div>
+
+    
+	
+	<div class="method-subsection arguments-section parameters">
+		<h4 class="method-subtitle parameter-title">Parameters</h4>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>stepNumber</em></dt>
+			<dd><p>The number of the step that the initialized view controller will represent</p></dd>
+		</dl>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>totalSteps</em></dt>
+			<dd><p>The total number of steps</p></dd>
+		</dl>
+		
+	</div>
+	
+	
+	
+	<div class="method-subsection return">
+		<h4 class="method-subtitle parameter-title">Return Value</h4>
+		<p>An instance of whatever SZStepVC-subclass called this method</p>
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">SZStepVC.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/newDetailViewAddedAnimated:" title="newDetailViewAddedAnimated:"></a>
+	<h3 class="subsubtitle method-title">newDetailViewAddedAnimated:</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>Updates the frame of the scroll view according to its content size.<br/>
+Does some additional laying out after a new detail view has been added.</p>
+	</div>		
+	
+    
+
+	<div class="method-subsection method-declaration"><code>- (void)newDetailViewAddedAnimated:(BOOL)<em>animated</em></code></div>
+
+    
+	
+	<div class="method-subsection arguments-section parameters">
+		<h4 class="method-subtitle parameter-title">Parameters</h4>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>animated</em></dt>
+			<dd><p>Whether or not this should be animated</p></dd>
+		</dl>
+		
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">SZStepVC.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/segmentedControlVertical:didSelectItemAtIndex:" title="segmentedControlVertical:didSelectItemAtIndex:"></a>
+	<h3 class="subsubtitle method-title">segmentedControlVertical:didSelectItemAtIndex:</h3>
+	
+	
+	
+    
+
+	<div class="method-subsection method-declaration"><code>- (void)segmentedControlVertical:(SZSegmentedControlVertical *)<em>control</em> didSelectItemAtIndex:(NSInteger)<em>index</em></code></div>
+
+    
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">SZSegmentedControlVertical.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/setScrollViewHeight:" title="setScrollViewHeight:"></a>
+	<h3 class="subsubtitle method-title">setScrollViewHeight:</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>Sets the scroll view height to a specified height. Used to enable proper scrolling when a form is active (showing a keyboard or picker input view).</p>
+	</div>		
+	
+    
+
+	<div class="method-subsection method-declaration"><code>- (void)setScrollViewHeight:(CGFloat)<em>newHeight</em></code></div>
+
+    
+	
+	<div class="method-subsection arguments-section parameters">
+		<h4 class="method-subtitle parameter-title">Parameters</h4>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>newHeight</em></dt>
+			<dd><p>The new height that the scroll view should have.</p></dd>
+		</dl>
+		
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">SZStepVC.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/slideOutDetailViewAndAddNewViewWithIndex:" title="slideOutDetailViewAndAddNewViewWithIndex:"></a>
+	<h3 class="subsubtitle method-title">slideOutDetailViewAndAddNewViewWithIndex:</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>Slides out the currently displayed detail view and adds a new detail view with a specified index</p>
+	</div>		
+	
+    
+
+	<div class="method-subsection method-declaration"><code>- (void)slideOutDetailViewAndAddNewViewWithIndex:(NSInteger)<em>index</em></code></div>
+
+    
+	
+	<div class="method-subsection arguments-section parameters">
+		<h4 class="method-subtitle parameter-title">Parameters</h4>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>index</em></dt>
+			<dd><p>The index of the new detail view to add. Refers to the selected segment index of the SZSegmentedControlVertical that handles the detail view.</p></dd>
+		</dl>
+		
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">SZStepVC.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/updateBoundsAnimated:" title="updateBoundsAnimated:"></a>
+	<h3 class="subsubtitle method-title">updateBoundsAnimated:</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>Updates the frame of the scroll view according to its content size.</p>
+	</div>		
+	
+    
+
+	<div class="method-subsection method-declaration"><code>- (void)updateBoundsAnimated:(BOOL)<em>animated</em></code></div>
+
+    
+	
+	<div class="method-subsection arguments-section parameters">
+		<h4 class="method-subtitle parameter-title">Parameters</h4>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>animated</em></dt>
+			<dd><p>Whether or not this should be animated</p></dd>
+		</dl>
+		
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">SZStepVC.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+					</div>
+					
+					
+				</div>
+				<div class="main-navigation navigation-bottom">
+					<ul>
+	<li><a href="../index.html">Index</a></li>
+	<li><a href="../hierarchy.html">Hierarchy</a></li>
+</ul>
+				</div>
+				<div id="footer">
+					<hr />
+					<div class="footer-copyright">
+						<p><span class="copyright">&copy; 2013 de.juliaroggatz. All rights reserved. (Last updated: 2013-05-05)</span><br />
+						
+						<span class="generator">Generated by <a href="http://appledoc.gentlebytes.com">appledoc 2.1 (build 858)</a>.</span></p>
+						
+					</div>
+				</div>
+			</div>
+		</article>
+		<script type="text/javascript">
+			function jumpToChange()
+			{
+				window.location.hash = this.options[this.selectedIndex].value;
+			}
+			
+			function toggleTOC()
+			{
+				var contents = document.getElementById('contents');
+				var tocContainer = document.getElementById('tocContainer');
+				
+				if (this.getAttribute('class') == 'open')
+				{
+					this.setAttribute('class', '');
+					contents.setAttribute('class', '');
+					tocContainer.setAttribute('class', '');
+					
+					window.name = "hideTOC";
+				}
+				else
+				{
+					this.setAttribute('class', 'open');
+					contents.setAttribute('class', 'isShowingTOC');
+					tocContainer.setAttribute('class', 'isShowingTOC');
+					
+					window.name = "";
+				}
+				return false;
+			}
+			
+			function toggleTOCEntryChildren(e)
+			{
+				e.stopPropagation();
+				var currentClass = this.getAttribute('class');
+				if (currentClass == 'children') {
+					this.setAttribute('class', 'children open');
+				}
+				else if (currentClass == 'children open') {
+					this.setAttribute('class', 'children');
+				}
+				return false;
+			}
+			
+			function tocEntryClick(e)
+			{
+				e.stopPropagation();
+				return true;
+			}
+			
+			function init()
+			{
+				var selectElement = document.getElementById('jumpTo');
+				selectElement.addEventListener('change', jumpToChange, false);
+				
+				var tocButton = document.getElementById('table_of_contents');
+				tocButton.addEventListener('click', toggleTOC, false);
+				
+				var taskTreeItem = document.getElementById('task_treeitem');
+				if (taskTreeItem.getElementsByTagName('li').length > 0)
+				{
+					taskTreeItem.setAttribute('class', 'children');
+					taskTreeItem.firstChild.setAttribute('class', 'disclosure');
+				}
+				
+				var tocList = document.getElementById('toc');
+				
+				var tocEntries = tocList.getElementsByTagName('li');
+				for (var i = 0; i < tocEntries.length; i++) {
+					tocEntries[i].addEventListener('click', toggleTOCEntryChildren, false);
+				}
+				
+				var tocLinks = tocList.getElementsByTagName('a');
+				for (var i = 0; i < tocLinks.length; i++) {
+					tocLinks[i].addEventListener('click', tocEntryClick, false);
+				}
+				
+				if (window.name == "hideTOC") {
+					toggleTOC.call(tocButton);
+				}
+			}
+			
+			window.onload = init;
+			
+			// If showing in Xcode, hide the TOC and Header
+			if (navigator.userAgent.match(/xcode/i)) {
+				document.getElementById("contents").className = "hideInXcode"
+				document.getElementById("tocContainer").className = "hideInXcode"
+				document.getElementById("top_header").className = "hideInXcode"
+			}
+			
+		</script>
+	</body>
+</html>

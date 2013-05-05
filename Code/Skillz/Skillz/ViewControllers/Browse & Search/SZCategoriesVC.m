@@ -26,23 +26,16 @@
 	self = [super initWithStyle:UITableViewStylePlain];
     if (self) {
         NSMutableArray* categories = [NSMutableArray arrayWithObject:[NSNull null]];
-		[categories addObjectsFromArray:[SZUtils sortedCategories]];
+		[categories addObjectsFromArray:[SZDataManager sortedCategories]];
 		self.categories = categories;
     }
     return self;
 }
 
-- (void)viewDidLoad
-{
+- (void)viewDidLoad {
     [super viewDidLoad];
 	
 	[self.navigationItem setTitle:@"Select a Category"];
-	[self.navigationItem setBackBarButtonItem:[[UIBarButtonItem alloc] initWithTitle:@"Back"
-																			   style:UIBarButtonItemStylePlain
-																			  target:nil
-																			  action:nil]];
-	
-	[self.view setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"bg_pattern"]]];
 	[self.tableView setSeparatorStyle:UITableViewCellSeparatorStyleNone];
 }
 
@@ -93,13 +86,25 @@
 	NSString* category;
 	if (indexPath.row > 0) {
 		category = [self.categories objectAtIndex:indexPath.row];
+	}
+	
+	if (category && [SZDataManager categoryHasSubcategory:category]) {
 		[self.navigationController pushViewController:[[SZSubcategoriesVC alloc] initWithCategory:category] animated:YES];
+		return;
 	}
 	else {
+		
 		NSString* entryType = [SZDataManager sharedInstance].currentEntryType == SZEntryTypeRequest ? @"request" : @"offer";
 		PFQuery* query = [PFQuery queryWithClassName:@"Entry"];
 		[query whereKey:@"entryType" equalTo:entryType];
-		[self.navigationController pushViewController:[[SZSearchResultsVC alloc] initWithQuery:query] animated:YES];
+		if (category) [query whereKey:@"category" equalTo:category];
+		[PFGeoPoint geoPointForCurrentLocationInBackground:^(PFGeoPoint *geoPoint, NSError *error) {
+			if (geoPoint) {
+				NSMutableDictionary* locationDict = [[NSMutableDictionary alloc] initWithObjectsAndKeys:geoPoint, @"geoPoint", nil];
+				[SZDataManager sharedInstance].searchLocationBase = locationDict;
+			}
+			[self.navigationController pushViewController:[[SZSearchResultsVC alloc] initWithQuery:query] animated:YES];
+		}];
 	}
 }
 

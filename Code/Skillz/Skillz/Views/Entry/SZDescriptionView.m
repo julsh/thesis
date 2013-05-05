@@ -14,9 +14,6 @@
 - (id)initWithDescription:(NSString*)description {
     self = [super initWithFrame:CGRectZero];
     if (self) {
-        
-//		CGSize contentSize = [description sizeWithFont:[SZGlobalConstants fontWithFontType:SZFontSemiBold size:12.0] constrainedToSize:CGSizeMake(270.0, 10000.0)];
-//		NSLog(@"%@", NSStringFromCGSize(contentSize));
 		
 		UITextView* textView = [[UITextView alloc] initWithFrame:CGRectMake(10.0, 10.0, 270.0, 10000)];
 		[textView setFont:[SZGlobalConstants fontWithFontType:SZFontSemiBold size:12.0]];

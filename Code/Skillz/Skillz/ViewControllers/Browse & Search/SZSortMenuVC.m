@@ -9,6 +9,7 @@
 #import "SZSortMenuVC.h"
 #import "SZButton.h"
 #import "SZSegmentedControlHorizontal.h"
+#import "SZDataManager.h"
 
 @interface SZSortMenuVC ()
 
@@ -16,18 +17,19 @@
 @property (nonatomic, strong) SZSegmentedControlHorizontal* arrangeControl;
 @property (nonatomic, strong) SZForm* locationForm;
 @property (nonatomic, strong) UIButton* currentLocationButton;
+@property (nonatomic, strong) NSMutableDictionary* sortDict;
 
 @end
 
 @implementation SZSortMenuVC
 
+@synthesize sortDict = _sortDict;
 @synthesize sortControl = _sortControl;
 @synthesize arrangeControl = _arrangeControl;
 @synthesize locationForm = _locationForm;
 @synthesize currentLocationButton = _currentLocationButton;
 
-- (void)viewDidLoad
-{
+- (void)viewDidLoad {
     [super viewDidLoad];
 	[self setTitle:@"Sort Results"];
 	
@@ -40,6 +42,22 @@
 	[self.scrollView addSubview:self.currentLocationButton];
 	[self.scrollView addSubview:[self sortButton]];
 	[self.scrollView addSubview:[self cancelButton]];
+}
+
+- (NSMutableDictionary*)sortDict {
+	if (_sortDict == nil) {
+		_sortDict = [[NSMutableDictionary alloc] init];
+		[_sortDict setValue:@"User Rating" forKey:@"sortBy"];
+		[_sortDict setValue:@"desc" forKey:@"sortOrder"];
+	}
+	return _sortDict;
+}
+
+- (void)viewDidAppear:(BOOL)animated {
+	if ([SZDataManager sharedInstance].searchLocationBase && [[SZDataManager sharedInstance].searchLocationBase valueForKey:@"textInput"]) {
+		[self.locationForm setText:[[SZDataManager sharedInstance].searchLocationBase valueForKey:@"textInput"] forFieldAtIndex:0];
+		[self.locationForm.userInputs setValue:[[SZDataManager sharedInstance].searchLocationBase valueForKey:@"textInput"] forKey:@"location"];
+	}
 }
 
 - (UILabel*)sortLabel {
@@ -58,7 +76,7 @@
 		[_sortControl addItemWithText:@"Price" isLast:NO];
 		[_sortControl addItemWithText:@"Distance" isLast:YES];
 		[_sortControl setDelegate:self];
-		[_sortControl selectItemWithIndex:0];
+		_sortControl.selectedIndex = 0;
 		CGRect frame = _sortControl.frame;
 		frame.origin.x = 15.0;
 		frame.origin.y = 30.0;
@@ -84,6 +102,7 @@
 		[_arrangeControl insertSegmentWithTitle:@"High To Low" atIndex:1 animated:NO];
 		[_arrangeControl setFontSize:12.0];
 		[_arrangeControl setSelectedSegmentIndex:0];
+		[_arrangeControl addTarget:self action:@selector(sortOrderChanged:) forControlEvents:UIControlEventValueChanged];
 	}
 	return _arrangeControl;
 }
@@ -114,6 +133,7 @@
 		frame.origin.y = 256.0;
 		_locationForm.frame = frame;
 		[_locationForm setScrollContainer:self.scrollView];
+		
 	}
 	return _locationForm;
 }
@@ -133,6 +153,8 @@
 - (void)applyCurrentLocation:(id)sender {
 	[self.locationForm setText:@"Current Location" forFieldAtIndex:0];
 	[self.locationForm.userInputs setValue:@"Current Location" forKey:@"location"];
+	[[SZDataManager sharedInstance].searchLocationBase setValue:@"Current Location" forKey:@"textInput"];
+	[self.sortDict setValue:@"Current Location" forKey:@"sortLocation"];
 	[self scrollViewTapped:nil];
 }
 
@@ -143,8 +165,13 @@
 	}
 }
 
+- (void)formDidEndEditing:(SZForm *)form {
+	[[SZDataManager sharedInstance].searchLocationBase setValue:[form textForFieldAtIndex:0] forKey:@"textInput"];
+	[self.sortDict setValue:[form textForFieldAtIndex:0] forKey:@"sortLocation"];
+}
+
 - (SZButton*)sortButton {
-	SZButton* button = [[SZButton alloc] initWithColor:SZButtonColorPetrol size:SZButtonSizeLarge width:205.0];
+	SZButton* button = [SZButton buttonWithColor:SZButtonColorPetrol size:SZButtonSizeLarge width:205.0];
 	[button setTitle:@"Sort Results" forState:UIControlStateNormal];
 	CGRect frame = button.frame;
 	frame.origin.x = 15.0;
@@ -155,7 +182,7 @@
 }
 
 - (SZButton*)cancelButton {
-	SZButton* button = [[SZButton alloc] initWithColor:SZButtonColorOrange size:SZButtonSizeLarge width:205.0];
+	SZButton* button = [SZButton buttonWithColor:SZButtonColorOrange size:SZButtonSizeLarge width:205.0];
 	[button setTitle:@"Cancel" forState:UIControlStateNormal];
 	CGRect frame = button.frame;
 	frame.origin.x = 15.0;
@@ -172,15 +199,30 @@
 }
 
 - (void)segmentedControlVertical:(SZSegmentedControlVertical *)control didSelectItemAtIndex:(NSInteger)index {
-	NSLog(@"selected %i", control.selectedIndex);
+	NSLog(@"selected %@", control.selectedIndexTitle);
+	[self.sortDict setValue:control.selectedIndexTitle forKey:@"sortBy"];
+}
+
+- (void)sortOrderChanged:(SZSegmentedControlHorizontal*)sender {
+	switch (sender.selectedSegmentIndex) {
+		case 0:
+			[self.sortDict setValue:@"desc" forKey:@"sortOrder"];
+			break;
+		case 1:
+			[self.sortDict setValue:@"asc" forKey:@"sortOrder"];
+			break;
+		default:
+			break;
+	}
 }
 
 - (void)sort:(SZButton*)sender {
-	NSLog(@"sort");
+	[[NSNotificationCenter defaultCenter] postNotificationName:NOTIF_SORT object:nil userInfo:self.sortDict];
+	[self toggle];
 }
 
 - (void)cancel:(SZButton*)sender {
-	NSLog(@"cancel");
+	[self toggle];
 }
 
 @end

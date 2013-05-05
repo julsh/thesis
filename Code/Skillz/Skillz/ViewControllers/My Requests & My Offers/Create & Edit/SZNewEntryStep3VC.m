@@ -35,14 +35,12 @@
 @synthesize option1AddressForm = _option1AddressForm;
 @synthesize option2AddressForm = _option2AddressForm;
 
-- (id)init
-{
+- (id)init {
     return [super initWithStepNumber:3 totalSteps:5];
 }
 
-- (void)viewDidLoad
-{
-	self.editTaskFirstDisplay = YES;
+- (void)viewDidLoad {
+	self.firstDisplay = YES;
     [super viewDidLoad];
 	switch ([SZDataManager sharedInstance].currentEntryType) {
 		case SZEntryTypeRequest:
@@ -79,15 +77,7 @@
 		
 		if (![SZDataManager sharedInstance].currentEntryIsNew) {
 			SZEntryObject* entry = (SZEntryObject*)[SZDataManager sharedInstance].currentEntry;
-			if (entry.locationWillGoSomewhere) {
-				[_segmentedControl selectItemWithIndex:0];
-			}
-			else if (entry.locationIsRemote) {
-				[_segmentedControl selectItemWithIndex:2];
-			}
-			else {
-				[_segmentedControl selectItemWithIndex:1];
-			}
+			_segmentedControl.selectedIndex = entry.locationType;
 		}
 
 	}
@@ -122,7 +112,7 @@
 		[self.distanceForm addItem:distanceField showsClearButton:NO isLastItem:YES];
 		[self.distanceForm setDelegate:self];
 		[self.distanceForm setScrollContainer:self.mainView];
-		[self.distanceForm configureKeyboard];
+		[self.distanceForm addKeyboardToolbar];
 		[self.distanceForm setFrame:CGRectMake(50.0, 1.0, self.distanceForm.frame.size.width, self.distanceForm.frame.size.height)];
 		
 		self.option1AddressForm = [SZForm addressFormWithWidth:233.0];
@@ -150,11 +140,8 @@
 		
 		if (![SZDataManager sharedInstance].currentEntryIsNew) {
 			SZEntryObject* entry = (SZEntryObject*)[SZDataManager sharedInstance].currentEntry;
-			if (entry.withinZipCode) {
-				[_option1detailView setSelectedIndex:0];
-			}
-			else if (entry.withinSpecifiedArea) {
-				[_option1detailView setSelectedIndex:1];
+			[_option1detailView setSelectedIndex:entry.areaType];
+			if (entry.areaType == SZEntryAreaWithinSpecifiedArea) {
 				if (entry.distance) {
 					[self.distanceForm.userInputs setValue:[NSString stringWithFormat:@"%i", [entry.distance intValue]] forKey:@"distance"];
 					[self.distanceForm setText:[NSString stringWithFormat:@"%i", [entry.distance intValue]] forFieldAtIndex:0];
@@ -164,12 +151,11 @@
 					[self.option1AddressForm updatePickerAtIndex:3];
 				}
 			}
-			else if (entry.withinNegotiableArea) {
-				[_option1detailView setSelectedIndex:2];
-			}
 		}
-		else if ([[SZDataManager sharedInstance] valueForKey:LAST_ENTERED_ADDRESS]) {
-			[self.option1AddressForm setAddress:[[SZDataManager sharedInstance] valueForKey:LAST_ENTERED_ADDRESS]];
+		else {
+			if ([SZDataManager lastEnteredAddress]) {
+				[self.option1AddressForm setAddress:[SZDataManager lastEnteredAddress]];
+			}
 		}
 		
 	}
@@ -213,8 +199,8 @@
 					[self.option2AddressForm updatePickerAtIndex:3];
 			}
 		}
-		else if ([[SZDataManager sharedInstance] valueForKey:LAST_ENTERED_ADDRESS]) {
-			[self.option2AddressForm setAddress:[[SZDataManager sharedInstance] valueForKey:LAST_ENTERED_ADDRESS]];
+		else if ([SZDataManager lastEnteredAddress]) {
+			[self.option2AddressForm setAddress:[SZDataManager lastEnteredAddress]];
 		}
 		
 	}
@@ -262,13 +248,13 @@
 			break;
 	}
 	
-	if ([SZDataManager sharedInstance].currentEntryIsNew || !self.editTaskFirstDisplay) {
+	if ([SZDataManager sharedInstance].currentEntryIsNew || !self.firstDisplay) {
 		[super newDetailViewAddedAnimated:YES];
 	}
 	else {
 		[super newDetailViewAddedAnimated:NO];
 		[self.mainView setContentOffset:CGPointMake(0.0, 0.0)];
-		self.editTaskFirstDisplay = NO;
+		self.firstDisplay = NO;
 	}
 }
 
@@ -299,73 +285,41 @@
 	
 	SZEntryObject* entry = (SZEntryObject*)[SZDataManager sharedInstance].currentEntry;
 	
-	switch (self.segmentedControl.selectedIndex) {
-		case SZEntryLocationWillGoSomewhereElse:
-			entry.locationWillGoSomewhere = YES;
-			entry.locationIsRemote = NO;
-			break;
-		case SZEntryLocationWillStayAtHome:
-			entry.locationWillGoSomewhere = NO;
-			entry.locationIsRemote = NO;
-			break;
-		case SZEntryLocationRemote:
-			entry.locationWillGoSomewhere = NO;
-			entry.locationIsRemote = YES;
-			break;
-		default:
-			break;
-	}
+	entry.locationType = self.segmentedControl.selectedIndex;
 	
-	if (self.segmentedControl.selectedIndex == SZEntryLocationWillGoSomewhereElse) {
+	if (entry.locationType == SZEntryLocationWillGoSomewhereElse) {
 		
-		if (self.option1detailView.selectedIndex == 0) {
-			entry.withinZipCode = YES;
-			entry.withinSpecifiedArea = NO;
-			entry.withinNegotiableArea = NO;
-			entry.distance = nil;
-			entry.address = nil;
-			
-			
-		}
-		else if (self.option1detailView.selectedIndex == 1) {
-			entry.withinZipCode = NO;
-			entry.withinSpecifiedArea = YES;
-			entry.withinNegotiableArea = NO;
+		entry.areaType = self.option1detailView.selectedIndex;
+		
+		if (entry.areaType == SZEntryAreaWithinSpecifiedArea) {
 			
 			NSNumberFormatter* formatter = [[NSNumberFormatter alloc] init];
 			[formatter setNumberStyle:NSNumberFormatterDecimalStyle];
 			NSNumber* distance = [formatter numberFromString:[self.distanceForm.userInputs valueForKey:@"distance"]];
 			entry.distance = distance;
 			
-			entry.address = [SZForm addressDictfromAddressForm:self.option1AddressForm];
-			[[SZDataManager sharedInstance] saveLastEnderedAddress:[SZForm addressDictfromAddressForm:self.option1AddressForm]];
-		}
-		else if (self.option1detailView.selectedIndex == 2) {
-			entry.withinZipCode = NO;
-			entry.withinSpecifiedArea = NO;
-			entry.withinNegotiableArea = YES;
-			entry.distance = nil;
-			entry.address = nil;
+			entry.address = [SZForm addressDictFromAddressForm:self.option1AddressForm];
+			[SZDataManager saveLastEnderedAddress:[SZForm addressDictFromAddressForm:self.option1AddressForm]];
+			
 		}
 	}
-	else if (self.segmentedControl.selectedIndex == SZEntryLocationWillStayAtHome) {
-		entry.withinZipCode = NO;
-		entry.withinSpecifiedArea = NO;
-		entry.withinNegotiableArea = NO;
-		entry.distance = nil;
-		entry.address = [SZForm addressDictfromAddressForm:self.option2AddressForm];
-		[[SZDataManager sharedInstance] saveLastEnderedAddress:[SZForm addressDictfromAddressForm:self.option2AddressForm]];
+	else if (entry.locationType == SZEntryLocationWillStayAtHome) {
+		
+		entry.address = [SZForm addressDictFromAddressForm:self.option2AddressForm];
+		[SZDataManager saveLastEnderedAddress:[SZForm addressDictFromAddressForm:self.option2AddressForm]];
 	}
 	
+	
+	// Geocoding the address or zip code area to a PFGeoPoint object to enable queries bases on location
 	NSString* locationString;
 	if (entry.address) locationString = [NSString stringWithFormat:@"%@, %@, %@ %@, USA",
 											 [entry.address valueForKey:@"streetAddress"],
 											 [entry.address valueForKey:@"city"],
 											 [entry.address valueForKey:@"state"],
 											 [entry.address valueForKey:@"zipCode"]];
-	else if (entry.withinZipCode) locationString = [NSString stringWithFormat:@"%@ %@, USA",
-														[entry.user valueForKey:@"zipCode"],
-														[entry.user valueForKey:@"state"]];
+	else if (entry.areaType == SZEntryAreaWithinZipCode) locationString = [NSString stringWithFormat:@"%@ %@, USA",
+																		   [entry.user valueForKey:@"zipCode"],
+																		   [entry.user valueForKey:@"state"]];
 	
 	if (locationString) {
 		CLGeocoder* geoCoder = [[CLGeocoder alloc] init];
@@ -375,11 +329,9 @@
 				CLLocation* location = [placemark location];
 				PFGeoPoint* geoPoint = [PFGeoPoint geoPointWithLocation:location];
 				[entry setObject:geoPoint forKey:@"geoPoint"];
-				NSLog(@"geopoint set");
 				[SZDataManager sharedInstance].currentEntry = entry;
 			}
 		}];
-
 	}
 }
 

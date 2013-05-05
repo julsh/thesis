@@ -8,8 +8,12 @@
 
 #import <UIKit/UIKit.h>
 
+/** The application's delegate. All important setup takes place here. But privately :-)
+ */
 @interface SZAppDelegate : UIResponder <UIApplicationDelegate>
 
+/** The application's main window.
+ */
 @property (strong, nonatomic) UIWindow *window;
 
 @end

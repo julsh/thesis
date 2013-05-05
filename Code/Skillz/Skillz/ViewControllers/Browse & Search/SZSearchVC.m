@@ -14,6 +14,7 @@
 #import "SZButton.h"
 #import "SZSearchResultsVC.h"
 #import "SZSegmentedControlHorizontal.h"
+#import "SZDataManager.h"
 
 @interface SZSearchVC ()
 
@@ -34,14 +35,12 @@
 
 - (void)viewDidLoad {
 	
+	[super viewDidLoad];
+	[self addMenuButton];
 	[self.navigationItem setTitle:@"Search"];
-	[self.navigationItem setBackBarButtonItem:[[UIBarButtonItem alloc] initWithTitle:@"Back"
-																			   style:UIBarButtonItemStylePlain
-																			  target:nil
-																			  action:nil]];
+	
 	self.radius = 4;
 	
-    [super viewDidLoad];
 	[self.view addSubview:self.scrollView];
 	[self.scrollView addSubview:self.entryTypeSelector];
 	[self.scrollView addSubview:[self searchingForLabel]];
@@ -138,11 +137,11 @@
 		
 		SZFormFieldVO* categoryField = [SZFormFieldVO formFieldValueObjectForPickerWithKey:@"category"
 																		   placeHolderText:@"Category"
-																			 pickerOptions:[SZUtils sortedCategories]];
+																			 pickerOptions:[SZDataManager sortedCategories]];
 		
 		[_categoryForm addItem:categoryField showsClearButton:YES isLastItem:YES];
 		[_categoryForm setCenter:CGPointMake(160.0, 190.0)];
-		[_categoryForm configureKeyboard];
+		[_categoryForm addKeyboardToolbar];
 		[_categoryForm setScrollContainer:self.scrollView];
 		
 	}
@@ -252,7 +251,7 @@
 }
 
 - (SZButton*)searchButton {
-	SZButton* button = [[SZButton alloc] initWithColor:SZButtonColorPetrol size:SZButtonSizeLarge width:290.0];
+	SZButton* button = [SZButton buttonWithColor:SZButtonColorPetrol size:SZButtonSizeLarge width:290.0];
 	[button setTitle:@"Search!" forState:UIControlStateNormal];
 	[button setCenter:CGPointMake(160.0, 380.0)];
 	[button addTarget:self action:@selector(search:) forControlEvents:UIControlEventTouchUpInside];
@@ -262,12 +261,15 @@
 - (void)search:(id)sender {
 	
 	NSString* entryType = self.entryTypeSelector.selectedSegmentIndex == 0 ? @"offer" : @"request";
-	PFQuery* titleQuery = [PFQuery queryWithClassName:@"Entry"];
-	PFQuery* descriptionQuery = [PFQuery queryWithClassName:@"Entry"];
+	// we're creating two queries that will be OR-connected
+	PFQuery* titleQuery = [PFQuery queryWithClassName:@"Entry"];			// one to parse the titles
+	PFQuery* descriptionQuery = [PFQuery queryWithClassName:@"Entry"];		// one to parse the descriptions
 	NSString* keywordsInput = [self.keywordsForm.userInputs valueForKey:@"keywords"];
 	if (![keywordsInput isEqualToString:@""]) {
+		// here we're taking apart the keywords string, splitting it into single words
 		NSArray* keywords = [keywordsInput componentsSeparatedByString:@" "];
 		for (NSString* keyword in keywords) {
+			// and each word will be added to the two queries. keywords will be AND-connected, meaning they all have to be contained
 			[titleQuery whereKey:@"title" containsString:keyword];
 			[descriptionQuery whereKey:@"description" containsString:keyword];
 		}
@@ -278,52 +280,64 @@
 	
 	NSString* categoryInput = [self.categoryForm.userInputs valueForKey:@"category"];
 	if (![categoryInput isEqualToString:@""]) {
-		[orQuery whereKey:@"category" equalTo:categoryInput];
+		[orQuery whereKey:@"category" equalTo:categoryInput];	// if the user specified a category, this will be another constraint
 	}
 	
 	NSString* locationInput = [self.locationForm.userInputs valueForKey:@"location"];
-	if (![locationInput isEqualToString:@""] && self.radius <= 100) {
+	
+	if (locationInput && ![locationInput isEqualToString:@""] && ![locationInput isEqualToString:@"Current Location"] && self.radius <= 100) {
 		
-		if ([locationInput isEqualToString:@"Current Location"]) {
-			NSLog(@"current location");
-			[PFGeoPoint geoPointForCurrentLocationInBackground:^(PFGeoPoint *geoPoint, NSError *error) {
-				if (geoPoint) {
-					[orQuery whereKey:@"geoPoint" nearGeoPoint:geoPoint withinMiles:self.radius];
-					SZSearchResultsVC* searchResultsVC = [[SZSearchResultsVC alloc] initWithQuery:orQuery];
-					searchResultsVC.mapCenter = [[CLLocation alloc] initWithLatitude:geoPoint.latitude longitude:geoPoint.longitude];
-					[self.navigationController pushViewController:searchResultsVC animated:YES];
-				}
-				else {
-					UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"Couldn't determine your location" message:@"Please make sure location services are turned on and your device is connected to the network." delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles: nil];
-					[alert show];
-					return;
-				}
-			}];
-		}
-		else {
-			NSLog(@"some address/city/zip");
-			CLGeocoder* geoCoder = [[CLGeocoder alloc] init];
-			[geoCoder geocodeAddressString:locationInput completionHandler:^(NSArray *placemarks, NSError *error) {
-				if (placemarks && [placemarks count] > 0) {
-					CLPlacemark* placemark = [placemarks objectAtIndex:0];
-					NSLog(@"placemark %@", placemark);
-					CGFloat radiusExtension = MetersToMiles(placemark.region.radius) + self.radius;
-					PFGeoPoint* geoPoint = [PFGeoPoint geoPointWithLocation:placemark.location];
-					[orQuery whereKey:@"geoPoint" nearGeoPoint:geoPoint withinMiles:radiusExtension];
-					SZSearchResultsVC* searchResultsVC = [[SZSearchResultsVC alloc] initWithQuery:orQuery];
-					searchResultsVC.mapCenter = placemark.location;
-					[self.navigationController pushViewController:searchResultsVC animated:YES];
-				}
-				else {
-					UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"Location not found" message:@"We're sorry, but the location information you provided didn't turn up any results. Please try to be more specific." delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles: nil];
-					[alert show];
-					return;
-				}
-			}];
-		}
+		// search base will be some kind of address entered by the user
+		CLGeocoder* geoCoder = [[CLGeocoder alloc] init];
+		[geoCoder geocodeAddressString:locationInput completionHandler:^(NSArray *placemarks, NSError *error) {
+			if (placemarks && [placemarks count] > 0) {
+				CLPlacemark* placemark = [placemarks objectAtIndex:0];
+				CGFloat radiusExtension = MetersToMiles(placemark.region.radius) + self.radius;
+				PFGeoPoint* geoPoint = [PFGeoPoint geoPointWithLocation:placemark.location];
+				[orQuery whereKey:@"geoPoint" nearGeoPoint:geoPoint withinMiles:radiusExtension];
+				
+				NSMutableDictionary* locationDict = [[NSMutableDictionary alloc] init];
+				[locationDict setValue:[PFGeoPoint geoPointWithLocation:placemark.location] forKey:@"geoPoint"];
+				[locationDict setValue:locationInput forKey:@"textInput"];
+				[locationDict setValue:[NSNumber numberWithFloat:self.radius] forKey:@"radius"];
+				[SZDataManager sharedInstance].searchLocationBase = locationDict;
+				
+				SZSearchResultsVC* searchResultsVC = [[SZSearchResultsVC alloc] initWithQuery:orQuery];
+				[self.navigationController pushViewController:searchResultsVC animated:YES];
+			}
+			else {
+				UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"Location not found" message:@"We're sorry, but the location information you provided didn't turn up any results. Please try to be more specific." delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles: nil];
+				[alert show];
+				return;
+			}
+		}];
 	}
+	
 	else {
-		[self.navigationController pushViewController:[[SZSearchResultsVC alloc] initWithQuery:orQuery] animated:YES];
+		
+		// if no address provided, we'll determine the current user position and use that as the seach base
+		[PFGeoPoint geoPointForCurrentLocationInBackground:^(PFGeoPoint *geoPoint, NSError *error) {
+			if (geoPoint) {
+				NSMutableDictionary* locationDict = [[NSMutableDictionary alloc] init];
+				[locationDict setValue:geoPoint forKey:@"geoPoint"];
+			
+				if ([locationInput isEqualToString:@"Current Location"] && self.radius <= 100) {
+					// if the user specifically searches with a certain radius around current location,
+					// this will be added as a constraint to the query
+					[orQuery whereKey:@"geoPoint" nearGeoPoint:geoPoint withinMiles:self.radius];
+					[locationDict setValue:locationInput forKey:@"textInput"];
+					[locationDict setValue:[NSNumber numberWithFloat:self.radius] forKey:@"radius"];
+				}
+				[SZDataManager sharedInstance].searchLocationBase = locationDict;
+				SZSearchResultsVC* searchResultsVC = [[SZSearchResultsVC alloc] initWithQuery:orQuery];
+				[self.navigationController pushViewController:searchResultsVC animated:YES];
+			}
+			else {
+				UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"Couldn't determine your location" message:@"Please make sure location services are turned on and your device is connected to the network." delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles: nil];
+				[alert show];
+				return;
+			}
+		}];
 	}
 	
 }

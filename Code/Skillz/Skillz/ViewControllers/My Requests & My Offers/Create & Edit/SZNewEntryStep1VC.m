@@ -48,10 +48,9 @@
 	return self;
 }
 
-- (void)viewDidLoad
-{
+- (void)viewDidLoad {
 	
-	self.editTaskFirstDisplay = YES;
+	self.firstDisplay = YES;
     [super viewDidLoad];
 	switch ([SZDataManager sharedInstance].currentEntryType) {
 		case SZEntryTypeRequest:
@@ -68,7 +67,7 @@
 	[self.mainView addSubview:self.detailViewContainer];
 	[self.detailViewContainer setFrame:CGRectMake(0.0, 150.0, 0.0, 0.0)];
 	
-	if (![SZDataManager sharedInstance].currentEntryIsNew && [[SZUtils sortedSubcategoriesForCategory:self.currentyCategory] count] > 0) {
+	if (![SZDataManager sharedInstance].currentEntryIsNew && [[SZDataManager sortedSubcategoriesForCategory:self.currentyCategory] count] > 0) {
 		[self addNewDetailView:1];
 	}
 	if ([SZDataManager sharedInstance].currentEntryIsNew) {
@@ -94,10 +93,10 @@
 	
 		SZFormFieldVO* categoryField = [SZFormFieldVO formFieldValueObjectForPickerWithKey:@"category"
 																		   placeHolderText:@"Category"
-																			 pickerOptions:[SZUtils sortedCategories]];
+																			 pickerOptions:[SZDataManager sortedCategories]];
 		[_categoryForm addItem:categoryField showsClearButton:YES isLastItem:YES];
 		[_categoryForm setCenter:CGPointMake(160.0, 130.0)];
-		[_categoryForm configureKeyboard];
+		[_categoryForm addKeyboardToolbar];
 		[_categoryForm setScrollContainer:self.mainView];
 		
 		if (![SZDataManager sharedInstance].currentEntryIsNew) {
@@ -142,12 +141,12 @@
 																			 pickerOptions:nil];
 		[_subCategoryForm addItem:subCategoryField showsClearButton:YES isLastItem:YES];
 		[_subCategoryForm setCenter:CGPointMake(140.0, 75.0)];
-		[_subCategoryForm configureKeyboard];
+		[_subCategoryForm addKeyboardToolbar];
 		[_subCategoryForm setScrollContainer:self.mainView];
 		
 		if (![SZDataManager sharedInstance].currentEntryIsNew) {
 			SZEntryObject* entry = (SZEntryObject*)[SZDataManager sharedInstance].currentEntry;
-			[self.subCategoryForm updatePickerOptions:[SZUtils sortedSubcategoriesForCategory:entry.category] forPickerAtIndex:0];
+			[self.subCategoryForm updatePickerOptions:[SZDataManager sortedSubcategoriesForCategory:entry.category] forPickerAtIndex:0];
 			if (entry.subcategory) {
 				[self.subCategoryForm setText:entry.subcategory forFieldAtIndex:0];
 				[self.subCategoryForm updatePickerAtIndex:0];
@@ -169,7 +168,7 @@
 	[label setText:@"Didn't find a fitting category?"];
 	[view addSubview:label];
 	
-	SZButton* button = [[SZButton alloc] initWithColor:SZButtonColorPetrol size:SZButtonSizeMedium width:220.0];
+	SZButton* button = [SZButton buttonWithColor:SZButtonColorPetrol size:SZButtonSizeMedium width:220.0];
 	[button setTitle:@"Suggest New Category" forState:UIControlStateNormal];
 	[button setCenter:CGPointMake(160.0, 50.0)];
 	[button addTarget:self action:@selector(suggestCategory:) forControlEvents:UIControlEventTouchUpInside];
@@ -183,7 +182,7 @@
 	
 	if ([form.userInputs valueForKey:@"category"] && ![[form.userInputs valueForKey:@"category"] isEqualToString:self.currentyCategory]) {
 		self.currentyCategory = [form.userInputs valueForKey:@"category"];
-		NSArray* subCategories = [SZUtils sortedSubcategoriesForCategory:self.currentyCategory];
+		NSArray* subCategories = [SZDataManager sortedSubcategoriesForCategory:self.currentyCategory];
 		if ([subCategories count] > 0) {
 			if ([[self.detailViewContainer subviews] count] == 0) {
 				[self slideOutDetailViewAndAddNewViewWithIndex:1];
@@ -205,13 +204,13 @@
 		[self.detailViewContainer addSubview:self.subCategoryView];
 	}
 	
-	if ([SZDataManager sharedInstance].currentEntryIsNew || !self.editTaskFirstDisplay) {
+	if ([SZDataManager sharedInstance].currentEntryIsNew || !self.firstDisplay) {
 		[super newDetailViewAddedAnimated:YES];
 	}
 	else {
 		[super newDetailViewAddedAnimated:NO];
 		[self.mainView setContentOffset:CGPointMake(0.0, 0.0)];
-		self.editTaskFirstDisplay = NO;
+		self.firstDisplay = NO;
 	}
 }
 

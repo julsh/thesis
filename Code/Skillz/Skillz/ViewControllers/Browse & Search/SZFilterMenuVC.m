@@ -10,6 +10,7 @@
 #import "SZFilterMenuVC.h"
 #import "SZButton.h"
 #import "NMRangeSlider.h"
+#import "SZDataManager.h"
 
 @interface SZFilterMenuVC ()
 
@@ -36,8 +37,7 @@
 @synthesize locationForm = _locationForm;
 @synthesize currentLocationButton = _currentLocationButton;
 
-- (void)viewDidLoad
-{
+- (void)viewDidLoad {
     [super viewDidLoad];
 	[self setTitle:@"Filter Results"];
 	
@@ -46,6 +46,13 @@
 	[self.scrollView addSubview:[self radiusView]];
 	[self.scrollView addSubview:[self filterButton]];
 	[self.scrollView addSubview:[self cancelButton]];
+}
+
+- (void)viewDidAppear:(BOOL)animated {
+	if ([SZDataManager sharedInstance].searchLocationBase && [[SZDataManager sharedInstance].searchLocationBase valueForKey:@"textInput"]) {
+		[self.locationForm setText:[[SZDataManager sharedInstance].searchLocationBase valueForKey:@"textInput"] forFieldAtIndex:0];
+		[self.locationForm.userInputs setValue:[[SZDataManager sharedInstance].searchLocationBase valueForKey:@"textInput"] forKey:@"location"];
+	}
 }
 
 - (UIView*)ratingView {
@@ -159,6 +166,7 @@
 		frame.origin.y = 81.0;
 		_locationForm.frame = frame;
 		[_locationForm setScrollContainer:self.scrollView];
+		
 	}
 	return _locationForm;
 }
@@ -178,6 +186,7 @@
 - (void)applyCurrentLocation:(id)sender {
 	[self.locationForm setText:@"Current Location" forFieldAtIndex:0];
 	[self.locationForm.userInputs setValue:@"Current Location" forKey:@"location"];
+	[[SZDataManager sharedInstance].searchLocationBase setValue:@"Current Location" forKey:@"textInput"];
 	[self scrollViewTapped:nil];
 }
 
@@ -226,11 +235,18 @@
 		else {
 			[self.radiusLabel setText:[NSString stringWithFormat:@"up to %i miles around:", self.maximusRadius]];
 		}
+		if (self.maximusRadius <= 100) {
+			[[SZDataManager sharedInstance].searchLocationBase setValue:[NSNumber numberWithInt:self.maximusRadius] forKey:@"radius"];
+		}
 	}
 }
 
+- (void)formDidEndEditing:(SZForm *)form {
+	[[SZDataManager sharedInstance].searchLocationBase setValue:[form textForFieldAtIndex:0] forKey:@"textInput"];
+}
+
 - (SZButton*)filterButton {
-	SZButton* button = [[SZButton alloc] initWithColor:SZButtonColorPetrol size:SZButtonSizeLarge width:205.0];
+	SZButton* button = [SZButton buttonWithColor:SZButtonColorPetrol size:SZButtonSizeLarge width:205.0];
 	[button setTitle:@"Filter Results" forState:UIControlStateNormal];
 	CGRect frame = button.frame;
 	frame.origin.x = 15.0;
@@ -241,7 +257,7 @@
 }
 
 - (SZButton*)cancelButton {
-	SZButton* button = [[SZButton alloc] initWithColor:SZButtonColorOrange size:SZButtonSizeLarge width:205.0];
+	SZButton* button = [SZButton buttonWithColor:SZButtonColorOrange size:SZButtonSizeLarge width:205.0];
 	[button setTitle:@"Cancel" forState:UIControlStateNormal];
 	CGRect frame = button.frame;
 	frame.origin.x = 15.0;
@@ -262,7 +278,7 @@
 }
 
 - (void)cancel:(SZButton*)sender {
-	NSLog(@"cancel");
+	[self toggle];
 }
 
 - (UIView*)backgroundViewWithRect:(CGRect)rect {

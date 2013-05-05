@@ -11,9 +11,9 @@
 
 @implementation SZMenuCell
 
-- (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier width:(CGFloat)width height:(CGFloat)height
-{
-    self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
+- (id)initWithReuseIdentifier:(NSString *)reuseIdentifier {
+	
+    self = [super initWithStyle:UITableViewCellStyleDefault reuseIdentifier:reuseIdentifier];
     if (self) {
         [self.contentView setBackgroundColor:[SZGlobalConstants menuCellColor]];
 		[self.imageView setBackgroundColor:[SZGlobalConstants menuCellColor]];
@@ -25,10 +25,10 @@
 		[self.textLabel applyBlackShadow];
 		
 		// Add separators
-		UIView* topSeparator = [[UIView alloc] initWithFrame:CGRectMake(0.0, 0.0, width, 1.0)];
+		UIView* topSeparator = [[UIView alloc] initWithFrame:CGRectMake(0.0, 0.0, MENU_WIDTH, 1.0)];
 		[topSeparator setBackgroundColor:[UIColor colorWithWhite:1.0 alpha:0.08]];
 		
-		UIView* bottomSeparator = [[UIView alloc] initWithFrame:CGRectMake(0.0, height - 1.0, width, 1.0)];
+		UIView* bottomSeparator = [[UIView alloc] initWithFrame:CGRectMake(0.0, MENU_CELL_HEIGHT - 1.0, MENU_WIDTH, 1.0)];
 		[bottomSeparator setBackgroundColor:[UIColor colorWithRed:0.0 green:0.0 blue:0.0 alpha:1.0]];
 		
 		[self.contentView addSubview: topSeparator];
@@ -41,8 +41,7 @@
     return self;
 }
 
-- (void)setSelected:(BOOL)selected animated:(BOOL)animated
-{
+- (void)setSelected:(BOOL)selected animated:(BOOL)animated {
     [super setSelected:selected animated:NO];
 }
 

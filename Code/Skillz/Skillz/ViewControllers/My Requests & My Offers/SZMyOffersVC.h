@@ -7,8 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "SZSectionRootVC.h"
+#import "SZMyEntriesVC.h"
 
-@interface SZMyOffersVC : SZSectionRootVC <UITableViewDataSource, UITableViewDelegate>
+/**
+ This class represents a list of all offers that belong to a user. Also offers the possibility to create a new offer.
+ */
+@interface SZMyOffersVC : SZMyEntriesVC
 
 @end

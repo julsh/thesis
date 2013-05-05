@@ -22,14 +22,12 @@
 @synthesize segmentedControl = _segmentedControl;
 @synthesize option1detailView = _option1detailView;
 
-- (id)init
-{
+- (id)init {
     return [super initWithStepNumber:5 totalSteps:5];
 }
 
-- (void)viewDidLoad
-{
-	self.editTaskFirstDisplay = YES;
+- (void)viewDidLoad {
+	self.firstDisplay = YES;
     [super viewDidLoad];
 	switch ([SZDataManager sharedInstance].currentEntryType) {
 		case SZEntryTypeRequest:
@@ -69,10 +67,10 @@
 			SZEntryObject* entry = (SZEntryObject*)[SZDataManager sharedInstance].currentEntry;
 			
 			if (entry.hasTimeFrame) {
-				[_segmentedControl selectItemWithIndex:0];
+				_segmentedControl.selectedIndex = 0;
 			}
 			else {
-				[_segmentedControl selectItemWithIndex:1];
+				_segmentedControl.selectedIndex = 1;
 			}
 		}
 	}
@@ -91,7 +89,7 @@
 		[_option1detailView addItem:fromField showsClearButton:YES isLastItem:NO];
 		[_option1detailView addItem:toField showsClearButton:YES isLastItem:YES];
 		[_option1detailView setScrollContainer:self.mainView];
-		[_option1detailView configureKeyboard];
+		[_option1detailView addKeyboardToolbar];
 		
 		[_option1detailView setFrame:CGRectMake(0.0, 10.0, _option1detailView.frame.size.width, _option1detailView.frame.size.height)];
 		
@@ -141,13 +139,13 @@
 		[self.detailViewContainer addSubview:self.option1detailView];
 	}
 	
-	if ([SZDataManager sharedInstance].currentEntryIsNew || !self.editTaskFirstDisplay) {
+	if ([SZDataManager sharedInstance].currentEntryIsNew || !self.firstDisplay) {
 		[super newDetailViewAddedAnimated:YES];
 	}
 	else {
 		[super newDetailViewAddedAnimated:NO];
 		[self.mainView setContentOffset:CGPointMake(0.0, 0.0)];
-		self.editTaskFirstDisplay = NO;
+		self.firstDisplay = NO;
 	}
 }
 

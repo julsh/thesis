@@ -16,3 +16,5 @@
 // custom imports
 #import "SZGlobalConstants.h"
 #import "UILabel+Shadow.h"
+#import "SZViewController.h"
+#import "SZTableViewController.h"

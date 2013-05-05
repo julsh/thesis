@@ -14,6 +14,7 @@
 @interface SZSegmentedControlVertical ()
 
 @property (nonatomic, assign) NSInteger segmentCount;
+@property (nonatomic, strong) NSMutableArray* segmentTitles;
 
 @end
 
@@ -22,8 +23,7 @@
 @synthesize segmentCount = _segmentCount;
 @synthesize selectedIndex = _selectedIndex;
 
-- (id)initWithWidth:(CGFloat)width
-{
+- (id)initWithWidth:(CGFloat)width {
     self = [super initWithFrame:CGRectZero];
     if (self) {
 		self.segmentCount = 0;
@@ -31,6 +31,8 @@
         CGRect frame = self.frame;
 		frame.size.width = width;
 		self.frame = frame;
+		
+		self.segmentTitles = [[NSMutableArray alloc] init];
     }
     return self;
 }
@@ -105,19 +107,21 @@
 	[button addTarget:self action:@selector(segmentTapped:) forControlEvents:UIControlEventTouchDown];
 	[self addSubview:button];
 	
+	[self.segmentTitles addObject:text];
+	
 	self.segmentCount++;
 }
 
 - (void)segmentTapped:(id)sender {
 	UIButton* button = (UIButton*)sender;
 	[button setHighlighted:YES];
-	[self selectItemWithIndex:button.tag];
+	self.selectedIndex = button.tag;
 }
 
-- (void)selectItemWithIndex:(NSInteger)index {
-	self.selectedIndex = index;
+- (void)setSelectedIndex:(NSInteger)selectedIndex {
+	_selectedIndex = selectedIndex;
 	for (UIButton* button in [self subviews]) {
-		if (button.tag != index) {
+		if (button.tag != selectedIndex) {
 			[button setEnabled:YES];
 		}
 		else {
@@ -128,6 +132,10 @@
 	if (self.delegate && [self.delegate respondsToSelector:@selector(segmentedControlVertical:didSelectItemAtIndex:)]) {
 		[self.delegate segmentedControlVertical:self didSelectItemAtIndex:self.selectedIndex];
 	}
+}
+
+- (NSString*)selectedIndexTitle {
+	return [self.segmentTitles objectAtIndex:self.selectedIndex];
 }
 
 @end

@@ -10,6 +10,9 @@
 #import "SZSegmentedControlVertical.h"
 #import "SZForm.h"
 
+/**
+ This class represents an additonal menu to sort search results.
+ */
 @interface SZSortMenuVC : SZSortFilterMenu <SZSegmentedControlVerticalDelegate, SZFormDelegate>
 
 @end

@@ -17,10 +17,8 @@
 
 @implementation SZSortFilterMenu
 
-- (void)viewDidLoad
-{
+- (void)viewDidLoad {
     [super viewDidLoad];
-	[self.view setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"bg_pattern"]]];
 	[self.view setFrame:CGRectMake(90.0, 0.0, 230.0, 480.0)];
 	
 	UINavigationBar* navBar = [[UINavigationBar alloc] initWithFrame:CGRectMake(0.0, 0.0, 230.0, 44.0)];

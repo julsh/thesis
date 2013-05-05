@@ -28,26 +28,25 @@
     return self;
 }
 
-- (void)viewDidLoad
-{
+- (void)viewDidLoad {
     [super viewDidLoad];
-	[self.navigationItem setTitle:[NSString stringWithFormat:@"%@'s %@", [self.entry.user valueForKey:@"firstName"], self.entry.withinZipCode ? @"Area" : @"Location"]];
+	[self.navigationItem setTitle:[NSString stringWithFormat:@"%@'s %@", [self.entry.user valueForKey:@"firstName"], self.entry.areaType == SZEntryAreaWithinZipCode ? @"Area" : @"Location"]];
 
 	self.mapView = [[MKMapView alloc] initWithFrame:self.view.bounds];
 	[self.mapView setShowsUserLocation:YES];
 	[self.mapView setDelegate:self];
 	[self.view addSubview:self.mapView];
 	
-	if (self.entry.address || self.entry.withinZipCode) {
+	if (self.entry.address || self.entry.areaType == SZEntryAreaWithinZipCode) {
 		NSString* addressString;
 		if (self.entry.address) addressString = [NSString stringWithFormat:@"%@, %@, %@ %@, USA",
 											[self.entry.address valueForKey:@"streetAddress"],
 											[self.entry.address valueForKey:@"city"],
 											[self.entry.address valueForKey:@"state"],
 											[self.entry.address valueForKey:@"zipCode"]];
-		else if (self.entry.withinZipCode) addressString = [NSString stringWithFormat:@"%@ %@, USA",
-													   [self.entry.user valueForKey:@"zipCode"],
-													   [self.entry.user valueForKey:@"state"]];
+		else if (self.entry.areaType == SZEntryAreaWithinZipCode) addressString = [NSString stringWithFormat:@"%@ %@, USA",
+																				   [self.entry.user valueForKey:@"zipCode"],
+																				   [self.entry.user valueForKey:@"state"]];
 		
 		CLGeocoder* geoCoder = [[CLGeocoder alloc] init];
 		[geoCoder geocodeAddressString:addressString completionHandler:^(NSArray *placemarks, NSError *error) {
@@ -58,14 +57,14 @@
 				annotation.coordinate = placemark.location.coordinate;
 				
 				MKCoordinateRegion region;
-				if (self.entry.locationWillGoSomewhere && !self.entry.locationIsRemote) {
-					if (self.entry.withinZipCode) {
+				if (self.entry.locationType == SZEntryLocationWillGoSomewhereElse) {
+					if (self.entry.areaType == SZEntryAreaWithinZipCode) {
 						MKCircle* circle = [MKCircle circleWithCenterCoordinate:[placemark region].center radius:[placemark region].radius];
 						[self.mapView addOverlay:circle];
 						region = MKCoordinateRegionMakeWithDistance([placemark region].center, [placemark region].radius*2, [placemark region].radius*2);
 						annotation.title = [NSString stringWithFormat:@"%@'s Area", [self.entry.user objectForKey:@"firstName"]];
 					}
-					else if (self.entry.withinSpecifiedArea && self.entry.distance) {
+					else if (self.entry.areaType == SZEntryAreaWithinSpecifiedArea && self.entry.distance) {
 						CGFloat radius = MilesToMeters([self.entry.distance floatValue]);
 						MKCircle* circle = [MKCircle circleWithCenterCoordinate:[placemark region].center radius:radius];
 						[self.mapView addOverlay:circle];
@@ -74,7 +73,7 @@
 						annotation.subtitle = @"and max. travel distance";
 					}
 				}
-				else if (!self.entry.locationWillGoSomewhere && !self.entry.locationIsRemote) {
+				else if (self.entry.locationType == SZEntryLocationWillStayAtHome) {
 					region = MKCoordinateRegionMakeWithDistance([placemark region].center, 800.0, 800.0);
 					annotation.title = [NSString stringWithFormat:@"%@'s Location", [self.entry.user objectForKey:@"firstName"]];
 				}

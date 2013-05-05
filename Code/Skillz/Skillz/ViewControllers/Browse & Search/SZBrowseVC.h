@@ -7,8 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "SZSectionRootVC.h"
 
-@interface SZBrowseVC : SZSectionRootVC
+/** This class represents the view controller that is displayed when a user wants to browse.
+ */
+@interface SZBrowseVC : SZViewController
 
 @end

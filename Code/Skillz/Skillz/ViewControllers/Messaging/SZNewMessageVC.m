@@ -59,8 +59,7 @@
 	return self;
 }
 
-- (void)viewDidLoad
-{
+- (void)viewDidLoad {
     [super viewDidLoad];
 	
 	switch (self.messageType) {
@@ -76,8 +75,6 @@
 	UIBarButtonItem* sendButton = [[UIBarButtonItem alloc] initWithTitle:@"Send" style:UIBarButtonItemStylePlain target:self action:@selector(sendMessage:)];
 	[self.navigationItem setRightBarButtonItem:sendButton];
 	[self.navigationItem.rightBarButtonItem setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys: [SZGlobalConstants fontWithFontType:SZFontBold size:12.0], UITextAttributeFont,nil] forState:UIControlStateNormal];
-	
-	[self.view setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"bg_pattern"]]];
 	
 	[self.view addSubview:self.scrollView];
 	[self.scrollView addSubview:self.messageForm];
@@ -108,7 +105,7 @@
 		CGRect frame = _messageForm.frame;
 		frame.origin.x = frame.origin.y = 5.0;
 		_messageForm.frame = frame;
-		[_messageForm configureKeyboard];
+		[_messageForm addKeyboardToolbar];
 	}
 	return _messageForm;
 }
@@ -116,7 +113,7 @@
 - (SZButton*)dealButton {
 	
 	if (_dealButton == nil) {
-		_dealButton = [[SZButton alloc] initWithColor:SZButtonColorPetrol size:SZButtonSizeLarge width:290.0];
+		_dealButton = [SZButton buttonWithColor:SZButtonColorPetrol size:SZButtonSizeLarge width:290.0];
 		[_dealButton setTitle:@"Attach a Deal Proposal" forState:UIControlStateNormal];
 		[_dealButton setCenter:CGPointMake(160.0, 330.0)];
 		[_dealButton addTarget:self action:@selector(attachDeal:) forControlEvents:UIControlEventTouchUpInside];
@@ -128,7 +125,7 @@
 - (SZButton*)sendButton {
 	
 	if (_sendButton == nil) {
-		_sendButton = [[SZButton alloc] initWithColor:SZButtonColorPetrol size:SZButtonSizeLarge width:290.0];
+		_sendButton = [SZButton buttonWithColor:SZButtonColorPetrol size:SZButtonSizeLarge width:290.0];
 		[_sendButton setTitle:@"Send Message" forState:UIControlStateNormal];
 		[_sendButton setCenter:CGPointMake(160.0, 380.0)];
 		[_sendButton addTarget:self action:@selector(sendMessage:) forControlEvents:UIControlEventTouchUpInside];
@@ -144,7 +141,7 @@
 		[_dealView addSubview:self.dealFormArea];
 		
 		if (self.entry && self.entry.price) {
-			if (self.entry.priceIsFixedPerHour) {
+			if (self.entry.priceType == SZEntryPriceFixedPerHour) {
 				[self.dealTypeSelector setSelectedSegmentIndex:0];
 				
 				CGRect frame = self.dealFormArea.frame;
@@ -157,7 +154,7 @@
 				
 				[self.hourRateForm setText:[self.entry.price stringValue] forFieldAtIndex:0];
 			}
-			else if (self.entry.priceIsFixedPerJob) {
+			else if (self.entry.priceType == SZEntryPriceFixedPerJob) {
 				[self.dealTypeSelector setSelectedSegmentIndex:1];
 				
 				CGRect frame = self.dealFormArea.frame;
@@ -232,7 +229,7 @@
 		SZFormFieldVO* hourField = [SZFormFieldVO formFieldValueObjectForTextWithKey:@"hours" placeHolderText:@"4" keyboardType:UIKeyboardTypeDecimalPad];
 		[_hourForm addItem:hourField showsClearButton:NO isLastItem:YES];
 		[_hourForm setScrollContainer:self.scrollView];
-		[_hourForm configureKeyboard];
+		[_hourForm addKeyboardToolbar];
 		[_hourForm setFrame:CGRectMake(15.0, 0.0, _hourForm.frame.size.width, _hourForm.frame.size.height)];
 	}
 	return _hourForm;
@@ -245,7 +242,7 @@
 		SZFormFieldVO* hourRateField = [SZFormFieldVO formFieldValueObjectForTextWithKey:@"hourRate" placeHolderText:@"15" keyboardType:UIKeyboardTypeDecimalPad];
 		[_hourRateForm addItem:hourRateField showsClearButton:NO isLastItem:YES];
 		[_hourRateForm setScrollContainer:self.scrollView];
-		[_hourRateForm configureKeyboard];
+		[_hourRateForm addKeyboardToolbar];
 		[_hourRateForm setFrame:CGRectMake(198.0, 0.0, _hourRateForm.frame.size.width, _hourRateForm.frame.size.height)];
 	}
 	return _hourRateForm;
@@ -274,18 +271,18 @@
 
 - (void)formInputDidChange:(UITextField*)textField {
 	
-	if (([[textField superview] superview] == self.hourRateForm && textField.text && [self.hourForm textFieldAtIndex:0].text ) ||
-		([[textField superview] superview] == self.hourForm && textField.text && [self.hourRateForm textFieldAtIndex:0].text)) {
+	if (([[textField superview] superview] == self.hourRateForm && textField.text && [self.hourForm textForFieldAtIndex:0]) ||
+		([[textField superview] superview] == self.hourForm && textField.text && [self.hourRateForm textForFieldAtIndex:0])) {
 		[self setTotalText];
 	}
 }
 
 - (void)setTotalText {
 	
-	if ([self.hourForm textFieldAtIndex:0].text && [self.hourRateForm textFieldAtIndex:0].text) {
-		CGFloat hours = [[self.hourForm textFieldAtIndex:0].text floatValue];
+	if ([self.hourForm textForFieldAtIndex:0] && [self.hourRateForm textForFieldAtIndex:0]) {
+		CGFloat hours = [[self.hourForm textForFieldAtIndex:0] floatValue];
 		NSLog(@"hours %f", hours);
-		CGFloat hourRate = [[self.hourRateForm textFieldAtIndex:0].text floatValue];
+		CGFloat hourRate = [[self.hourRateForm textForFieldAtIndex:0] floatValue];
 		CGFloat total = hours * hourRate;
 		
 		if (total > 0.0) {
@@ -322,7 +319,7 @@
 		SZFormFieldVO* jobRateField = [SZFormFieldVO formFieldValueObjectForTextWithKey:@"jobRate" placeHolderText:@"60" keyboardType:UIKeyboardTypeDecimalPad];
 		[_jobRateForm addItem:jobRateField showsClearButton:NO isLastItem:YES];
 		[_jobRateForm setScrollContainer:self.scrollView];
-		[_jobRateForm configureKeyboard];
+		[_jobRateForm addKeyboardToolbar];
 		[_jobRateForm setFrame:CGRectMake(410.0, 20.0, _jobRateForm.frame.size.width, _jobRateForm.frame.size.height)];
 	}
 	return _jobRateForm;
@@ -477,24 +474,27 @@
 		[message saveEventually:^(BOOL succeeded, NSError *error) {
 			if (succeeded) {
 				
-				[hud setLabelText:@"Message Sent"];
-				[hud setMode:MBProgressHUDModeCustomView];
-				[hud setCustomView:[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"checkmark_hud"]]];
 				
-				dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, 1.0 * NSEC_PER_SEC);
-				dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
-					[hud hide:YES];
-					[self.navigationController popViewControllerAnimated:YES];
-				});
-				
-				[[SZDataManager sharedInstance] addMessageToUserCache:message completionBlock:nil];
-				
-				PFQuery *pushQuery = [PFInstallation query];			// creating a query
-				[pushQuery whereKey:@"user" equalTo:self.recipient];	// finding the user receiving the message
-				PFPush *push = [[PFPush alloc] init];					// creating the push object
-				[push setQuery:pushQuery];								// assigning the query to the push object
-				[push setMessage:@"You received a new message!"];		// specifying the notification message
-				[push sendPushInBackground];							// sending out the notification
+				[SZDataManager addMessageToUserCache:message completionBlock:^(BOOL finished) {
+					if (finished) {
+						[hud setLabelText:@"Message Sent"];
+						[hud setMode:MBProgressHUDModeCustomView];
+						[hud setCustomView:[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"checkmark_hud"]]];
+						
+						dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, 1.0 * NSEC_PER_SEC);
+						dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
+							[hud hide:YES];
+							[self.navigationController popViewControllerAnimated:YES];
+						});
+						
+						PFQuery *pushQuery = [PFInstallation query];			// creating a query
+						[pushQuery whereKey:@"user" equalTo:self.recipient];	// finding the user receiving the message
+						PFPush *push = [[PFPush alloc] init];					// creating the push object
+						[push setQuery:pushQuery];								// assigning the query to the push object
+						[push setMessage:@"You received a new message!"];		// specifying the notification message
+						[push sendPushInBackground];							// sending out the notification
+					}
+				}];
 			}	
 			else if (error) {
 				[hud hide:YES];
@@ -538,9 +538,9 @@
 				return nil;
 			}
 			else {
-				CGFloat value = [[self.hourForm textFieldAtIndex:0].text floatValue] * [[self.hourRateForm textFieldAtIndex:0].text floatValue];
+				CGFloat value = [[self.hourForm textForFieldAtIndex:0] floatValue] * [[self.hourRateForm textForFieldAtIndex:0] floatValue];
 				[dealProposal setValue:[NSNumber numberWithFloat:value] forKey:@"dealValue"];
-				[dealProposal setValue:[NSNumber numberWithFloat:[[self.hourForm textFieldAtIndex:0].text floatValue]] forKey:@"hours"];
+				[dealProposal setValue:[NSNumber numberWithFloat:[[self.hourForm textForFieldAtIndex:0] floatValue]] forKey:@"hours"];
 			}
 		}
 		
@@ -551,7 +551,7 @@
 				return nil;
 			}
 			else {
-				CGFloat value = [[self.jobRateForm textFieldAtIndex:0].text floatValue];
+				CGFloat value = [[self.jobRateForm textForFieldAtIndex:0] floatValue];
 				[dealProposal setValue:[NSNumber numberWithFloat:value] forKey:@"dealValue"];
 			}
 		}

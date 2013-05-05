@@ -10,6 +10,9 @@
 #import "SZForm.h"
 #import "SZSegmentedControlVertical.h"
 
+/**
+ This class represents the third step of creating or editing an entry. Asks the user to specify details about the entry's location.
+ */
 @interface SZNewEntryStep3VC : SZStepVC <SZSegmentedControlVerticalDelegate, SZFormDelegate>
 
 @end

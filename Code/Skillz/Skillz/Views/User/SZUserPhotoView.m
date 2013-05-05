@@ -8,10 +8,17 @@
 
 #import "SZUserPhotoView.h"
 
+@interface SZUserPhotoView ()
+
+@property (nonatomic, strong) UIImageView* imgView;
+
+@end
+
 @implementation SZUserPhotoView
 
-- (id)initWithSize:(SZUserPhotoViewSize)size
-{
+@synthesize photo = _photo;
+
+- (id)initWithSize:(SZUserPhotoViewSize)size {
 	NSString* appendix;
 	CGSize viewSize;
 	switch (size) {
@@ -32,11 +39,11 @@
     self = [super initWithFrame:CGRectMake(0.0, 0.0, viewSize.width, viewSize.height)];
     if (self) {
 		
-		self.photo = [[UIImageView alloc] initWithFrame:CGRectMake(0.0, 0.0, viewSize.width, viewSize.width)];
-		[self.photo setContentMode:UIViewContentModeScaleAspectFill];
-		[self.photo setClipsToBounds:YES];
-		[self.photo setImage:[UIImage imageNamed:[NSString stringWithFormat:@"photo_empty%@", appendix]]];
-		[self addSubview:self.photo];
+		self.imgView = [[UIImageView alloc] initWithFrame:CGRectMake(0.0, 0.0, viewSize.width, viewSize.width)];
+		[self.imgView setContentMode:UIViewContentModeScaleAspectFill];
+		[self.imgView setClipsToBounds:YES];
+		[self.imgView setImage:[UIImage imageNamed:[NSString stringWithFormat:@"photo_empty%@", appendix]]];
+		[self addSubview:self.imgView];
 		
 		UIImageView* frameView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:[NSString stringWithFormat:@"photo_frame%@", appendix]]];
 		[self addSubview:frameView];
@@ -45,8 +52,33 @@
     return self;
 }
 
-+ (SZUserPhotoView*)emptyUserPhotoWithSize:(SZUserPhotoViewSize)size {
+- (void)setPhoto:(UIImage *)photo {
+	_photo = photo;
+	[self.imgView setImage:photo];
+}
+
++ (SZUserPhotoView*)emptyUserPhotoViewWithSize:(SZUserPhotoViewSize)size {
 	return [[SZUserPhotoView alloc] initWithSize:size];
+}
+
++ (SZUserPhotoView*)userPhotoViewWithSize:(SZUserPhotoViewSize)size photo:(UIImage*)photo  {
+	SZUserPhotoView* view = [[SZUserPhotoView alloc] initWithSize:size];
+	view.photo = photo;
+	return view;
+}
+
++ (SZUserPhotoView*)userPhotoViewWithSize:(SZUserPhotoViewSize)size fileReference:(PFFile*)file {
+	SZUserPhotoView* view = [[SZUserPhotoView alloc] initWithSize:size];
+	[file getDataInBackgroundWithBlock:^(NSData *data, NSError *error) {
+		if (data) {
+			UIImage* photo = [UIImage imageWithData:data];
+			[view setPhoto:photo];
+		}
+		else if (error) {
+			NSLog(@"error %@", error);
+		}
+	}];
+	return view;
 }
 
 

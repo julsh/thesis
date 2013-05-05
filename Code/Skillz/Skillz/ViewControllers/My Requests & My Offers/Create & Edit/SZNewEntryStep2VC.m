@@ -23,13 +23,11 @@
 @synthesize titleForm = _titleForm;
 @synthesize descriptionForm = _descriptionForm;
 
-- (id)init
-{
+- (id)init {
     return [super initWithStepNumber:2 totalSteps:5];
 }
 
-- (void)viewDidLoad
-{
+- (void)viewDidLoad {
     [super viewDidLoad];
 	switch ([SZDataManager sharedInstance].currentEntryType) {
 		case SZEntryTypeRequest:
@@ -91,7 +89,7 @@
 																		 keyboardType:UIKeyboardTypeDefault];
 		[_titleForm addItem:titleField showsClearButton:YES isLastItem:YES];
 		[_titleForm setCenter:CGPointMake(160.0, 120.0)];
-		[_titleForm configureKeyboard];
+		[_titleForm addKeyboardToolbar];
 		[_titleForm setScrollContainer:self.mainView];
 		
 		if (![SZDataManager sharedInstance].currentEntryIsNew) {

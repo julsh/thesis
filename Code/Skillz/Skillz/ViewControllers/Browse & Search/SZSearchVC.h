@@ -9,8 +9,8 @@
 #import <UIKit/UIKit.h>
 #import "SZForm.h"
 
-#import "SZSectionRootVC.h"
-
-@interface SZSearchVC : SZSectionRootVC <SZFormDelegate>
+/** This class represents the view controller that is displayed when a user wants to perform a search.
+ */
+@interface SZSearchVC : SZViewController <SZFormDelegate>
 
 @end

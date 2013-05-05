@@ -8,8 +8,9 @@
 
 #import <UIKit/UIKit.h>
 
-@interface SZConfirmEntryVC : UIViewController
-
-//@property (nonatomic, strong) UIScrollView* mainView;
+/**
+ This class represents a preview of the entry that was just created or edited and asks the user to double-check all information and then either post it to server or save it to be activated later.
+ */
+@interface SZConfirmEntryVC : SZViewController
 
 @end

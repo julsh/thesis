@@ -31,15 +31,13 @@
 @synthesize option2detailView = _option2detailView;
 @synthesize option3detailView = _option3detailView;
 
-- (id)init
-{
+- (id)init {
     return [super initWithStepNumber:4 totalSteps:5];
 }
 
-- (void)viewDidLoad
-{
+- (void)viewDidLoad {
     
-	self.editTaskFirstDisplay = YES;
+	self.firstDisplay = YES;
 	[super viewDidLoad];
 	switch ([SZDataManager sharedInstance].currentEntryType) {
 		case SZEntryTypeRequest:
@@ -83,15 +81,7 @@
 		
 		if (![SZDataManager sharedInstance].currentEntryIsNew) {
 			SZEntryObject* entry = (SZEntryObject*)[SZDataManager sharedInstance].currentEntry;
-			if (entry.priceIsNegotiable) {
-				[_segmentedControl selectItemWithIndex:0];
-			}
-			else if (entry.priceIsFixedPerHour) {
-				[_segmentedControl selectItemWithIndex:1];
-			}
-			else if (entry.priceIsFixedPerJob) {
-				[_segmentedControl selectItemWithIndex:2];
-			}
+			_segmentedControl.selectedIndex = entry.priceType;
 		}
 	}
 	return _segmentedControl;
@@ -111,7 +101,7 @@
 		[noticeText setScrollEnabled:NO];
 		[noticeText setEditable:NO];
 		
-		SZButton* editButton = [[SZButton alloc] initWithColor:SZButtonColorOrange size:SZButtonSizeLarge width:290.0];
+		SZButton* editButton = [SZButton buttonWithColor:SZButtonColorOrange size:SZButtonSizeLarge width:290.0];
 		[editButton setTitle:@"Edit Description" forState:UIControlStateNormal];
 		[editButton addTarget:self action:@selector(editDescription:) forControlEvents:UIControlEventTouchUpInside];
 		[editButton setFrame:CGRectMake(0.0, 130.0, editButton.frame.size.width, editButton.frame.size.height)];
@@ -131,7 +121,7 @@
 		SZFormFieldVO* hourPriceField = [SZFormFieldVO formFieldValueObjectForTextWithKey:@"price" placeHolderText:@"15" keyboardType:UIKeyboardTypeDecimalPad];
 		[self.hourPriceForm addItem:hourPriceField showsClearButton:NO isLastItem:YES];
 		[self.hourPriceForm setScrollContainer:self.mainView];
-		[self.hourPriceForm configureKeyboard];
+		[self.hourPriceForm addKeyboardToolbar];
 		[self.hourPriceForm setFrame:CGRectMake(16.0, 35.0, self.hourPriceForm.frame.size.width, self.hourPriceForm.frame.size.height)];
 		
 		UILabel* priceLabel = [[UILabel alloc] initWithFrame:CGRectMake(86.0, 35.0, 220.0, 40.0)];
@@ -165,7 +155,7 @@
 		SZFormFieldVO* jobPriceField = [SZFormFieldVO formFieldValueObjectForTextWithKey:@"price" placeHolderText:@"50" keyboardType:UIKeyboardTypeDecimalPad];
 		[self.jobPriceForm addItem:jobPriceField showsClearButton:NO isLastItem:YES];
 		[self.jobPriceForm setScrollContainer:self.mainView];
-		[self.jobPriceForm configureKeyboard];
+		[self.jobPriceForm addKeyboardToolbar];
 		[self.jobPriceForm setFrame:CGRectMake(50.0, 0.0, self.jobPriceForm.frame.size.width, self.jobPriceForm.frame.size.height)];
 		
 		UILabel* priceLabel = [[UILabel alloc] initWithFrame:CGRectMake(140.0, 0.0, 140.0, 40.0)];
@@ -185,7 +175,7 @@
 		[noticeText setScrollEnabled:NO];
 		[noticeText setEditable:NO];
 		
-		SZButton* editButton = [[SZButton alloc] initWithColor:SZButtonColorOrange size:SZButtonSizeLarge width:290.0];
+		SZButton* editButton = [SZButton buttonWithColor:SZButtonColorOrange size:SZButtonSizeLarge width:290.0];
 		[editButton setTitle:@"Edit Description" forState:UIControlStateNormal];
 		[editButton addTarget:self action:@selector(editDescription:) forControlEvents:UIControlEventTouchUpInside];
 		[editButton setFrame:CGRectMake(0.0, 155.0, editButton.frame.size.width, editButton.frame.size.height)];
@@ -247,13 +237,13 @@
 			break;
 	}
 	
-	if ([SZDataManager sharedInstance].currentEntryIsNew || !self.editTaskFirstDisplay) {
+	if ([SZDataManager sharedInstance].currentEntryIsNew || !self.firstDisplay) {
 		[super newDetailViewAddedAnimated:YES];
 	}
 	else {
 		[super newDetailViewAddedAnimated:NO];
 		[self.mainView setContentOffset:CGPointMake(0.0, 0.0)];
-		self.editTaskFirstDisplay = NO;
+		self.firstDisplay = NO;
 	}
 	
 	NSLog(@"contentsize: %@", NSStringFromCGSize(self.mainView.contentSize));
@@ -283,26 +273,10 @@
 }
 
 - (void)storeInputs {
-	switch (self.segmentedControl.selectedIndex) {
-		case SZEntryPriceNegotiable:
-			((SZEntryObject*)[SZDataManager sharedInstance].currentEntry).priceIsNegotiable = YES;
-			((SZEntryObject*)[SZDataManager sharedInstance].currentEntry).priceIsFixedPerHour = NO;
-			((SZEntryObject*)[SZDataManager sharedInstance].currentEntry).priceIsFixedPerJob = NO;((SZEntryObject*)[SZDataManager sharedInstance].currentEntry).price = nil;
-			break;
-		case SZEntryPriceFixedPerHour:
-			((SZEntryObject*)[SZDataManager sharedInstance].currentEntry).priceIsNegotiable = NO;
-			((SZEntryObject*)[SZDataManager sharedInstance].currentEntry).priceIsFixedPerHour = YES;
-			((SZEntryObject*)[SZDataManager sharedInstance].currentEntry).priceIsFixedPerJob = NO;
-			((SZEntryObject*)[SZDataManager sharedInstance].currentEntry).price = [SZUtils numberFromDecimalString:[self.hourPriceForm.userInputs valueForKey:@"price"]];
-			break;
-		case SZEntryPriceFixedPerJob:
-			((SZEntryObject*)[SZDataManager sharedInstance].currentEntry).priceIsNegotiable = NO;
-			((SZEntryObject*)[SZDataManager sharedInstance].currentEntry).priceIsFixedPerHour = NO;
-			((SZEntryObject*)[SZDataManager sharedInstance].currentEntry).priceIsFixedPerJob = YES;
-			((SZEntryObject*)[SZDataManager sharedInstance].currentEntry).price = [SZUtils numberFromDecimalString:[self.jobPriceForm.userInputs valueForKey:@"price"]];
-			break;
-		default:
-			break;
+	
+	[SZDataManager sharedInstance].currentEntry.priceType = self.segmentedControl.selectedIndex;
+	if (self.segmentedControl.selectedIndex != SZEntryPriceNegotiable) {
+		[SZDataManager sharedInstance].currentEntry.price = [SZUtils numberFromDecimalString:[self.hourPriceForm.userInputs valueForKey:@"price"]];
 	}
 }
 

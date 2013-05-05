@@ -33,8 +33,7 @@
 @synthesize mainView = _mainView;
 @synthesize contentHeight = _contentHeight;
 
-- (void)viewDidLoad
-{
+- (void)viewDidLoad {
     [super viewDidLoad];
 	
 	switch ([SZDataManager sharedInstance].currentEntryType) {
@@ -48,8 +47,6 @@
 	
 	UIBarButtonItem* cancelButton = [[UIBarButtonItem alloc] initWithTitle:@"Cancel" style:UIBarButtonItemStylePlain target:self action:@selector(cancel:)];
 	[self.navigationItem setRightBarButtonItem:cancelButton];
-	[self.navigationItem setBackBarButtonItem:[[UIBarButtonItem alloc] initWithTitle:@"Back" style:UIBarButtonItemStylePlain target:nil action:nil]];
-	[self.view setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"bg_pattern"]]];
 	
 	[self.mainView addSubview:self.topView];
 	[self.mainView addSubview:self.entryView];
@@ -114,13 +111,13 @@
 		if ([SZDataManager sharedInstance].currentEntryIsNew) {
 			_bottomView = [[UIView alloc] initWithFrame:CGRectMake(0.0, self.contentHeight, 320.0, 105.0)];
 			
-			SZButton* postButton = [[SZButton alloc] initWithColor:SZButtonColorOrange size:SZButtonSizeLarge width:290.0];
+			SZButton* postButton = [SZButton buttonWithColor:SZButtonColorOrange size:SZButtonSizeLarge width:290.0];
 			[postButton setTag:0];
 			[postButton setTitle:[NSString stringWithFormat:@"Post %@", [SZDataManager sharedInstance].currentEntryType == SZEntryTypeRequest ? @"Request" : @"Offer"] forState:UIControlStateNormal];
 			[postButton addTarget:self action:@selector(postEntry:) forControlEvents:UIControlEventTouchUpInside];
 			[postButton setCenter:CGPointMake(160.0, 20.0)];
 			
-			SZButton* saveButton = [[SZButton alloc] initWithColor:SZButtonColorPetrol size:SZButtonSizeLarge width:290.0];
+			SZButton* saveButton = [SZButton buttonWithColor:SZButtonColorPetrol size:SZButtonSizeLarge width:290.0];
 			[saveButton setTag:1];
 			[saveButton setTitle:@"Save & Activate Later" forState:UIControlStateNormal];
 			[saveButton addTarget:self action:@selector(postEntry:) forControlEvents:UIControlEventTouchUpInside];
@@ -132,7 +129,7 @@
 		else {
 			_bottomView = [[UIView alloc] initWithFrame:CGRectMake(0.0, self.contentHeight, 320.0, 55.0)];
 			
-			SZButton* saveButton = [[SZButton alloc] initWithColor:SZButtonColorOrange size:SZButtonSizeLarge width:290.0];
+			SZButton* saveButton = [SZButton buttonWithColor:SZButtonColorOrange size:SZButtonSizeLarge width:290.0];
 			[saveButton setTag:0];
 			[saveButton setTitle:@"Save Changes" forState:UIControlStateNormal];
 			[saveButton addTarget:self action:@selector(saveChanges:) forControlEvents:UIControlEventTouchUpInside];

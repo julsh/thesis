@@ -8,6 +8,8 @@
 
 #import <UIKit/UIKit.h>
 
-@interface SZCategoriesVC : UITableViewController
+/** This class represents a table view controller displaying a list of all available categories. Used for browsing feature.
+ */
+@interface SZCategoriesVC : SZTableViewController
 
 @end

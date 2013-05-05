@@ -17,7 +17,6 @@
 @synthesize keyboardType;
 @synthesize isPassword;
 @synthesize pickerOptions;
-@synthesize pickerOptionsSelectedIndex;
 @synthesize datePickerMode;
 @synthesize datePickerMinuteInterval;
 @synthesize datePickerStartDate;
@@ -42,7 +41,6 @@
 	[vo setPlaceHolderText:placeHolderText];
 	[vo setInputType:SZFormFieldInputTypePicker];
 	[vo setPickerOptions:pickerOptions];
-	[vo setPickerOptionsSelectedIndex:0]; // standard initialization. may be changed manually through public property.
 	
 	return vo;
 }

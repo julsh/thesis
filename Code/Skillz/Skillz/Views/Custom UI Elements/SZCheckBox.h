@@ -8,8 +8,13 @@
 
 #import <UIKit/UIKit.h>
 
+/** This class subclasses `UIButton` to create a button that behaves like a checkbox.
+ */
+
 @interface SZCheckBox : UIButton
 
+/** Indicates whether or not the checkbox is checked.
+ */
 @property (nonatomic, assign) BOOL isChecked;
 
 @end

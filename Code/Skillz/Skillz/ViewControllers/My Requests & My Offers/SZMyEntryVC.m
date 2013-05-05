@@ -40,8 +40,7 @@
 	return self;
 }
 
-- (void)viewDidLoad
-{
+- (void)viewDidLoad {
     [super viewDidLoad];
 	
 	switch (self.entry.type) {
@@ -51,8 +50,6 @@
 		case SZEntryTypeOffer:
 			[self.navigationItem setTitle:@"My Offers"];
 	}
-	
-	[self.view setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"bg_pattern"]]];
 	
 	[self.mainView addSubview:self.topView];
 	[self.mainView addSubview:self.entryView];
@@ -73,11 +70,11 @@
 	if (_topView == nil) {
 		_topView = [[UIView alloc] initWithFrame:CGRectMake(0.0, 0.0, 320.0, 105.0)];
 		
-		SZButton* editButton = [[SZButton alloc] initWithColor:SZButtonColorPetrol size:SZButtonSizeLarge width:290.0];
+		SZButton* editButton = [SZButton buttonWithColor:SZButtonColorPetrol size:SZButtonSizeLarge width:290.0];
 		[editButton addTarget:self action:@selector(editEntry:) forControlEvents:UIControlEventTouchUpInside];
 		[editButton setCenter:CGPointMake(160.0, 35.0)];
 		
-		SZButton* deleteButton = [[SZButton alloc] initWithColor:SZButtonColorOrange size:SZButtonSizeLarge width:290.0];
+		SZButton* deleteButton = [SZButton buttonWithColor:SZButtonColorOrange size:SZButtonSizeLarge width:290.0];
 		[deleteButton addTarget:self action:@selector(deleteEntry:) forControlEvents:UIControlEventTouchUpInside];
 		[deleteButton setCenter:CGPointMake(160.0, 85.0)];
 		
@@ -141,7 +138,7 @@
 		
 		PFObject* serverObject = [PFQuery getObjectOfClass:@"Entry" objectId:self.entry.objectId];
 		[serverObject deleteInBackground];
-		[[SZDataManager sharedInstance] removeEntryFromCache:self.entry];
+		[SZDataManager removeEntryFromCache:self.entry];
 		[self.navigationController popViewControllerAnimated:YES];
 	}
 }

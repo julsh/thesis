@@ -30,7 +30,7 @@
 @synthesize mainView = _mainView;
 @synthesize detailViewContainer = _detailViewContainer;
 @synthesize continueButton = _continueButton;
-@synthesize editTaskFirstDisplay = _editTaskFirstDisplay;
+@synthesize firstDisplay = _editTaskFirstDisplay;
 @synthesize forms = _forms;
 
 
@@ -43,18 +43,12 @@
 	return self;
 }
 
-- (void)viewDidLoad
-{
+- (void)viewDidLoad {
     [super viewDidLoad];
 	UIBarButtonItem* cancelButton = [[UIBarButtonItem alloc] initWithTitle:@"Cancel" style:UIBarButtonItemStylePlain target:self action:@selector(cancel:)];
 	[self.navigationItem setRightBarButtonItem:cancelButton];
-	[self.navigationItem setBackBarButtonItem:[[UIBarButtonItem alloc] initWithTitle:@"Back" style:UIBarButtonItemStylePlain target:nil action:nil]];
-	
-	
 	[self.navigationItem.rightBarButtonItem setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys: [SZGlobalConstants fontWithFontType:SZFontBold size:12.0], UITextAttributeFont,nil] forState:UIControlStateNormal];
 	[self.navigationItem.backBarButtonItem setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys: [SZGlobalConstants fontWithFontType:SZFontBold size:12.0], UITextAttributeFont,nil] forState:UIControlStateNormal];
-	
-	[self.view setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"bg_pattern"]]];
 	
 	[self.view addSubview:self.mainView];
 	[self.mainView addSubview:[self stepLabel]];
@@ -93,7 +87,7 @@
 
 - (SZButton*)continueButton {
 	if (_continueButton == nil) {
-		_continueButton = [[SZButton alloc] initWithColor:SZButtonColorPetrol size:SZButtonSizeLarge width:290.0];
+		_continueButton = [SZButton buttonWithColor:SZButtonColorPetrol size:SZButtonSizeLarge width:290.0];
 		[_continueButton setTitle:@"Continue" forState:UIControlStateNormal];
 		[_continueButton addTarget:self action:@selector(continue:) forControlEvents:UIControlEventTouchUpInside];
 		[_continueButton setCenter:CGPointMake(160.0, 381.0)];

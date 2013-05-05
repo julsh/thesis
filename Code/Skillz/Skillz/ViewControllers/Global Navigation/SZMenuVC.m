@@ -11,39 +11,16 @@
 #import "SZMenuCell.h"
 #import "UILabel+Shadow.h"
 
-#define CELL_HEIGHT 40.0
 #define SECTION_HEADER_HEIGHT 22.0
 
 @interface SZMenuVC ()
 
-/// Returns the number of sections in the table view.  Can also be used to set the number of sections.
 @property (nonatomic, assign) NSInteger numberOfSections;
-/// The table view used to display the different menu options
 @property (nonatomic, strong) UITableView *tableView;
 @property (nonatomic, strong) NSMutableArray *sections;
 @property (nonatomic, strong) NSMutableDictionary *sectionTitles;
 @property (nonatomic, strong) UIViewController* hiddenViewController;
 @property (nonatomic, strong) UIView* hiddenView;
-
-/// Adds an item to the tableview in the specified section.
-/// @param itemDictionary the item too add to the menu
-/// @param sectionIndex the section to which to add the item
-- (void)addItem:(NSDictionary *)itemDictionary toSection:(NSInteger)sectionIndex;
-
-/// Sets the title for the specified section.
-/// @param sectionTitle the new title for the specified section
-/// @param sectionIndex the section for which to set the new title
-- (void)setSectionTitle:(NSString *)sectionTitle forSection:(NSInteger)sectionIndex;
-
-/// Returns the item dictionary for the item at the specified section row.
-/// @param row the row from which the item dictionary should be retrieved
-/// @param sectionIndex the section from which the item dictionary should be retrieved
-/// @return the item dictionary for the specified section and row
-- (NSDictionary *)dictionaryForRow:(NSInteger) rowIndex inSection:(NSInteger)sectionIndex;
-
-/// Returns the dictionary containing all section titles.
-/// @return a dictionary with all section titles
-- (NSDictionary *)getSectionTitles;
 
 @end
 
@@ -66,8 +43,7 @@
 	return [self sharedInstance];
 }
 
-- (id)init
-{
+- (id)init {
     self = [super init];
     if (self) {
         [self setNumberOfSections:4];
@@ -124,8 +100,7 @@
     return self;
 }
 
-- (void)viewDidLoad
-{
+- (void)viewDidLoad {
     [super viewDidLoad];
 	[self.view setFrame:CGRectMake(0.0, 0.0, 320.0, 460.0)];
 	
@@ -138,7 +113,7 @@
 - (UITableView *)tableView {
     if (_tableView == nil) {
         _tableView = [[UITableView alloc] initWithFrame:self.view.frame style:UITableViewStylePlain];
-		[_tableView setFrame:CGRectMake(0.0, 0.0, 240.0, 460.0)];
+		[_tableView setFrame:CGRectMake(0.0, 0.0, MENU_WIDTH, 460.0)];
 		[_tableView setBackgroundColor:[SZGlobalConstants menuCellColor]];
         [_tableView setDataSource:self];
         [_tableView setDelegate:self];
@@ -146,6 +121,7 @@
     }
     return _tableView;
 }
+
 - (NSMutableArray*)sections {
 	if (_sections == nil) {
 		_sections = [[NSMutableArray alloc] init];
@@ -222,7 +198,7 @@
 	SZMenuCell* cell = [tableView dequeueReusableCellWithIdentifier:cellId];
 	
 	if (cell == nil) {
-		cell = [[SZMenuCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellId width:self.view.frame.size.width height:CELL_HEIGHT];
+		cell = [[SZMenuCell alloc] initWithReuseIdentifier:cellId];
 	}
 	
 	NSDictionary *dict = [self dictionaryForRow:indexPath.row inSection:indexPath.section];
@@ -297,15 +273,27 @@
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-	return CELL_HEIGHT;
+	return MENU_CELL_HEIGHT;
 }
 
 - (void) tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+	
+	for (int section = 0; section < [tableView numberOfSections]; section++) {
+		for (int row = 0; row < [tableView numberOfRowsInSection:section]; row++) {
+			NSIndexPath* cellPath = [NSIndexPath indexPathForRow:row inSection:section];
+			UITableViewCell* cell = [tableView cellForRowAtIndexPath:cellPath];
+			[cell setHighlighted:NO];
+			[cell setUserInteractionEnabled:YES];
+		}
+	}
+	
+	UITableViewCell* tappedCell = [tableView cellForRowAtIndexPath:indexPath];
+	[tappedCell setHighlighted:YES];
+	[tappedCell setUserInteractionEnabled:NO];
     
     NSDictionary* dict = [self dictionaryForRow:indexPath.row inSection:indexPath.section];
 	NSString* class = [dict objectForKey:@"class"];
-    [self.delegate menu:self switchToViewControllerWithClassName:class];
+    [self.delegate switchToViewControllerWithClassName:class];
          
 }
 
@@ -313,13 +301,13 @@
 	return UITableViewCellEditingStyleNone;
 }
 
-- (void)addHiddenMenu:(UIViewController*)vc {
+- (void)addAdditionalRightMenu:(UIViewController*)vc {
 	self.hiddenViewController = vc;
 	[self.hiddenView addSubview:vc.view];
 	[self addChildViewController:vc];
 }
 
-- (void)removeHiddenMenu {
+- (void)removeAdditionalRightMenu {
 	for (UIView* subview in [self.hiddenView subviews]) {
 		[subview removeFromSuperview];
 	}
@@ -327,11 +315,11 @@
 	self.hiddenViewController = nil;
 }
 
-- (void)showHiddenMenu {
+- (void)showAdditionalRightMenu {
 	[self.hiddenView setHidden:NO];
 }
 
-- (void)hideHiddenMenu {
+- (void)hideAdditionalRightMenu {
 	[self.hiddenView setHidden:YES];
 
 }

@@ -34,23 +34,11 @@
 	self = [super init];
 	if (self) {
 		self.entry = entry;
-		
-		NSString* locationString;
-		if (entry.address) locationString = [NSString stringWithFormat:@"%@, %@, %@ %@, USA",
-											 [entry.address valueForKey:@"streetAddress"],
-											 [entry.address valueForKey:@"city"],
-											 [entry.address valueForKey:@"state"],
-											 [entry.address valueForKey:@"zipCode"]];
-		else if (entry.withinZipCode) locationString = [NSString stringWithFormat:@"%@ %@, USA",
-														[entry.user valueForKey:@"zipCode"],
-														[entry.user valueForKey:@"state"]];
-		
 	}
 	return self;
 }
 
-- (void)viewDidLoad
-{
+- (void)viewDidLoad {
     [super viewDidLoad];
 	
 	switch (self.entry.type) {
@@ -61,9 +49,6 @@
 			[self.navigationItem setTitle:@"Offer Details"];
 			break;
 	}
-	
-	[self.navigationItem setBackBarButtonItem:[[UIBarButtonItem alloc] initWithTitle:@"Back" style:UIBarButtonItemStylePlain target:nil action:nil]];
-	[self.view setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"bg_pattern"]]];
 	
 	[self.mainView addSubview:self.entryView];
 	[self.mainView addSubview:self.bottomView];
@@ -97,7 +82,7 @@
 		
 		_bottomView = [[UIView alloc] initWithFrame:CGRectMake(0.0, self.contentHeight, 320.0, 60.0)];
 		
-		SZButton* contactButton = [[SZButton alloc] initWithColor:SZButtonColorOrange size:SZButtonSizeLarge width:290.0];
+		SZButton* contactButton = [SZButton buttonWithColor:SZButtonColorOrange size:SZButtonSizeLarge width:290.0];
 		[contactButton setTag:0];
 		[contactButton setTitle:[NSString stringWithFormat:@"Contact %@", [self.entry.user valueForKey:@"firstName"]] forState:UIControlStateNormal];
 		[contactButton addTarget:self action:@selector(contact:) forControlEvents:UIControlEventTouchUpInside];

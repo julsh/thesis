@@ -10,10 +10,13 @@
 #import <MapKit/MapKit.h>
 #import <UIKit/UIKit.h>
 
-@interface SZSearchResultsVC : UITableViewController <CLLocationManagerDelegate, MKMapViewDelegate>
+/** This class represents a table view controller that will run a search or browse query and display the results both in a list view and a map view. The user may switch between both views through a segmented control in the navigation bar.
+ */
+@interface SZSearchResultsVC : SZTableViewController <CLLocationManagerDelegate, MKMapViewDelegate>
 
+/** Initializes an instance of SZSearchResultsVC with a given query
+ @param query The query to run
+ */
 - (id)initWithQuery:(PFQuery*)query;
-
-@property (nonatomic, strong) CLLocation* mapCenter;
 
 @end

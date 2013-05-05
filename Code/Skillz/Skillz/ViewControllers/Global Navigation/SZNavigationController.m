@@ -14,7 +14,6 @@
 
 @interface SZNavigationController ()
 
-//@property (nonatomic, strong) SZMenuVC* menu;
 @property (nonatomic, strong) UINavigationController* mainViewController;
 @property (nonatomic, strong) UISwipeGestureRecognizer *leftSwipeRecognizer;
 @property (nonatomic, strong) UISwipeGestureRecognizer *rightSwipeRecognizer;
@@ -25,7 +24,6 @@
 
 @implementation SZNavigationController
 
-//@synthesize menu = _menu;
 @synthesize mainViewController = _mainViewController;
 @synthesize leftSwipeRecognizer = _leftSwipeRecognizer;
 @synthesize rightSwipeRecognizer = _rightSwipeRecognizer;
@@ -54,8 +52,7 @@
 }
 
 
-- (void)viewDidLoad
-{
+- (void)viewDidLoad {
     [super viewDidLoad];
 	[self.mainViewController.navigationBar setTintColor:[SZGlobalConstants veryDarkPetrol]];
 }
@@ -113,6 +110,9 @@
 		if (!self.isSortOrFilterMenuVisible) {
 			[self slideInMainViewAnimated:YES navigationType:SZNavigationMenu];
 		}
+		if (!self.isMenuVisible) {
+			[[NSNotificationCenter defaultCenter] postNotificationName:NOTIF_LEFT_SWIPE object:nil];
+		}
 	} else if (recognizer == self.rightSwipeRecognizer) {
 		if (self.isSortOrFilterMenuVisible) {
 			[self slideInMainViewAnimated:YES navigationType:SZNavigationSortOrFiler];
@@ -139,7 +139,7 @@
 			case SZNavigationSortOrFiler:
 				self.isSortOrFilterMenuVisible = NO;
 				[[NSNotificationCenter defaultCenter] postNotificationName:NOTIF_FILTER_OR_SORT_MENU_HIDDEN object:nil];
-				[[SZMenuVC sharedInstance] hideHiddenMenu];
+				[[SZMenuVC sharedInstance] hideAdditionalRightMenu];
 				break;
 		}
 		
@@ -158,7 +158,7 @@
 			break;
 		case SZNavigationSortOrFiler:
 			self.isSortOrFilterMenuVisible = YES;
-			[[SZMenuVC sharedInstance] showHiddenMenu];
+			[[SZMenuVC sharedInstance] showAdditionalRightMenu];
 			frame.origin.x  = -frame.size.width + 90;
 			break;
 	}
@@ -179,7 +179,7 @@
 	[[SZMenuVC sharedInstance] setDelegate:self];
 }
 
-- (void)menu:(SZMenuVC *)menu switchToViewControllerWithClassName:(NSString *)className {
+- (void)switchToViewControllerWithClassName:(NSString *)className {
 	
 	UIViewController* vc = [[NSClassFromString(className) alloc] init];
 	
@@ -194,8 +194,5 @@
 	}
 }
 
-//- (void)dismissViewControllerAnimated:(BOOL)flag completion:(void (^)(void))completion {
-//	[[SZMenuVC sharedInstance] setDelegate:self];
-//}
 
 @end

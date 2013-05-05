@@ -9,7 +9,6 @@
 #import <QuartzCore/QuartzCore.h>
 
 #import "SZForm.h"
-#import "SZAccessoryArrow.h"
 #import "SZUtils.h"
 
 #define FORM_TOP_IMAGE			@"form_top"
@@ -82,7 +81,7 @@
 		[self addSubview:bgImgView];
 		[self addSubview:textView];
 		
-		[self configureKeyboard];
+		[self addKeyboardToolbar];
 		
 	}
 	return self;
@@ -193,14 +192,14 @@
 	
 }
 
-- (void)configureKeyboard {
+- (void)addKeyboardToolbar {
 	[self setKeyboardControls:[[BSKeyboardControls alloc] initWithFields:self.fieldViews]];
     [self.keyboardControls setDelegate:self];
 }
 
 - (void)addAccessoryArrowToBackgroundImage:(UIImageView*)bgImage forTextFieldTag:(NSInteger)tag; {
 	
-	UIView* arrow = [SZAccessoryArrow largeArrow];
+	UIImageView* arrow = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"accessory_arrow"]];
 	arrow.tag = ACCESSORY_ARROW_TAG_BASE + tag;
 	arrow.center = CGPointMake(bgImage.frame.size.width - arrow.frame.size.width + 5.0, bgImage.frame.size.height / 2);
 	[bgImage addSubview:arrow];
@@ -227,12 +226,12 @@
 	return _fieldViews;
 }
 
-- (UITextField*)textFieldAtIndex:(NSInteger)index {
+- (NSString*)textForFieldAtIndex:(NSInteger)index; {
 	UIView* field = [self.fieldViews objectAtIndex:index];
 	if ([field isKindOfClass:[UITextField class]]) {
-		return (UITextField *)field;
+		return ((UITextField *)field).text;
 	}
-	else return nil;
+	else return @"";
 }
 
 - (void)setText:(NSString*)text forFieldAtIndex:(NSInteger)index {
@@ -575,12 +574,12 @@
 	[addressForm  addItem:cityField showsClearButton:YES isLastItem:NO];
 	[addressForm  addItem:zipCodeField showsClearButton:YES isLastItem:NO];
 	[addressForm  addItem:stateField showsClearButton:YES isLastItem:YES];
-	[addressForm  configureKeyboard];
+	[addressForm  addKeyboardToolbar];
 	
 	return addressForm;
 }
 
-+ (NSDictionary*)addressDictfromAddressForm:(SZForm*)addressForm {
++ (NSDictionary*)addressDictFromAddressForm:(SZForm*)addressForm {
 	NSMutableDictionary* address = [[NSMutableDictionary alloc] init];
 	[address setValue:[addressForm.userInputs valueForKey:@"streetAddress"] forKey:@"streetAddress"];
 	[address setValue:[addressForm.userInputs valueForKey:@"city"] forKey:@"city"];

@@ -19,8 +19,7 @@
 
 @implementation SZSearchResultCell
 
-- (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
-{
+- (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
 		
@@ -52,7 +51,7 @@
 		[self.contentView addSubview:self.userName];
 		
 		// user photo
-		self.userPhoto = [SZUserPhotoView emptyUserPhotoWithSize:SZUserPhotoViewSizeSmall];
+		self.userPhoto = [SZUserPhotoView emptyUserPhotoViewWithSize:SZUserPhotoViewSizeSmall];
 		[self.userPhoto setFrame:CGRectMake(250.0, 31.0, self.userPhoto.frame.size.width, self.userPhoto.frame.size.height)];
 		[self.contentView addSubview:self.userPhoto];
 		
@@ -88,17 +87,21 @@
 		[pointsIcon setFrame:CGRectMake(15.0, 85.0, pointsIcon.frame.size.width, pointsIcon.frame.size.height)];
 		[self.contentView addSubview:pointsIcon];
 		
-		self.pointsLabel = [[UILabel alloc] initWithFrame:CGRectMake(42.0, 88.0, 90.0, 17.0)];
-		[self.pointsLabel setBackgroundColor:[UIColor clearColor]];
-		[self.pointsLabel setNumberOfLines:1];
-		[self.pointsLabel setLineBreakMode:NSLineBreakByTruncatingTail];
-		[self.pointsLabel setFont:[SZGlobalConstants fontWithFontType:SZFontSemiBold size:14.0]];
-		[self.pointsLabel setTextColor:[SZGlobalConstants darkPetrol]];
-		[self.pointsLabel setHighlightedTextColor:[SZGlobalConstants darkPetrol]];
-		[self.pointsLabel applyWhiteShadow];
-		[self.contentView addSubview:self.pointsLabel];
+		self.priceLabel = [[UILabel alloc] initWithFrame:CGRectMake(42.0, 88.0, 90.0, 17.0)];
+		[self.priceLabel setBackgroundColor:[UIColor clearColor]];
+		[self.priceLabel setNumberOfLines:1];
+		[self.priceLabel setLineBreakMode:NSLineBreakByTruncatingTail];
+		[self.priceLabel setFont:[SZGlobalConstants fontWithFontType:SZFontSemiBold size:14.0]];
+		[self.priceLabel setTextColor:[SZGlobalConstants darkPetrol]];
+		[self.priceLabel setHighlightedTextColor:[SZGlobalConstants darkPetrol]];
+		[self.priceLabel applyWhiteShadow];
+		[self.contentView addSubview:self.priceLabel];
 		
-		self.distanceLabel = [[UILabel alloc] initWithFrame:CGRectMake(180.0, 88.0, 90.0, 17.0)];
+		self.distanceIcon = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"location_icon"]];
+		[self.distanceIcon setFrame:CGRectMake(130.0, 85.0, self.distanceIcon.frame.size.width, self.distanceIcon.frame.size.height)];
+		[self.contentView addSubview:self.distanceIcon];
+		
+		self.distanceLabel = [[UILabel alloc] initWithFrame:CGRectMake(160.0, 89.0, 90.0, 17.0)];
 		[self.distanceLabel setBackgroundColor:[UIColor clearColor]];
 		[self.distanceLabel setNumberOfLines:1];
 		[self.distanceLabel setLineBreakMode:NSLineBreakByTruncatingTail];
@@ -111,16 +114,14 @@
     return self;
 }
 
-- (void)setSelected:(BOOL)selected animated:(BOOL)animated
-{
+- (void)setSelected:(BOOL)selected animated:(BOOL)animated {
     [super setSelected:selected animated:animated];
 	if (selected) [self.bgImage setHidden:YES];
 	else [self.bgImage setHidden:NO];
 	
 }
 
-- (void)setHighlighted:(BOOL)highlighted animated:(BOOL)animated
-{
+- (void)setHighlighted:(BOOL)highlighted animated:(BOOL)animated {
     [super setHighlighted:highlighted animated:animated];
 	if (highlighted) [self.bgImage setHidden:YES];
 	else [self.bgImage setHidden:NO];

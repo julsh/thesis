@@ -9,6 +9,9 @@
 #import "SZStepVC.h"
 #import "SZSegmentedControlVertical.h"
 
+/**
+ This class represents the fourth step of creating or editing an entry. Asks the user to specify a price (or leave the price up to negotiation).
+ */
 @interface SZNewEntryStep4VC : SZStepVC <SZSegmentedControlVerticalDelegate>
 
 @end

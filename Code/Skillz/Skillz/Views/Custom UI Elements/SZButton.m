@@ -141,4 +141,8 @@
 	}
 }
 
++ (SZButton*)buttonWithColor:(SZButtonColor)color size:(SZButtonSize)size width:(CGFloat)width {
+	return [[SZButton alloc] initWithColor:color size:size width:width];
+}
+
 @end

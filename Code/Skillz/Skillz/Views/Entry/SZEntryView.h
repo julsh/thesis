@@ -9,10 +9,17 @@
 #import <UIKit/UIKit.h>
 #import "SZEntryObject.h"
 
+/**
+ This class takes care of displaying and laying out an entry.
+ */
+
 @interface SZEntryView : UIView
 
-@property (nonatomic, strong) SZEntryObject* entry;
-
+/**
+ Initializes the `SZEntryView` with a given <SZEntryObject>.
+ @param entry The entry which is to be displayed by the `SZEntryView`
+ @return An instance of `SZEntryView`
+ */
 - (id)initWithEntry:(SZEntryObject*)entry;
 
 @end

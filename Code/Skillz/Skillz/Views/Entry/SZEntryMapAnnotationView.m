@@ -10,18 +10,12 @@
 #import "SZEntryMapAnnotationView.h"
 #import "SZEntryAnnotation.h"
 
-//@interface SZEntryMapAnnotationView ()
-//
-//
-//@end
 
 @implementation SZEntryMapAnnotationView
 
-- (id)initWithAnnotation:(id <MKAnnotation>)annotation reuseIdentifier:(NSString *)reuseIdentifier
-{
+- (id)initWithAnnotation:(id <MKAnnotation>)annotation reuseIdentifier:(NSString *)reuseIdentifier {
     self = [super initWithAnnotation:annotation reuseIdentifier:reuseIdentifier];
-    if (self)
-    {
+    if (self) {
         self.pinColor = MKPinAnnotationColorRed;
 		self.animatesDrop = YES;
 		self.canShowCallout = YES;
@@ -53,7 +47,6 @@
 		}];
 		
 		CGSize subtitleSize = [[anno.entry.user valueForKey:@"firstName"] sizeWithFont:[UIFont fontWithName:@"HelveticaNeue" size:11]];
-		NSLog(@"%@ width: %f",[anno.entry.user valueForKey:@"firstName"], subtitleSize.width);
 		
 		SZStarsView* starsView = [[SZStarsView alloc] initWithSize:SZStarViewSizeSmall];
 		[starsView setFrame:CGRectMake(45.0 + subtitleSize.width, 19.0, starsView.frame.size.width, starsView.frame.size.height)];

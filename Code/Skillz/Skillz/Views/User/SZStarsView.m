@@ -7,6 +7,7 @@
 //
 
 #import "SZStarsView.h"
+#import "SZUtils.h"
 
 @interface SZStarsView ()
 
@@ -16,8 +17,7 @@
 
 @implementation SZStarsView
 
-- (id)initWithSize:(SZStarViewSize)size
-{
+- (id)initWithSize:(SZStarViewSize)size {
 	self.size = size;
 	
 	CGSize viewSize;
@@ -52,11 +52,7 @@
 
 - (void)setStarsForReviewsArray:(NSArray*)reviews {
 	
-	CGFloat totalPoints = 0;
-	for (NSNumber* points in reviews) {
-		totalPoints += points.floatValue;
-	}
-	CGFloat average = totalPoints / [reviews count];
+	CGFloat average = [SZUtils getAverageValueOfNumberArray:reviews];
 	
 	NSInteger fullStars = floorf(average);
 	NSInteger halfStars = 0;

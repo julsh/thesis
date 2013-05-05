@@ -29,24 +29,17 @@
 		
 		if (self.category) {
 			NSMutableArray* subcategories = [NSMutableArray arrayWithObject:[NSNull null]];
-			[subcategories addObjectsFromArray:[SZUtils sortedSubcategoriesForCategory:category]];
+			[subcategories addObjectsFromArray:[SZDataManager sortedSubcategoriesForCategory:category]];
 			self.subcategories = subcategories;
 		}
     }
     return self;
 }
 
-- (void)viewDidLoad
-{
+- (void)viewDidLoad {
     [super viewDidLoad];
 	
 	[self.navigationItem setTitle:@"Select a Subcategory"];
-	[self.navigationItem setBackBarButtonItem:[[UIBarButtonItem alloc] initWithTitle:@"Back"
-																			   style:UIBarButtonItemStylePlain
-																			  target:nil
-																			  action:nil]];
-	
-	[self.view setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"bg_pattern"]]];
 	[self.tableView setSeparatorStyle:UITableViewCellSeparatorStyleNone];
 }
 

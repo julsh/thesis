@@ -18,8 +18,7 @@
     if (self) {
 		
 		
-        SZUserPhotoView* userPhoto = [SZUserPhotoView emptyUserPhotoWithSize:SZUserPhotoViewSizeSmall];
-		[userPhoto.photo setImage:image];
+        SZUserPhotoView* userPhoto = [SZUserPhotoView userPhotoViewWithSize:SZUserPhotoViewSizeSmall photo:image];
 		
 		UITextView* messageText = [[UITextView alloc] initWithFrame:CGRectMake(0.0, 0.0, 245.0, 10000.0)];
 		[messageText setUserInteractionEnabled:NO];

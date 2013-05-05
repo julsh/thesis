@@ -23,16 +23,10 @@
 
 @implementation SZMyMessagesVC
 
-- (void)viewDidLoad
-{
+- (void)viewDidLoad {
     [super viewDidLoad];
-	
-    [self.navigationItem setBackBarButtonItem:[[UIBarButtonItem alloc] initWithTitle:@"Back"
-																			   style:UIBarButtonItemStylePlain
-																			  target:nil
-																			  action:nil]];
+	[self addMenuButton];
 	[self setTitle:@"Messages"];
-	[self.view setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"bg_pattern"]]];
 	
 	UIActivityIndicatorView* spinner = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
 	[spinner setCenter:CGPointMake(160.0, 208.0)];
@@ -42,14 +36,14 @@
 	__block BOOL messagesUpdated;
 	__block BOOL dealsUpdated;
 	
-	[[SZDataManager sharedInstance] updateMessageCacheWithCompletionBlock:^(NSArray* newMessages) {
+	[SZDataManager updateMessageCacheWithCompletionBlock:^(NSArray* newMessages) {
 			messagesUpdated = YES;
 			if (dealsUpdated) {
 				[spinner removeFromSuperview];
 				[self displayMessages];
 			}
 	}];
-	[[SZDataManager sharedInstance] updateOpenDealsCacheWithCompletionBlock:^(BOOL finished) {
+	[SZDataManager updateOpenDealsCacheWithCompletionBlock:^(BOOL finished) {
 		if (finished) {
 			dealsUpdated = YES;
 			if (messagesUpdated) {
@@ -61,7 +55,7 @@
 }
 
 - (void)displayMessages {
-	self.messagesGrouped = [[SZDataManager sharedInstance] getGroupedMessages];
+	self.messagesGrouped = [SZDataManager getGroupedMessages];
 	[self.view addSubview:self.tableView];
 	if ([self.messagesGrouped count] == 0) {
 		[self showNoMessages];
@@ -69,7 +63,7 @@
 }
 
 - (void)viewDidAppear:(BOOL)animated {
-	self.messagesGrouped = [[SZDataManager sharedInstance] getGroupedMessages];
+	self.messagesGrouped = [SZDataManager getGroupedMessages];
 	[self.tableView reloadData];
 	[self.tableView deselectRowAtIndexPath:[self.tableView indexPathForSelectedRow] animated:YES];
 }
@@ -147,7 +141,7 @@
 				if (data) {
 					UIImage* img = [UIImage imageWithData:data];
 					[message setObject:img forKey:@"otherUserImage"];
-					[cell.userPhoto.photo setImage:img];
+					[cell.userPhoto setPhoto:img];
 				}
 				else if (error) {
 					NSLog(@"error %@", error);

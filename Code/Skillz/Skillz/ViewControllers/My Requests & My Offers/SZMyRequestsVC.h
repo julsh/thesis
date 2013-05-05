@@ -7,8 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "SZSectionRootVC.h"
+#import "SZMyEntriesVC.h"
 
-@interface SZMyRequestsVC : SZSectionRootVC <UITableViewDataSource, UITableViewDelegate>
+/**
+ This class represents a list of all requests that belong to a user. Also offers the possibility to create a new request.
+ */
+@interface SZMyRequestsVC : SZMyEntriesVC
 
 @end

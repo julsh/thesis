@@ -7,8 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "SZSectionRootVC.h"
 
-@interface SZMyMessagesVC : SZSectionRootVC <UITableViewDelegate, UITableViewDataSource>
+/**
+ This class represents a list of all message threads that a user has. Message threads will be grouped by conversation partner with the latest message being the one that is displayed as a teaser within this view.
+ */
+@interface SZMyMessagesVC : SZViewController <UITableViewDelegate, UITableViewDataSource>
 
 @end

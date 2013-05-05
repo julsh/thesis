@@ -34,6 +34,7 @@
 @property (nonatomic, strong) UISegmentedControl* menuButtons;
 @property (nonatomic, strong) SZSortMenuVC* sortMenu;
 @property (nonatomic, strong) SZFilterMenuVC* filterMenu;
+@property (nonatomic, assign) NSInteger lastViewedMenuIndex;
 
 @end
 
@@ -111,25 +112,20 @@
 	
 	self.sortMenu = [[SZSortMenuVC alloc] init];
 	self.filterMenu = [[SZFilterMenuVC alloc] init];
+	self.lastViewedMenuIndex = 0;
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sortOrFilterMenuHidden:) name:NOTIF_FILTER_OR_SORT_MENU_HIDDEN object:nil];
+	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(showSortOrFilterMenu:) name:NOTIF_LEFT_SWIPE object:nil];
+	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(applySort:) name:NOTIF_SORT object:nil];
+	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(applyFilter:) name:NOTIF_FILTER object:nil];
 	
     return self;
 }
 
-- (void)viewDidLoad
-{
+- (void)viewDidLoad {
     [super viewDidLoad];
-	
-	[self.navigationItem setBackBarButtonItem:[[UIBarButtonItem alloc] initWithTitle:@"Back"
-																			   style:UIBarButtonItemStylePlain
-																			  target:nil
-																			  action:nil]];
-	
 	[self.navigationItem setTitleView:self.mapListSwitcher];
 	UIBarButtonItem* menuItem = [[UIBarButtonItem alloc] initWithCustomView:self.menuButtons];
 	[self.navigationItem setRightBarButtonItem:menuItem];
-	
-	[self.view setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"bg_pattern"]]];
 	[self.tableView setSeparatorStyle:UITableViewCellSeparatorStyleNone];
 	
 }
@@ -161,15 +157,17 @@
 }
 
 - (void)displayResults {
+	[self sortByRating:YES];
 	[self hideActivityIndicator];
 	[self.tableView reloadData]; // once all results are complete, display them
 	[self.mapListSwitcher setUserInteractionEnabled:YES];
 }
 
+
 - (void)setLocationForEntryDict:(NSMutableDictionary*)dict {
 	
 	SZEntryObject* entry = [dict valueForKey:@"entry"];
-	if (entry.address || entry.withinZipCode) {
+	if (entry.address || entry.areaType == SZEntryAreaWithinZipCode) {
 		CLGeocoder* geoCoder = [[CLGeocoder alloc] init];
 		
 		if (entry.address) {
@@ -181,9 +179,9 @@
 				}
 			}];
 		}
-		else if (entry.withinZipCode) {
+		else if (entry.areaType == SZEntryAreaWithinZipCode) {
 			NSString* addressString;
-			if (entry.withinZipCode) addressString = [NSString stringWithFormat:@"%@ %@, USA",
+			if (entry.areaType == SZEntryAreaWithinZipCode) addressString = [NSString stringWithFormat:@"%@ %@, USA",
 													  [entry.user valueForKey:@"zipCode"],
 													  [entry.user valueForKey:@"state"]];
 			
@@ -211,14 +209,9 @@
 			[_mapView addAnnotation:anno];
 		}
 		
-		CLLocationCoordinate2D coordinate;
-		if (self.mapCenter) {
-			coordinate = self.mapCenter.coordinate;
-		}
-		else {
-			coordinate = self.currentUserLocation.coordinate;
-		}
-		
+		// setting the center of the map to either the user's current location, or to the search address specified by the user
+		PFGeoPoint* mapCenter = [[SZDataManager sharedInstance].searchLocationBase objectForKey:@"geoPoint"];
+		CLLocationCoordinate2D coordinate = CLLocationCoordinate2DMake(mapCenter.latitude, mapCenter.longitude);
 		MKCoordinateRegion region = MKCoordinateRegionMake(coordinate, MKCoordinateSpanMake(0.05, 0.05));
 		[self.mapView setRegion:region];
 	}
@@ -304,12 +297,12 @@
 	if (entry.subcategory) category = [category stringByAppendingFormat:@" > %@", entry.subcategory];
 	cell.categoryLabel.text = category;
 	
-	if (entry.priceIsNegotiable) {
-		cell.pointsLabel.text = @"negotiable";
+	if (entry.priceType == SZEntryPriceNegotiable) {
+		cell.priceLabel.text = @"negotiable";
 	}
 	else {
 		if (entry.price) {
-			cell.pointsLabel.text = [NSString stringWithFormat:@"%i/%@", [entry.price intValue], entry.priceIsFixedPerHour ? @"hour" : @"job"];
+			cell.priceLabel.text = [NSString stringWithFormat:@"%i/%@", [entry.price intValue], entry.priceType == SZEntryPriceFixedPerHour ? @"hour" : @"job"];
 		}
 	}
 	
@@ -321,7 +314,7 @@
 	[photo getDataInBackgroundWithBlock:^(NSData *data, NSError *error) {
 		if (data) {
 			UIImage* img = [UIImage imageWithData:data];
-			[cell.userPhoto.photo setImage:img];
+			[cell.userPhoto setPhoto:img];
 		}
 		else if (error) {
 			NSLog(@"ERORRRR %@", error);
@@ -332,16 +325,16 @@
 		[cell.starsView setStarsForReviewsArray:[entry.user objectForKey:@"reviewPoints"]];
 	}
 	
+	PFGeoPoint* entryPoint = [entry valueForKey:@"geoPoint"];
+	PFGeoPoint* searchPoint = [[SZDataManager sharedInstance].searchLocationBase valueForKey:@"geoPoint"];
 	
-//	if ([dict valueForKey:@"location"]) {
-//		NSLog(@"got location: %@", [dict valueForKey:@"location"]);
-//		CLPlacemark* entryPlacemark = [dict valueForKey:@"location"];
-//		CLLocation* entryLocation = entryPlacemark.location;
-//		CLLocationDistance distance = [entryLocation distanceFromLocation:self.currentUserLocation];
-//		NSLog(@"current user location: %@", self.currentUserLocation);
-//		NSLog(@"distance: %f", distance);
-//		[cell.distanceLabel setText:[NSString stringWithFormat:@"%.2f miles", MetersToMiles(distance)]];
-//	}
+	if (entryPoint && searchPoint) {
+		CGFloat distance = [entryPoint distanceInMilesTo:searchPoint];
+		[cell.distanceLabel setText:[NSString stringWithFormat:@"%.1f miles", distance]];
+	}
+	else {
+		cell.distanceIcon.hidden = YES;
+	}
 	
 	return cell;
 }
@@ -406,22 +399,47 @@
 	[self tableView:self.tableView didSelectRowAtIndexPath:indexPath];
 }
 
+- (void)applySort:(NSNotification*)notif {
+	NSDictionary* sortDict = notif.userInfo;
+	NSLog(@"sortDict %@", sortDict);
+	if ([[sortDict valueForKey:@"sortBy"] isEqual:@"User Rating"]) {
+		if ([[sortDict valueForKey:@"sortOrder"] isEqual:@"asc"]) [self sortByRating:YES];
+		else [self sortByRating:NO];
+	}
+	else if ([[sortDict valueForKey:@"sortBy"] isEqual:@"Price"]) {
+		if ([[sortDict valueForKey:@"sortOrder"] isEqual:@"asc"]) [self sortByPrice:YES];
+		else [self sortByPrice:NO];
+	}
+
+	[self.tableView reloadData];
+}
+
+- (void)showSortOrFilterMenu:(NSNotification*)notif {
+	if (!self.sortMenu.isShowing && ! self.filterMenu.isShowing) {
+		[self.menuButtons setSelectedSegmentIndex:self.lastViewedMenuIndex];
+		[self toggleSortOrFilterMenu:nil];
+	}
+}
+
 - (void)toggleSortOrFilterMenu:(UISegmentedControl*)sender {
 	
 	if (!self.sortMenu.isShowing && ! self.filterMenu.isShowing) {
 		[self.navigationController.parentViewController performSelector:@selector(toggleSortOrFilterMenu)];
 	}
+	[[SZMenuVC sharedInstance] removeAdditionalRightMenu];
 	
-	[[SZMenuVC sharedInstance] removeHiddenMenu];
+	if (sender) {
+		self.lastViewedMenuIndex = sender.selectedSegmentIndex;
+	}
 	
-	switch (sender.selectedSegmentIndex) {
+	switch (self.lastViewedMenuIndex) {
 		case 0:
-			[[SZMenuVC sharedInstance] addHiddenMenu:self.sortMenu];
+			[[SZMenuVC sharedInstance] addAdditionalRightMenu:self.sortMenu];
 			self.sortMenu.isShowing = YES;
 			self.filterMenu.isShowing = NO;
 			break;
 		case 1:
-			[[SZMenuVC sharedInstance] addHiddenMenu:self.filterMenu];
+			[[SZMenuVC sharedInstance] addAdditionalRightMenu:self.filterMenu];
 			self.filterMenu.isShowing = YES;
 			self.sortMenu.isShowing = NO;
 			break;
@@ -435,6 +453,44 @@
 	self.filterMenu.isShowing = NO;
 	[self.menuButtons setSelectedSegmentIndex:UISegmentedControlNoSegment];
 	
+}
+
+- (void)sortByRating:(BOOL)ascending {
+	
+	[self.results sortUsingComparator:^NSComparisonResult(id obj1, id obj2) {
+		SZEntryObject* entry1 = (SZEntryObject*)[obj1 valueForKey:@"entry"];
+		SZEntryObject* entry2 = (SZEntryObject*)[obj2 valueForKey:@"entry"];
+		
+		CGFloat reviewAverage1 = [SZUtils getAverageValueOfNumberArray:[entry1.user valueForKey:@"reviewPoints"]];
+		CGFloat reviewAverage2 = [SZUtils getAverageValueOfNumberArray:[entry2.user valueForKey:@"reviewPoints"]];
+		
+		if (reviewAverage1 > reviewAverage2) {
+			return ascending ? NSOrderedAscending : NSOrderedDescending;
+		}
+		else if (reviewAverage2 > reviewAverage1) {
+			return ascending ? NSOrderedDescending : NSOrderedAscending;
+		}
+		else return NSOrderedSame;
+	}];
+}
+
+- (void)sortByPrice:(BOOL)ascending {
+	
+	[self.results sortUsingComparator:^NSComparisonResult(id obj1, id obj2) {
+		SZEntryObject* entry1 = (SZEntryObject*)[obj1 valueForKey:@"entry"];
+		SZEntryObject* entry2 = (SZEntryObject*)[obj2 valueForKey:@"entry"];
+		
+		CGFloat price1 = entry1.price ? [entry1.price floatValue] : 0.0;
+		CGFloat price2 = entry2.price ? [entry2.price floatValue] : 0.0;
+		
+		if (price1 > price2) {
+			return ascending ? NSOrderedAscending : NSOrderedDescending;
+		}
+		else if (price2 > price1) {
+			return ascending ? NSOrderedDescending : NSOrderedAscending;
+		}
+		else return NSOrderedSame;
+	}];
 }
 
 

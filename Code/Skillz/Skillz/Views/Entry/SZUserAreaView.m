@@ -20,8 +20,7 @@
 
 @implementation SZUserAreaView
 
-- (id)initWithUser:(PFUser*)user hasTimeFrameView:(BOOL)hasTimeFrameView
-{
+- (id)initWithUser:(PFUser*)user hasTimeFrameView:(BOOL)hasTimeFrameView {
 	
 	self.user = user;
 	
@@ -47,18 +46,9 @@
 
 - (UIView*)userPhoto {
 	
-	SZUserPhotoView* userPhoto = [SZUserPhotoView emptyUserPhotoWithSize:SZUserPhotoViewSizeMedium];
-	[userPhoto setFrame:CGRectMake(10.0, 10.0, userPhoto.frame.size.width, userPhoto.frame.size.height)];
-	
 	PFFile* photo = [self.user objectForKey:@"photo"];
-	[photo getDataInBackgroundWithBlock:^(NSData *data, NSError *error) {
-		if (data) {
-			[userPhoto.photo setImage:[UIImage imageWithData:data]];
-		}
-		else if (error) {
-			NSLog(@"ERRORRRR %@", error);
-		}
-	}];
+	SZUserPhotoView* userPhoto = [SZUserPhotoView userPhotoViewWithSize:SZUserPhotoViewSizeMedium fileReference:photo];
+	[userPhoto setFrame:CGRectMake(10.0, 10.0, userPhoto.frame.size.width, userPhoto.frame.size.height)];
 	return userPhoto;
 }
 

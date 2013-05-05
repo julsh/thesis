@@ -63,108 +63,14 @@
 	return [formatter numberFromString:string];
 }
 
-+ (UIView*)separatorViewWithHeight:(CGFloat)height {
-	UIView* separator = [[UIView alloc] initWithFrame:CGRectMake(0.0, 0.0, 3.0, height)];
-	
-	UIView* left = [[UIView alloc] initWithFrame:CGRectMake(0.0, 1.0, 1.0, height - 2.0)];
-	[left setBackgroundColor:[UIColor colorWithRed:1.0 green:1.0 blue:1.0 alpha:0.9]];
-	
-	UIView* middle = [[UIView alloc] initWithFrame:CGRectMake(1.0, 0.0, 1.0, height)];
-	[middle setBackgroundColor:[UIColor colorWithRed:0.0 green:0.0 blue:0.0 alpha:0.4]];
-	
-	UIView* right = [[UIView alloc] initWithFrame:CGRectMake(2.0, 1.0, 1.0, height - 2.0)];
-	[right setBackgroundColor:[UIColor colorWithRed:1.0 green:1.0 blue:1.0 alpha:0.9]];
-	
-	[separator addSubview:left];
-	[separator addSubview:middle];
-	[separator addSubview:right];
-	
-	return separator;
-}
-
-+ (NSArray*)sortedCategories {
-	NSMutableArray* categories = [[NSMutableArray alloc] init];
-	NSArray* unsortedCategories = [[NSUserDefaults standardUserDefaults] objectForKey:@"categories"];
-	for (NSDictionary* categoryDict in unsortedCategories) {
-		[categories addObject:[categoryDict objectForKey:@"categoryName"]];
-	}
-	categories = [NSMutableArray arrayWithArray:[categories sortedArrayUsingSelector:@selector(localizedCaseInsensitiveCompare:)]];
-	[categories removeObject:@"Miscellaneous"]; // remove the "misc" category from somewhere in the middle of the array
-	[categories addObject:@"Miscellaneous"];    // and put it back at the end. "misc" should not be in alphabetical order.
-	
-	return categories;
-}
-
-+ (NSArray*)sortedSubcategoriesForCategory:(NSString*)category {
-	NSArray* subcategories;
-	NSArray* unsortedSubcategories = [[NSUserDefaults standardUserDefaults] objectForKey:@"categories"];
-	for (NSDictionary* categoryDict in unsortedSubcategories) {
-		if ([[categoryDict valueForKey:@"categoryName"] isEqualToString:category]) {
-			subcategories = [[categoryDict valueForKey:@"subcategories"] sortedArrayUsingSelector:@selector(localizedCaseInsensitiveCompare:)];
-			break;
-		}
-	}
-	return subcategories;
-}
-
-+ (UIView*)starViewForReviewArray:(NSArray*)reviews size:(SZStarViewSize)size {
++ (CGFloat)getAverageValueOfNumberArray:(NSArray*)numbers {
 	
 	CGFloat totalPoints = 0;
-	for (NSNumber* points in reviews) {
+	for (NSNumber* points in numbers) {
 		totalPoints += points.floatValue;
 	}
-	CGFloat average = totalPoints / [reviews count];
-	NSLog(@"average: %f", average);
-	
-	NSInteger fullStars = floorf(average);
-	NSInteger halfStars = 0;
-	if ((average - fullStars) >= 0.25 && (average - fullStars) <= 0.75) halfStars = 1;
-	else if ((average - fullStars) > 0.75) fullStars++;
-	NSInteger emptyStars = 5 - fullStars - halfStars;
-	
-	CGSize viewSize;
-	CGFloat spacing;
-	NSString* appendix = @"";
-	switch (size) {
-		case SZStarViewSizeSmall:
-			viewSize = CGSizeMake(50.0, 10.0);
-			spacing = 10.0;
-			appendix = @"_small";
-			break;
-		case SZStarViewSizeMedium:
-			viewSize = CGSizeMake(100.0, 20.0);
-			spacing = 20.0;
-			break;
-	}
-	
-	UIView* view = [[UIView alloc] initWithFrame:CGRectMake(0.0, 0.0, viewSize.width, viewSize.height)];
-	CGFloat xPos = 0;
-	for (int i = 0; i < fullStars; i++) {
-		UIImageView* fullStar = [[UIImageView alloc] initWithImage:[UIImage imageNamed:[NSString stringWithFormat:@"star_full%@", appendix]]];
-		[fullStar setFrame:CGRectMake(xPos, 0.0, fullStar.frame.size.width, fullStar.frame.size.height)];
-		[view addSubview:fullStar];
-		xPos += spacing;
-	}
-	for (int i = 0; i < halfStars; i++) {
-		UIImageView* halfStar = [[UIImageView alloc] initWithImage:[UIImage imageNamed:[NSString stringWithFormat:@"star_half%@", appendix]]];
-		[halfStar setFrame:CGRectMake(xPos, 0.0, halfStar.frame.size.width, halfStar.frame.size.height)];
-		[view addSubview:halfStar];
-		xPos += spacing;
-	}
-	for (int i = 0; i < emptyStars; i++) {
-		UIImageView* emptyStar = [[UIImageView alloc] initWithImage:[UIImage imageNamed:[NSString stringWithFormat:@"star_empty%@", appendix]]];
-		[emptyStar setFrame:CGRectMake(xPos, 0.0, emptyStar.frame.size.width, emptyStar.frame.size.height)];
-		[view addSubview:emptyStar];
-		xPos += spacing;
-	}
-	
-	return view;
+	return totalPoints / [numbers count];
 	
 }
-
-+ (BOOL)currentUserisWithinDistance:(NSNumber*)distance ofAddress:(NSDictionary*)address {
-	return YES;
-}
-
 
 @end

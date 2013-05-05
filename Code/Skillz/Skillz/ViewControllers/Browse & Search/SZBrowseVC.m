@@ -15,15 +15,10 @@
 @implementation SZBrowseVC
 
 
-- (void)viewDidLoad
-{
+- (void)viewDidLoad {
     [super viewDidLoad];
+	[self addMenuButton];
 	[self.navigationItem setTitle:@"Browse"];
-	[self.navigationItem setBackBarButtonItem:[[UIBarButtonItem alloc] initWithTitle:@"Back"
-																			   style:UIBarButtonItemStylePlain
-																			  target:nil
-																			  action:nil]];
-	
 	[self.view addSubview:[self doSomethingLabel]];
 	[self.view addSubview:[self needSomethingDoneLabel]];
 	[self.view addSubview:[self requestsButton]];
@@ -56,7 +51,7 @@
 
 - (SZButton*)requestsButton {
 	
-	SZButton* button = [[SZButton alloc] initWithColor:SZButtonColorPetrol size:SZButtonSizeExtraLarge width:240.0];
+	SZButton* button = [SZButton buttonWithColor:SZButtonColorPetrol size:SZButtonSizeExtraLarge width:240.0];
 	[button setTag:0];
 	[button setTitle:@"Browse Requests" forState:UIControlStateNormal];
 	[button setFrame:CGRectMake(40.0, 120.0, button.frame.size.width, button.frame.size.height)];
@@ -66,7 +61,7 @@
 
 - (SZButton*)offersButton {
 	
-	SZButton* button = [[SZButton alloc] initWithColor:SZButtonColorPetrol size:SZButtonSizeExtraLarge width:240.0];
+	SZButton* button = [SZButton buttonWithColor:SZButtonColorPetrol size:SZButtonSizeExtraLarge width:240.0];
 	[button setTag:1];
 	[button setTitle:@"Browse Offers" forState:UIControlStateNormal];
 	[button setFrame:CGRectMake(40.0, 270.0, button.frame.size.width, button.frame.size.height)];

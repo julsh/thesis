@@ -19,6 +19,7 @@
 
 @interface SZEntryView ()
 
+@property (nonatomic, strong) SZEntryObject* entry;
 @property (nonatomic, strong) SZTitleView* titleSection;
 @property (nonatomic, strong) SZTimeFrameView* timeFrameSection;
 @property (nonatomic, strong) SZUserAreaView* userSection;
@@ -42,8 +43,7 @@
 @synthesize priceView = _priceView;
 @synthesize contentHeight = _contentHeight;
 
-- (id)initWithEntry:(SZEntryObject*)entry
-{
+- (id)initWithEntry:(SZEntryObject*)entry {
     self = [super initWithFrame:CGRectZero];
     if (self) {
         self.entry = entry;
@@ -120,7 +120,7 @@
 		[bgImage setFrame:_footerView.bounds];
 		[_footerView addSubview:bgImage];
 		
-		UIView* separatorView = [SZUtils separatorViewWithHeight:_footerView.frame.size.height - 2.0];
+		UIView* separatorView = [SZEntryView separatorViewWithHeight:_footerView.frame.size.height - 2.0];
 		[separatorView setFrame:CGRectMake(self.priceView.frame.size.width - 2.0, 1.0, separatorView.frame.size.width, separatorView.frame.size.height)];
 		[_footerView addSubview:separatorView];
 		
@@ -134,7 +134,7 @@
 	if (_priceView == nil) {
 		
 		_priceView = [[UIView alloc] initWithFrame:CGRectMake(0.0, 0.0, 120.0, self.footerView.frame.size.height)];
-		if (self.entry.priceIsFixedPerHour || self.entry.priceIsFixedPerJob) {
+		if (self.entry.priceType != SZEntryPriceNegotiable) {
 			
 			UIView* pointsView = [[UIView alloc] initWithFrame:CGRectMake(0.0, 0.0, 35.0, 30.0)];
 			[pointsView addSubview:[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"skillpoints_medium"]]];
@@ -151,7 +151,7 @@
 			
 			UILabel* perLabel = [self semiBoldGrayLabelWithSize:16.0];
 			[perLabel setFrame:CGRectMake(0.0, 53.0, _priceView.frame.size.width, 20.0)];
-			[perLabel setText:self.entry.priceIsFixedPerHour ? @"per hour" : @"per job"];
+			[perLabel setText:self.entry.priceType == SZEntryPriceFixedPerHour ? @"per hour" : @"per job"];
 			[_priceView addSubview:perLabel];
 		}
 		else {
@@ -173,7 +173,7 @@
 	if (_locationView == nil) {
 		_locationView = [[UIView alloc] initWithFrame:CGRectMake(self.priceView.frame.size.width, 0.0, self.footerView.frame.size.width - self.priceView.frame.size.width, self.footerView.frame.size.height)];
 		
-		if (self.entry.locationIsRemote) {
+		if (self.entry.locationType == SZEntryLocationRemote) {
 			UILabel* canBeDoneLabel = [self semiBoldGrayLabelWithSize:16.0];
 			[canBeDoneLabel setFrame:CGRectMake(0.0, 26.0, _locationView.frame.size.width, 20.0)];
 			[canBeDoneLabel setText:@"This can be done"];
@@ -184,8 +184,8 @@
 			[remotelyLabel setText:@"remotely"];
 			[_locationView addSubview:remotelyLabel];
 		}
-		else if (self.entry.locationWillGoSomewhere) {
-			if (self.entry.withinZipCode) {
+		else if (self.entry.locationType == SZEntryLocationWillGoSomewhereElse) {
+			if (self.entry.areaType == SZEntryAreaWithinZipCode) {
 				if ([[[PFUser currentUser] valueForKey:@"zipCode"] isEqualToString:[self.entry.user valueForKey:@"zipCode"]]) { // xy will come to you
 					UILabel* label1 = [self semiBoldGrayLabelWithSize:15.0];
 					[label1 setFrame:CGRectMake(0.0, 13.0, _locationView.frame.size.width, 20.0)];
@@ -215,9 +215,9 @@
 					[_locationView addSubview:locationButton];
 				}
 			}
-			else if (self.entry.withinSpecifiedArea) {
+			else if (self.entry.areaType == SZEntryAreaWithinSpecifiedArea) {
 				if ([[[PFUser currentUser] valueForKey:@"hasFullAddress"] boolValue]) {
-					if ([SZUtils currentUserisWithinDistance:self.entry.distance ofAddress:self.entry.address]) { // xy will come to you
+					if ([SZDataManager sharedInstance].searchLocationBase && [[SZDataManager sharedInstance].searchLocationBase objectForKey:@"geoPoint"] && [[[SZDataManager sharedInstance].searchLocationBase objectForKey:@"geoPoint"] distanceInMilesTo:self.entry.geoPoint] <= [self.entry.distance doubleValue]) {  // xy will come to you
 						UILabel* label1 = [self semiBoldGrayLabelWithSize:15.0];
 						[label1 setFrame:CGRectMake(0.0, 13.0, _locationView.frame.size.width, 20.0)];
 						[label1 setText:[self.entry.user valueForKey:@"firstName"]];
@@ -261,7 +261,7 @@
 					[_locationView addSubview:locationButton];
 				}
 			}
-			else if (self.entry.withinNegotiableArea) { // xy might come to you
+			else if (self.entry.areaType == SZEntryAreaWithinNegotiableArea) { // xy might come to you
 				UILabel* label1 = [self semiBoldGrayLabelWithSize:15.0];
 				[label1 setFrame:CGRectMake(0.0, 10.0, _locationView.frame.size.width, 20.0)];
 				[label1 setText:[self.entry.user valueForKey:@"firstName"]];
@@ -322,7 +322,7 @@
 }
 
 - (SZButton*)locationButtonWithTitle:(NSString*)title {
-	SZButton* button = [[SZButton alloc] initWithColor:SZButtonColorPetrol size:SZButtonSizeSmall width:120.0];
+	SZButton* button = [SZButton buttonWithColor:SZButtonColorPetrol size:SZButtonSizeSmall width:120.0];
 	[button setTitle:title forState:UIControlStateNormal];
 	[button setCenter:CGPointMake(self.locationView.frame.size.width/2, self.locationView.frame.size.height - 13.0 - button.frame.size.height/2)];
 	[button addTarget:self action:@selector(showLocation:) forControlEvents:UIControlEventTouchUpInside];
@@ -346,6 +346,25 @@
     }
 	
     return nil;
+}
+
++ (UIView*)separatorViewWithHeight:(CGFloat)height {
+	UIView* separator = [[UIView alloc] initWithFrame:CGRectMake(0.0, 0.0, 3.0, height)];
+	
+	UIView* left = [[UIView alloc] initWithFrame:CGRectMake(0.0, 1.0, 1.0, height - 2.0)];
+	[left setBackgroundColor:[UIColor colorWithRed:1.0 green:1.0 blue:1.0 alpha:0.9]];
+	
+	UIView* middle = [[UIView alloc] initWithFrame:CGRectMake(1.0, 0.0, 1.0, height)];
+	[middle setBackgroundColor:[UIColor colorWithRed:0.0 green:0.0 blue:0.0 alpha:0.4]];
+	
+	UIView* right = [[UIView alloc] initWithFrame:CGRectMake(2.0, 1.0, 1.0, height - 2.0)];
+	[right setBackgroundColor:[UIColor colorWithRed:1.0 green:1.0 blue:1.0 alpha:0.9]];
+	
+	[separator addSubview:left];
+	[separator addSubview:middle];
+	[separator addSubview:right];
+	
+	return separator;
 }
 
 @end

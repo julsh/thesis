@@ -26,8 +26,7 @@
 @synthesize selectedIndex = _selectedIndex;
 @synthesize buttons = _buttons;
 
-- (id)init
-{
+- (id)init {
     self = [super initWithFrame:CGRectZero];
     if (self) {
         self.choiceCount = 0;

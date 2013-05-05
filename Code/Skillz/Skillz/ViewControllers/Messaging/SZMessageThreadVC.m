@@ -92,11 +92,6 @@
 - (void)viewDidLoad {
 	
 	[super viewDidLoad];
-	[self.view setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"bg_pattern"]]];
-	[self.navigationItem setBackBarButtonItem:[[UIBarButtonItem alloc] initWithTitle:@"Back"
-																			   style:UIBarButtonItemStylePlain
-																			  target:nil
-																			  action:nil]];
 	
 	UIBarButtonItem* replyButton = [[UIBarButtonItem alloc] initWithTitle:@"Reply" style:UIBarButtonItemStylePlain target:self action:@selector(reply:)];
 	[self.navigationItem setRightBarButtonItem:replyButton];
@@ -110,7 +105,7 @@
 }
 
 - (void)viewDidAppear:(BOOL)animated {
-	NSMutableArray* messagesGrouped = [[SZDataManager sharedInstance] getGroupedMessages];
+	NSMutableArray* messagesGrouped = [SZDataManager getGroupedMessages];
 	for (NSArray* messageThread in messagesGrouped) {
 		NSDictionary* firstMessageDict = [messageThread objectAtIndex:0];
 		if ([[firstMessageDict valueForKey:@"toUser"] isEqualToString:[self.otherUser objectId]] || [[firstMessageDict valueForKey:@"fromUser"] isEqualToString:[self.otherUser objectId]]) {
@@ -457,7 +452,7 @@
 			rightHandView.frame = frame;
 			[pendingDealView addSubview: rightHandView];
 			
-			SZButton* acceptButton = [[SZButton alloc] initWithColor:SZButtonColorOrange size:SZButtonSizeSmall width:80.0];
+			SZButton* acceptButton = [SZButton buttonWithColor:SZButtonColorOrange size:SZButtonSizeSmall width:80.0];
 			[acceptButton addTarget:self action:@selector(acceptDeal:) forControlEvents:UIControlEventTouchUpInside];
 			[acceptButton setTitle:@"Accept" forState:UIControlStateNormal];
 			frame = acceptButton.frame;
@@ -466,7 +461,7 @@
 			acceptButton.frame = frame;
 			[pendingDealView addSubview:acceptButton];
 			
-			SZButton* declineButton = [[SZButton alloc] initWithColor:SZButtonColorOrange size:SZButtonSizeSmall width:80.0];
+			SZButton* declineButton = [SZButton buttonWithColor:SZButtonColorOrange size:SZButtonSizeSmall width:80.0];
 			[acceptButton addTarget:self action:@selector(declineDeal:) forControlEvents:UIControlEventTouchUpInside];
 			[declineButton setTitle:@"Decline" forState:UIControlStateNormal];
 			frame = declineButton.frame;
@@ -517,10 +512,9 @@
 
 - (void)acceptDeal:(id)sender {
 	[self.pendingDealDict setValue:[NSNumber numberWithBool:YES] forKey:@"isAccepted"];
-	[[SZDataManager sharedInstance] markDealAccepted:[self.pendingDealDict valueForKey:@"objectId"]];
 	[self.pendingDeal setValue:[NSNumber numberWithBool:YES] forKey:@"isAccepted"];
 	[self.pendingDeal saveInBackground];
-	[[SZDataManager sharedInstance] addOpenDealToUserCache:self.pendingDeal];
+	[SZDataManager addOpenDealToUserCache:self.pendingDeal];
 	[self.pendingDealView removeFromSuperview];
 	CGFloat y = self.pendingDealView.frame.origin.y;
 	self.pendingDealView = [self pendingDealViewContainer];
