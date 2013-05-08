@@ -1,0 +1,974 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="html/html; charset=utf-8" />
+		<title>SZFormFieldVO Class Reference</title>
+		<meta id="xcode-display" name="xcode-display" content="render"/>
+		<link rel="stylesheet" type="text/css" href="../css/styles.css" media="all" />
+		<link rel="stylesheet" type="text/css" media="print" href="../css/stylesPrint.css" />
+		<meta name="generator" content="appledoc 2.1 (build 858)" />
+	</head>
+	<body>
+		<header id="top_header">
+			<div id="library" class="hideInXcode">
+				<h1><a id="libraryTitle" href="../index.html">Skillz </a></h1>
+				<a id="developerHome" href="../index.html">de.juliaroggatz</a>
+			</div>
+			
+			<div id="title" role="banner">
+				<h1 class="hideInXcode">SZFormFieldVO Class Reference</h1>
+			</div>
+			<ul id="headerButtons" role="toolbar">
+				<li id="toc_button">
+					<button aria-label="Show Table of Contents" role="checkbox" class="open" id="table_of_contents"><span class="disclosure"></span>Table of Contents</button>
+				</li>
+				<li id="jumpto_button" role="navigation">
+					<select id="jumpTo">
+	<option value="top">Jump To&#133;</option>
+	
+	<option value="overview">Overview</option>
+	
+	
+	
+	
+	<option value="tasks">Tasks</option>
+	
+	
+	
+	
+	
+	<option value="properties">Properties</option>
+	
+	<option value="//api/name/datePickerMinuteInterval">&nbsp;&nbsp;&nbsp;&nbsp;datePickerMinuteInterval</option>
+	
+	<option value="//api/name/datePickerMode">&nbsp;&nbsp;&nbsp;&nbsp;datePickerMode</option>
+	
+	<option value="//api/name/datePickerStartDate">&nbsp;&nbsp;&nbsp;&nbsp;datePickerStartDate</option>
+	
+	<option value="//api/name/inputType">&nbsp;&nbsp;&nbsp;&nbsp;inputType</option>
+	
+	<option value="//api/name/isPassword">&nbsp;&nbsp;&nbsp;&nbsp;isPassword</option>
+	
+	<option value="//api/name/key">&nbsp;&nbsp;&nbsp;&nbsp;key</option>
+	
+	<option value="//api/name/keyboardType">&nbsp;&nbsp;&nbsp;&nbsp;keyboardType</option>
+	
+	<option value="//api/name/pickerOptions">&nbsp;&nbsp;&nbsp;&nbsp;pickerOptions</option>
+	
+	<option value="//api/name/placeHolderText">&nbsp;&nbsp;&nbsp;&nbsp;placeHolderText</option>
+	
+	
+	
+	
+	<option value="class_methods">Class Methods</option>
+	
+	<option value="//api/name/formFieldValueObjectForDatePickerWithKey:placeHolderText:datePickerMode:">&nbsp;&nbsp;&nbsp;&nbsp;+ formFieldValueObjectForDatePickerWithKey:placeHolderText:datePickerMode:</option>
+	
+	<option value="//api/name/formFieldValueObjectForPickerWithKey:placeHolderText:pickerOptions:">&nbsp;&nbsp;&nbsp;&nbsp;+ formFieldValueObjectForPickerWithKey:placeHolderText:pickerOptions:</option>
+	
+	<option value="//api/name/formFieldValueObjectForTextWithKey:placeHolderText:keyboardType:">&nbsp;&nbsp;&nbsp;&nbsp;+ formFieldValueObjectForTextWithKey:placeHolderText:keyboardType:</option>
+	
+	
+	
+	
+	
+</select>
+				</li>
+			</ul>
+		</header>
+		<nav id="tocContainer" class="isShowingTOC">
+			<ul id="toc" role="tree">
+				
+<li role="treeitem"><span class="nodisclosure"></span><span class="sectionName"><a href="#overview">Overview</a></span></li>
+
+
+
+
+<li role="treeitem" id="task_treeitem"><span class="nodisclosure"></span><span class="sectionName"><a href="#tasks">Tasks</a></span><ul>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#task_Properties">Properties</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#task_Obtaining a configured instance">Obtaining a configured instance</a></span></li>
+	
+</ul></li>
+
+
+
+
+
+<li role="treeitem" class="children"><span class="disclosure"></span><span class="sectionName"><a href="#properties">Properties</a></span><ul>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/datePickerMinuteInterval">datePickerMinuteInterval</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/datePickerMode">datePickerMode</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/datePickerStartDate">datePickerStartDate</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/inputType">inputType</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/isPassword">isPassword</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/key">key</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/keyboardType">keyboardType</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/pickerOptions">pickerOptions</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/placeHolderText">placeHolderText</a></span></li>
+	
+</ul></li>
+
+
+
+<li role="treeitem" class="children"><span class="disclosure"></span><span class="sectionName"><a href="#class_methods">Class Methods</a></span><ul>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/formFieldValueObjectForDatePickerWithKey:placeHolderText:datePickerMode:">formFieldValueObjectForDatePickerWithKey:placeHolderText:datePickerMode:</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/formFieldValueObjectForPickerWithKey:placeHolderText:pickerOptions:">formFieldValueObjectForPickerWithKey:placeHolderText:pickerOptions:</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/formFieldValueObjectForTextWithKey:placeHolderText:keyboardType:">formFieldValueObjectForTextWithKey:placeHolderText:keyboardType:</a></span></li>
+	
+</ul></li>
+
+
+
+
+			</ul>
+		</nav>
+		<article>
+			<div id="contents" class="isShowingTOC" role="main">
+				<a title="SZFormFieldVO Class Reference" name="top"></a>
+				<div class="main-navigation navigation-top">
+					<ul>
+	<li><a href="../index.html">Index</a></li>
+	<li><a href="../hierarchy.html">Hierarchy</a></li>
+</ul>
+				</div>
+				<div id="header">
+					<div class="section-header">
+						<h1 class="title title-header">SZFormFieldVO Class Reference</h1>
+					</div>		
+				</div>
+				<div id="container">	
+					
+					<div class="section section-specification"><table cellspacing="0"><tbody>
+						<tr>
+	<td class="specification-title">Inherits from</td>
+	<td class="specification-value">NSObject</td>
+</tr><tr>
+	<td class="specification-title">Declared in</td>
+	<td class="specification-value">SZFormFieldVO.h<br />SZFormFieldVO.m</td>
+</tr>
+						</tbody></table></div>
+					
+					
+					
+					
+					<div class="section section-overview">
+						<a title="Overview" name="overview"></a>
+						<h2 class="subtitle subtitle-overview">Overview</h2>
+						<p>The SZFormFieldVO is a value object used to customized the appearance and behavior of a single field with an SZForm view. Each field in a form is assigned an SZFormFieldVO instance that specifies its input type (keyboard, regular picker or date picker) as well as some additional properties that may be required to properly configure the field.</p>
+					</div>
+					
+					
+					
+					
+					
+					<div class="section section-tasks">
+						<a title="Tasks" name="tasks"></a>
+						<h2 class="subtitle subtitle-tasks">Tasks</h2>
+						
+						
+						<a title="Properties" name="task_Properties"></a>
+						<h3 class="subsubtitle task-title">Properties</h3>
+
+						<ul class="task-list">
+							<li>
+	<span class="tooltip">
+		<code><a href="#//api/name/key">&nbsp;&nbsp;key</a></code>
+		<span class="tooltip"><p>The key through which the user input stored for the specific field may be accessed from outside</p></span>
+	</span>
+	<span class="task-item-suffix">property</span>
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/placeHolderText">&nbsp;&nbsp;placeHolderText</a></code>
+		<span class="tooltip"><p>The placeholder text that will be displayed within the form&rsquo;s respective text field if no input has been made</p></span>
+	</span>
+	<span class="task-item-suffix">property</span>
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/keyboardType">&nbsp;&nbsp;keyboardType</a></code>
+		<span class="tooltip"><p>Specifies how the keyboard will be displayed. Besides the standard keyboard layout, this could for example be a number/decimal pad or a keyboard optimized for email address input.</p></span>
+	</span>
+	<span class="task-item-suffix">property</span>
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/inputType">&nbsp;&nbsp;inputType</a></code>
+		<span class="tooltip"><p>Specifies the input type of the form field.</p></span>
+	</span>
+	<span class="task-item-suffix">property</span>
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/isPassword">&nbsp;&nbsp;isPassword</a></code>
+		<span class="tooltip"><p>Specifies if the input should be displayed as a password (in that case the input will be hidden by dot symbols). The default is <code>NO</code>.</p></span>
+	</span>
+	<span class="task-item-suffix">property</span>
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/pickerOptions">&nbsp;&nbsp;pickerOptions</a></code>
+		<span class="tooltip"><p>If the field uses a regular UIPickerView as its input type, this property provides the options that the picker will offer to the user.</p></span>
+	</span>
+	<span class="task-item-suffix">property</span>
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/datePickerMode">&nbsp;&nbsp;datePickerMode</a></code>
+		<span class="tooltip"><p>If the field uses a UIDatePicker as its input type, this property is used to specify the date picker mode.</p></span>
+	</span>
+	<span class="task-item-suffix">property</span>
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/datePickerMinuteInterval">&nbsp;&nbsp;datePickerMinuteInterval</a></code>
+		<span class="tooltip"><p>If the field uses a UIDatePicker as its input type and the date picker lets the user choose a time as well, this property is used to specify the date picker minute interval. Default is 15 minutes interval.</p></span>
+	</span>
+	<span class="task-item-suffix">property</span>
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/datePickerStartDate">&nbsp;&nbsp;datePickerStartDate</a></code>
+		<span class="tooltip"><p>If the field uses a UIDatePicker as its input type , this property specfies the date that is initially set within the picker. Default is the current time, rounded up to the next 15 minutes. (See <a href="../Classes/SZUtils.html#//api/name/rightNowRoundedUp">[SZUtils rightNowRoundedUp]</a> for details on this)</p></span>
+	</span>
+	<span class="task-item-suffix">property</span>
+	
+</li>
+						</ul>
+						
+						
+						<a title="Obtaining a configured instance" name="task_Obtaining a configured instance"></a>
+						<h3 class="subsubtitle task-title">Obtaining a configured instance</h3>
+
+						<ul class="task-list">
+							<li>
+	<span class="tooltip">
+		<code><a href="#//api/name/formFieldValueObjectForTextWithKey:placeHolderText:keyboardType:">+&nbsp;formFieldValueObjectForTextWithKey:placeHolderText:keyboardType:</a></code>
+		<span class="tooltip"><p>Creates and returns an SZFormFieldVO configured for regular text input</p></span>
+	</span>
+	
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/formFieldValueObjectForPickerWithKey:placeHolderText:pickerOptions:">+&nbsp;formFieldValueObjectForPickerWithKey:placeHolderText:pickerOptions:</a></code>
+		<span class="tooltip"><p>Creates and returns an SZFormFieldVO configured for input through a UIPickerView</p></span>
+	</span>
+	
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/formFieldValueObjectForDatePickerWithKey:placeHolderText:datePickerMode:">+&nbsp;formFieldValueObjectForDatePickerWithKey:placeHolderText:datePickerMode:</a></code>
+		<span class="tooltip"><p>Creates and returns an SZFormFieldVO configured for input through a UIDatePicker</p></span>
+	</span>
+	
+	
+</li>
+						</ul>
+						
+					</div>
+					
+					
+					
+					
+					
+					<div class="section section-methods">
+						<a title="Properties" name="properties"></a>
+						<h2 class="subtitle subtitle-methods">Properties</h2>
+						
+						<div class="section-method">
+	<a name="//api/name/datePickerMinuteInterval" title="datePickerMinuteInterval"></a>
+	<h3 class="subsubtitle method-title">datePickerMinuteInterval</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>If the field uses a UIDatePicker as its input type and the date picker lets the user choose a time as well, this property is used to specify the date picker minute interval. Default is 15 minutes interval.</p>
+	</div>		
+	
+    
+
+	<div class="method-subsection method-declaration"><code>@property (nonatomic, assign) NSInteger datePickerMinuteInterval</code></div>
+
+    
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">SZFormFieldVO.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/datePickerMode" title="datePickerMode"></a>
+	<h3 class="subsubtitle method-title">datePickerMode</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>If the field uses a UIDatePicker as its input type, this property is used to specify the date picker mode.</p>
+	</div>		
+	
+    
+
+	<div class="method-subsection method-declaration"><code>@property (nonatomic, assign) UIDatePickerMode datePickerMode</code></div>
+
+    
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection discussion-section">
+		<h4 class="method-subtitle">Discussion</h4>
+		<p>This property uses the <code>UIDatePicker</code> enumerator. Allowed values are:</p>
+
+<ul>
+<li><code>UIDatePickerModeTime</code></li>
+<li><code>UIDatePickerModeDate</code></li>
+<li><code>UIDatePickerModeDateAndTime</code></li>
+<li><code>UIDatePickerModeCountDownTimer</code></li>
+</ul>
+
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">SZFormFieldVO.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/datePickerStartDate" title="datePickerStartDate"></a>
+	<h3 class="subsubtitle method-title">datePickerStartDate</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>If the field uses a UIDatePicker as its input type , this property specfies the date that is initially set within the picker. Default is the current time, rounded up to the next 15 minutes. (See <a href="../Classes/SZUtils.html#//api/name/rightNowRoundedUp">[SZUtils rightNowRoundedUp]</a> for details on this)</p>
+	</div>		
+	
+    
+
+	<div class="method-subsection method-declaration"><code>@property (nonatomic, strong) NSDate *datePickerStartDate</code></div>
+
+    
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">SZFormFieldVO.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/inputType" title="inputType"></a>
+	<h3 class="subsubtitle method-title">inputType</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>Specifies the input type of the form field.</p>
+	</div>		
+	
+    
+
+	<div class="method-subsection method-declaration"><code>@property (nonatomic, assign) SZFormFieldInputType inputType</code></div>
+
+    
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection discussion-section">
+		<h4 class="method-subtitle">Discussion</h4>
+		<p>This property uses the <code>SZFormFieldInputType</code> enumerator. Allowed values are:</p>
+
+<ul>
+<li><code>SZFormFieldInputTypeKeyboard</code></li>
+<li><code>SZFormFieldInputTypePicker</code></li>
+<li><code>SZFormFieldInputTypeDatePicker</code></li>
+</ul>
+
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">SZFormFieldVO.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/isPassword" title="isPassword"></a>
+	<h3 class="subsubtitle method-title">isPassword</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>Specifies if the input should be displayed as a password (in that case the input will be hidden by dot symbols). The default is <code>NO</code>.</p>
+	</div>		
+	
+    
+
+	<div class="method-subsection method-declaration"><code>@property (nonatomic, assign) BOOL isPassword</code></div>
+
+    
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">SZFormFieldVO.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/key" title="key"></a>
+	<h3 class="subsubtitle method-title">key</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>The key through which the user input stored for the specific field may be accessed from outside</p>
+	</div>		
+	
+    
+
+	<div class="method-subsection method-declaration"><code>@property (nonatomic, strong) NSString *key</code></div>
+
+    
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">SZFormFieldVO.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/keyboardType" title="keyboardType"></a>
+	<h3 class="subsubtitle method-title">keyboardType</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>Specifies how the keyboard will be displayed. Besides the standard keyboard layout, this could for example be a number/decimal pad or a keyboard optimized for email address input.</p>
+	</div>		
+	
+    
+
+	<div class="method-subsection method-declaration"><code>@property (nonatomic, assign) UIKeyboardType keyboardType</code></div>
+
+    
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection discussion-section">
+		<h4 class="method-subtitle">Discussion</h4>
+		<p>This property Uses the <code>UIKeyboardType</code> enumerator. Allowed values are:</p>
+
+<ul>
+<li><code>UIKeyboardTypeDefault</code></li>
+<li><code>UIKeyboardTypeASCIICapable</code></li>
+<li><code>UIKeyboardTypeNumbersAndPunctuation</code></li>
+<li><code>UIKeyboardTypeURL</code></li>
+<li><code>UIKeyboardTypeNumberPad</code></li>
+<li><code>UIKeyboardTypePhonePad</code></li>
+<li><code>UIKeyboardTypeNamePhonePad</code></li>
+<li><code>UIKeyboardTypeEmailAddress</code></li>
+<li><code>UIKeyboardTypeDecimalPad</code></li>
+<li><code>UIKeyboardTypeTwitter</code></li>
+<li><code>UIKeyboardTypeAlphabet</code></li>
+</ul>
+
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">SZFormFieldVO.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/pickerOptions" title="pickerOptions"></a>
+	<h3 class="subsubtitle method-title">pickerOptions</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>If the field uses a regular UIPickerView as its input type, this property provides the options that the picker will offer to the user.</p>
+	</div>		
+	
+    
+
+	<div class="method-subsection method-declaration"><code>@property (nonatomic, strong) NSArray *pickerOptions</code></div>
+
+    
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">SZFormFieldVO.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/placeHolderText" title="placeHolderText"></a>
+	<h3 class="subsubtitle method-title">placeHolderText</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>The placeholder text that will be displayed within the form&rsquo;s respective text field if no input has been made</p>
+	</div>		
+	
+    
+
+	<div class="method-subsection method-declaration"><code>@property (nonatomic, strong) NSString *placeHolderText</code></div>
+
+    
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">SZFormFieldVO.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+					</div>
+					
+					
+					
+					<div class="section section-methods">
+						<a title="Class Methods" name="class_methods"></a>
+						<h2 class="subtitle subtitle-methods">Class Methods</h2>
+						
+						<div class="section-method">
+	<a name="//api/name/formFieldValueObjectForDatePickerWithKey:placeHolderText:datePickerMode:" title="formFieldValueObjectForDatePickerWithKey:placeHolderText:datePickerMode:"></a>
+	<h3 class="subsubtitle method-title">formFieldValueObjectForDatePickerWithKey:placeHolderText:datePickerMode:</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>Creates and returns an SZFormFieldVO configured for input through a UIDatePicker</p>
+	</div>		
+	
+    
+
+	<div class="method-subsection method-declaration"><code>+ (SZFormFieldVO *)formFieldValueObjectForDatePickerWithKey:(NSString *)<em>key</em> placeHolderText:(NSString *)<em>placeHolderText</em> datePickerMode:(UIDatePickerMode)<em>datePickerMode</em></code></div>
+
+    
+	
+	<div class="method-subsection arguments-section parameters">
+		<h4 class="method-subtitle parameter-title">Parameters</h4>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>key</em></dt>
+			<dd><p>The key through which the user input stored in the corresponding SZForm instance can be accessed from outside</p></dd>
+		</dl>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>placeHolderText</em></dt>
+			<dd><p>The placeholder text displayed within the text field when no input has been made</p></dd>
+		</dl>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>datePickerMode</em></dt>
+			<dd><p>The mode that the UIDatePicker will be presented in. Uses the <code>UIDatePicker</code> enumerator. Allowed values are:</p>
+
+<ul>
+<li><code>UIDatePickerModeTime</code></li>
+<li><code>UIDatePickerModeDate</code></li>
+<li><code>UIDatePickerModeDateAndTime</code></li>
+<li><code>UIDatePickerModeCountDownTimer</code></li>
+</ul>
+</dd>
+		</dl>
+		
+	</div>
+	
+	
+	
+	<div class="method-subsection return">
+		<h4 class="method-subtitle parameter-title">Return Value</h4>
+		<p>A configured SZFormFieldVO instance</p>
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">SZFormFieldVO.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/formFieldValueObjectForPickerWithKey:placeHolderText:pickerOptions:" title="formFieldValueObjectForPickerWithKey:placeHolderText:pickerOptions:"></a>
+	<h3 class="subsubtitle method-title">formFieldValueObjectForPickerWithKey:placeHolderText:pickerOptions:</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>Creates and returns an SZFormFieldVO configured for input through a UIPickerView</p>
+	</div>		
+	
+    
+
+	<div class="method-subsection method-declaration"><code>+ (SZFormFieldVO *)formFieldValueObjectForPickerWithKey:(NSString *)<em>key</em> placeHolderText:(NSString *)<em>placeHolderText</em> pickerOptions:(NSArray *)<em>pickerOptions</em></code></div>
+
+    
+	
+	<div class="method-subsection arguments-section parameters">
+		<h4 class="method-subtitle parameter-title">Parameters</h4>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>key</em></dt>
+			<dd><p>The key through which the user input stored in the corresponding SZForm instance can be accessed from outside</p></dd>
+		</dl>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>placeHolderText</em></dt>
+			<dd><p>The placeholder text displayed within the text field when no input has been made</p></dd>
+		</dl>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>pickerOptions</em></dt>
+			<dd><p>An array containing string representations of the options that a user may choose from in the input picker</p></dd>
+		</dl>
+		
+	</div>
+	
+	
+	
+	<div class="method-subsection return">
+		<h4 class="method-subtitle parameter-title">Return Value</h4>
+		<p>A configured SZFormFieldVO instance</p>
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">SZFormFieldVO.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/formFieldValueObjectForTextWithKey:placeHolderText:keyboardType:" title="formFieldValueObjectForTextWithKey:placeHolderText:keyboardType:"></a>
+	<h3 class="subsubtitle method-title">formFieldValueObjectForTextWithKey:placeHolderText:keyboardType:</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>Creates and returns an SZFormFieldVO configured for regular text input</p>
+	</div>		
+	
+    
+
+	<div class="method-subsection method-declaration"><code>+ (SZFormFieldVO *)formFieldValueObjectForTextWithKey:(NSString *)<em>key</em> placeHolderText:(NSString *)<em>placeHolderText</em> keyboardType:(UIKeyboardType)<em>keyboardType</em></code></div>
+
+    
+	
+	<div class="method-subsection arguments-section parameters">
+		<h4 class="method-subtitle parameter-title">Parameters</h4>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>key</em></dt>
+			<dd><p>The key through which the user input stored in the corresponding SZForm instance can be accessed from outside</p></dd>
+		</dl>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>placeHolderText</em></dt>
+			<dd><p>The placeholder text displayed within the text field when no input has been made</p></dd>
+		</dl>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>keyboardType</em></dt>
+			<dd><p>The keyboard layout to use for input</p></dd>
+		</dl>
+		
+	</div>
+	
+	
+	
+	<div class="method-subsection return">
+		<h4 class="method-subtitle parameter-title">Return Value</h4>
+		<p>A configured SZFormFieldVO instance</p>
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">SZFormFieldVO.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+					</div>
+					
+					
+					
+					
+				</div>
+				<div class="main-navigation navigation-bottom">
+					<ul>
+	<li><a href="../index.html">Index</a></li>
+	<li><a href="../hierarchy.html">Hierarchy</a></li>
+</ul>
+				</div>
+				<div id="footer">
+					<hr />
+					<div class="footer-copyright">
+						<p><span class="copyright">&copy; 2013 de.juliaroggatz. All rights reserved. (Last updated: 2013-05-06)</span><br />
+						
+						<span class="generator">Generated by <a href="http://appledoc.gentlebytes.com">appledoc 2.1 (build 858)</a>.</span></p>
+						
+					</div>
+				</div>
+			</div>
+		</article>
+		<script type="text/javascript">
+			function jumpToChange()
+			{
+				window.location.hash = this.options[this.selectedIndex].value;
+			}
+			
+			function toggleTOC()
+			{
+				var contents = document.getElementById('contents');
+				var tocContainer = document.getElementById('tocContainer');
+				
+				if (this.getAttribute('class') == 'open')
+				{
+					this.setAttribute('class', '');
+					contents.setAttribute('class', '');
+					tocContainer.setAttribute('class', '');
+					
+					window.name = "hideTOC";
+				}
+				else
+				{
+					this.setAttribute('class', 'open');
+					contents.setAttribute('class', 'isShowingTOC');
+					tocContainer.setAttribute('class', 'isShowingTOC');
+					
+					window.name = "";
+				}
+				return false;
+			}
+			
+			function toggleTOCEntryChildren(e)
+			{
+				e.stopPropagation();
+				var currentClass = this.getAttribute('class');
+				if (currentClass == 'children') {
+					this.setAttribute('class', 'children open');
+				}
+				else if (currentClass == 'children open') {
+					this.setAttribute('class', 'children');
+				}
+				return false;
+			}
+			
+			function tocEntryClick(e)
+			{
+				e.stopPropagation();
+				return true;
+			}
+			
+			function init()
+			{
+				var selectElement = document.getElementById('jumpTo');
+				selectElement.addEventListener('change', jumpToChange, false);
+				
+				var tocButton = document.getElementById('table_of_contents');
+				tocButton.addEventListener('click', toggleTOC, false);
+				
+				var taskTreeItem = document.getElementById('task_treeitem');
+				if (taskTreeItem.getElementsByTagName('li').length > 0)
+				{
+					taskTreeItem.setAttribute('class', 'children');
+					taskTreeItem.firstChild.setAttribute('class', 'disclosure');
+				}
+				
+				var tocList = document.getElementById('toc');
+				
+				var tocEntries = tocList.getElementsByTagName('li');
+				for (var i = 0; i < tocEntries.length; i++) {
+					tocEntries[i].addEventListener('click', toggleTOCEntryChildren, false);
+				}
+				
+				var tocLinks = tocList.getElementsByTagName('a');
+				for (var i = 0; i < tocLinks.length; i++) {
+					tocLinks[i].addEventListener('click', tocEntryClick, false);
+				}
+				
+				if (window.name == "hideTOC") {
+					toggleTOC.call(tocButton);
+				}
+			}
+			
+			window.onload = init;
+			
+			// If showing in Xcode, hide the TOC and Header
+			if (navigator.userAgent.match(/xcode/i)) {
+				document.getElementById("contents").className = "hideInXcode"
+				document.getElementById("tocContainer").className = "hideInXcode"
+				document.getElementById("top_header").className = "hideInXcode"
+			}
+			
+		</script>
+	</body>
+</html>

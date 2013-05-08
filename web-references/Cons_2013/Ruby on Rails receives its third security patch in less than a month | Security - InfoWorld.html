@@ -1,0 +1,1031 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:fb="http://ogp.me/ns/fb#" xml:lang="en" lang="en" dir="ltr">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>Ruby on Rails receives its third security patch in less than a month | Security - InfoWorld</title>
+  
+  <script type="text/javascript" src="http://m.infoworld.com/mobify/redirect.js"></script> 
+  <script type="text/javascript">var _mref_rewrite=true; try{_mobify("http://m.infoworld.com/");} catch(err) {};</script>
+  
+<meta name="sailthru.date" content="Tue, 29 Jan 2013 11:40:59 -0800" />
+<meta name="sailthru.title" content="Ruby on Rails receives its third security patch in less than a month" />
+<meta name="sailthru.tags" content="application development,security,ruby on rails,web development,patch management,vulnerability assessment" />
+<meta name="description" content="Ruby on Rails versions 3.0.20 and 2.3.16 fix an extremely critical remote code execution vulnerability" />
+<meta name="robots" content="index, follow" />
+<meta name="DC.date.issued" content="2013-01-29T11:40-08:00" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<script type="text/javascript">var _sf_startpt=(new Date()).getTime()</script>
+<!-- BEGIN Krux Control Tag for InfoWorld -->
+<script class="kxct" data-id="HyVH8Qhw" data-version="async:1.7" type="text/javascript">
+  window.Krux||((Krux=function(){Krux.q.push(arguments)}).q=[]);
+  (function(){
+    var k=document.createElement('script');k.type='text/javascript';k.async=true;
+    var m,src=(m=location.href.match(/\bkxsrc=([^&]+)/))&&decodeURIComponent(m[1]);    
+    k.src = /^https?:\/\/([^\/]+\.)?krxd\.net(:\d{1,5})?\//i.test(src) ? src : src === "disable" ? "" :
+      (location.protocol==="https:"?"https:":"http:")+"//cdn.krxd.net/controltag?confid=HyVH8Qhw";
+    var s=document.getElementsByTagName('script')[0];s.parentNode.insertBefore(k,s);
+  })();
+</script>
+<!-- END Krux Controltag -->
+<script type="text/javascript" src="/modules/DCP/custom/doubleclick_ads/doubleclick_ads.js?2531"></script>
+<script type="text/javascript">var doubleclick_ad_tag_tile = 0;</script>
+<script>doubleclick_article_page=true;</script>
+<script type="text/javascript" src="/modules/DCP/custom/demandbase/demandbase.js?132"></script>
+<script type="text/javascript" src="http://api.demandbase.com/api/v2/ip.json?token=cee711554501392246965521cfb9ab9aa83ae949&callback=OPG.Demandbase.dbase_parse"></script>
+<link rel="shortcut icon" href="/sites/default/files/ifw_favicon.ico" type="image/x-icon" />
+<link rel="stylesheet" type="text/css" href="/sites/all/themes/ifw/styles/additional_resources.css" />
+
+<meta property="fb:app_id" content="154252124591160" />
+<meta property="og:site_name" content="InfoWorld" />
+<meta property="og:image" content="http://computerworld.com.edgesuite.net/ifw/IFW.png" />
+<meta property="og:title" content="Ruby on Rails receives its third security patch in less than a month" />
+<meta property="og:url" content="http://www.infoworld.com/d/security/ruby-rails-receives-its-third-security-patch-in-less-month-211793" />
+<meta property="og:description" content="Ruby on Rails versions 3.0.20 and 2.3.16 fix an extremely critical remote code execution vulnerability" />
+<meta property="og:type" content="website" />
+<meta name="twitter:card" content="summary" />
+<meta name="twitter:site" content="@infoworld" />
+<meta name="twitter:site:id" content="15426758" />
+<meta name="syndication-source" content="http://www.infoworld.com/d/security/ruby-rails-receives-its-third-security-patch-in-less-month-211793" />
+<meta name="original-source" content="http://www.infoworld.com/d/security/ruby-rails-receives-its-third-security-patch-in-less-month-211793" />
+<link rel="image_src" href="http://computerworld.com.edgesuite.net/ifw/IFW.png" />
+<link rel="canonical" href="http://www.infoworld.com/d/security/ruby-rails-receives-its-third-security-patch-in-less-month-211793" />
+<meta name="news_keywords" content="Ruby on Rails, security patching, app dev" />    <link rel="stylesheet" type="text/css" href="/sites/all/themes/ifw/styles/social_toolsbar.css" /><link type="text/css" rel="stylesheet" media="all" href="/modules/DCP/contrib/views/css/views.css?y" />
+<link type="text/css" rel="stylesheet" media="all" href="/sites/infoworld.com/files/css/css_9982b936e3e150faa854b57ed1fc95d5.css" />
+<link type="text/css" rel="stylesheet" media="print" href="/sites/infoworld.com/files/css/css_6abf5b3e9c7356efa9284ad9aa54ca21.css" />
+  <script type="text/javascript" src="/sites/infoworld.com/files/js/js_fda42be04848b45b32938d789a9fc9c4.js"></script>
+<script type="text/javascript">
+<!--//--><![CDATA[//><!--
+jQuery.extend(Drupal.settings, {"basePath":"\/","disqusCommentDomain":"idg-infoworld","disqus":{"url":"http:\/\/www.infoworld.com\/d\/security\/ruby-rails-receives-its-third-security-patch-in-less-month-211793","title":"Ruby on Rails receives its third security patch in less than a month","identifier":"http:\/\/www.infoworld.com\/node\/211793\/","shortname":"idg-infoworld"},"analytics":["deep_dive","report","webcast","white_paper"]});
+//--><!]]>
+</script>
+<script type="text/javascript">
+<!--//--><![CDATA[//><!--
+OPG = window.OPG || {}; OPG.PageInfo = OPG.PageInfo || {};
+//--><!]]>
+</script>
+<script type="text/javascript">
+<!--//--><![CDATA[//><!--
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-6647659-1']);
+  _gaq.push(['_setDomainName', 'infoworld.com']);
+   _gaq.push(["_setCustomVar", 1, "ContentID", "211793:1", 3]);
+ _gaq.push(["_setCustomVar", 2, "ContentType", "Article:News", 3]);
+ _gaq.push(["_setCustomVar", 3, "ContentPubDate", "2013-01-29T11:40:59-08:00", 3]);
+ _gaq.push(["_setCustomVar", 4, "ContentPrimaryDomain", "Security", 3]);
+ _gaq.push(["_setCustomVar", 5, "ContentTerms", "Security:Patch Management:Application Development:Ruby on Rails,Application Development:Web Development,Security:Vulnerability Assessment", 3]);
+
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+  
+//--><!]]>
+</script>
+<script type="text/javascript">
+<!--//--><![CDATA[//><!--
+var url_topic = "Security"
+//--><!]]>
+</script>
+  <!--[if IE]>
+    <link type="text/css" rel="stylesheet" media="all" href="/sites/all/themes/ifw/ifw_domain/styles/ie-all.css?1234" />  <![endif]-->
+  <!--[if lt IE 8]>
+    <link type="text/css" rel="stylesheet" media="all" href="/sites/all/themes/ifw/ifw_domain/styles/ie7.css?1234" />  <![endif]-->
+  <!--[if lt IE 7]>
+    <link type="text/css" rel="stylesheet" media="all" href="/sites/all/themes/ifw/ifw_domain/styles/ie6.css?1234" />    <script type="text/javascript" src="/sites/all/themes/ifw/scripts/unitpngfix.js"></script>
+  <![endif]-->
+  <script type="text/javascript" src="/sites/all/themes/ifw/scripts/jcarousellite_1.0.1.min.js"></script>
+  <script type="text/javascript">
+    $(function() {
+      $(".carouselContainer").jCarouselLite({
+        btnNext: ".next",
+        btnPrev: ".prev",
+        visible:4,
+        circular:false,
+        scroll:1
+      });
+    });
+  </script>
+</head>
+<body>
+  
+
+
+<!-- begin Sidekick ad --> 
+<div id="sidekick_container"><div id="sidekick_floater"><div id="sidekick_holder"><div id="sidekick">
+<script language="JavaScript" type="text/javascript"> 
+//<![CDATA[
+doubleclick_ad_tag_tile ++; 
+document.write('<script language="JavaScript" src="'+ OPG.Doubleclick.processAdUrl('http://a.collective-media.net/adj/idge.ifw.security/patchmgt;cid=211793;author=lucian_constantin;kw=patch_management,application_development,security,ruby_on_rails,web_development,patch_management,vulnerability_assessment;pos=sidekick;sz=60x968;cmn=idge;tile=' + doubleclick_ad_tag_tile) +'" type="text/javascript"><\/scr'+'ipt>'); 
+//]]>
+</script><noscript><a href="http://ad.doubleclick.net/jump/idge.ifw.security/patchmgt;cid=211793;author=lucian_constantin;kw=patch_management,application_development,security,ruby_on_rails,web_development,patch_management,vulnerability_assessment;pos=sidekick;sz=60x968;tile=1;ord=2557537932?" target="_blank"><img src="http://ad.doubleclick.net/ad/idge.ifw.security/patchmgt;cid=211793;author=lucian_constantin;kw=patch_management,application_development,security,ruby_on_rails,web_development,patch_management,vulnerability_assessment;pos=sidekick;sz=60x968;tile=1;ord=2557537932?" width="60" height="968" border="0" alt=""></a></noscript>
+</div></div></div></div>
+<!-- end Sidekick ad -->
+
+
+<div id="block-infoworld-infoworld_header_domains" class="clear-block block block-infoworld">
+  
+<div class="header" id="domain_security">
+
+
+
+<!-- begin Top Leaderboard ad --> 
+<center><div id="leaderboard">
+<script language="JavaScript" type="text/javascript"> 
+//<![CDATA[
+doubleclick_ad_tag_tile ++; 
+document.write('<script language="JavaScript" src="'+ OPG.Doubleclick.processAdUrl('http://a.collective-media.net/adj/idge.ifw.security/patchmgt;cid=211793;author=lucian_constantin;kw=patch_management,application_development,security,ruby_on_rails,web_development,patch_management,vulnerability_assessment;pos=topleaderboard;sz=728x90,950x98,970x98,970x268;cmn=idge;tile=' + doubleclick_ad_tag_tile) +'" type="text/javascript"><\/scr'+'ipt>'); 
+//]]>
+</script><noscript><a href="http://ad.doubleclick.net/jump/idge.ifw.security/patchmgt;cid=211793;author=lucian_constantin;kw=patch_management,application_development,security,ruby_on_rails,web_development,patch_management,vulnerability_assessment;pos=topleaderboard;sz=728x90,950x98,970x98,970x268;tile=3;ord=2557537932?" target="_blank"><img src="http://ad.doubleclick.net/ad/idge.ifw.security/patchmgt;cid=211793;author=lucian_constantin;kw=patch_management,application_development,security,ruby_on_rails,web_development,patch_management,vulnerability_assessment;pos=topleaderboard;sz=728x90,950x98,970x98,970x268;tile=3;ord=2557537932?" width="728" height="90" border="0" alt=""></a></noscript>
+</div></center>
+<!-- end Top Leaderboard ad -->
+
+
+
+
+
+<!-- begin DogEar ad ad --> 
+<script language="JavaScript" type="text/javascript"> 
+//<![CDATA[
+doubleclick_ad_tag_tile ++; 
+document.write('<script language="JavaScript" src="'+ OPG.Doubleclick.processAdUrl('http://a.collective-media.net/adj/idge.ifw.security/patchmgt;cid=211793;author=lucian_constantin;kw=patch_management,application_development,security,ruby_on_rails,web_development,patch_management,vulnerability_assessment;pos=dogear;sz=1x1;cmn=idge;dcopt=ist;tile=' + doubleclick_ad_tag_tile) +'" type="text/javascript"><\/scr'+'ipt>'); 
+//]]>
+</script><noscript><a href="http://ad.doubleclick.net/jump/idge.ifw.security/patchmgt;cid=211793;author=lucian_constantin;kw=patch_management,application_development,security,ruby_on_rails,web_development,patch_management,vulnerability_assessment;pos=dogear;sz=1x1;tile=2;dcopt=ist;ord=2557537932?" target="_blank"><img src="http://ad.doubleclick.net/ad/idge.ifw.security/patchmgt;cid=211793;author=lucian_constantin;kw=patch_management,application_development,security,ruby_on_rails,web_development,patch_management,vulnerability_assessment;pos=dogear;sz=1x1;tile=2;dcopt=ist;ord=2557537932?" width="1" height="1" border="0" alt=""></a></noscript>
+<!-- end DogEar ad ad -->
+
+
+
+  <div class="headerContent" id="domain_security_content">
+
+    <a href="/" class="ifwHomeLink" name="&lpos=ChanNav:Home">&nbsp;</a>
+    <a name="&lpos=ChanNav:Security:Home" href="/d/security" class="security_domainHomeLink homeLink">&nbsp;</a>
+
+                
+
+    <div class="domainCarousel">
+      <img src="/sites/all/themes/ifw/ifw_domain/images/security_left.png" class="prev left"/>
+
+      <div class="carouselContainer left">           
+        <ul>
+        <li class="security_listItem"><a name="&lpos=ChanNav:Security:Scroller" href="/d/application-development">Application Development</a></li>
+        <li class="security_listItem"><a name="&lpos=ChanNav:Security:Scroller" href="/d/applications">Applications</a></li>
+        <li class="security_listItem"><a name="&lpos=ChanNav:Security:Scroller" href="/d/big-data">Big Data</a></li>
+        <li class="security_listItem"><a name="&lpos=ChanNav:Security:Scroller" href="/d/cloud-computing">Cloud Computing</a></li>
+        <li class="security_listItem"><a name="&lpos=ChanNav:Security:Scroller" href="/d/consumerization-of-it">Consumerization</a></li>
+        <li class="security_listItem"><a name="&lpos=ChanNav:Security:Scroller" href="/d/data-center">Data Center</a></li>
+        <li class="security_listItem"><a name="&lpos=ChanNav:Security:Scroller" href="/d/mobile-technology">Mobile Tech</a></li>
+        <li class="security_listItem"><a name="&lpos=ChanNav:Security:Scroller" href="/d/security">Security</a></li>
+        <li class="security_listItem"><a name="&lpos=ChanNav:Security:Scroller" href="/d/virtualization">Virtualization</a></li>
+        </ul>             
+      </div><!--/carouselContainer-->
+
+      <img src="/sites/all/themes/ifw/ifw_domain/images/security_right.png" class="next right" />
+    </div><!--/domainCarousel-->
+
+    <div id="utilityBar_domain">
+      <div id="utilityBar_domain_innerWrap">
+       <a name="&lpos=ChanNav:Security:Social" href="/newsletters?source=ifwnla_topnav" class="newsletterLink" onclick="LeadGen.Tracking.addSourceCode(&quot;ifwsite&quot;, &quot;topnav&quot;, this);return false;"></a>
+       <a name="&lpos=ChanNav:Security:Social" href="/rss" class="rssLink" onclick="LeadGen.Tracking.addSourceCode(&quot;ifwsite&quot;, &quot;topnav&quot;, this);return false;"></a>
+       <a name="&lpos=ChanNav:Security:Social" href="http://www.facebook.com/InfoWorld" class="fbLink" rel="nofollow" onclick="LeadGen.Tracking.addSourceCode(&quot;ifwsite&quot;, &quot;topnav&quot;, this);return false;"></a>
+       <a name="&lpos=ChanNav:Security:Social" href="http://www.twitter.com/infoworld" class="twitterLink" rel="nofollow" onclick="LeadGen.Tracking.addSourceCode(&quot;ifwsite&quot;, &quot;topnav&quot;, this);return false;"></a>
+      </div>
+   </div><!--/utilityBar_domain-->
+   
+    <form action="/search/google"  accept-charset="UTF-8" method="get" id="infoworld-searchbox-header-form">
+<div><input type="hidden" name="cx" id="edit-cx" value="014839440456418836424:hugs45or03k"  />
+<input type="hidden" name="cof" id="edit-cof" value="FORID:9"  />
+<div class="form-item" id="edit-query-wrapper">
+ <input type="text" maxlength="128" name="query" id="edit-query" size="15" value="" title="Enter the terms you wish to search for." class="form-text" />
+</div>
+<input type="image" name="sa" value="Search" id="edit-sa"  class="form-submit search" src="/sites/all/themes/ifw/images/searchButton.png" />
+<input type="hidden" name="gl" id="edit-gl" value="US"  />
+<input type="hidden" name="safe" id="edit-safe" value="off"  />
+<input type="hidden" name="form_build_id" id="form-cc0a8261d14a766aedefb685016838b3" value="form-cc0a8261d14a766aedefb685016838b3"  />
+<input type="hidden" name="form_id" id="edit-infoworld-searchbox-header-form" value="infoworld_searchbox_header_form"  />
+
+</div></form>
+
+  </div><!--/headerContent-->
+  
+</div><!--/header--></div>
+<div id="block-infoworld_nav-navigation_domain" class="clear-block block block-infoworld_nav">
+  <div id="navigationTop" class="securityNav clearfix"><div class="navText" id="navigationContent"><ul id="headerNav">
+          <li class="domain"><a name="&lpos=ChanNav:Security:Main" href="/d/security/news" class=" selected">News</a></li>
+          <li class="domain"><a name="&lpos=ChanNav:Security:Main" href="/d/security/blogs" class="">Blog</a></li>
+          <li class="domain"><a name="&lpos=ChanNav:Security:Main" href="/d/security/whitepapers" id="whitepapers" class="">White Papers</a></li>
+          <li class="domain"><a name="&lpos=ChanNav:Security:Main" href="/d/security/webcasts" id="webcasts" class="">Webcasts</a></li>
+		  <li class="base"><a name="&lpos=ChanNav:Security:Main" href="/test-center" id="testCenter" class="">Test Center</a></li>
+          <li class="base"><a name="&lpos=ChanNav:Security:Main" href="#" id="topics"  class="">Technologies</a></li>
+          <li class="base"><a name="&lpos=ChanNav:Security:Main" href="/blogs/infoworld-tech-watch" id="techWatch"  class="">Tech Watch</a></li>
+          <li class="base"><a name="&lpos=ChanNav:Security:Main" href="/videos" id="video" class="">Video</a></li>
+          <li class="base"><a name="&lpos=ChanNav:Security:Main" href="/deepdive" id="deepDives" class="">Deep Dives</a></li>
+          <li class="base"><a name="&lpos=ChanNav:Security:Main" href="#" id="more" class="more">More</a></li>
+        </ul><div id="testCenter_dropDown" class="dropdown dropdown_516 dd_tc"><div class="dropdown_top_left_516"></div><div class="dropdown_ctn_516">
+            <div class="inside">
+              <div class="dropdown_leftcol_516">
+                <ul>
+                  <li class="dd_first">Feature</li>
+                </ul>                <h4><a href="/d/cloud-computing/cloud-review-8-public-cloud-services-put-the-test-214403" name="&amp;lpos=Test Center Flyout">Cloud review: 8 public cloud services put to the test</a></h4>                <p>From Amazon to Windows Azure, IaaS clouds differ widely in features, complexity, and speed <a href="/d/applications/skype-voice-service-crashes-users-offered-fix-instructions-00" name="&amp;lpos=Test Center Flyout">more</a></p>              </div>
+              <div class="dropdown_rightcol_516">
+                <ul>
+                  <li class="dd_first">Latest Reviews</li>                  <li><a href="/d/virtualization/virtualization-showdown-microsoft-hyper-v-2012-vs-vmware-vsphere-51-217125" name="&amp;lpos=Test Center Flyout">Virtualization showdown: Microsoft Hyper-V 2012 vs. VMware vSphere 5.1</a></li>                  <li><a href="/d/application-development/review-4-killer-cloud-ides-216616" name="&amp;lpos=Test Center Flyout">Review: 4 killer cloud IDEs</a></li>                  <li><a href="/d/cloud-computing/free-amazon-web-services-and-how-make-the-most-of-them-216105" name="&amp;lpos=Test Center Flyout">Free Amazon Web Services -- and how to make the most of them</a></li>                  <li><a href="/d/data-center/puppet-or-chef-the-configuration-management-dilemma-215279" name="&amp;lpos=Test Center Flyout">Puppet or Chef: The configuration management dilemma</a></li>                  <li><a href="/d/data-management/nosql-showdown-mongodb-vs-couchbase-214912" name="&amp;lpos=Test Center Flyout">NoSQL showdown: MongoDB vs. Couchbase</a></li>                </ul>
+              </div>
+              <div class="dd_footer"><a href="/test-center" name="&amp;lpos=Test Center Flyout">Test Center Home</a></div>
+            </div>
+          </div>
+          <div class="dropdown_btm_516"></div></div><div id="events_dropDown" class="dropdown  dropdown_516 dd_ev">
+          <div class="dropdown_top_right_516"></div>
+          <div class="dropdown_ctn_516">
+            <div class="inside">
+              <div class="dropdown_leftcol_516">
+                <ul>
+                  <li class="dd_first">Face-to-Face</li>                </ul>
+              <div style="border-top:thin solid #999999; clear:both; margin:2px auto 0; text-align:right;"><a href="/events" name="&amp;lpos=ChanNav:Security:Main:Events">See all Face-to-Face</a></div>
+              </div>
+              <div class="dropdown_rightcol_516">
+                <ul>
+                  <li class="dd_first">Virtual Conferences</li>                </ul>
+              <div style="border-top:thin solid #999999; clear:both; margin:2px auto 0; text-align:right;"><a href="/events/virtual" name="&amp;lpos=ChanNav:Security:Main:Events">See all Virtual Conferences</a></div>
+              </div>
+              <div class="dd_footer"style="border-top:none;"></div>
+            </div>
+          </div>
+          <div class="dropdown_btm_516"></div>
+        </div>        <div id="video_dropDown" class="dropdown  dropdown_516 dd_vd">
+          <div class="dropdown_top_right_516"></div>
+          <div class="dropdown_ctn_516">
+            <div class="inside">             
+              <div class="dropdown_leftcol_516">
+                <ul>
+                  <li class="dd_first">InfoClipz</li><li><a href="/d/cloud-computing/infoclipz-cloud-computing-514" name="&amp;lpos=ChanNav:Security:Main:Video">InfoClipz: Cloud computing</a></li><li><a href="/d/green-it/infoclipz-green-it-856" name="&amp;lpos=ChanNav:Security:Main:Video">InfoClipz: Green IT</a></li><li><a href="/d/networking/infoclipz-unified-communications-857" name="&amp;lpos=ChanNav:Security:Main:Video">InfoClipz: Unified communications</a></li><li><a href="/d/virtualization/infoclipz-storage-virtualization-858" name="&amp;lpos=ChanNav:Security:Main:Video">InfoClipz: Storage virtualization</a></li><li><a href="/d/virtualization/infoclipz-server-virtualization-890" name="&amp;lpos=ChanNav:Security:Main:Video">InfoClipz: Server virtualization</a></li>                </ul>
+              </div>
+              <div class="dropdown_rightcol_516">
+                <ul>
+                  <li class="dd_first">Lineups</li><li><a href="/videos" name="&amp;lpos=ChanNav:Security:Main:Video">Latest</a></li><li><a href="/videos" name="&amp;lpos=ChanNav:Security:Main:Video">News</a></li><li><a href="/videos" name="&amp;lpos=ChanNav:Security:Main:Video">InfoClipz</a></li><li><a href="/videos" name="&amp;lpos=ChanNav:Security:Main:Video">Analysis</a></li><li><a href="/videos" name="&amp;lpos=ChanNav:Security:Main:Video">Screencasts</a></li><li><a href="/videos" name="&amp;lpos=ChanNav:Security:Main:Video">Sponsored</a></li>                </ul>
+              </div>
+              <div class="dd_footer"><a href="/videos" name="&amp;lpos=ChanNav:Security:Main:Video">InfoWorld Video Home</a></div>
+            </div>
+          </div>
+          <div class="dropdown_btm_516"></div>
+        </div><div id="topics_dropDown" class="dropdown  dropdown_585 dd_tp"><div class="dropdown_top_right_585"></div><div class="dropdown_ctn_585">
+            <div class="inside">             
+              <div class="dropdown_leftcol_585">
+                <ul>
+                  <li class="dd_first">Channels</li><li><a href="/d/application-development" name="&amp;lpos=ChanNav:Security:Main:Topics">Application Development</a></li><li><a href="/d/big-data" name="&amp;lpos=ChanNav:Security:Main:Topics">Big Data</a></li><li><a href="/d/applications" name="&amp;lpos=ChanNav:Security:Main:Topics">Applications</a></li><li><a href="/d/cloud-computing" name="&amp;lpos=ChanNav:Security:Main:Topics">Cloud Computing</a></li><li><a href="/d/consumerization-of-it" name="&amp;lpos=ChanNav:Security:Main:Topics">Consumerization of IT</a></li><li><a href="/d/data-center" name="&amp;lpos=ChanNav:Security:Main:Topics">Data Center</a></li><li><a href="/d/mobile-technology" name="&amp;lpos=ChanNav:Security:Main:Topics">Mobile Technology</a></li><li><a href="/d/security" name="&amp;lpos=ChanNav:Security:Main:Topics">Security</a></li><li><a href="/d/the-industry-standard" name="&amp;lpos=ChanNav:Security:Main:Topics">The Industry Standard</a></li><li><a href="/d/virtualization" name="&amp;lpos=ChanNav:Security:Main:Topics">Virtualization</a></li>                </ul>
+              </div>
+              <div class="dropdown_right_col_585">
+                <div id="topics_topics_left">
+                  <ul>
+                    <li class="dd_first">Topic Centers</li><li><a href="/d/business-intelligence" name="&amp;lpos=ChanNav:Security:Main:Topics">Business Intelligence</a></li><li><a href="/d/computer-hardware" name="&amp;lpos=ChanNav:Security:Main:Topics">Computer Hardware</a></li><li><a href="/d/data-explosion" name="&amp;lpos=ChanNav:Security:Main:Topics">Data Explosion</a></li><li><a href="/d/data-management" name="&amp;lpos=ChanNav:Security:Main:Topics">Data Management</a></li><li><a href="/d/enterprise-architecture" name="&amp;lpos=ChanNav:Security:Main:Topics">Enterprise Architecture</a></li>                  </ul>
+                </div>
+                <div id="topics_topics_right">
+                  <ul>
+                    <li class="dd_first">&nbsp;</li><li><a href="/d/html5" name="&amp;lpos=ChanNav:Security:Main:Topics">HTML5</a></li><li><a href="/d/microsoft-windows" name="&amp;lpos=ChanNav:Security:Main:Topics">Microsoft Windows</a></li><li><a href="/d/networking" name="&amp;lpos=ChanNav:Security:Main:Topics">Networking</a></li><li><a href="/d/open-source-software" name="&amp;lpos=ChanNav:Security:Main:Topics">Open Source Software</a></li><li><a href="/d/network-storage" name="&amp;lpos=ChanNav:Security:Main:Topics">Storage</a></li>                  </ul>
+                </div>
+              </div>
+              <div class="dd_footer"><a href="/taxonomy" name="&amp;lpos=ChanNav:Security:Main:Topics">See all Technologies</a></div>              
+            </div>
+          </div>
+          <div class="dropdown_btm_585"></div>
+        </div>         <div id="more_dropDown" class="dropdown  dropdown_516 dd_mr">
+          <div class="dropdown_top_right_516"></div>
+          <div class="dropdown_ctn_516">
+            <div class="inside">
+              <div class="dropdown_leftcol_516">
+                <ul>
+                  <li class="dd_first">Popular</li><li><a href="http://www.infoworld.com/about" rel="nofollow" name="&amp;lpos=ChanNav:Security:Main:More">About Us</a></li><li><a href="http://www.infoworld.com/stuff" name="&amp;lpos=ChanNav:Security:Main:More">Apps and Services</a></li><li><a href="/awards-723" rel="nofollow" name="&amp;lpos=ChanNav:Security:Main:More">Awards</a></li><li><a href="http://www.infoworld.com/events" name="&amp;lpos=ChanNav:Security:Main:More">Events</a></li><li><a href="http://www.infoworld.com/insider" name="&amp;lpos=ChanNav:Security:Main:More">Insider Articles</a></li><li><a href="http://itjobs.infoworld.com" name="&amp;lpos=ChanNav:Security:Main:More">IT Jobs</a></li><li><a href="http://www.infoworld.com/multimedia" name="&amp;lpos=ChanNav:Security:Main:More">Multimedia</a></li><li><a href="http://www.infoworld.com/newsletters?source=ifwnla_more" name="&amp;lpos=ChanNav:Security:Main:More">Newsletters</a></li><li><a href="/quizzes" name="&amp;lpos=ChanNav:Security:Main:More">Quizzes</a></li><li><a href="http://www.infoworld.com/rss" name="&amp;lpos=ChanNav:Security:Main:More">RSS and Twitter</a></li><li><a href="/slideshows" name="&amp;lpos=ChanNav:Security:Main:More">Slideshows</a></li>                </ul>
+              </div>
+              <div class="dropdown_rightcol_516">
+                <ul>
+                  <li class="dd_first">Solution Centers</li><li><a href="http://solutioncenters.infoworld.com/everything_you_need_to_become_blackberry_10_ready/" name="&amp;lpos=ChanNav:Security:Main:More">BlackBerry: Build up your  BlackBerry® 10 Knowledge</a></li><li><a href="http://solutioncenters.infoworld.com/bmc_control_m_ifw/" name="&amp;lpos=ChanNav:Security:Main:More">BMC Control-M Workload Automation</a></li><li><a href="http://solutioncenters.infoworld.com/automated_service-oriented_disaster_recovery_for_your_data/" name="&amp;lpos=ChanNav:Security:Main:More">FalconStor® RecoverTrac™: Fully Automated Disaster Recovery</a></li><li><a href="http://solutioncenters.infoworld.com/steelhead_solution_center_ifw/ " name="&amp;lpos=ChanNav:Security:Main:More">Riverbed Accelerate Business Performance Solution Center</a></li><li><a href="http://solutioncenters.infoworld.com/ifw_sc_home/" name="&amp;lpos=ChanNav:Security:Main:More">View all Solution Centers</a></li>                </ul>
+              </div>
+              <div class="dd_footer"></div>
+            </div>
+          </div>
+          <div class="dropdown_btm_516"></div>
+        </div></div></div></div>
+
+
+
+<!-- begin Ticker ad --> 
+<center><div id="ad_ticker">
+<script language="JavaScript" type="text/javascript"> 
+//<![CDATA[
+doubleclick_ad_tag_tile ++; 
+document.write('<script language="JavaScript" src="'+ OPG.Doubleclick.processAdUrl('http://a.collective-media.net/adj/idge.ifw.security/patchmgt;cid=211793;author=lucian_constantin;kw=patch_management,application_development,security,ruby_on_rails,web_development,patch_management,vulnerability_assessment;pos=ticker;sz=800x64,800x30,965x48,970x66,965x100,970x30,970x55,919x100;cmn=idge;tile=' + doubleclick_ad_tag_tile) +'" type="text/javascript"><\/scr'+'ipt>'); 
+//]]>
+</script><noscript><a href="http://ad.doubleclick.net/jump/idge.ifw.security/patchmgt;cid=211793;author=lucian_constantin;kw=patch_management,application_development,security,ruby_on_rails,web_development,patch_management,vulnerability_assessment;pos=ticker;sz=800x64,800x30,965x48,970x66,965x100,970x30,970x55,919x100;tile=4;ord=2557537932?" target="_blank"><img src="http://ad.doubleclick.net/ad/idge.ifw.security/patchmgt;cid=211793;author=lucian_constantin;kw=patch_management,application_development,security,ruby_on_rails,web_development,patch_management,vulnerability_assessment;pos=ticker;sz=800x64,800x30,965x48,970x66,965x100,970x30,970x55,919x100;tile=4;ord=2557537932?" width="800" height="64" border="0" alt=""></a></noscript>
+</div></center><!--/ticker module-->
+
+<!-- end Ticker ad -->
+
+
+<div id="block-block-51" class="clear-block block block-block">
+  <script type="text/javascript" src="http://content.dl-rms.com/rms/mother/574/nodetag.js"></script>
+</div>
+            <div id="container">
+    <div id="idg-content">
+      <div class="breadcrumbs">
+        <a href="/" id="IW_home">InfoWorld Home</a> / <a href="/d/security">Security</a> / <a href="/d/security/news">News</a> / Ruby on Rails receives its third security patch...      </div><!-- /.breadcrumbs -->
+      <div id="leftcol">
+        <div id="node-211793" class="node" itemscope itemtype="http://schema.org/Article">
+  <meta itemprop="articleSection" content="Security" />
+<meta itemprop="url" content="http://www.infoworld.com/d/security/ruby-rails-receives-its-third-security-patch-in-less-month-211793" />
+<meta itemprop="genre" content="News" />
+<meta itemprop="datePublished" content="2013-01-29T11:40:59Z" />
+  <meta itemprop="author" content="Lucian Constantin" />
+<meta itemprop="publisher" content="IDG News Service" />
+    <div class="share_wrapper">
+    <div class="article">
+      <div id="main_text">
+                        <div class="date">January 29, 2013</div><!-- /.date -->
+        <h1 itemprop="headline">Ruby on Rails receives its third security patch in less than a month</h1>
+        <h2 itemprop="description">Ruby on Rails versions 3.0.20 and 2.3.16 fix an extremely critical remote code execution vulnerability</h2>
+        <div class="byline">By Lucian Constantin <span>|</span> IDG News Service</div><!-- /.byline -->
+                <div class="articleTools clearfix">
+          <a href="/print/211793" class="print left">Print</a><span class="left">|</span><a href="#disqus_thread" class="disqus-comments" title="Jump to the comments of this posting." data-disqus-identifier="http://www.infoworld.com/node/211793/"></a>          <div class="share_tools">
+    <span st_url="http://www.infoworld.com/d/security/ruby-rails-receives-its-third-security-patch-in-less-month-211793" class="st_twitter_custom" st_via="infoworld"> </span>
+    <span st_url="http://www.infoworld.com/d/security/ruby-rails-receives-its-third-security-patch-in-less-month-211793" class="st_stumbleupon_custom" displayText="Submit"> </span>
+    <span st_url="http://www.infoworld.com/d/security/ruby-rails-receives-its-third-security-patch-in-less-month-211793" class="st_linkedin_custom"> </span>
+    <div class="g-plusone" data-size="medium" data-annotation="none"></div>
+    <span st_url="http://www.infoworld.com/d/security/ruby-rails-receives-its-third-security-patch-in-less-month-211793" class="st_reddit_custom" > </span>
+    <fb:like href="http://www.infoworld.com/d/security/ruby-rails-receives-its-third-security-patch-in-less-month-211793" send="false" layout="button_count" width="55" show_faces="false"></fb:like>
+    <span st_url="http://www.infoworld.com/d/security/ruby-rails-receives-its-third-security-patch-in-less-month-211793" class="st_email_custom" displayText="Email"> </span><div class="tech_briefcase"><a href="javascript:(function(e,a,g,h,f,c,b,d){if(!(f=e.jQuery)||g>f.fn.jquery||h(f)){c=a.createElement('script');c.type='text/javascript';c.src='http://ajax.googleapis.com/ajax/libs/jquery/'+g+'/jquery.min.js';c.onload=c.onreadystatechange=function(){if(!b&&(!(d=this.readyState)||d=='loaded'||d=='complete')){h((f=e.jQuery).noConflict(1),b=1);f(c).remove()}};a.documentElement.childNodes[0].appendChild(c)}})(window,document,'1.3.2',function($,L){var%20content_script%20=%20$('<script></script>').attr('src','http://www.technologybriefcase.com/js/bookmarklet_content.js').attr('type','text/javascript').attr('language','Javascript');$('head').append(content_script);});" name="&lpos=Bookmarklet button" class="tb_btn_sm"><span class="tb_btn_text"> . </span></a></div><!-- /.tech_briefcase -->
+    <span st_url="http://www.infoworld.com/d/security/ruby-rails-receives-its-third-security-patch-in-less-month-211793" class="st_sharethis_custom" st_via="infoworld"> </span></div><!-- /.share_tools -->
+        <div id="fb-root"></div>
+        <script>
+          window.fbAsyncInit = function() {
+            FB.init({
+              appId  : '154252124591160',
+              channelUrl : '//www.infoworld.com/modules/DCP/custom/dcp_base/channel.html', // Channel File
+              status : true, // check login status
+              cookie : true, // enable cookies to allow the server to access the session
+              xfbml  : true  // parse XFBML
+            });
+            FB.Event.subscribe('edge.create', function(response) {
+              OPG.Eloqua.refresh_iframe("social");
+            });
+          };
+          (function(d, s, id) {
+            var js, fjs = d.getElementsByTagName(s)[0];
+            if (d.getElementById(id)) return;
+            js = d.createElement(s); js.id = id;
+            js.src = "//connect.facebook.net/en_US/all.js#xfbml=1";
+            fjs.parentNode.insertBefore(js, fjs);
+          }(document, 'script', 'facebook-jssdk'));
+        </script>
+
+<!-- Place this tag after the last +1 button tag. -->
+<script type="text/javascript">
+  (function() {
+    var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
+    po.src = 'https://apis.google.com/js/plusone.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+  })();
+</script>
+<script type="text/javascript" src="http://wd.sharethis.com/button/buttons.js"></script>
+<script type="text/javascript">stLight.options({publisher: '8fc0bc5f-13f9-4ea6-9dee-97f073f43459',onhover: false, embeds: true, tracking:'google'});</script>
+        </div><!-- /.articleTools -->
+                        <div itemprop="articleBody"><span class='print-link'></span><p>Developers of the Ruby on Rails Web development framework released versions 3.0.20 and 2.3.16 of the software on Monday in order to address a critical remote code execution vulnerability.</p> <p>This is the third security update released in January for Ruby on Rails, an increasingly popular framework for developing Web applications using the Ruby programming language that was used to build websites like Hulu, GroupOn, GitHub, Scribd, and others.</p> <p><strong>[ Find out how to block the viruses, worms, and other malware that threaten your business, with hands-on advice from InfoWorld's expert contributors in InfoWorld's "<a href="http://www.infoworld.com/browser-security-deep-dive?source=ifwelg_fssr">Malware Deep Dive</a>" PDF guide. | Don't look now, but <a href="http://www.infoworld.com/d/data-explosion/antivirus-the-silent-virtualization-killer-187253?source=fssr">your antivirus may be killing your virtualization infrastructure</a>. InfoWorld's Matt Prigge shows you how to detect the warning signs. ]</strong></p> <p>The Rails developers described the updates released Monday as "extremely critical" in a <a href="http://weblog.rubyonrails.org/2013/1/28/Rails-3-0-20-and-2-3-16-have-been-released/" target="_blank">blog post</a> and advised all users of the 3.0.x and 2.3.x Rails software branches to update immediately.</p> <p>According to a corresponding <a href="https://groups.google.com/forum/?fromgroups=#!topic/rubyonrails-security/1h2DR63ViGo" target="_blank">security advisory</a>, the newly released Rails versions address a vulnerability in the Rails JSON (JavaScript Object Notation) code that allows attackers to bypass authentication systems, inject arbitrary SQL (Structured Query Language) into an application's database, inject and execute arbitrary code or perform a denial-of-service attack against an application.</p> <p>The Rails developers pointed out that despite receiving this update, the Rails 3.0.x branch is no longer officially supported. "Please note that only the 2.3.x, 3.1.x and 3.2.x series are supported at present," they said in the advisory.</p> <p>Users of Rails versions that are no longer supported were advised to upgrade as soon as possible to a newer, supported version, because the continued availability of security fixes for unsupported versions cannot be guaranteed. The newer 3.1.x and 3.2.x Rails branches are not affected by this vulnerability.</p> <p>This latest Rails vulnerability is identified as CVE-2013-0333 and is different from CVE-2013-0156, a critical SQL injection vulnerability <a href="http://www.computerworld.com/s/article/9235501/Ruby_on_Rails_patches_more_critical_vulnerabilities" target="_blank">patched in the framework on Jan. 8</a>. The Rails developers stressed that users of Rails 2.3 or 3.0 who previously installed the fix for CVE-2013-0156 are still required to install the new fix released this week.</p></div>
+                              </div><!-- /#main_text -->
+      <div class="pagination clearfix">
+                          <div class="tags">Tags: <span itemprop="keywords"><a href="/t/patch-management">Patch Management</a>, <a href="/t/ruby-rails">Ruby on Rails</a>, <a href="/t/web-development">Web Development</a>, <a href="/t/vulnerability-assessment">Vulnerability Assessment</a></span></div><!-- /.tags -->
+                <div class="articleTools clearfix">
+          <a href="/print/211793" class="print left">Print</a><span class="left">|</span><a href="#disqus_thread" class="disqus-comments" title="Jump to the comments of this posting." data-disqus-identifier="http://www.infoworld.com/node/211793/"></a>          <div id="toolbar_ad" style="float: right;">
+
+
+<!-- begin Sidecar Promo Widget ad --> 
+<script language="JavaScript" type="text/javascript"> 
+//<![CDATA[
+doubleclick_ad_tag_tile ++; 
+document.write('<script language="JavaScript" src="'+ OPG.Doubleclick.processAdUrl('http://a.collective-media.net/adj/idge.ifw.security/patchmgt;cid=211793;author=lucian_constantin;kw=patch_management,application_development,security,ruby_on_rails,web_development,patch_management,vulnerability_assessment;pos=sidecar;sz=60x55;cmn=idge;tile=' + doubleclick_ad_tag_tile) +'" type="text/javascript"><\/scr'+'ipt>'); 
+//]]>
+</script><noscript><a href="http://ad.doubleclick.net/jump/idge.ifw.security/patchmgt;cid=211793;author=lucian_constantin;kw=patch_management,application_development,security,ruby_on_rails,web_development,patch_management,vulnerability_assessment;pos=sidecar;sz=60x55;tile=5;ord=2557537932?" target="_blank"><img src="http://ad.doubleclick.net/ad/idge.ifw.security/patchmgt;cid=211793;author=lucian_constantin;kw=patch_management,application_development,security,ruby_on_rails,web_development,patch_management,vulnerability_assessment;pos=sidecar;sz=60x55;tile=5;ord=2557537932?" width="" height="" border="0" alt=""></a></noscript>
+<!-- end Sidecar Promo Widget ad -->
+
+
+</div><!-- /#toolbar_ad --><div class="share_tools">
+    <span st_url="http://www.infoworld.com/d/security/ruby-rails-receives-its-third-security-patch-in-less-month-211793" class="st_twitter_custom" st_via="infoworld"> </span>
+    <span st_url="http://www.infoworld.com/d/security/ruby-rails-receives-its-third-security-patch-in-less-month-211793" class="st_stumbleupon_custom" displayText="Submit"> </span>
+    <span st_url="http://www.infoworld.com/d/security/ruby-rails-receives-its-third-security-patch-in-less-month-211793" class="st_linkedin_custom"> </span>
+    <div class="g-plusone" data-size="medium" data-annotation="none"></div>
+    <span st_url="http://www.infoworld.com/d/security/ruby-rails-receives-its-third-security-patch-in-less-month-211793" class="st_reddit_custom" > </span>
+    <fb:like href="http://www.infoworld.com/d/security/ruby-rails-receives-its-third-security-patch-in-less-month-211793" send="false" layout="button_count" width="55" show_faces="false"></fb:like>
+    <span st_url="http://www.infoworld.com/d/security/ruby-rails-receives-its-third-security-patch-in-less-month-211793" class="st_email_custom" displayText="Email"> </span>
+    <span st_url="http://www.infoworld.com/d/security/ruby-rails-receives-its-third-security-patch-in-less-month-211793" class="st_sharethis_custom" st_via="infoworld"> </span></div><!-- /.share_tools -->        </div><!-- /.articleTools -->
+      </div><!-- /.pagination -->
+    </div><!-- /.article -->
+    <div class="article_nl_signup_link">
+
+
+<!-- begin Newsletter Intercept 420x30 ad --> 
+<div class="intercept">
+<script language="JavaScript" type="text/javascript"> 
+//<![CDATA[
+doubleclick_ad_tag_tile ++; 
+document.write('<script language="JavaScript" src="'+ OPG.Doubleclick.processAdUrl('http://a.collective-media.net/adj/idge.ifw.security/patchmgt;cid=211793;author=lucian_constantin;kw=patch_management,application_development,security,ruby_on_rails,web_development,patch_management,vulnerability_assessment;pos=intercept;sz=420x30;cmn=idge;tile=' + doubleclick_ad_tag_tile) +'" type="text/javascript"><\/scr'+'ipt>'); 
+//]]>
+</script><noscript><a href="http://ad.doubleclick.net/jump/idge.ifw.security/patchmgt;cid=211793;author=lucian_constantin;kw=patch_management,application_development,security,ruby_on_rails,web_development,patch_management,vulnerability_assessment;pos=intercept;sz=420x30;tile=7;ord=2557537932?" target="_blank"><img src="http://ad.doubleclick.net/ad/idge.ifw.security/patchmgt;cid=211793;author=lucian_constantin;kw=patch_management,application_development,security,ruby_on_rails,web_development,patch_management,vulnerability_assessment;pos=intercept;sz=420x30;tile=7;ord=2557537932?" width="" height="" border="0" alt=""></a></noscript>
+</div>
+<!-- end Newsletter Intercept 420x30 ad -->
+
+
+</div><!-- /.article_nl_signup_link -->
+          </div><!-- /.share_wrapper -->
+</div><!-- /#node -->        <div id="block-block-72" class="clear-block block block-block">
+  <style type="text/css">
+.from-cso {
+	float: left;
+    padding: 0 0 12px;
+    width: 50%;
+}
+</style>
+
+
+<div class="promo"><div class="from-cio"><div class="sectionLabel"><a href="http://www.cio.com/?source=ifwartcio_hdr"><img alt="" src="/sites/all/themes/ifw/images/lbl_from_cio.gif"></a></div>
+<ul>
+    <li><a href="http://www.cio.com/slideshow/97819?source=ifwartcio" name="&lpos=Article:CIO" target="_blank">Top 10 Programming Skills That Will Get You Hired</a></li>
+    <li><a href="http://www.cio.com/article/732156/BYOD_Lawsuits_Loom_as_Work_Gets_Personal?source=ifwartcio" name="&lpos=Article:CIO" target="_blank">BYOD Lawsuits Loom as Work Gets Personal</a></li>
+    <li><a href="http://www.cio.com/slideshow/96062?source=ifwartcio" name="&lpos=Article:CIO" target="_blank">30 Apps That Improve Microsoft Office 2013</a></li>
+    <li><a href="http://www.cio.com/article/731155/10_Things_BlackBerry_Z10_Does_That_iPhone_Can_t?source=ifwartcio" name="&lpos=Article:CIO" target="_blank">10 Things BlackBerry Z10 Does That iPhone Can't</a></li>
+</ul>
+<p>&raquo; <a href="http://www.cio.com/?source=ifwartcio_cta" target="_blank">Read more at CIO.com</a></p></div><div class="from-cso"><div class="sectionLabel"><a target="_blank" name="&amp;lpos=Article:From CSO Online" href="http://www.csoonline.com?source=ifwartcso_hdr"><img alt="From CSO Online" src="/sites/all/themes/ifw/images/lbl_from_csoonline.gif"></a></div><ul><li><a href="http://www.csoonline.com/slideshow/detail/91543/9-classic-hacking--phishing-and-social-engineering-lies?source=ifwartcso" name="&amp;lpos=Article:From CSO Online" target="_blank">9 classic hacking, phishing and social engineering lies</a></li><li><a href="http://blogs.csoonline.com/security-leadership/2607/there-disconnect-between-demand-security-jobs-and-certifications?source=ifwartcso" name="&amp;lpos=Article:From CSO Online" target="_blank">Is there a disconnect between demand for security jobs and certifications?</a></li><li><a href="http://www.csoonline.com/article/731294/the-scada-security-survival-guide?source=ifwartcso" name="&amp;lpos=Article:From CSO Online" target="_blank">The SCADA Security Survival Guide</a></li><li><a href="http://www.csoonline.com/article/731175/big-data-protects-intel-s-info?source=ifwartcso" name="&amp;lpos=Article:From CSO Online" target="_blank">Big Data Protects Intel's Info</a></li></ul><p>» <a href="http://www.csoonline.com/?source=ifwartcso_cta" target="_blank">Read more at CSO Online</a></p></div></div><!-- .promo -->  
+ <!-- END IFW -->
+
+<div style="border-bottom: 5px solid #cccccc; clear: both;"></div></div>
+<div id="block-infoworld-additional_resources" class="clear-block block block-infoworld">
+  
+
+<div class="addResources">
+    <img src="/sites/all/themes/ifw/images/lbl_additionalResources.gif" alt="additional resources">
+    <div class="addResources-content">
+    			
+		<div class="row clearfix">
+    		<div class="thumb"><a href="http://resources.infoworld.com/show/200012136/00533960067218IFWLSYL8T4BAR/?email=%25%25emailaddr%25%25" onclick='LeadGen.Tracking.addSourceCode("ifwsite","ar", this, "_blank");return false;'><img src="/sites/all/themes/ifw/images/add_resources/it_involve.jpg" alt="Service Desk Comparative Report" title="Service Desk Comparative Report"></a></div>
+    		<div class="textArea">
+    			<div class="label">White Paper</div>
+    			<div class="wp-name">Service Desk Comparative Report</div>
+			  <p class="wp-description">Gartner's recent magic quadrant for IT Service Support Management included no vendors as leaders or innovators. Learn why and how ITinvolve is delivering an innovative service desk solution that empowers IT staff through social collaboration and visualization to improve incident analysis and triage to speed incident resolution time.</p>
+        		<a href="http://resources.infoworld.com/show/200012136/00533960067218IFWLSYL8T4BAR/?email=%25%25emailaddr%25%25" class="download" onclick='LeadGen.Tracking.addSourceCode("ifwsite","ar", this, "_blank");return false;'>Read now &#187;</a>
+			</div>
+		</div>
+        
+        
+    </div>
+</div></div>
+<div id="block-idge_disqus-idge_disqus_comments" class="clear-block block block-idge_disqus">
+  <div id="disqus_thread"></div><noscript><div class="disqus-noscript"><a href="http://idg-infoworld.disqus.com/?url=http%3A%2F%2Fwww.infoworld.com%2Fd%2Fsecurity%2Fruby-rails-receives-its-third-security-patch-in-less-month-211793">View the discussion thread.</a></div></noscript></div>
+      </div><!-- /#leftcol -->
+      <div id="rightcol">
+        <div id="topright">
+
+
+<!-- begin Top IMU ad --> 
+<div class="imu module">
+<div class="imuCover"></div><!--/imuCover-->
+<script language="JavaScript" type="text/javascript"> 
+//<![CDATA[
+doubleclick_ad_tag_tile ++; 
+document.write('<script language="JavaScript" src="'+ OPG.Doubleclick.processAdUrl('http://a.collective-media.net/adj/idge.ifw.security/patchmgt;cid=211793;author=lucian_constantin;kw=patch_management,application_development,security,ruby_on_rails,web_development,patch_management,vulnerability_assessment;pos=topimu;sz=336x280,300x250,336x600,300x1050;cmn=idge;tile=' + doubleclick_ad_tag_tile) +'" type="text/javascript"><\/scr'+'ipt>'); 
+//]]>
+</script><noscript><a href="http://ad.doubleclick.net/jump/idge.ifw.security/patchmgt;cid=211793;author=lucian_constantin;kw=patch_management,application_development,security,ruby_on_rails,web_development,patch_management,vulnerability_assessment;pos=topimu;sz=336x280,300x250,336x600,300x1050;tile=6;ord=2557537932?" target="_blank"><img src="http://ad.doubleclick.net/ad/idge.ifw.security/patchmgt;cid=211793;author=lucian_constantin;kw=patch_management,application_development,security,ruby_on_rails,web_development,patch_management,vulnerability_assessment;pos=topimu;sz=336x280,300x250,336x600,300x1050;tile=6;ord=2557537932?" width="336" height="600" border="0" alt=""></a></noscript>
+</div><!--/imu module-->
+
+<!-- end Top IMU ad -->
+
+
+</div><!-- /#topright -->
+        <div id="midright"><div id="block-infoworld-most_popular_articles" class="clear-block block block-infoworld">
+  <div class="view-content">
+<div class="sectionLabel"><img src="/sites/all/themes/ifw/images/lbl_mostPopular.gif" alt="" /></div>
+<div id="mostPopular"><ul><li><a href="http://www.infoworld.com/slideshow/98622/12-apis-every-programmer-should-know-about-217722">12 APIs every programmer should know about</a></li>
+<li><a href="http://www.infoworld.com/slideshow/99017/the-top-10-programming-skills-will-get-you-hired-217838">The top 10 programming skills that will get you hired</a></li>
+<li><a href="http://www.infoworld.com/slideshow/97680/dev-olution-saluting-19-generations-of-computer-programmers-217433">Dev-olution: Saluting 19 generations of computer programmers</a></li>
+<li><a href="http://www.infoworld.com/d/open-source-software/the-linux-desktop-already-the-new-normal-217818">The Linux desktop is already the new normal </a></li>
+<li><a href="http://www.infoworld.com/t/microsoft-windows/windows-rt-who-loves-ya-baby-217708">Windows RT: Who loves ya, baby? </a></li>
+</ul></div></div></div>
+<div id="block-recommended_resources-3" class="clear-block block block-recommended_resources">
+  <div id="resources"><div class="sectionLabel"><img alt="Recommended Resources" title="Recommended Resources" src="/sites/all/themes/ifw/images/lbl_recommendedResources.gif" alt="Recommended Resources" /></div><ul><li class="block-list-row-1 recRes_head">
+<a href="http://resources.infoworld.com/ccd/assets/36819/detail" onclick="LeadGen.Tracking.addSourceCode(&#039;ifwsite&#039;,&#039;rr&#039;, this);return false;" target="_blank">Complimentary eBook: "Next-Generation IPS for Dummies" | White Paper</a>
+</li>
+<li class="block-list-row-2 recRes_head">
+<a href="http://resources.infoworld.com/ccd/assets/35744/detail" onclick="LeadGen.Tracking.addSourceCode(&#039;ifwsite&#039;,&#039;rr&#039;, this);return false;" target="_blank">Four Keys of Effective 'Next Generation' Security | White Paper</a>
+</li>
+<li class="block-list-row-3 recRes_head">
+<a href="http://resources.infoworld.com/ccd/assets/35739/detail" onclick="LeadGen.Tracking.addSourceCode(&#039;ifwsite&#039;,&#039;rr&#039;, this);return false;" target="_blank">5 New Laws of Anti-Malware | White Paper</a>
+</li>
+<li class="block-list-row-4 recRes_head">
+<a href="http://resources.infoworld.com/ccd/assets/2973/detail" onclick="LeadGen.Tracking.addSourceCode(&#039;ifwsite&#039;,&#039;rr&#039;, this);return false;" target="_blank">Protecting personally identifiable information | White Paper</a>
+</li>
+<li class="block-list-row-5 recRes_head">
+<a href="http://resources.infoworld.com/ccd/assets/2972/detail" onclick="LeadGen.Tracking.addSourceCode(&#039;ifwsite&#039;,&#039;rr&#039;, this);return false;" target="_blank">Five tips to reduce risk from modern web threats | White Paper</a>
+</li>
+<li class="block-list-row-6 recRes_head">
+<a href="http://resources.infoworld.com/ccd/assets/2971/detail" onclick="LeadGen.Tracking.addSourceCode(&#039;ifwsite&#039;,&#039;rr&#039;, this);return false;" target="_blank">Web security buyers guide | White Paper</a>
+</li>
+</ul>
+</div>
+<div class='seeAll-onefingimg'>See all <a href="/whitepapers">White Papers</a> / <a href="/webcasts">Webcasts</a><img alt="Recommended Resources" title="Recommended Resources" src="/sites/all/themes/ifw/ifw_domain/images/btn_pointer.gif" /></div></div>
+
+
+
+<!-- begin Article Promo Right ad --> 
+<div class="module">
+<script language="JavaScript" type="text/javascript"> 
+//<![CDATA[
+doubleclick_ad_tag_tile ++; 
+document.write('<script language="JavaScript" src="'+ OPG.Doubleclick.processAdUrl('http://a.collective-media.net/adj/idge.ifw.security/patchmgt;cid=211793;author=lucian_constantin;kw=patch_management,application_development,security,ruby_on_rails,web_development,patch_management,vulnerability_assessment;pos=articlepromoright;sz=336x250,336x125;cmn=idge;tile=' + doubleclick_ad_tag_tile) +'" type="text/javascript"><\/scr'+'ipt>'); 
+//]]>
+</script><noscript><a href="http://ad.doubleclick.net/jump/idge.ifw.security/patchmgt;cid=211793;author=lucian_constantin;kw=patch_management,application_development,security,ruby_on_rails,web_development,patch_management,vulnerability_assessment;pos=articlepromoright;sz=336x250,336x125;tile=8;ord=2557537932?" target="_blank"><img src="http://ad.doubleclick.net/ad/idge.ifw.security/patchmgt;cid=211793;author=lucian_constantin;kw=patch_management,application_development,security,ruby_on_rails,web_development,patch_management,vulnerability_assessment;pos=articlepromoright;sz=336x250,336x125;tile=8;ord=2557537932?" width="336" height="250" border="0" alt=""></a></noscript>
+</div>
+<!-- end Article Promo Right ad -->
+
+
+</div><!-- /#midright -->
+        <div id="bottomright">
+
+
+<!-- begin Bottom IMU ad --> 
+<div id="imu_bottom" class="imu module">
+<script language="JavaScript" type="text/javascript"> 
+//<![CDATA[
+doubleclick_ad_tag_tile ++; 
+document.write('<script language="JavaScript" src="'+ OPG.Doubleclick.processAdUrl('http://a.collective-media.net/adj/idge.ifw.security/patchmgt;cid=211793;author=lucian_constantin;kw=patch_management,application_development,security,ruby_on_rails,web_development,patch_management,vulnerability_assessment;pos=bottomimu;sz=336x280,300x250,336x600;cmn=idge;tile=' + doubleclick_ad_tag_tile) +'" type="text/javascript"><\/scr'+'ipt>'); 
+//]]>
+</script><noscript><a href="http://ad.doubleclick.net/jump/idge.ifw.security/patchmgt;cid=211793;author=lucian_constantin;kw=patch_management,application_development,security,ruby_on_rails,web_development,patch_management,vulnerability_assessment;pos=bottomimu;sz=336x280,300x250,336x600;tile=10;ord=2557537932?" target="_blank"><img src="http://ad.doubleclick.net/ad/idge.ifw.security/patchmgt;cid=211793;author=lucian_constantin;kw=patch_management,application_development,security,ruby_on_rails,web_development,patch_management,vulnerability_assessment;pos=bottomimu;sz=336x280,300x250,336x600;tile=10;ord=2557537932?" width="336" height="600" border="0" alt=""></a></noscript>
+</div><!--/imu module-->
+
+<!-- end Bottom IMU ad -->
+
+
+<div id="block-infoworld-newsletter_subscribe" class="clear-block block block-infoworld">
+  
+<div id="newsletter" class="clearfix">
+  <h4>Today&#39;s Headlines: First Look Newsletter</h4> 
+  <p>Find out what will be news for the day, with our first-thing-in-the-morning briefing.</p> 
+  <form method="get" action="/newsletters/subscribe?source=ifwnla_mod_fl">
+    <input type="hidden" name="showlist" value="infoworld_todays_headlines_first_look" />
+    <input type="hidden" name="source" value="ifwnla_mod_fl" />
+    <div id="subscribe-btn-holder"><a href="/newsletters/subscribe?showlist=infoworld_todays_headlines_first_look&source=ifwnla_mod_fl" onclick="LeadGen.Tracking.addSourceCode(&quot;ifwsite&quot;,&quot;article_right_nl_oneoff&quot;, this); return false;"><img class="subscribe" src="/sites/all/themes/ifw/images/btn_subscribe_gray.png" /></a></div>
+  </form>
+</div>
+</div>
+<div id="block-block-34" class="clear-block block block-block">
+  <style type="text/css">
+/* powered by sh */
+#wrapper #sh_job_widget .sh_powered_by { margin-top:0; text-align:right; font-size:1.1em; line-height:1.2em; padding-top:0.3em; }
+#wrapper #sh_job_widget .sh_powered_by a { text-decoration:none; }
+#wrapper #sh_job_widget .sh_powered_by .sh_blue { color:#00ACF1; }
+#wrapper #sh_job_widget .sh_powered_by .sh_green { color:#A6CE3A; }
+
+</style>
+
+
+<script type="text/javascript"><!--
+  var simplyhired_widget = {};
+  simplyhired_widget.partner    = 'infoworld'; //partner name
+  simplyhired_widget.keywords   = 'title:IT or "Information Technology"'; //search keywords
+  simplyhired_widget.location   = ' '; //search location (omit for no location, set to empty string for geoip)
+  simplyhired_widget.num_jobs   = '5'; //number of jobs to display
+  simplyhired_widget.stylesheet = 'http://www.infoworld.com/sites/all/themes/ifw/styles/simply-hired-homepage.css'; //full url to external stylesheet (optional)
+  simplyhired_widget.width      = ''; //css width of widget (optional)
+  simplyhired_widget.height     = '230px'; //css height of widget (optional)
+  simplyhired_widget.header ='';
+simplyhired_widget.color_title = '#007CD6';
+simplyhired_widget.color_location ='#9c9c9c';
+simplyhired_widget.color_company ='#000000';
+--></script>
+<script type="text/javascript" src="http://www.simplyhired.com/c/job-widget/js/widget.js"></script>
+<div id="it_job_module" style="border-bottom:5px solid #CCCCCC;margin-bottom:20px;">
+<div class="sectionLabel" style="border-bottom:1px solid #CCCCCC;margin-bottom:10px;">
+	<img alt="" src="http://static.jobthread.com/partners/jobthread/images/syndication/infoworld_two_header.gif"/>
+</div>
+<div id="sh_job_widget" class="module">
+
+  <div id="simplyhired_job_widget">
+
+  </div>
+  
+	<div style="padding-top:10px;padding-bottom:7px;">
+		<span style="color: #FE4E00; font-size: 11px; font-weight: bold;"><a href="http://itjobs.infoworld.com/a/all-jobs/list">See All Jobs &raquo;</a></span>
+ 
+
+		<span style="color: #FE4E00; font-size: 11px; font-weight: bold;padding-left:10px;"><a href="http://itjobs.infoworld.com/a/jbb/post-job">Post a job for $295 &raquo;</a></span>
+	</div> 
+
+</div>
+
+ <form class="sh_search_jobs" style="display: inline;" action="http://itjobs.infoworld.com/a/all-jobs/search" method="GET" onsubmit="if((this.q.value==''||this.q.value=='job title or company')&amp;&amp;(this.l.value==''||this.l.value=='location')){window.open('http://itjobs.infoworld.com/');return false;}if(this.q.value=='job title or company')this.q.value='';if(this.l.value=='location')this.l.value='';return true">
+            <nobr><input class="sh_search_keywords" style="color: rgb(168, 168, 185);margin-right:5px;" name="q" value="job title or company" onfocus="this.value=''" size="19" type="text"><input class="sh_search_location" style="color: rgb(168, 168, 185);margin-right:5px;" name="l" value="location" onfocus="this.value=''" size="14" type="text"><button class="sh_search_button" type="submit">Go</button></nobr>
+
+        </form>
+
+<div style="padding-top:7px;padding-bottom:7px;font-size:11px;font-weight:bold;">
+   <a style="text-decoration:none" href="http://www.simplyhired.com/"><span>Jobs</a> powered by</span> <a style="text-decoration:none" href="http://www.simplyhired.com/"><span style="color: rgb(0, 159, 223); font-weight: bold;">Simply</span><span style="color: rgb(163, 204, 64); font-weight: bold;">Hired</span></a>
+ </div>
+ </div></div>
+<div id="block-block-57" class="clear-block block block-block">
+  <!-- begin ad tag -->
+<script type="text/javascript">
+//<![CDATA[
+document.write('<script type="text/javascript" src="http://ad.doubleclick.net/adj/idgt.data.infoworld/_data_collection_pixel;sz=1x1;ord=' + ord + '?"><\/script>');
+//]]>
+</script>
+<noscript><a href="http://ad.doubleclick.net/jump/idgt.data.infoworld/_data_collection_pixel;sz=1x1;ord=123456789?" target="_blank" ><img src="http://ad.doubleclick.net/ad/idgt.data.infoworld/_data_collection_pixel;sz=1x1;ord=123456789?" border="0" alt="" /></a></noscript>
+<!-- end ad tag --></div>
+</div><!-- /#bottomright -->
+      </div><!-- /#rightcol -->
+      <div id="sponsored1" class="clearfix clear">
+        
+
+
+<!-- begin Bottom Leaderboard ad --> 
+<center><div id="bottom_leaderboard">
+<script language="JavaScript" type="text/javascript"> 
+//<![CDATA[
+doubleclick_ad_tag_tile ++; 
+document.write('<iframe id="ad_iframe_7" src="#" width="728" height="90" marginwidth="0" marginheight="0" hspace="0" vspace="0" frameborder="0" allowTransparency="true" scrolling=no borderCOLOR="#000000"><scr'+'ipt language="JavaScript" src="'+ OPG.Doubleclick.processAdUrl('http://a.collective-media.net/adj/idge.ifw.security/patchmgt;cid=211793;author=lucian_constantin;kw=patch_management,application_development,security,ruby_on_rails,web_development,patch_management,vulnerability_assessment;pos=bottomleaderboard;sz=728x90;cmn=idge;tile=' + doubleclick_ad_tag_tile) + '" type="text/javascript"><\/scr'+'ipt></iframe>');
+if (document.getElementById('ad_iframe_7')) document.getElementById('ad_iframe_7').src = OPG.Doubleclick.processAdUrl('http://a.collective-media.net/adi/idge.ifw.security/patchmgt;cid=211793;author=lucian_constantin;kw=patch_management,application_development,security,ruby_on_rails,web_development,patch_management,vulnerability_assessment;pos=bottomleaderboard;sz=728x90;cmn=idge;tile=' + doubleclick_ad_tag_tile);
+//]]>
+</script><noscript><a href="http://ad.doubleclick.net/jump/idge.ifw.security/patchmgt;cid=211793;author=lucian_constantin;kw=patch_management,application_development,security,ruby_on_rails,web_development,patch_management,vulnerability_assessment;pos=bottomleaderboard;sz=728x90;tile=12;ord=2557537932?" target="_blank"><img src="http://ad.doubleclick.net/ad/idge.ifw.security/patchmgt;cid=211793;author=lucian_constantin;kw=patch_management,application_development,security,ruby_on_rails,web_development,patch_management,vulnerability_assessment;pos=bottomleaderboard;sz=728x90;tile=12;ord=2557537932?" width="728" height="90" border="0" alt=""></a></noscript>
+</div></center>
+<!-- end Bottom Leaderboard ad -->
+
+
+
+
+
+<!-- begin ciu ad --> 
+<div id="ciu">
+<script language="JavaScript" type="text/javascript"> 
+//<![CDATA[
+doubleclick_ad_tag_tile ++; 
+document.write('<script language="JavaScript" src="'+ OPG.Doubleclick.processAdUrl('http://a.collective-media.net/adj/idge.ifw.security/patchmgt;cid=211793;author=lucian_constantin;kw=patch_management,application_development,security,ruby_on_rails,web_development,patch_management,vulnerability_assessment;pos=ciu;sz=950x335,943x335,947x335,919x345,970x335,934x335,922x395;cmn=idge;tile=' + doubleclick_ad_tag_tile) +'" type="text/javascript"><\/scr'+'ipt>'); 
+//]]>
+</script><noscript><a href="http://ad.doubleclick.net/jump/idge.ifw.security/patchmgt;cid=211793;author=lucian_constantin;kw=patch_management,application_development,security,ruby_on_rails,web_development,patch_management,vulnerability_assessment;pos=ciu;sz=950x335,943x335,947x335,919x345,970x335,934x335,922x395;tile=14;ord=2557537932?" target="_blank"><img src="http://ad.doubleclick.net/ad/idge.ifw.security/patchmgt;cid=211793;author=lucian_constantin;kw=patch_management,application_development,security,ruby_on_rails,web_development,patch_management,vulnerability_assessment;pos=ciu;sz=950x335,943x335,947x335,919x345,970x335,934x335,922x395;tile=14;ord=2557537932?" width="919" height="345" border="0" alt=""></a></noscript>
+</div>
+<!-- end ciu ad -->
+
+
+<div id="block-infoworld-sponsored_links" class="clear-block block block-infoworld">
+  
+<div class="sectionLabel sectionLabelUnderline clear sponsoredLinksLabel"><img src="/sites/all/themes/ifw/images/lbl_sponsoredLinks.gif" alt="" /></div>
+<div class="sponsorBlock clearfix">
+	<div class="pad">
+		<a href="http://ad.doubleclick.net/clk;272108774;45098004;h?http://www.panasonic.com/business/toughbook/fully-rugged-laptop-toughbook-31.asp?cm_mmc=Sigma-_-Text-Horizontal-_-InfoWorld-SponsoredText-Toughbook31page-_-Text-Tough&amp;SOURCE=00701970087723IFWABJUL9X4BP" target="_blank" rel="nofollow">Rugged and reliable Panasonic Toughbook® mobile computers.</a><a href="http://ad.doubleclick.net/clk;271773012;45098004;z?http://ad.doubleclick.net/clk;271725156;97479392;z" target="_blank" rel="nofollow">Fight on-premise, zombie ERP with the Plex Cloud.</a><a href="http://ad.doubleclick.net/clk;268267247;45098004;n?http://ad.doubleclick.net/clk;268142259;93947691;a" target="_blank" rel="nofollow">Arbor Networks stops DDoS and advanced threats - learn more</a><a href="http://ad.doubleclick.net/clk;269289330;45098004;l?http://www.blackberryjamconference.com/americas?SOURCE=00663140082784IFWX4W4QXY6PC" target="_blank" rel="nofollow">Get tools to develop exciting new apps at BlackBerry Jam Americas.</a><a href="http://ad.doubleclick.net/clk;270791332;45098004;d?http://clk.atdmt.com/SRT/go/443002696/direct/01/" target="_blank" rel="nofollow">GET A STRATEGIC EDGE WITH MANAGED NETWORK SOLUTIONS FROM SPRINT.</a><a href="http://ad.doubleclick.net/clk;270661176;45098004;f?https://www4.gotomeeting.com/register/322297727?SOURCE=00679230085119IFW5CKBU1AW8A" target="_blank" rel="nofollow">Reduce Your TCO: Deploying Content Management in the Cloud.</a><a href="http://ad.doubleclick.net/clk;270669047;45098004;k?http://www.supermicro.com/products/nfo/files/datacenter/DCO_white_paper.pdf" target="_blank" rel="nofollow">Save ~$500 Per Node over 4 Years with Supermicro® FatTwin™ SuperServer®!</a><a href="http://ad.doubleclick.net/clk;270605464;45098004;d?http://altfarm.mediaplex.com/ad/ck/15017-174670-1884-10?SOURCE=00662460082692IFW9D920CLWRL" target="_blank" rel="nofollow">EMC Introduces World's Most Powerful Hadoop Distribution: Pivotal HD</a><a href="http://ad.doubleclick.net/clk;269905197;45098004;r?http://purecloud.ncircle.com/reg/Monster-IW-IMU" target="_blank" rel="nofollow">Looking for a Security Scan to find Network Monsters? Try PureCloud for FREE And find out where your vulnerabilities may be lurking.</a><a href="http://tinyurl.com/ctfbu33/?SOURCE=00636960079787IFWNABVOLXY1L" target="_blank" rel="nofollow">Redefine Mobility Mgmt at Enterprise Mobile Hub</a><a href="http://tinyurl.com/amcfpzl/?SOURCE=00660340082235IFW1H5A2FYSQE" target="_blank" rel="nofollow">Top Ten Myths About Recovering Deleted Files</a><a href="http://ad.doubleclick.net/clk;260215691;45098004;b?http://go.veeam.com/free-vm-backup.html?utm_source=infoworld&amp;utm_medium=textad&amp;utm_campaign=freebackup" target="_blank" rel="nofollow">Free VMware Backup: VeeamZIP for your VMs!</a><a href="http://ad.doubleclick.net/clk;218166314;7406810;b?http://www.servicemanagementcenter.com/main/pages/IBMRBMS/OMSA/ShowCollateral.aspx?oid=57984&amp;ssid=67&amp;hid=11626&amp;sid=11659" target="_blank" rel="nofollow">Webcast: A Breakthrough in Service Delivery for Data Center Workloads </a><a href="http://ad.doubleclick.net/clk;217671353;7406810;e?http://www.servicemanagementcenter.com/main/pages/IBMRBMS/OMSA/ShowCollateral.aspx?oid=58042&amp;ssid=67&amp;hid=11626&amp;sid=11659" target="_blank" rel="nofollow">A smarter approach to IT is needed. That smarter approach is IBM CloudBurst.</a><a href="http://ad.doubleclick.net/clk;218166313;7406810;a?http://www.servicemanagementcenter.com/main/pages/IBMRBMS/OMSA/ShowCollateral.aspx?oid=67211" target="_blank" rel="nofollow">Article: IBM CloudBurst™: Making Rain in an Economic Dry Spell.</a><a href="http://ad.doubleclick.net/clk;215776433;7406810;h?http://www.sophos.com/dlpfordummies?utm_source=InfoWorld&amp;utm_medium=enewsletter&amp;utm_content=DL%2BDummies&amp;utm_campaign=InfoWorld%2B-%2BDL%2BDummies" target="_blank" rel="nofollow">FREE Data Leakage for Dummies Book from Sophos. Request a book today!</a><a href="http://ad.doubleclick.net/clk;217709691;7406810;l?http://www.accelacomm.com/jaw/ctwtxt/82/50612652/" target="_blank" rel="nofollow">Complimentary Interactive Brochure: iPhone in the Enterprise</a>	</div>
+	<div>
+		<a href="http://ad.doubleclick.net/clk;271944392;45098004;k?http://digitalcommunity.gwu.edu/?utm_source=Infoworld&amp;utm_medium=Banner&amp;utm_campaign=MSIST" target="_blank" rel="nofollow">Prestigious Online Masters Degree. Now earn your Master of Science in Information Technology Systems (MSIST) from GWSB.  Learn more.</a><a href="http://ad.doubleclick.net/clk;271195950;45098004;i?http://www.cervalis.com" target="_blank" rel="nofollow">Cervalis robust co-location, managed hosting, cloud computing.</a><a href="http://ad.doubleclick.net/clk;268180941;42408181;g?http://www.air-watch.com/lp/gartner-mdm-magic-quadrant" target="_blank" rel="nofollow">AirWatch - Leader in the Gartner Magic Quadrant Report for MDM. Download Now</a><a href="http://ad.doubleclick.net/clk;271421146;45098004;x?http://ad.doubleclick.net/click;h=v2%7C409F%7C0%7C0%7C*%7Cj;271418272;0-0;0;97220156;31-1%7C1;41701734%7C41719521%7C1;;?http://www.compuware.com/apm4mainframe" target="_blank" rel="nofollow">The next performance revolution is here - Compuware APM for Mainframe.</a><a href="http://ad.doubleclick.net/clk;271179131;45098004;b?http://info.servicenow.com/LP=1142" target="_blank" rel="nofollow">Transform enterprise IT with ServiceNow. See how easy IT can be.</a><a href="http://ad.doubleclick.net/clk;270844701;45098004;c?http://ad.doubleclick.net/clk;270505532;96507449;m" target="_blank" rel="nofollow">Connect to the Cloud faster with Comcast Business</a><a href="http://ad.doubleclick.net/clk;269201049;45098004;c?http://www.mobiquityinc.com/products/velocity?utm_source=online+campaign+%E2%80%93+idg+%E2%80%93+text+link+%E2%80%93+velocity&amp;utm_medium=online+campaign+%E2%80%93+idg+%E2%80%93+t" target="_blank" rel="nofollow">DEMO Velocity: Create branded interactive live events & training.</a><a href="http://ad.doubleclick.net/clk;264689682;45098004;u?http://clk.atdmt.com/MRT/go/422339342/direct;at.PIX_WE_FY13_INFWD_RoyalC_Text_1x1;wi.1;hi.1/01/" target="_blank" rel="nofollow">See how Royal Caribbean is unlocking intelligence w/ Windows Embedded.</a><a href="http://ad.doubleclick.net/clk;269445385;45098004;p?http://trustlto.com" target="_blank" rel="nofollow">Need low cost storage to protect precious content? Six is the Fix! Use LTO-6 Tape!</a><a href="http://tinyurl.com/ajsu8m6/?SOURCE=00660340082236IFW2PRDHDJCWT" target="_blank" rel="nofollow">openBench Labs: How Diskeeper 12 Keeps the Latest Windows OS Running Like New</a><a href="http://tinyurl.com/a2wpc37/?SOURCE=00660340082234IFWD3VBJ8AKT5" target="_blank" rel="nofollow">IDC Report: Managing the I/O Explosion Without Extra Hardware</a><a href="http://ad.doubleclick.net/clk;222420021;45098004;k?http://altfarm.mediaplex.com/ad/ck/14611-95656-1658-5?mpt=%n" target="_blank" rel="nofollow">Storage, speed, security. Lexar Media Enterprise solutions get down to business.</a><a href="http://ad.doubleclick.net/clk;218166311;7406810;y?http://www.servicemanagementcenter.com/main/pages/IBMRBMS/OMSA/ShowCollateral.aspx?oid=58043&amp;ssid=67&amp;hid=11626&amp;sid=11659" target="_blank" rel="nofollow">See IBM CloudBurst's self-service user interface in action</a><a href="http://ad.doubleclick.net/clk;218184189;7406810;l?http://www.youtube.com/watch?v=AFvTHTiN6ZI&amp;feature=channel_page" target="_blank" rel="nofollow">Video: Simplifying the IT environment for better productivity with IBM</a><a href="http://ad.doubleclick.net/clk;217716554;12174868;o?http://ad.doubleclick.net/click;h=v2|3B82|0|0|%2a|d;217771745;0-0;0;40803361;31-1|1;33252222|33270100|1;;%3fhttp://www.google.com/postini/gogoogle.html#utm_campaign=gogoogle_postini&amp;utm_medium=oa&amp;utm_source=en-oa-na-us-gogoogle-cio-txt-text&amp;utm_term=cio-txt-text-0" target="_blank" rel="nofollow">Archive and search business email in the cloud with Google.</a><a href="http://ad.doubleclick.net/clk;217840967;7406810;n?http://www.mkssoftware.com/?utm_source=InfoWorld%2BFree%20Newsletter&amp;utm_medium=Text%2Bemail&amp;utm_campaign=InfoWorld%2B709%20Newsletter" target="_blank" rel="nofollow">Bring back the power of UNIX/Linux to Windows. </a>	</div>
+</div></div>
+      </div><!-- /#sponsored1 -->
+      <div id="sponsored2" class="sponsorBlock clearfix">
+        <div id="block-block-74" class="clear-block block block-block">
+  <!-- styles embedded to ensure no CSS conflicts with other blocks -->
+
+<style type="text/css">
+#idg-content .sponsorBlock #block-block-74 {
+	width: auto;	
+}
+
+#idg-content #marketplace {
+	width: auto;	
+}
+
+#idg-content #marketplace div {
+	width: auto;
+}
+
+#idg-content #marketplace .sectionLabel {
+	float: none;
+	margin-bottom: 10px;
+	padding: 0;
+}
+
+#idg-content #marketplace table {
+	border-collapse: separate;	
+}
+
+#idg-content .sponsorBlock td {
+	padding: 0 !important;
+	vertical-align: top;	
+}
+
+#idg-content #marketplace td img {
+	margin-left: 12px;
+	padding-top: 2px;
+}
+
+#idg-content #marketplace .resource_item {
+	margin: 0 0 0 8px;
+	_margin-left: 4px;
+	width: 144px;
+}
+
+#idg-content #marketplace .resource_item .headline {
+	margin-bottom: 3px;	
+}
+
+#idg-content .sponsorBlock .resource_item a.title13blue {
+	color: #0066cc;
+	font-family: 'Lucida Grande',Arial,sans-serif;
+	font-size: 12px;
+	font-weight: bold;
+	line-height: 16px;
+}
+
+#idg-content .sponsorBlock .resource_item .description {
+	font-family: 'Lucida Grande',Arial,sans-serif;
+	font-size: 12px;
+	line-height: 16px;
+}
+
+#idg-content .sponsorBlock a.buy_link {
+	color: #0066cc;
+	font-family: 'Lucida Grande',Arial,sans-serif;
+	font-size: 11px;	
+}
+
+#idg-content #sponsored2 a {
+	padding: 0;
+}
+
+#idg-content #marketplace a:hover {
+	background-color: transparent;	
+}
+</style>
+
+<div id="marketplace">
+    <div class="sectionLabel">
+        <img src="/sites/all/themes/ifw/images/lbl_technologyMarketplace.gif" alt="InfoWorld Technology Marketplace">
+    </div>
+	<script type="text/javascript" src="http://jlinks.industrybrains.com/jsct?sid=758&ct=INFOWORLD_ROS&num=4&layt=3&fmt=simp"></script>
+	<a class="buy_link" href="http://www.industrybrains.com/" target="_blank"> &raquo; BUY A LINK NOW</a>
+</div></div>
+      </div><!-- /#sponsored2 /.sponsorBlock -->
+      <div class="clearfix clear">
+                        <!--[if IE ]>
+          <br class="clear" />
+        <![endif]-->
+      </div><!-- /.clearfix clear -->
+    </div><!-- /#idg-content -->
+  </div><!-- /#container -->
+  <div id="block-block-21" class="clear-block block block-block">
+  <div id="footer" class="clear">
+			<div id="footerContent" class="footerText">
+				<ul class="clear">
+				  <li><a href="/about">About Us</a><span>|</span></li>
+				  <li><a href="http://www.infoworldmediakit.com/index.html">Advertise</a><span>|</span></li>
+				  <li><a href="/contact">Contact Us</a><span>|</span></li>
+                                  <li><a href="http://careers.idg.com">Careers at IDG</a><span>|</span></li>
+                                  <li><a href="/newsletters?source=ifwnla_footer ">Newsletters</a><span>|</span></li>
+				  <li><a href="/privacy">Privacy Policy</a><span>|</span></li>
+				  <li><a href="/reprints">Reprints, Permissions, Licensing</a><span>|</span></li>
+				  <li><a href="/terms">Terms of Service</a><span>|</span></li>
+                                 <li><a href="/about-adchoices" class="adchoices_sm">About Ad Choices</a></li>
+				</ul>
+        <h4>The IDG Network</h4>
+        <ul class="otherSites">
+          <li><a href="http://www.cfoworld.com/?source=ifwfooter" target="_blank">CFOworld</a><span>|</span></li>
+          <li><a href="http://www.cio.com/?source=ifwfooter" target="_blank">CIO</a><span>|</span></li>
+          <li><a href="http://www.citeworld.com?source=ifwfooter" target="_blank">CITEworld</a><span>|</span></li>
+          <li><a href="http://www.computerworld.com/?source=ifwfooter" target="_blank">Computerworld</a><span>|</span></li>
+          <li><a href="http://www.csoonline.com/?source=ifwfooter" target="_blank">CSO</a><span>|</span></li>
+          <li><a href="http://www.demo.com/" target="_blank">DEMO</a><span>|</span></li>
+          <li><a href="http://www.idc.com/" target="_blank">IDC</a><span>|</span></li>
+          <li><a href="http://www.idg.com/" target="_blank">IDG</a><span>|</span></li>
+          <li><a href="http://www.idgconnect.com/" target="_blank">IDG Connect</a><span>|</span></li>
+          <li><a href="http://www.idgknowledgehub.com/" target="_blank">IDG Knowledge Hub</a><span>|</span></li>
+          <li><a href="http://www.idgtechnetwork.com/" target="_blank">IDG TechNetwork</a><span>|</span></li>
+          <li><a href="http://www.idgventures.com/" target="_blank">IDG Ventures</a><span>|</span></li>
+          <li><a href="http://www.infoworld.com/?source=ifwfooter">InfoWorld</a></li><span>|</span>
+          <li><a href="http://www.itwhitepapers.com/index.php?source=ifwfooter" target="_blank">ITwhitepapers</a></li><br/>
+          <li><a href="http://www.itworld.com/?source=ifwfooter" target="_blank">IT World</a><span>|</span></li>
+          <li><a href="http://www.javaworld.com/?source=ifwfooter" target="_blank">JavaWorld</a><span>|</span></li>
+          <li><a href="http://www.linuxworld.com/?source=ifwfooter" target="_blank">LinuxWorld</a><span>|</span></li>
+          <li><a href="http://www.macworld.com/?source=ifwfooter" target="_blank">Macworld</a><span>|</span></li>
+          <li><a href="http://www.networkworld.com/?source=ifwfooter" target="_blank">Network World</a><span>|</span></li>
+          <li><a href="http://www.pcworld.com/?source=ifwfooter" target="_blank">PC World</a><span>|</span></li>
+          <li><a href="http://www.techhive.com?source=ifwfooter" target="_blank">TechHive</a><span>|</span></li>
+          <li><a href="http://technologybriefcase.com/allCategories?source=ifwfooter" target="_blank">Technology Briefcase</a></li>
+        </ul>          
+        </p>
+			</div>
+		</div></div>
+<div id="block-block-20" class="clear-block block block-block">
+  		<div id="footerBottom">
+      <div id="footerBottomContent">
+			  <div class="left">
+          <!--
+          <form>
+            <input type="text" />
+            <input type="button" class="footerSearchSubmit" />
+          </form> -->
+          <form action="/search/google"  accept-charset="UTF-8" method="get" id="infoworld-searchbox-footer-form">
+<div><input type="hidden" name="cx" id="edit-cx-1" value="014839440456418836424:hugs45or03k"  />
+<input type="hidden" name="cof" id="edit-cof-1" value="FORID:9"  />
+<div class="form-item" id="edit-query-1-wrapper">
+ <input type="text" maxlength="128" name="query" id="edit-query-1" size="15" value="" title="Enter the terms you wish to search for." class="form-text" />
+</div>
+<input type="image" name="sa" value="Search" id="edit-sa-1"  class="form-submit search" src="/sites/all/themes/ifw/images/btn_footer_search.gif" />
+<input type="hidden" name="gl" id="edit-gl-1" value="US"  />
+<input type="hidden" name="safe" id="edit-safe-1" value="off"  />
+<input type="hidden" name="sitesearch" id="edit-sitesearch" value="infoworld.com"  />
+<input type="hidden" name="form_build_id" id="form-eb51da71422b13384d331dbc203e7940" value="form-eb51da71422b13384d331dbc203e7940"  />
+<input type="hidden" name="form_id" id="edit-infoworld-searchbox-footer-form" value="infoworld_searchbox_footer_form"  />
+
+</div></form>
+        </div>
+        <div class="right">&copy;1994-2013 Infoworld, Inc.</div>
+      </div>
+		</div></div>
+<div id="block-analytics-analytics_all" class="clear-block block block-analytics">
+  <script type="text/javascript">
+
+	if (s === undefined || typeof(s) != "object" || typeof(s.t) === undefined || typeof(s.t) != "function") {
+		s=s_gi(s_account);
+	} 
+  			// Omniture page properties
+          s.pageName="Article:211793:Ruby on Rails receives its third security patch in less than a month:2013-01-29";
+          s.channel="News";
+          s.prop1="Security:Patch Management";
+          s.prop2="Application Development:Ruby on Rails,Application Development:Web Development,Security:Vulnerability Assessment";
+          s.prop3="Security";
+          s.prop4="";
+          s.prop5="Lucian Constantin";
+          s.prop6="IDG News Service";
+          s.prop7="Article";
+          s.prop8="News";
+          s.prop9="211793";
+          s.prop10="2013-01-29";
+          s.prop11="211793:1";
+          s.prop15="";
+          s.prop13 = OPG.Demandbase.getDbaseVar('company_name', 'maxmind_company_name');
+              s.prop14 = OPG.Demandbase.getDbaseVar('industry');
+              s.prop18 = OPG.Demandbase.getDbaseVar('company_size');
+              s.prop19 = OPG.Demandbase.getDbaseVar('employee_count');
+              s.prop20 = OPG.Demandbase.getDbaseVar('sub_industry');
+              s.prop22 = OPG.Demandbase.getDbaseVar('primary_sic');
+              s.prop23 = OPG.Demandbase.getDbaseVar('zip');
+          
+
+// Omniture hierarchy properties
+          s.hier1="Security,News,Security:Patch Management,Ruby on Rails receives its third security patch in less than a month";
+</script><script type="text/javascript">var s_code=s.t();if(s_code)document.write(s_code);               if(navigator.appVersion.indexOf('MSIE')>=0)document.write(unescape('%3C')+'\!-'+'-')
+             </script><noscript>
+                  <a href="http://www.omniture.com" title="Web Analytics">
+                    <img src="http://infoworld-production.112.2O7.net/b/ss/infoworld-production/1/H.17--NS/0"
+                         height="1" width="1" border="0" alt="" />
+                  </a>
+                </noscript><!--/DO NOT REMOVE/--><!-- End SiteCatalyst code version: H.17. --></div>
+<div id="block-block-45" class="clear-block block block-block">
+  <script type="text/javascript" src="/sites/all/themes/ifw/scripts/leadgen_tracking.js?6"></script>
+
+<!-- START Nielsen Online SiteCensus V6.0 -->
+<!-- COPYRIGHT 2010 Nielsen Online -->
+
+<script type="text/javascript">
+  (function () {
+    var d = new Image(1, 1);
+    d.onerror = d.onload = function () {
+      d.onerror = d.onload = null;
+    };
+
+    d.src = ["//secure-us.imrworldwide.com/cgi-bin/m?ci=us-203426h&cg=0&cc=1&si=", escape(window.location.href), "&rp=", escape(document.referrer), "&ts=compact&rnd=", (new Date()).getTime()].join('');
+  })();
+</script>
+<noscript>
+  <div>
+    <img src="//secure-us.imrworldwide.com/cgi-bin/m?ci=us-203426h&amp;cg=0&amp;cc=1&amp;ts=noscript" width="1" height="1" alt="" />
+  </div>
+</noscript>
+
+<!-- END Nielsen Online SiteCensus V6.0 --></div>
+<div id="block-analytics-collective_media_js" class="clear-block block block-analytics">
+  <!-- begin collective media tag -->
+    <script language="JavaScript" type="text/javascript">
+     var _companysize = OPG.Demandbase.getDbaseVar('company_size');
+     var _forbes2000 = OPG.Demandbase.getDbaseVar('forbes_2000');
+     var _compsz = "cu";
+     var _g2000 = "gn";
+
+     if(typeof _companysize != 'undefined'){
+     switch(_companysize) {
+     		case "small": 
+     			_compsz="cs";
+     			break;
+     		case "mid-market": 
+     			_compsz="cm";
+     			break;
+     		case "enterprise": 
+     			_compsz="ce";
+     			break;
+     	}
+     }
+
+     if(typeof _forbes2000 != 'undefined' && _forbes2000 == "yes") _g2000 = "gy";
+
+     document.write('<div style="display:none;"><img src="http://a.collective-media.net/datapair?net=idgt&segs='+_g2000+','+_compsz+'&op=add" width="0" height="0"></div>');
+     </script>
+   <!-- end collective media tag --></div>
+
+
+
+<!-- begin Catfish ad --> 
+<script language="JavaScript" type="text/javascript"> 
+//<![CDATA[
+doubleclick_ad_tag_tile ++; 
+document.write('<script language="JavaScript" src="'+ OPG.Doubleclick.processAdUrl('http://a.collective-media.net/adj/idge.ifw.security/patchmgt;cid=211793;author=lucian_constantin;kw=patch_management,application_development,security,ruby_on_rails,web_development,patch_management,vulnerability_assessment;pos=catfish;sz=970x50;cmn=idge;tile=' + doubleclick_ad_tag_tile) +'" type="text/javascript"><\/scr'+'ipt>'); 
+//]]>
+</script><noscript><a href="http://ad.doubleclick.net/jump/idge.ifw.security/patchmgt;cid=211793;author=lucian_constantin;kw=patch_management,application_development,security,ruby_on_rails,web_development,patch_management,vulnerability_assessment;pos=catfish;sz=970x50;tile=14;ord=2557537932?" target="_blank"><img src="http://ad.doubleclick.net/ad/idge.ifw.security/patchmgt;cid=211793;author=lucian_constantin;kw=patch_management,application_development,security,ruby_on_rails,web_development,patch_management,vulnerability_assessment;pos=catfish;sz=970x50;tile=14;ord=2557537932?" width="" height="" border="0" alt=""></a></noscript>
+<!-- end Catfish ad -->
+
+
+  
+  <!-- begin chartbeat -->
+  <script type='text/javascript'>
+    var _sf_async_config={};
+    /** CONFIGURATION START **/
+    _sf_async_config.uid = 29363;
+    _sf_async_config.domain = 'idgenterprise.com';
+    _sf_async_config.path = '/d/security/ruby-rails-receives-its-third-security-patch-in-less-month-211793';
+    _sf_async_config.title = 'Ruby on Rails receives its third security patch in less than a month';
+    _sf_async_config.useCanonical = true;
+    _sf_async_config.sections = 'infoworld.com';
+    _sf_async_config.authors = 'Lucian Constantin';
+    /** CONFIGURATION END **/
+    (function(){
+      function loadChartbeat() {
+        window._sf_endpt=(new Date()).getTime();
+        var e = document.createElement('script');
+        e.setAttribute('language', 'javascript');
+        e.setAttribute('type', 'text/javascript');
+        e.setAttribute('src', (('https:' == document.location.protocol) ? 'https://a248.e.akamai.net/chartbeat.download.akamai.com/102508/' : 'http://static.chartbeat.com/') + 'js/chartbeat.js');
+        document.body.appendChild(e);
+      }
+      var oldonload = window.onload;
+      window.onload = (typeof window.onload != 'function') ? loadChartbeat : function() { oldonload(); loadChartbeat(); };
+    })();
+  </script>
+  <!-- end chartbeat -->
+
+
+<!-- Eloqua Tracking -->
+<script type="text/javascript">
+	OPG = window.OPG || {};
+	OPG.PageInfo = OPG.PageInfo || {};
+	OPG.PageInfo = function() {
+		return {
+			eloqua_type: "article", 
+			eloqua_topic: "security"
+		};
+	}();
+</script>
+<script type="text/javascript" src="/elqNow/elqCfg.js"></script>
+<script type="text/javascript" src="/elqNow/elqImg.js"></script>
+<script type="text/javascript" src="/elqNow/elqFCS.js"></script>
+<script type="text/javascript" src="/elqNow/elqOPG.js"></script>
+<!-- End Eloqua Tracking -->
+
+  <!-- Begin BlueKai Tag -->
+  <iframe name="__bkframe" height="0" width="0" frameborder="0" src="javascript:void(0)"></iframe>
+  <script type="text/javascript" src="http://tags.bkrtx.com/js/bk-coretag.js"></script>
+  <script type="text/javascript">
+  bk_addPageCtx("p1", (typeof(s.prop1)!=='undefined')?s.prop1:'');
+  bk_addPageCtx("p3", (typeof(s.prop3)!=='undefined')?s.prop3:'');
+  bk_addPageCtx("p7", (typeof(s.prop7)!=='undefined')?s.prop7:'');
+  bk_doJSTag(14345, 10);
+  </script>
+  <!-- End BlueKai Tag --><script type="text/javascript" src="/sites/infoworld.com/files/js/js_0351b8e8c211b77ab4298421d1419610.js"></script>
+<script type="text/javascript">
+<!--//--><![CDATA[//><!--
+jQuery.extend(Drupal.settings, {"googleCSE":{"language":"en"}});
+//--><!]]>
+</script>
+
+<!-- Sailthru Horizon --> 
+<script type="text/javascript">
+    (function() {
+        function loadHorizon() { 
+            var s = document.createElement('script'); 
+            s.type = 'text/javascript'; 
+            s.async = true;
+            s.src = ('https:' === location.protocol?'https://d1gp8joe0evc8s.cloudfront.net':'http://cdn.sail-horizon.com')+'/horizon/v1.js';
+            var x = document.getElementsByTagName('script')[0]; 
+            x.parentNode.insertBefore(s, x);
+        }
+        loadHorizon();
+        var oldOnLoad = window.onload;
+        window.onload = function() {
+            if (typeof oldOnLoad === 'function') {
+                oldOnLoad();
+            }
+            Sailthru.setup({
+                domain: 'horizon.infoworld.com',
+                concierge: { from: 'top', threshold: $('div.pagination'), cssPath: 'http://www.infoworld.com/sites/all/themes/ifw/styles/ifw-recommendation.css' }
+            });
+        };
+    })();
+</script></body>
+</html>

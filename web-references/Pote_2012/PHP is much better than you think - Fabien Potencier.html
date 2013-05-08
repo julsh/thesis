@@ -1,0 +1,766 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="title" content="Fabien Potencier" />
+<meta name="robots" content="index, follow" />
+<meta name="description" content="The blog of Fabien Potencier about web technology and the symfony framework" />
+<meta name="keywords" content="symfony, php, php5, framework, blog, web, best pratices, design patterns, propel, doctrine" />
+<meta name="language" content="en" />
+
+    <title>PHP is much better than you think - Fabien Potencier</title>
+
+    <link rel="stylesheet" type="text/css" media="all" href="http://yui.yahooapis.com/2.3.1/build/reset/reset-min.css" />
+    <link rel="stylesheet" type="text/css" media="all" href="http://yui.yahooapis.com/2.3.0/build/base/base-min.css" />
+    <link rel="stylesheet" type="text/css" media="all" href="http://yui.yahooapis.com/2.3.1/build/fonts/fonts-min.css" />
+
+    <link rel="stylesheet" type="text/css" media="all" href="/css/highlight.css" />
+    <link rel="stylesheet" type="text/css" media="print" href="/css/print.css" />
+
+    <link rel="alternate" type="application/rss+xml" title="Fabien Potencier's feed"  href="http://feeds.fabien.potencier.org/aidedecamp" />
+
+    <link rel="stylesheet" type="text/css" media="screen" href="/css/main.css" />
+<link rel="stylesheet" type="text/css" media="screen" href="/css/comments.css" />
+    
+    <script type="text/javascript" src="/js/jquery-1.7.2.min.js"></script>
+
+    <link href="https://connect.sensiolabs.com/css/sln.css" rel="stylesheet" type="text/css" media="all" />
+
+    <script type="text/javascript">
+        (function(w, d, s) {
+            function go() {
+                var js, fjs = d.getElementsByTagName(s)[0], load = function(url, id) {
+                    if (d.getElementById(id)) {return;}
+                    js = d.createElement(s); js.src = url; js.id = id;
+                    fjs.parentNode.insertBefore(js, fjs);
+                };
+                load('https://connect.sensiolabs.com/sln.js?customize_url=/sln', 'sln_bar');
+            }
+            if (w.addEventListener) { w.addEventListener("load", go, false); }
+            else if (w.attachEvent) { w.attachEvent("onload",go); }
+        } (window, document, 'script'));
+    </script>
+
+          <script type="text/javascript">
+        var _gaq = _gaq || [];
+        _gaq.push(['_setAccount', 'UA-3021937-1']);
+        _gaq.push(['_trackPageview']);
+
+        (function() {
+          var ga = document.createElement('script');
+          ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+          ga.setAttribute('async', 'true');
+          document.documentElement.firstChild.appendChild(ga);
+        })();
+      </script>
+      </head>
+  <body>
+    <div id="sln"></div>
+    <div id="main">
+        <div id="content">
+          
+
+<h1>PHP is much better than you think</h1>
+<h2><a href="/">Fabien Potencier</a></h2>
+<h3>July 04, 2012</h3>
+
+<div class="content">
+  <p>Rants about PHP are everywhere, and they even come from smart guys. When Jeff
+Atwood wrote yet another
+<a href="http://www.codinghorror.com/blog/2012/06/the-php-singularity.html">rant</a>
+about PHP, it made me think about the good parts of PHP.</p>
+
+<p>The biggest problem of these rants is that they come from people stuck in the
+old days of PHP. They either don't care or they don't want to admit that PHP
+actually evolves at a very fast pace, both at the language level but also at
+the community level. In fact, it evolves much faster than any other language
+or web platform. It has not always been the case, but the last 5 years have
+been an amazing journey for PHP.</p>
+
+<p>Before talking about the amazing things the PHP community has achieved
+recently, let's have a look at some interesting numbers: PHP is used by
+<a href="http://w3techs.com/technologies/overview/programming_language/all">77.9%</a> of
+all the websites whose server-side programming language is known. WordPress is
+used by
+<a href="http://w3techs.com/technologies/overview/content_management/all">16.6%</a> of
+<strong>all the websites</strong> in the world. If you have a look at the top three CMSes,
+for the websites that use a monitored content management system: Wordpress is
+first with 54.3%, Joomla is second with 9.2%, and Drupal is third with 6.8%.
+Three products written in PHP.</p>
+
+<p>PHP must have done something right, no?</p>
+
+<p>Now, let me tell you a secret, the PHP "tour de force": Despite the changes
+over the years, PHP is still the <strong>easiest language</strong> to learn for
+non-technical people: it allows anyone to create dynamic websites faster than
+with any other technologies, it allows anyone to host websites cheaply and
+without any hassles. PHP is probably not the best designed language in the
+world, but it lets you <strong>get things done</strong>, and you can't argue with that.</p>
+
+<h2>PHP, the Language</h2>
+
+<p>PHP 5.0 (released in 2004) brought us a very solid object model... wait a
+minute, I'm talking about something released almost 8 years ago. Fast forward
+now. The latest PHP release, PHP 5.4, comes with all the bells and whistles
+you might dream of in a modern web language: yes, PHP supports namespaces;
+yes, PHP supports closures; yes, PHP supports traits.</p>
+
+<p>It took some time, but PHP 5.4 also comes with some nice syntactic sugar that
+makes the whole experience better than ever: yes, PHP supports <code>[]</code> to define
+arrays; yes, PHP supports calling a method on a newly created object (<code>(new
+Foo())-&gt;bar()</code>); yes, PHP supports getting an array item from any expression
+(<code>$foo-&gt;bar()[1]</code>).</p>
+
+<p>PHP has even learned from its mistakes: <code>register_globals</code> and <code>magic_quotes</code>
+are definitely gone.</p>
+
+<p>Last, but not the least, PHP even comes with a built-in web server that eases
+local testing... and it starts in a matter of micro-seconds.</p>
+
+<p><em>Next challenges</em>: How do we "upgrade" all the old tutorials talking about PHP
+on the web? What is the best way to support the WebSocket technology in a PHP
+application?</p>
+
+<h2>PHP, the Ecosystem</h2>
+
+<p>Having a good language is great, but having a great ecosystem is even better.
+And the PHP ecosystem has evolved a lot in the last few years.</p>
+
+<h3>Git</h3>
+
+<p>I won't talk too much about this one. Git is everywhere and PHP embraced Git
+pretty fast. Almost all major PHP libraries, frameworks, and products are now
+using Git, including PHP itself.</p>
+
+<h3>Composer</h3>
+
+<p>Two years ago, I wanted to get rid of my ugly-PEAR-hack I did in symfony 1 to
+support plugins. I wanted to replace it with something that was able to manage
+project dependencies, not a global installer like PEAR. Managing dependencies
+is not an easy task, so I tried to find the best algorithm to manage software
+dependencies; I had a look at everything: from Perl to Ruby, from Debian to
+Redhat. Nothing was satisfactory: only homegrown solutions that happen to
+work... empirically. Then, I stumbled upon
+<a href="http://en.wikipedia.org/wiki/ZYpp">ZYpp</a>. That was it. ZYpp uses a
+<a href="http://en.wikipedia.org/wiki/Boolean_satisfiability_problem">SAT</a> solver to
+manage dependencies. Fast forward. Thanks to the hard work of
+<a href="http://www.naderman.de/">Nils</a> Adermann and <a href="http://seld.be/">Jordi</a>
+Boggiano, PHP now has one of the best dependency manager,
+<a href="http://getcomposer.org/">Composer</a>.</p>
+
+<p>Yes, PHP has a better dependency manager than any other languages.</p>
+
+<p>And thanks to Git, Composer, and the PHP built-in web server, it has never
+been <a href="https://twitter.com/fabpot/status/220254879459975169">easier</a> to
+download/install/test a PHP project.</p>
+
+<p>Want to test Symfony (using PHP 5.4)?</p>
+
+<pre class="command-line"><code>$ composer.phar create-project symfony/framework-standard-edition
+$ cd framework-standard-edition
+$ ./app/console server:run
+</code></pre>
+
+<p>Want to test Silex?</p>
+
+<pre class="command-line"><code>$ composer.phar create-project fabpot/silex-skeleton
+$ cd silex-skeleton
+$ php -S localhost:8888 -t web/
+</code></pre>
+
+<p>Don't know Composer yet? You should learn about it. Browse
+<a href="http://packagist.org/packages/">Packagist</a>, the main Composer repository: it
+already has 1900+ packages available and they have been installed more than a million times
+in less than 3 months.</p>
+
+<p><em>Next challenge</em>: include the Composer installer in the next PHP version?</p>
+
+<h3>Collaboration</h3>
+
+<p>Community collaboration is the most important point of this post; the one I'm
+the most proud of. We start to see better collaboration between PHP projects,
+even from the very big ones, the ones you would think are large enough to not
+care about the others.</p>
+
+<p>phpBB, <a href="http://symfony.com/blog/symfony2-meets-drupal-8">Drupal</a>, <a href="http://symfony.com/blog/symfony2-meets-ez-publish-5">eZ Publish</a>, Symfony, and many others (phpDocumentor, PHPUnit,
+Behat, Zikula, Propel, Doctrine, Midgard, ...) are <strong>sharing</strong> code. Yes, they
+are "competitors" but they all understood that cross-pollination was a good
+thing. And Composer is a good enabler.</p>
+
+<p><em>Next challenge</em>: Convince even more projects to join the trend.</p>
+
+<h2>Conclusion</h2>
+
+<p>Let me say it again: PHP is probably not the best language out there, and I'm
+the first one to scream about its quirks, but <strong>PHP is the best web
+platform</strong>... ever.</p>
+</div>
+
+<div id="comments">
+  <h2>Discussion</h2>
+
+            <div class="comment">
+    <span class="gravatar">
+                    <a href="https://connect.sensiolabs.com/api/alternates/3ff8c50d-6219-4777-8f21-a24990affc83"><img width="40" height="40" src="https://connect.sensiolabs.com/api/images/3ff8c50d-6219-4777-8f21-a24990affc83.png?format=40x40" alt="gravatar"></a>
+            </span>
+    <em>
+                    <a href="https://connect.sensiolabs.com/api/alternates/3ff8c50d-6219-4777-8f21-a24990affc83">Loïc Chardonnet</a>
+            </em>&nbsp;&mdash;&nbsp;July 04, 2012 10:21&nbsp;&nbsp;&nbsp;#1    <div>
+        It&#039;s really great to see an answer for all this smear campaign against technical points in PHP.<br />At last, one of the PHP star answer, and I&#039;m glad to see that it is with a pragmatic approach rather than a fanatic one (I&#039;m sure some will be thrilled and will debate about how PHP closure are in fact anonymous function).<br /><br />Thanks for this post!    </div>
+</div>
+          <div class="comment">
+    <span class="gravatar">
+                    <a href="https://connect.sensiolabs.com/api/alternates/f6170ab4-0fbb-4d61-b1d4-9aaddcfcd67d"><img width="40" height="40" src="https://connect.sensiolabs.com/api/images/f6170ab4-0fbb-4d61-b1d4-9aaddcfcd67d.png?format=40x40" alt="gravatar"></a>
+            </span>
+    <em>
+                    <a href="https://connect.sensiolabs.com/api/alternates/f6170ab4-0fbb-4d61-b1d4-9aaddcfcd67d">Matteo Giachino</a>
+            </em>&nbsp;&mdash;&nbsp;July 04, 2012 10:27&nbsp;&nbsp;&nbsp;#2    <div>
+        I totally agree. In the end, community matter so much more than hype or &quot;à la mode&quot; syntaxes.<br /><br />I must strongly disagree for the part when you say that the debian package manager (apt-get) is a homegrown solution! It&#039;s, by far, the best package manager around. Look at osx for a bad example!    </div>
+</div>
+          <div class="comment">
+    <span class="gravatar">
+                    <a href="https://connect.sensiolabs.com/api/alternates/e89a8f7c-58a0-409d-9b0d-479a3580d8b9"><img width="40" height="40" src="https://connect.sensiolabs.com/api/images/e89a8f7c-58a0-409d-9b0d-479a3580d8b9.png?format=40x40" alt="gravatar"></a>
+            </span>
+    <em>
+                    <a href="https://connect.sensiolabs.com/api/alternates/e89a8f7c-58a0-409d-9b0d-479a3580d8b9">Samy Dindane</a>
+            </em>&nbsp;&mdash;&nbsp;July 04, 2012 10:28&nbsp;&nbsp;&nbsp;#3    <div>
+        &quot;Yes, PHP has a better dependency manager than any other languages.&quot; <br /><br />Would you explain why please? Compared to Bundler for example?    </div>
+</div>
+          <div class="comment">
+    <span class="gravatar">
+                    <a href="https://connect.sensiolabs.com/api/alternates/bbb59fb3-c73c-4fcf-ac36-13b643806f71"><img width="40" height="40" src="https://connect.sensiolabs.com/api/images/bbb59fb3-c73c-4fcf-ac36-13b643806f71.png?format=40x40" alt="gravatar"></a>
+            </span>
+    <em>
+                    <a href="https://connect.sensiolabs.com/api/alternates/bbb59fb3-c73c-4fcf-ac36-13b643806f71">Julien DIDIER</a>
+            </em>&nbsp;&mdash;&nbsp;July 04, 2012 10:28&nbsp;&nbsp;&nbsp;#4    <div>
+        PHP is permissive. And he has a really messy history.<br />Ok for new coding style on PHP5.4. But the prototyping could be more better for next versions.<br />To grow up, PHP has to change old attitudes.    </div>
+</div>
+          <div class="comment">
+    <span class="gravatar">
+                    <a href="https://connect.sensiolabs.com/api/alternates/1565f39e-a751-4669-ae22-42b1fa7aa4d6"><img width="40" height="40" src="https://connect.sensiolabs.com/api/images/1565f39e-a751-4669-ae22-42b1fa7aa4d6.png?format=40x40" alt="gravatar"></a>
+            </span>
+    <em>
+                    <a href="https://connect.sensiolabs.com/api/alternates/1565f39e-a751-4669-ae22-42b1fa7aa4d6">Konstantin Kudryashov</a>
+            </em>&nbsp;&mdash;&nbsp;July 04, 2012 10:36&nbsp;&nbsp;&nbsp;#5    <div>
+        Matteo Giachino:<br /><br />Homebrew is the best package manager i&#039;ve seen to date http://mxcl.github.com/homebrew And hey, it&#039;s on MacOS!<br /><br />Aaaaanyway. Can you avoid remarks like &quot;loot at [X] for a bad example&quot;? What&#039;s the point of creating rants inside rant-answering post???    </div>
+</div>
+          <div class="comment">
+    <span class="gravatar">
+                    <a href="https://connect.sensiolabs.com/api/alternates/97091b0b-4ee1-4b7e-8ee5-956c1e476e58"><img width="40" height="40" src="https://connect.sensiolabs.com/api/images/97091b0b-4ee1-4b7e-8ee5-956c1e476e58.png?format=40x40" alt="gravatar"></a>
+            </span>
+    <em>
+                    <a href="https://connect.sensiolabs.com/api/alternates/97091b0b-4ee1-4b7e-8ee5-956c1e476e58">?????</a>
+            </em>&nbsp;&mdash;&nbsp;July 04, 2012 10:40&nbsp;&nbsp;&nbsp;#6    <div>
+        A very nice post, i started using PHP many years ago and i never had so much problems as some sites describes.<br />But i&#039;m not sure about one thing in this ecosystem: Packagist.<br />Composer is a great resource and as an old fan of PEAR for its &quot;officiality&quot;, i hope the PHP group will replace PEAR with this.<br /><br />What i mean is only about Packagist: start searching for &quot;test&quot;, &quot;example&quot; or look at &quot;nervo&quot;&#039;s packages, it&#039;s a bin for everything!<br />PEAR is old and unmaintained, PEAR2 isn&#039;t a revolution, but Packagist is relatively young, how do you think it will be in a couple of years or with thousands more users?    </div>
+</div>
+          <div class="comment">
+    <span class="gravatar">
+                    <a href="https://connect.sensiolabs.com/api/alternates/15f0d28e-9afa-401b-a6a9-b77c9944386e"><img width="40" height="40" src="https://connect.sensiolabs.com/api/images/15f0d28e-9afa-401b-a6a9-b77c9944386e.png?format=40x40" alt="gravatar"></a>
+            </span>
+    <em>
+                    <a href="https://connect.sensiolabs.com/api/alternates/15f0d28e-9afa-401b-a6a9-b77c9944386e">Grégoire Hubert</a>
+            </em>&nbsp;&mdash;&nbsp;July 04, 2012 10:43&nbsp;&nbsp;&nbsp;#7    <div>
+        PHP will have one day to leave behind its heavy legacy from the past (unconsistent API, non catchable errors etc etc) <br /><br />Appart from that, hard to spot another language able to build from « hello world » to Facebook.    </div>
+</div>
+          <div class="comment">
+    <span class="gravatar">
+                    <a href="https://connect.sensiolabs.com/api/alternates/1ec1c429-bb03-4ef3-8564-eec23fb6082e"><img width="40" height="40" src="https://connect.sensiolabs.com/api/images/1ec1c429-bb03-4ef3-8564-eec23fb6082e.png?format=40x40" alt="gravatar"></a>
+            </span>
+    <em>
+                    <a href="https://connect.sensiolabs.com/api/alternates/1ec1c429-bb03-4ef3-8564-eec23fb6082e">Damien MATHIEU</a>
+            </em>&nbsp;&mdash;&nbsp;July 04, 2012 10:46&nbsp;&nbsp;&nbsp;#8    <div>
+        &gt; Yes, PHP has a better dependency manager than any other languages.<br /><br />What ? Are you kidding ? You clearly haven&#039;t looked at what other languages offer. Bundler is way better than anything I&#039;ve seen everywhere, including composer.<br /><br />&gt; $ composer.phar create-project symfony/framework-standard-edition<br /><br />I&#039;m sorry, but that syntax is horrible.<br /><br />&gt; bundle install<br /><br />I do prefer this !<br /><br />&gt; The biggest problem of these rants is that they come from people stuck in the old days of PHP. <br /><br />Let me disagree. Jeff Atwood isn&#039;t stuck in the old days of PHP. He moved away from PHP some time ago, discovered what is possible to do outside of it and used it.<br /><br />PHP has indeed improved a lot in the past years. But it&#039;s still far behind what many other languages offer : syntax coherence (and not some method camel cased and some other not); real objects, everywhere; big communication problems within the core team. These are the problems of PHP today.<br />    </div>
+</div>
+          <div class="comment">
+    <span class="gravatar">
+                    <a href="https://connect.sensiolabs.com/api/alternates/a6be96b5-f83d-4da0-a82e-5c271c504135"><img width="40" height="40" src="https://connect.sensiolabs.com/api/images/a6be96b5-f83d-4da0-a82e-5c271c504135.png?format=40x40" alt="gravatar"></a>
+            </span>
+    <em>
+                    <a href="https://connect.sensiolabs.com/api/alternates/a6be96b5-f83d-4da0-a82e-5c271c504135">Pedro</a>
+            </em>&nbsp;&mdash;&nbsp;July 04, 2012 10:50&nbsp;&nbsp;&nbsp;#9    <div>
+        PHP does NOT have a better dependency manager than any other languages.<br />I&#039;ve worked with many platforms, including PHP, and the best dependency manager prize goes to NPM, no doubt about it.<br />That tied to the Node.js module system makes an unbeatable duo IMO.    </div>
+</div>
+          <div class="comment">
+    <span class="gravatar">
+                    <a href="https://connect.sensiolabs.com/api/alternates/70199646-36f4-4ae1-88a1-8f8bc423f2a0"><img width="40" height="40" src="https://connect.sensiolabs.com/api/images/70199646-36f4-4ae1-88a1-8f8bc423f2a0.png?format=40x40" alt="gravatar"></a>
+            </span>
+    <em>
+                    <a href="https://connect.sensiolabs.com/api/alternates/70199646-36f4-4ae1-88a1-8f8bc423f2a0">Marek</a>
+            </em>&nbsp;&mdash;&nbsp;July 04, 2012 10:51&nbsp;&nbsp;&nbsp;#10    <div>
+        The main problem is that in every community there are haters. Programmers community isn&#039;t different, they are many believers of one right programming language.    </div>
+</div>
+          <div class="comment">
+    <span class="gravatar">
+                    <a href="https://connect.sensiolabs.com/api/alternates/6e79ef58-126a-4074-8c45-71cdd9465d7d"><img width="40" height="40" src="https://connect.sensiolabs.com/api/images/6e79ef58-126a-4074-8c45-71cdd9465d7d.png?format=40x40" alt="gravatar"></a>
+            </span>
+    <em>
+                    <a href="https://connect.sensiolabs.com/api/alternates/6e79ef58-126a-4074-8c45-71cdd9465d7d">Jason Hanley</a>
+            </em>&nbsp;&mdash;&nbsp;July 04, 2012 10:53&nbsp;&nbsp;&nbsp;#11    <div>
+        &quot;PHP is probably not the best designed language in the world, but it lets you get things done, and you can&#039;t argue with that.&quot;<br /><br />Exactly. You can waste the day away arguing about &quot;pretty&quot; syntax, or you can sit your ass down, write some code, and create something amazing.    </div>
+</div>
+          <div class="comment">
+    <span class="gravatar">
+                    <a href="https://connect.sensiolabs.com/api/alternates/4aed4f5d-e0cb-4320-902f-885fddaa7d15"><img width="40" height="40" src="https://connect.sensiolabs.com/api/images/4aed4f5d-e0cb-4320-902f-885fddaa7d15.png?format=40x40" alt="gravatar"></a>
+            </span>
+    <em>
+                    <a href="https://connect.sensiolabs.com/api/alternates/4aed4f5d-e0cb-4320-902f-885fddaa7d15">Fabien Potencier</a>
+            </em>&nbsp;&mdash;&nbsp;July 04, 2012 11:03&nbsp;&nbsp;&nbsp;#12    <div>
+        I know Bundler pretty well, and I can tell you that Composer is much better. And of course, to install your dependencies, you just have to do<br /><br />composer install<br />    </div>
+</div>
+          <div class="comment">
+    <span class="gravatar">
+                    <a href="https://connect.sensiolabs.com/api/alternates/3ff8c50d-6219-4777-8f21-a24990affc83"><img width="40" height="40" src="https://connect.sensiolabs.com/api/images/3ff8c50d-6219-4777-8f21-a24990affc83.png?format=40x40" alt="gravatar"></a>
+            </span>
+    <em>
+                    <a href="https://connect.sensiolabs.com/api/alternates/3ff8c50d-6219-4777-8f21-a24990affc83">Loïc Chardonnet</a>
+            </em>&nbsp;&mdash;&nbsp;July 04, 2012 11:06&nbsp;&nbsp;&nbsp;#13    <div>
+        PHP is not perfect, sure, but it&#039;s an evolving language.<br />Compare this with Agile methods: Some languages are so greatly designed before being written that they struggle to incorporate new changes (see http://blog.astrumfutura.com/2012/04/php-innocent-villagefolk-or-a-pillagin-pirate/ to understand what I mean).    </div>
+</div>
+          <div class="comment">
+    <span class="gravatar">
+                    <a href="https://connect.sensiolabs.com/api/alternates/a6be96b5-f83d-4da0-a82e-5c271c504135"><img width="40" height="40" src="https://connect.sensiolabs.com/api/images/a6be96b5-f83d-4da0-a82e-5c271c504135.png?format=40x40" alt="gravatar"></a>
+            </span>
+    <em>
+                    <a href="https://connect.sensiolabs.com/api/alternates/a6be96b5-f83d-4da0-a82e-5c271c504135">Pedro</a>
+            </em>&nbsp;&mdash;&nbsp;July 04, 2012 11:16&nbsp;&nbsp;&nbsp;#14    <div>
+        Let me just tell you something:<br />I did PHP and many other languages.<br />You either love yourself and strive for using something better.<br />Or you stick to poorly written languages and runtimes and need articles like this to convince you otherwise.    </div>
+</div>
+          <div class="comment">
+    <span class="gravatar">
+                    <a href="https://connect.sensiolabs.com/api/alternates/1b6bd187-ff7c-4e00-976d-7c708747d914"><img width="40" height="40" src="https://connect.sensiolabs.com/api/images/1b6bd187-ff7c-4e00-976d-7c708747d914.png?format=40x40" alt="gravatar"></a>
+            </span>
+    <em>
+                    <a href="https://connect.sensiolabs.com/api/alternates/1b6bd187-ff7c-4e00-976d-7c708747d914">Christian Walde</a>
+            </em>&nbsp;&mdash;&nbsp;July 04, 2012 11:22&nbsp;&nbsp;&nbsp;#15    <div>
+        &gt; PHP supports namespaces<br /><br />Do these still use the ridiculous backslash separator?<br /><br />&gt; PHP supports closures<br /><br />With painfully convoluted syntax, necessitated by the fact that PHP doesn&#039;t know what scoping is. Compare:<br /><br />    $tax = 0.5;<br />    $total = 0;<br />    $func = function ( $quantity, $price ) use ( $tax, &amp;$total ) {<br />        $total += ( $quantity * $price ) * ($tax + 1.0);<br />    };<br />    array_walk($this-&gt;products, $callback);<br /><br />with:<br /><br />    $tax = 0.5;<br />    $total = 0;<br />    $func = sub { $total += ($_[0] * $_[1]) * ($tax + 1.0) };<br />    $func-&gt;( $_-&gt;quantity, $_-&gt;price ) for @products;<br /><br />&gt; ((new Foo())-&gt;bar());<br /><br />Why not a sane syntax like:<br /><br />    Foo-&gt;new-&gt;bar;<br />    # or <br />    Foo.new.bar;<br /><br />Then again, it DOES feel like i&#039;m writing LISP there!<br /><br />&gt; ($foo-&gt;bar()[1])<br /><br />Did you typo this? shouldn&#039;t it be ($foo-&gt;bar())[1]?<br /><br />&gt; PHP has a better dependency manager than any other languages.<br /><br />Based on exactly which evidence, parameters, arguments. I challenge you here and claim that is entirely wrong. You made the claim, now i expect you to prove your claim, preferrably in your very next blog post, by making an in-depth comparison of the package handlers of PHP, Ruby, Perl and Python.    </div>
+</div>
+          <div class="comment">
+    <span class="gravatar">
+                    <a href="https://connect.sensiolabs.com/api/alternates/1b6bd187-ff7c-4e00-976d-7c708747d914"><img width="40" height="40" src="https://connect.sensiolabs.com/api/images/1b6bd187-ff7c-4e00-976d-7c708747d914.png?format=40x40" alt="gravatar"></a>
+            </span>
+    <em>
+                    <a href="https://connect.sensiolabs.com/api/alternates/1b6bd187-ff7c-4e00-976d-7c708747d914">Christian Walde</a>
+            </em>&nbsp;&mdash;&nbsp;July 04, 2012 11:22&nbsp;&nbsp;&nbsp;#16    <div>
+        And to top it off, your blog happily butchers formatting.    </div>
+</div>
+          <div class="comment">
+    <span class="gravatar">
+                    <a href="https://connect.sensiolabs.com/api/alternates/e2c54e73-591f-4ac6-b6e7-54b4a4a47b26"><img width="40" height="40" src="https://connect.sensiolabs.com/api/images/e2c54e73-591f-4ac6-b6e7-54b4a4a47b26.png?format=40x40" alt="gravatar"></a>
+            </span>
+    <em>
+                    <a href="https://connect.sensiolabs.com/api/alternates/e2c54e73-591f-4ac6-b6e7-54b4a4a47b26">Robert Payne</a>
+            </em>&nbsp;&mdash;&nbsp;July 04, 2012 11:39&nbsp;&nbsp;&nbsp;#17    <div>
+        http://me.veekun.com/blog/2012/04/09/php-a-fractal-of-bad-design/ is probably the best post of all the things php does that are so weird or inconsistent.<br /><br />PHP has done one thing right and that is become the language that every server comes with. <br /><br />If you look at the highest traffic websites in the world the ones that are using PHP are probably using Zend + some extreme customisation like Facebook.<br /><br />If PHP was &quot;The best Web Platform&quot; more startups for big websites would be using it. Twitter, Pinterest, Github are just examples of newer big websites that do not use PHP.<br /><br />Find me a banking website anywhere in the world built on PHP. Or a Third party payment processor like Paypal or Fastspring built on PHP.<br /><br />I agree PHP is easy, but it is far from &quot;the best&quot;. It could use with a very very radical clean up.<br />    </div>
+</div>
+          <div class="comment">
+    <span class="gravatar">
+                    <a href="https://connect.sensiolabs.com/api/alternates/8e89be05-f7ec-4b6e-96cb-c93ccd1c2573"><img width="40" height="40" src="https://connect.sensiolabs.com/api/images/8e89be05-f7ec-4b6e-96cb-c93ccd1c2573.png?format=40x40" alt="gravatar"></a>
+            </span>
+    <em>
+                    <a href="https://connect.sensiolabs.com/api/alternates/8e89be05-f7ec-4b6e-96cb-c93ccd1c2573">Michel Bartz</a>
+            </em>&nbsp;&mdash;&nbsp;July 04, 2012 11:44&nbsp;&nbsp;&nbsp;#18    <div>
+        @Christian Walde: Typical comments coming from someone who has obviously no background in PHP and its ecosystem, as well as the various decisions that lead to some of the &quot;shortcomings&quot; that you points.<br /><br />- The backslash for namespace, as much as I am not a fan of it, I&#039;ll refer you to the RFC : https://wiki.php.net/rfc/namespaceseparator and read up on it, and you&#039;ll understand why it was probably the only sane option.<br /><br />- Your suggestion for closure is just unreadable, ugly, and not in line with current PHP synthax.<br /><br />- Both of your proposition for the object access on new are in line with current PHP synthax. <br /><br />- $foo-&gt;bar()[1] , agreed on that one.    </div>
+</div>
+          <div class="comment">
+    <span class="gravatar">
+                    <a href="https://connect.sensiolabs.com/api/alternates/8a7bf5e3-e427-42a6-9018-4a5c5b80b8ef"><img width="40" height="40" src="https://connect.sensiolabs.com/api/images/8a7bf5e3-e427-42a6-9018-4a5c5b80b8ef.png?format=40x40" alt="gravatar"></a>
+            </span>
+    <em>
+                    <a href="https://connect.sensiolabs.com/api/alternates/8a7bf5e3-e427-42a6-9018-4a5c5b80b8ef">Karoly Negyesi</a>
+            </em>&nbsp;&mdash;&nbsp;July 04, 2012 11:54&nbsp;&nbsp;&nbsp;#19    <div>
+        The argument that hip websites are using hip languages do not go against this post. Economically (which is not something startups will consider first) PHP is the best choice because of the supply-demand PHP coders are cheaper. Yes, there are more crappier PHP coders but more masters too. That simple. It&#039;s not cool, it&#039;s not exciting so those startups do not use it... yet it&#039;s still the best tool.    </div>
+</div>
+          <div class="comment">
+    <span class="gravatar">
+                    <a href="https://connect.sensiolabs.com/api/alternates/361b00db-d30b-47d3-bf5e-536d66b4ffaa"><img width="40" height="40" src="https://connect.sensiolabs.com/api/images/361b00db-d30b-47d3-bf5e-536d66b4ffaa.png?format=40x40" alt="gravatar"></a>
+            </span>
+    <em>
+                    <a href="https://connect.sensiolabs.com/api/alternates/361b00db-d30b-47d3-bf5e-536d66b4ffaa">Ben Sinclair</a>
+            </em>&nbsp;&mdash;&nbsp;July 04, 2012 11:57&nbsp;&nbsp;&nbsp;#20    <div>
+        &quot;PHP is still the easiest language to learn for non-technical people&quot; is a bit of a broad brush.<br /><br />I&#039;m not sure where it comes from, either, as it&#039;s unqualified: certainly I&#039;d disagree that PHP is an easier or more useful language to learn than, say, Python, from a newbie&#039;s point of view in a non-web environment. If we restrict ourselves to using a language as essentially a web template script, then PHP is fairly straightforward - virtually the same as a designer learning enough to use Smarty.<br /><br />The statistics you cite combine uneasily with your closing opinion, &quot;PHP is the best web platform... ever&quot; - popularity is not a good guideline for quality or even ease-of-use, unless your bar for measuring superiority is skewed this way to begin with. It&#039;s pretty much equivalent to saying &quot;Windows 95 is the best desktop OS... ever&quot;.<br /><br />&quot;The latest PHP release, PHP 5.4, comes with all the bells and whistles you might dream of in a modern web language: yes, PHP supports namespaces; yes, PHP supports closures; yes, PHP supports traits.&quot;<br /><br />PHP has clearly it has improved in the last few years, but it&#039;s still badly fragmented: most non-trivial projects I&#039;ve used have contained a butcher&#039;s shop of coding styles.  The ecosystem you espouse is trying valiantly but if PHP wants to compete into the future it needs to draw a line in the sand and basically deprecate all the crap... and there&#039;s an awful lot of crap still to deprecate.<br /><br />I wonder if by the time the big guns like Wordpress and its pals employ all the new language constructs the same problem might not just come around again? Obviously this isn&#039;t restricted to PHP, but it is probably where it&#039;s most obvious.<br />    </div>
+</div>
+          <div class="comment">
+    <span class="gravatar">
+                    <a href="https://connect.sensiolabs.com/api/alternates/4650d769-c297-4f52-896c-d4e73d7e008a"><img width="40" height="40" src="https://connect.sensiolabs.com/api/images/4650d769-c297-4f52-896c-d4e73d7e008a.png?format=40x40" alt="gravatar"></a>
+            </span>
+    <em>
+                    <a href="https://connect.sensiolabs.com/api/alternates/4650d769-c297-4f52-896c-d4e73d7e008a">Sanpi</a>
+            </em>&nbsp;&mdash;&nbsp;July 04, 2012 11:58&nbsp;&nbsp;&nbsp;#21    <div>
+        @Damien MATHIEU Read the documentation before criticize `create-project` bootstrap from scratch a project. Like bumble, the `install` download and install the dependencies.    </div>
+</div>
+          <div class="comment">
+    <span class="gravatar">
+                    <a href="https://connect.sensiolabs.com/api/alternates/9f80e0ec-f15b-47e1-94e7-e8e889d4c5e6"><img width="40" height="40" src="https://connect.sensiolabs.com/api/images/9f80e0ec-f15b-47e1-94e7-e8e889d4c5e6.png?format=40x40" alt="gravatar"></a>
+            </span>
+    <em>
+                    <a href="https://connect.sensiolabs.com/api/alternates/9f80e0ec-f15b-47e1-94e7-e8e889d4c5e6">Eurico Jardim</a>
+            </em>&nbsp;&mdash;&nbsp;July 04, 2012 12:09&nbsp;&nbsp;&nbsp;#22    <div>
+        Articles warming hearts, like this one, are important to keep communities alive and working.<br /><br />However, for those stats about sites using PHP, I could give you the latest trends on TIOBE:<br />http://www.tiobe.com/index.php/content/paperinfo/tpci/index.html<br />Yep, PHP is the only one on is kind with &quot;red down arrows&quot;!<br /><br />Don&#039;t get me wrong, I still like PHP and use it, as well as Symfony is one of my favourites. But, I just prefer Python/Django and RoR...<br /><br />    </div>
+</div>
+          <div class="comment">
+    <span class="gravatar">
+                    <a href="https://connect.sensiolabs.com/api/alternates/e89a8f7c-58a0-409d-9b0d-479a3580d8b9"><img width="40" height="40" src="https://connect.sensiolabs.com/api/images/e89a8f7c-58a0-409d-9b0d-479a3580d8b9.png?format=40x40" alt="gravatar"></a>
+            </span>
+    <em>
+                    <a href="https://connect.sensiolabs.com/api/alternates/e89a8f7c-58a0-409d-9b0d-479a3580d8b9">Samy Dindane</a>
+            </em>&nbsp;&mdash;&nbsp;July 04, 2012 12:10&nbsp;&nbsp;&nbsp;#23    <div>
+        While I may agree that PHP is moving forward and has a great community, I&#039;d like to mention that most of the arguments stated in this blog post are related to PHP 5.4, which, in real life, (almost) nobody uses in production and is supported by (almost) no hosting service. <br />Giving that most of PHP websites are on the 5.2 version, PHP 5.4 is just a cool shiny myth. <br /><br />&gt; PHP is still the easiest language to learn for non-technical people: it allows anyone to create dynamic websites faster than with any other technologies, it allows anyone to host websites cheaply and without any hassles.<br /><br />I can&#039;t disagree more: that&#039;s just what people believe. Ruby is easier to learn and much more consistent, and you can write a Sinatra app and deploy it on Heroku in few command lines.     </div>
+</div>
+          <div class="comment">
+    <span class="gravatar">
+                    <a href="https://connect.sensiolabs.com/api/alternates/0edc9a92-5022-4e64-b86e-7e05348537cb"><img width="40" height="40" src="https://connect.sensiolabs.com/api/images/0edc9a92-5022-4e64-b86e-7e05348537cb.png?format=40x40" alt="gravatar"></a>
+            </span>
+    <em>
+                    <a href="https://connect.sensiolabs.com/api/alternates/0edc9a92-5022-4e64-b86e-7e05348537cb">Barney Hanlon</a>
+            </em>&nbsp;&mdash;&nbsp;July 04, 2012 12:11&nbsp;&nbsp;&nbsp;#24    <div>
+        Christian Walde: you mad?    </div>
+</div>
+          <div class="comment">
+    <span class="gravatar">
+                    <a href="https://connect.sensiolabs.com/api/alternates/8c9d61da-b0be-4aa1-8f5d-df0f850026af"><img width="40" height="40" src="https://connect.sensiolabs.com/api/images/8c9d61da-b0be-4aa1-8f5d-df0f850026af.png?format=40x40" alt="gravatar"></a>
+            </span>
+    <em>
+                    <a href="https://connect.sensiolabs.com/api/alternates/8c9d61da-b0be-4aa1-8f5d-df0f850026af">Lukas Kahwe Smith</a>
+            </em>&nbsp;&mdash;&nbsp;July 04, 2012 12:16&nbsp;&nbsp;&nbsp;#25    <div>
+        Lets not get carried away on of composer is the best or just on par with Bundler and NPM etc. its definitely not noticeably worse.<br /><br />The key thing to learn from the fact that PHP isn&#039;t designed yet still rules the web is that the eco system is what matters. And here PHP is simply untouchable in penetration. Popularity leads to ubiquity, leads to more hands, more jobs etc.<br /><br />case in point: even if PHPs syntax might be inconsistent in a few places, &quot;easy to learn&quot; for the most part boils down to how easy it is to find a mentor (either a physical one or someone on the web) and here again ubiquity wins over careful design.<br /><br />That being said, if you get to start from scratch on your startup sure you can choose other alternatives, but expect to have to solve lots of problems that have already been solved in PHP. some people are willing and enable to afford that. and of course there are also benefits to gain from other languages (not the least of which for some is doing something different than what 70%+ of the web is doing).    </div>
+</div>
+          <div class="comment">
+    <span class="gravatar">
+                    <a href="https://connect.sensiolabs.com/api/alternates/37cb6901-891d-4d8f-a4d3-0b8601e9848a"><img width="40" height="40" src="https://connect.sensiolabs.com/api/images/37cb6901-891d-4d8f-a4d3-0b8601e9848a.png?format=40x40" alt="gravatar"></a>
+            </span>
+    <em>
+                    <a href="https://connect.sensiolabs.com/api/alternates/37cb6901-891d-4d8f-a4d3-0b8601e9848a">Pádraic Brady</a>
+            </em>&nbsp;&mdash;&nbsp;July 04, 2012 12:23&nbsp;&nbsp;&nbsp;#26    <div>
+        The problem, as keeps cropping up, is the people love to ignore reality.<br /><br />In reality, PHP is a powerful, popular, well featured, utilitarian programming language that dominates the internet and evolves rapidly to service web application needs. The evolution of the language and its community of users has been stunning. Also, it&#039;s a pirate - you can&#039;t dump a new ship into the ocean and expect not to be picked clean by us ;). We do appreciate your booty.<br /><br />In certain peoples&#039; fantasies, PHP is a quirky, bad, poorly performing piece of kiddie nonsense that should be ignored because ignoring your most formidable competitor is a good idea.. Ruby was very good at concentrating that idea by presenting a direct challenge. It didn&#039;t work out too well.<br /><br />Someday, someone will present an actual study as to why PHP is so irritating. Easy to learn, quick to adapt,  lower development costs (direct labour), just as scalable as anything else, etc.<br /><br />Evolution, baby. PHP is a survivor.    </div>
+</div>
+          <div class="comment">
+    <span class="gravatar">
+                    <a href="https://connect.sensiolabs.com/api/alternates/dc5f9434-34a8-4a50-b296-4b6112da0279"><img width="40" height="40" src="https://connect.sensiolabs.com/api/images/dc5f9434-34a8-4a50-b296-4b6112da0279.png?format=40x40" alt="gravatar"></a>
+            </span>
+    <em>
+                    <a href="https://connect.sensiolabs.com/api/alternates/dc5f9434-34a8-4a50-b296-4b6112da0279">philsturgeon</a>
+            </em>&nbsp;&mdash;&nbsp;July 04, 2012 12:47&nbsp;&nbsp;&nbsp;#27    <div>
+        For the folks that seem so shocked by the idea that PHP now has awesome dependency management, you clearly haven&#039;t actually used Composer.<br /><br />Somebody complained about the syntax of Composer based on two examples of &quot;How to get a whole framework running locally in 3 commands&quot;. In those 3 command situations you&#039;ll never have the CLEANEST syntax, but that is not the point - you&#039;re aiming for 3 commands and the fact you can do that means PHP 5.4 has come on a LONG way since previous versions.<br /><br />Using composer &quot;for realises&quot; is simply a case of running:<br /><br />    $ composer install<br /><br />I have used bundler and npm. Composer beats the living daylights out of composer and does not require RVM as the code is application specific. It is on par with NPM. Forget about PEAR everyone.<br /><br />As for the &quot;A Fractal of Bad Design&quot;, yes we&#039;ve all seen it. Some of those points are true, some are out of date and some are just complaints about loosely typed languages. If you don&#039;t like weak typing then don&#039;t use a weakly typed language. It has pros and cons like everything. <br /><br />Jeff had many good points, but his article lead to a call to action which wasn&#039;t really there. His point is &quot;Stop complaining or do something useful&quot;. The fractal of bad design is a nice start for a series of Pull Requests I&#039;d say, especially now that PHP is on GitHub.<br /><br />The only other recent PHP rant that hasn&#039;t been linked to is clearly the best one: http://blog.astrumfutura.com/2012/04/php-innocent-villagefolk-or-a-pillagin-pirate/<br /><br />PHP is mental. It has grown and evolved in some weird ways, but each version is getting better. <br /><br />It is what it is. Ruby has some nicer bits of syntax, and so does Python, but Python has some fugly parts to it like the terrible terniary.<br /><br />Every language has weird and wonderful shit in there and PHP is slowly but surely shaking off some of those weird bits and moving towards being a modern language.<br /><br />To see how WTF JavaScript can be, why not take a look at WAT:<br /><br />https://www.destroyallsoftware.com/talks/wat<br /><br />Case and point: nothing is perfect, PHP really isn&#039;t, but it&#039;s got a LOT better in the last year and not many people are giving it credit for that.    </div>
+</div>
+          <div class="comment">
+    <span class="gravatar">
+                    <a href="https://connect.sensiolabs.com/api/alternates/37cb6901-891d-4d8f-a4d3-0b8601e9848a"><img width="40" height="40" src="https://connect.sensiolabs.com/api/images/37cb6901-891d-4d8f-a4d3-0b8601e9848a.png?format=40x40" alt="gravatar"></a>
+            </span>
+    <em>
+                    <a href="https://connect.sensiolabs.com/api/alternates/37cb6901-891d-4d8f-a4d3-0b8601e9848a">Pádraic Brady</a>
+            </em>&nbsp;&mdash;&nbsp;July 04, 2012 12:51&nbsp;&nbsp;&nbsp;#28    <div>
+        @Eurico, while pointing to the Tiobe index it&#039;s worth noting the long term trends (not just a single month blip). Most programming languages have been on the decline since 2008. Recession.<br /><br />Objective C and C#, among the exceptions showing a positive trend, are obvious to explain.<br /><br />The main two languages showing a long term decline are Java and C++ which is always expected as the younger kids underfoot take over more market share.    </div>
+</div>
+          <div class="comment">
+    <span class="gravatar">
+                    <a href="https://connect.sensiolabs.com/api/alternates/dc5f9434-34a8-4a50-b296-4b6112da0279"><img width="40" height="40" src="https://connect.sensiolabs.com/api/images/dc5f9434-34a8-4a50-b296-4b6112da0279.png?format=40x40" alt="gravatar"></a>
+            </span>
+    <em>
+                    <a href="https://connect.sensiolabs.com/api/alternates/dc5f9434-34a8-4a50-b296-4b6112da0279">philsturgeon</a>
+            </em>&nbsp;&mdash;&nbsp;July 04, 2012 12:52&nbsp;&nbsp;&nbsp;#29    <div>
+        Edit: Composer beats the living daylights out of [bundler]. It doesn&#039;t hate itself.    </div>
+</div>
+          <div class="comment">
+    <span class="gravatar">
+                    <a href="https://connect.sensiolabs.com/api/alternates/d3793d88-57cd-46e8-ab4c-96f407ae9adf"><img width="40" height="40" src="https://connect.sensiolabs.com/api/images/d3793d88-57cd-46e8-ab4c-96f407ae9adf.png?format=40x40" alt="gravatar"></a>
+            </span>
+    <em>
+                    <a href="https://connect.sensiolabs.com/api/alternates/d3793d88-57cd-46e8-ab4c-96f407ae9adf">Derek Clapham</a>
+            </em>&nbsp;&mdash;&nbsp;July 04, 2012 13:10&nbsp;&nbsp;&nbsp;#30    <div>
+        Fantastic post Fabien... Am about to jump off the Symfony 1.0 train (still stuck in PHP 5.2 world) and on to the Symfony 2.0 train...<br /><br />Looking forward to it, will need to read up on how far PHP has come in the last 6 years...    </div>
+</div>
+          <div class="comment">
+    <span class="gravatar">
+                    <a href="https://connect.sensiolabs.com/api/alternates/1d908824-3c92-462e-b6d1-1e73c777399a"><img width="40" height="40" src="https://connect.sensiolabs.com/api/images/1d908824-3c92-462e-b6d1-1e73c777399a.png?format=40x40" alt="gravatar"></a>
+            </span>
+    <em>
+                    <a href="https://connect.sensiolabs.com/api/alternates/1d908824-3c92-462e-b6d1-1e73c777399a">Sam Williams</a>
+            </em>&nbsp;&mdash;&nbsp;July 04, 2012 13:38&nbsp;&nbsp;&nbsp;#31    <div>
+        In my life I have heard far too many rubbish guitar riffs  (including Nickelback), but I do not believe that the guitar is fundamentally flawed, it&#039;s the &quot;artist&quot; that needs improvement.<br /><br />I&#039;ve used PHP for about four years now, first as a hobby and now as a profession. The thing I find most frustrating about the language is the people using the language. Because PHP is easy to learn, widely supported and well... everywhere, you will have a whole range of people with varying levels of skill using the language; people from amateurs, to code cowboys (and girls ;) to perfectionists. I like to think that I write somewhere between acceptable and great code now, but when I look back at things I have developed even six months ago, I almost vomit!<br /><br />PHP is powerful and easy to learn, as a community we just need to ensure that people are learning good coding practices and that old repos get cleaned up with modern techniques.<br />    </div>
+</div>
+          <div class="comment">
+    <span class="gravatar">
+                    <a href="https://connect.sensiolabs.com/api/alternates/1b6bd187-ff7c-4e00-976d-7c708747d914"><img width="40" height="40" src="https://connect.sensiolabs.com/api/images/1b6bd187-ff7c-4e00-976d-7c708747d914.png?format=40x40" alt="gravatar"></a>
+            </span>
+    <em>
+                    <a href="https://connect.sensiolabs.com/api/alternates/1b6bd187-ff7c-4e00-976d-7c708747d914">Christian Walde</a>
+            </em>&nbsp;&mdash;&nbsp;July 04, 2012 14:18&nbsp;&nbsp;&nbsp;#32    <div>
+        @Michael Bartz:<br /><br />Having *reasons* for shortcomings doesn&#039;t mean you have actual *excuses* for still having them and doesn&#039;t make the shortcomings any less of an issue. Also, less ad hominem would be appreciated.<br /><br />&gt; - The backslash for namespace, as much as I am not a fan of it, I&#039;ll refer you to the RFC : https://wiki.php.net/rfc/namespaceseparator and read up on it, and you&#039;ll understand why it was probably the only sane option. <br /><br />The sane solution would&#039;ve been: &quot;Namespaces equal classnames, let&#039;s go ahead with ::.&quot; However a lack of prior sane design precludes the latter.<br /><br />&gt; - Your suggestion for closure is just unreadable, ugly, and not in line with current PHP synthax. <br /><br />I disagree on the ugliness of syntax itself, but i do agree i could&#039;ve made it more pretty. Consider:<br /><br />$tax = 0.5; <br />$total = 0; <br />$func = sub { $total += ($_[0]-&gt;quantity * $_[0]-&gt;price) * ($tax + 1.0) }; <br />$func-&gt;( $_ ) for @products;<br /><br />Or alternatively:<br /><br />$tax = 0.5; <br />$total = 0; <br />$func = sub {<br />	my $item = shift;<br />	$total += ($item-&gt;quantity * $item-&gt;price) * ($tax + 1.0)<br />}; <br />$func-&gt;( $_ ) for @products;<br /><br />The point, which you missed, being: With proper first-class closures and a good scoping model, you don&#039;t need to declare which variables from the surrounding scope ( $tax, $total ) you wish to use inside your closure, you can just go ahead and use them. PHP fell entirely flat on that count. I&#039;ll grant you though, they&#039;re not as bad as python closures, where you can only use a single statement instead of multiple lines.<br /><br />&gt; - Both of your proposition for the object access on new are in line with current PHP synthax. <br /><br />They are? Between the example Fabien gave and mine i see a delta of 8 parens. Are these all optional or what?<br /><br /><br />On a lst note: Honestly not picking on you with this one, just a helpful pointer: It&#039;s syntax, not synthax. :)    </div>
+</div>
+          <div class="comment">
+    <span class="gravatar">
+                    <img width="40" height="40" src="http://www.gravatar.com/avatar/d41d8cd98f00b204e9800998ecf8427e.jpg?r=r&amp;s=40" alt="gravatar">
+            </span>
+    <em>
+                    anonymous            </em>&nbsp;&mdash;&nbsp;July 04, 2012 15:25&nbsp;&nbsp;&nbsp;#33    <div>
+        80% of all shared hosting providers support it, all database systems support it, looking for database connections all are supported etc<br /><br />When I started out in Java, it was PHP vs Java, and many said it was not enterprise ready.<br /><br />Well there is a saying:<br /><br />&quot;If you have a PHP problem, the Symfony community has already solved it&quot; <br /><br />More power to the PHP Hammer     </div>
+</div>
+          <div class="comment">
+    <span class="gravatar">
+                    <a href="https://connect.sensiolabs.com/api/alternates/d890298b-fae3-465a-9910-90b0abd8b538"><img width="40" height="40" src="https://connect.sensiolabs.com/api/images/d890298b-fae3-465a-9910-90b0abd8b538.png?format=40x40" alt="gravatar"></a>
+            </span>
+    <em>
+                    <a href="https://connect.sensiolabs.com/api/alternates/d890298b-fae3-465a-9910-90b0abd8b538">Stephen Senkomago Musoke</a>
+            </em>&nbsp;&mdash;&nbsp;July 04, 2012 15:27&nbsp;&nbsp;&nbsp;#34    <div>
+        80% of all shared hosting providers support it, all database systems support it, looking for database connections all are supported etc <br /><br />When I started out in Java, it was PHP vs Java, and many said it was not enterprise ready. <br /><br />Well there is a saying: <br /><br />&quot;If you have a PHP problem, the Symfony community has already solved it&quot; <br /><br />More power to the PHP Hammer    </div>
+</div>
+          <div class="comment">
+    <span class="gravatar">
+                    <img width="40" height="40" src="http://www.gravatar.com/avatar/d41d8cd98f00b204e9800998ecf8427e.jpg?r=r&amp;s=40" alt="gravatar">
+            </span>
+    <em>
+                    anonymous            </em>&nbsp;&mdash;&nbsp;July 04, 2012 15:46&nbsp;&nbsp;&nbsp;#35    <div>
+        In my personal opinion, when I read the post of Jeff Atwood, I just thought &quot;Another guy trying get attention to his blog (get more visitors)&quot; and well he got it, what a piece of cake... how can I get more visitors? Let&#039;s write bad things about the most used web server-side languages (77.9%), for me that was all.<br /><br />About PHP, is the perfect language? no..., there is not such of thing... could have better languages or worse, but there is not the &quot;perfect&quot; one.<br /><br />Even those that think that there are better ones, all is relative... for me PHP has a great comunity, I don&#039;t know if the biggest, and &quot;In my personal opinion is the best&quot;, that is way I think PHP is the best language for server-side... Do you get it? is the best language due its comunity... so, there are others developers that think the language they use are the best because blah blah blah and that is okay, every one has their own reason....<br /><br />I would like to remark two things about what Fabien said...<br /><br />&quot;PHP is still the easiest language to learn for non-technical people&quot;<br /><br />Of course it&#039;s, with such great comunity and information every where....I don&#039;t know if that was what Fabien meant, but is the way I see it. <br /><br />&quot;Next challenges: How do we &quot;upgrade&quot; all the old tutorials talking about PHP on the web? &quot;<br /><br />Exactly, there are many websites that doesn&#039;t apply the best &quot;code&quot;, and that isn&#039;t a bad thing (at least they share what they know) is just that it could be &quot;better&quot; :D... But we also have that on Java, Ruby, C#..... is just since PHP is the biggest (77.9% or more) we see it more often.    </div>
+</div>
+          <div class="comment">
+    <span class="gravatar">
+                    <a href="https://connect.sensiolabs.com/api/alternates/70bef580-55ed-4712-935b-0bc9a4a347b6"><img width="40" height="40" src="https://connect.sensiolabs.com/api/images/70bef580-55ed-4712-935b-0bc9a4a347b6.png?format=40x40" alt="gravatar"></a>
+            </span>
+    <em>
+                    <a href="https://connect.sensiolabs.com/api/alternates/70bef580-55ed-4712-935b-0bc9a4a347b6">Richard Perez</a>
+            </em>&nbsp;&mdash;&nbsp;July 04, 2012 15:48&nbsp;&nbsp;&nbsp;#36    <div>
+        In my personal opinion, when I read the post of Jeff Atwood, I just thought &quot;Another guy trying get attention to his blog (get more visitors)&quot; and well he got it, what a piece of cake... how can I get more visitors? Let&#039;s write bad things about the most used web server-side languages (77.9%), for me that was all.<br /><br />About PHP, is the perfect language? no..., there is not such of thing... could have better languages or worse, but there is not the &quot;perfect&quot; one.<br /><br />Even those that think that there are better ones, all is relative... for me PHP has a great comunity, I don&#039;t know if the biggest, and &quot;In my personal opinion is the best&quot;, that is way I think PHP is the best language for server-side... Do you get it? is the best language due its comunity... so, there are others developers that think the language they use are the best because blah blah blah and that is okay, every one has their own reason....<br /><br />I would like to remark two things about what Fabien said...<br /><br />&quot;PHP is still the easiest language to learn for non-technical people&quot;<br /><br />Of course it&#039;s, with such great comunity and information every where....I don&#039;t know if that was what Fabien meant, but is the way I see it. <br /><br />&quot;Next challenges: How do we &quot;upgrade&quot; all the old tutorials talking about PHP on the web? &quot;<br /><br />Exactly, there are many websites that doesn&#039;t apply the best &quot;code&quot;, and that isn&#039;t a bad thing (at least they share what they know) is just that it could be &quot;better&quot; :D... But we also have that on Java, Ruby, C#..... is just since PHP is the biggest (77.9% or more) we see it more often.    </div>
+</div>
+          <div class="comment">
+    <span class="gravatar">
+                    <a href="https://connect.sensiolabs.com/api/alternates/632e2a47-d59a-429f-aed9-8fa1dd06c67a"><img width="40" height="40" src="https://connect.sensiolabs.com/api/images/632e2a47-d59a-429f-aed9-8fa1dd06c67a.png?format=40x40" alt="gravatar"></a>
+            </span>
+    <em>
+                    <a href="https://connect.sensiolabs.com/api/alternates/632e2a47-d59a-429f-aed9-8fa1dd06c67a">Axel Etcheverry</a>
+            </em>&nbsp;&mdash;&nbsp;July 04, 2012 16:04&nbsp;&nbsp;&nbsp;#37    <div>
+        Portage (gentoo) is the best package manager i&#039;ve seen to date !!!    </div>
+</div>
+          <div class="comment">
+    <span class="gravatar">
+                    <a href="https://connect.sensiolabs.com/api/alternates/0e2ac379-5fe7-4a3c-99a4-ce305233d017"><img width="40" height="40" src="https://connect.sensiolabs.com/api/images/0e2ac379-5fe7-4a3c-99a4-ce305233d017.png?format=40x40" alt="gravatar"></a>
+            </span>
+    <em>
+                    <a href="https://connect.sensiolabs.com/api/alternates/0e2ac379-5fe7-4a3c-99a4-ce305233d017">its me</a>
+            </em>&nbsp;&mdash;&nbsp;July 04, 2012 16:45&nbsp;&nbsp;&nbsp;#38    <div>
+        PHP is undoubtedly the best web platform, but rather than moaning about its quirks,  WTF don&#039;t we fix them?<br /><br />    </div>
+</div>
+          <div class="comment">
+    <span class="gravatar">
+                    <a href="https://connect.sensiolabs.com/api/alternates/3b6f305c-918e-4724-aa16-ca54a8b4dc64"><img width="40" height="40" src="https://connect.sensiolabs.com/api/images/3b6f305c-918e-4724-aa16-ca54a8b4dc64.png?format=40x40" alt="gravatar"></a>
+            </span>
+    <em>
+                    <a href="https://connect.sensiolabs.com/api/alternates/3b6f305c-918e-4724-aa16-ca54a8b4dc64">Steve Adams</a>
+            </em>&nbsp;&mdash;&nbsp;July 04, 2012 18:18&nbsp;&nbsp;&nbsp;#39    <div>
+        Thanks for this Fabien. The thing that I argue in favor of php is that it transformed me from a graphic designer to a reasonably high paid, enthusiastic, contributing, productive web developer. I honestly doubt another language could have done this! It brought me into the programming world, through all the good and the bad features, and now... Well, now I&#039;m another human being who can interact with a computer with more than just mouse clicks, who can contribute to the ecosystem you&#039;re describing, and who can aid in moving web platforms forward. This is exactly  what the web needs, and php (along with its community) made it possible.<br /><br />I took a stab at development with many languages before I finally stopped listening to the nay sayers and tried out php. Sure I wrote some awful code, but I could actually do it! Any smart developer can find flaws in any language, too... But it takes a smart one to utilize what&#039;s available for good (Which you have done an incredible job of in the last several years).<br /><br />Thanks!    </div>
+</div>
+          <div class="comment">
+    <span class="gravatar">
+                    <a href="https://connect.sensiolabs.com/api/alternates/6a5cc112-a764-418f-aa1b-63ed7d602f9e"><img width="40" height="40" src="https://connect.sensiolabs.com/api/images/6a5cc112-a764-418f-aa1b-63ed7d602f9e.png?format=40x40" alt="gravatar"></a>
+            </span>
+    <em>
+                    <a href="https://connect.sensiolabs.com/api/alternates/6a5cc112-a764-418f-aa1b-63ed7d602f9e">Ilya Averyanov</a>
+            </em>&nbsp;&mdash;&nbsp;July 04, 2012 18:41&nbsp;&nbsp;&nbsp;#40    <div>
+        @philsturgeon<br />&gt; I have used bundler and npm. Composer beats the living daylights out of [bundler] and does not require RVM as the code is application specific. It is on par with NPM. Forget about PEAR everyone. <br /><br />Your experience is probably outdated, since bundler does not require any Ruby managers (RVM) to keep all packages locally for a specific application. Bundler does this natively.    </div>
+</div>
+          <div class="comment">
+    <span class="gravatar">
+                    <a href="https://connect.sensiolabs.com/api/alternates/e9f5ac0b-35c2-48d9-aef1-6b61fe95103e"><img width="40" height="40" src="https://connect.sensiolabs.com/api/images/e9f5ac0b-35c2-48d9-aef1-6b61fe95103e.png?format=40x40" alt="gravatar"></a>
+            </span>
+    <em>
+                    <a href="https://connect.sensiolabs.com/api/alternates/e9f5ac0b-35c2-48d9-aef1-6b61fe95103e">Larry Garfield</a>
+            </em>&nbsp;&mdash;&nbsp;July 04, 2012 19:16&nbsp;&nbsp;&nbsp;#41    <div>
+        &quot;There are only two kinds of programming languages: those people always bitch about and those nobody uses.&quot;   -- Bjarne Stroustrup <br /><br />PHP falls into the first group. :-)<br /><br />Sure, there&#039;s a lot about PHP that sucks.  There&#039;s plenty of legacy baggage that hasn&#039;t been purged yet.  There&#039;s still a too-strong procedural-think in places.  PHP-Internals is still a case study in disfunction.  But you know what?  I&#039;ve been working in PHP for the past 13 years, and I barely recognize the PHP world today compared to just four years ago.  <br /><br />The GoPHP5 project, Namespaces, PSR-0, Composer, loosely-coupled frameworks like Symfony, Closures, Traits... PHP today is so different than anything you&#039;re used to in the PHP world it&#039;s almost scary.  Or exciting.  And I really like where it&#039;s headed.<br /><br />No, it&#039;s not the best solution for all situations by a long-shot.  But it is a viable solution to a huge number of problems, which makes learning it, quirks and all, a very good investment because you can use it in so many different situations.<br /><br />(And to Christian, I actually rather like the closure syntax in PHP, because it&#039;s explicit; Javascript&#039;s implicit closures are a ticking timebomb waiting to explode, as they do with a great deal of regularity.  PHP got this one right.)    </div>
+</div>
+          <div class="comment">
+    <span class="gravatar">
+                    <a href="https://connect.sensiolabs.com/api/alternates/5882537d-a68c-4c8b-92ef-6fc457409899"><img width="40" height="40" src="https://connect.sensiolabs.com/api/images/5882537d-a68c-4c8b-92ef-6fc457409899.png?format=40x40" alt="gravatar"></a>
+            </span>
+    <em>
+                    <a href="https://connect.sensiolabs.com/api/alternates/5882537d-a68c-4c8b-92ef-6fc457409899">Patrick Faure</a>
+            </em>&nbsp;&mdash;&nbsp;July 04, 2012 19:19&nbsp;&nbsp;&nbsp;#42    <div>
+        I think there is a misunderstanding there, you can&#039;t compare &#039;bundle&#039; and &#039;composer&#039;.<br /><br />Bundler is build on top of Gem which the package manager of Ruby platform. So, it&#039;s the couple bundler/gem the complete system in Ruby.<br /><br />Anyway, IMHO, trying to compare or argue that Composer is better than Gem a more than 14 years old and successful library is little bit pretentious.    </div>
+</div>
+          <div class="comment">
+    <span class="gravatar">
+                    <img width="40" height="40" src="http://www.gravatar.com/avatar/d41d8cd98f00b204e9800998ecf8427e.jpg?r=r&amp;s=40" alt="gravatar">
+            </span>
+    <em>
+                    anonymous            </em>&nbsp;&mdash;&nbsp;July 04, 2012 19:39&nbsp;&nbsp;&nbsp;#43    <div>
+        @Ilya:<br /><br />I agree. RVM, rbenv, and others are _NOT_ needed to make Bundler work. In fact, certain features of Bundler overlap that make RVM useless (some Rubyist will argue with me here, but before you do, please try it first). RVM is still a good multi-version manager; however, if that is all you are using it for, then there are better alternatives that one thing and do it well. More that that isn&#039;t necessary.<br /><br />I think the take-away here is that there are arguments made on both sides that are out-dated or just plain wrong. That being said, still, many of the complaints about PHP are regarding it&#039;s inconsistency and rightfully so. This can&#039;t be refuted. I see so many comments arguing &quot;just fork PHP and fix it&quot;...So, let me make a statement and see if it resonates with you:<br /><br />&quot;You can&#039;t fix PHP&#039;s inconsistencies because PHP&#039;s inconsistencies are what make it PHP&quot;.<br /><br />While at Zendcon in 2010, it was personally asked (I have a room of at least 300 to confirm this ask) of the PHP creators if we will see inconsistencies cleaned up in future versions.<br /><br />The answer was &quot;NO&quot;...due to the fact that this would be of little value vs. the effort it would require. <br /><br />If you think this is easy, you should try it. Not only that, but once you do, I wonder what that pull-request would look like and how much wheel-spinning would go on before it finally got smacked down by Rasmus (closed without merge). Also, what do you do about PHP&#039;s lack of expressiveness? Will you write a few thousand lines of C code to fix that? How would that look? Is that really easier than personally learning a couple new languages? What about object attributes? What about instance-level extension (think traits that allow you to &quot;use Something&quot; on a single instance). Ruby allows that -- do you think that will get into PHP 5.4?<br /><br />Even if it does, what about all the hosts that won&#039;t adopt PHP 5.3 until we have PHP 5.6 (or whatever). Isn&#039;t this the main sell of PHP...accessible hosting? What good does that do when almost none of those hosts provide you a sane version. That being said, I do know that Dreamhost does allow PHP 5.3 (they get a pat on the back).<br /><br />OK, back to patching PHP...I&#039;d love to be proven wrong, but I won&#039;t be holding my breath and if I catch you holding yours, I&#039;ll probably give you a friendly nudge as I don&#039;t want to see you die. If you don&#039;t respond to my nudge, well then, good luck to you friend.<br /><br />For me, it&#039;s use PHP when absolutely necessary, and when it is not, don&#039;t.<br /><br />When I do, it&#039;s version 5.3/5.4, Composer, Symfony2 components, ZF2 components, and anything other light-weight component that works for the task at hand (hopefully it uses Composer, has unit tests, and is highly modular).<br /><br />I turn down any PHP project that won&#039;t agree with version 5.4 or 5.3 (over three years old). If you are a PHP developer, I urge you to demand the same for your own sanity.<br /><br />If all of the good developers turn their back on crap code, process, and thinking, then the community will get better, or alternatively, that part of the community will form a new one. You might realize that this is actually already happening.<br /><br />https://groups.google.com/forum/#!forum/php-standards (let the hate for fig begin).<br />    </div>
+</div>
+          <div class="comment">
+    <span class="gravatar">
+                    <a href="https://connect.sensiolabs.com/api/alternates/e22a7690-cf9a-46b8-9e73-254d2c846835"><img width="40" height="40" src="https://connect.sensiolabs.com/api/images/e22a7690-cf9a-46b8-9e73-254d2c846835.png?format=40x40" alt="gravatar"></a>
+            </span>
+    <em>
+                    <a href="https://connect.sensiolabs.com/api/alternates/e22a7690-cf9a-46b8-9e73-254d2c846835">Wil Moore</a>
+            </em>&nbsp;&mdash;&nbsp;July 04, 2012 19:42&nbsp;&nbsp;&nbsp;#44    <div>
+        FYI, the above comment (#43) is mine. Sorry, there doesn&#039;t seem to be comment links and for some reason the above post was submitted anonymously even though I was logged in via another tab.    </div>
+</div>
+          <div class="comment">
+    <span class="gravatar">
+                    <a href="https://connect.sensiolabs.com/api/alternates/e22a7690-cf9a-46b8-9e73-254d2c846835"><img width="40" height="40" src="https://connect.sensiolabs.com/api/images/e22a7690-cf9a-46b8-9e73-254d2c846835.png?format=40x40" alt="gravatar"></a>
+            </span>
+    <em>
+                    <a href="https://connect.sensiolabs.com/api/alternates/e22a7690-cf9a-46b8-9e73-254d2c846835">Wil Moore</a>
+            </em>&nbsp;&mdash;&nbsp;July 04, 2012 19:48&nbsp;&nbsp;&nbsp;#45    <div>
+        Also, if you do php consulting, please stop allowing your customers to dictate where the final result will be hosted. This is ridiculous. They will fight you at first, but if you argue professionally and fluently, then you will get your point across.<br /><br />If you don&#039;t know how to deploy PHP applications, stop taking customer&#039;s money, learn, then start again.    </div>
+</div>
+          <div class="comment">
+    <span class="gravatar">
+                    <a href="https://connect.sensiolabs.com/api/alternates/1aa8ad76-39ce-45d5-bf2e-52e50883ea2d"><img width="40" height="40" src="https://connect.sensiolabs.com/api/images/1aa8ad76-39ce-45d5-bf2e-52e50883ea2d.png?format=40x40" alt="gravatar"></a>
+            </span>
+    <em>
+                    <a href="https://connect.sensiolabs.com/api/alternates/1aa8ad76-39ce-45d5-bf2e-52e50883ea2d">Tom Van Looy</a>
+            </em>&nbsp;&mdash;&nbsp;July 04, 2012 19:50&nbsp;&nbsp;&nbsp;#46    <div>
+        ... yes php can run interactively with php -a (something I use a lot and not everyone seems to know)    </div>
+</div>
+          <div class="comment">
+    <span class="gravatar">
+                    <a href="https://connect.sensiolabs.com/api/alternates/1b6bd187-ff7c-4e00-976d-7c708747d914"><img width="40" height="40" src="https://connect.sensiolabs.com/api/images/1b6bd187-ff7c-4e00-976d-7c708747d914.png?format=40x40" alt="gravatar"></a>
+            </span>
+    <em>
+                    <a href="https://connect.sensiolabs.com/api/alternates/1b6bd187-ff7c-4e00-976d-7c708747d914">Christian Walde</a>
+            </em>&nbsp;&mdash;&nbsp;July 04, 2012 19:58&nbsp;&nbsp;&nbsp;#47    <div>
+        @Larry Garfield:<br /><br />I agree that from a stability and consistency standpoint the closures in default Javascript are worse. However, this is an artifact of the fact that Javascript has just as terrible scoping as PHP has. And this is where a turning point comes in:<br /><br />In Javascript you can actually fix that. In Javascript you can enable something they lifted straight from Perl: Strict mode: https://developer.mozilla.org/en/JavaScript/Strict_mode#Converting_mistakes_into_errors<br /><br />The day when PHP receives something like that it will instantly become a much much better language.    </div>
+</div>
+          <div class="comment">
+    <span class="gravatar">
+                    <a href="https://connect.sensiolabs.com/api/alternates/0e00ab6b-066b-44e9-8b39-afad0a93362d"><img width="40" height="40" src="https://connect.sensiolabs.com/api/images/0e00ab6b-066b-44e9-8b39-afad0a93362d.png?format=40x40" alt="gravatar"></a>
+            </span>
+    <em>
+                    <a href="https://connect.sensiolabs.com/api/alternates/0e00ab6b-066b-44e9-8b39-afad0a93362d">starenka</a>
+            </em>&nbsp;&mdash;&nbsp;July 04, 2012 20:11&nbsp;&nbsp;&nbsp;#48    <div>
+        @philsturgeon what&#039;s so scary about python ternary? <br /><br />    print &#039;sane&#039; if sane else &#039;insane&#039;    </div>
+</div>
+          <div class="comment">
+    <span class="gravatar">
+                    <a href="https://connect.sensiolabs.com/api/alternates/27e72e47-ef4e-4a3b-bbcb-837616d243d3"><img width="40" height="40" src="https://connect.sensiolabs.com/api/images/27e72e47-ef4e-4a3b-bbcb-837616d243d3.png?format=40x40" alt="gravatar"></a>
+            </span>
+    <em>
+                    <a href="https://connect.sensiolabs.com/api/alternates/27e72e47-ef4e-4a3b-bbcb-837616d243d3">Jason Davis</a>
+            </em>&nbsp;&mdash;&nbsp;July 04, 2012 21:28&nbsp;&nbsp;&nbsp;#49    <div>
+        PHP haters are gonna hate,  We will still shine though and lead the way in the Dev world.  Great article Fab    </div>
+</div>
+          <div class="comment">
+    <span class="gravatar">
+                    <a href="https://connect.sensiolabs.com/api/alternates/e2c38731-0df7-45bd-b02f-e79f74578737"><img width="40" height="40" src="https://connect.sensiolabs.com/api/images/e2c38731-0df7-45bd-b02f-e79f74578737.png?format=40x40" alt="gravatar"></a>
+            </span>
+    <em>
+                    <a href="https://connect.sensiolabs.com/api/alternates/e2c38731-0df7-45bd-b02f-e79f74578737">lamine kacimi</a>
+            </em>&nbsp;&mdash;&nbsp;July 04, 2012 22:15&nbsp;&nbsp;&nbsp;#50    <div>
+        I used to envy Java developers but since the release of PHP5, We have the entire flavor of an Object Oriented Programming Language. <br /><br />PHP haters are an exception. Most of the websites out there are still running in a PHP environment. <br /><br />I sometimes think that the roots of this arguing comes to a fight between Open Source and Proprietary solutions. <br /><br />We are making em lose too much money; come on, of course they are gonna hate everything that&#039;s PHP #JustSaying.        </div>
+</div>
+          <div class="comment">
+    <span class="gravatar">
+                    <a href="https://connect.sensiolabs.com/api/alternates/f6170ab4-0fbb-4d61-b1d4-9aaddcfcd67d"><img width="40" height="40" src="https://connect.sensiolabs.com/api/images/f6170ab4-0fbb-4d61-b1d4-9aaddcfcd67d.png?format=40x40" alt="gravatar"></a>
+            </span>
+    <em>
+                    <a href="https://connect.sensiolabs.com/api/alternates/f6170ab4-0fbb-4d61-b1d4-9aaddcfcd67d">Matteo Giachino</a>
+            </em>&nbsp;&mdash;&nbsp;July 05, 2012 09:22&nbsp;&nbsp;&nbsp;#51    <div>
+        he number of posts shows that, aside of all, people really care about PHP. And this is good, we can make it better.    </div>
+</div>
+          <div class="comment">
+    <span class="gravatar">
+                    <a href="https://connect.sensiolabs.com/api/alternates/3a44c9cd-457a-4c4c-9b11-36da74061b74"><img width="40" height="40" src="https://connect.sensiolabs.com/api/images/3a44c9cd-457a-4c4c-9b11-36da74061b74.png?format=40x40" alt="gravatar"></a>
+            </span>
+    <em>
+                    <a href="https://connect.sensiolabs.com/api/alternates/3a44c9cd-457a-4c4c-9b11-36da74061b74">Mario Bittencourt</a>
+            </em>&nbsp;&mdash;&nbsp;July 05, 2012 13:39&nbsp;&nbsp;&nbsp;#52    <div>
+        I think the biggest problem with PHP is that due to the way it has been developed (as a language) you can&#039;t rely on the fact that it will address it&#039;s problems anytime soon.<br /><br />The whole PHP6 reminds me of duke and nukem forever where it is coming, coming but never comes, or like Duke a bit late :(<br /><br />I haven&#039;t tried all script languages out there but if you compare the major languages (by popularity) it is the easiest one to find.<br /><br />I always say that I can teach anyone with no background in web development (nor PHP) to create a dynamic website in a day using PHP.   You can&#039;t say that for Java or C#!<br /><br />I am not talking about making someone expert or that the code he/she will produce will be something that we will all be proud of.  But it will do the job (tm).<br /><br />Since the other languages (or frameworks) mentioned  are newer than PHP it is expected that they&#039;ve learned from everybody else&#039;s experience, including PHP, to achieve the same or perhaps better results.<br /><br />But this is temporary.  There is always a new feature/language that will either promise or deliver a better thing coming (Node.js anyone?)<br /><br />What I really hope is that we could shake things in the PHP core team to have a more predictable roadmap addressing the problems, like consistency, that we do have.    </div>
+</div>
+          <div class="comment">
+    <span class="gravatar">
+                    <a href="https://connect.sensiolabs.com/api/alternates/8f2ad44e-8c24-473d-afa0-6fb057657149"><img width="40" height="40" src="https://connect.sensiolabs.com/api/images/8f2ad44e-8c24-473d-afa0-6fb057657149.png?format=40x40" alt="gravatar"></a>
+            </span>
+    <em>
+                    <a href="https://connect.sensiolabs.com/api/alternates/8f2ad44e-8c24-473d-afa0-6fb057657149">Mauricio Lopez</a>
+            </em>&nbsp;&mdash;&nbsp;July 05, 2012 16:53&nbsp;&nbsp;&nbsp;#53    <div>
+        I started coding a long time ago, and I am proud to say that I did it with php.<br /><br />Yea, I realize now that php older versions had a lot of issues, but php and the community have envolved and continue doing it.<br /><br />These discussions are meaningless. Let me do an analogy to explain what I mean.<br /><br />WE (programmers) are the lord of the rings. WE are in control. PHP suits web tasks, Lua is great for gaming,<br />if I need more velocity , a C extension for php can fix a bottleneck, if I need a multiplatform app, Java is ok for an standalone desktop app, javascript is great for a rich user experience on the client side, etc .. etc ... etc ....<br /><br />YOU ARE THE MASTER OF THE RINGS, just choose the appropriate ring for each task.<br /><br />All languages have strong points and weak points. None is perfect.    </div>
+</div>
+          <div class="comment">
+    <span class="gravatar">
+                    <a href="https://connect.sensiolabs.com/api/alternates/cb8fa989-8184-433c-9a12-e5e2b113c75d"><img width="40" height="40" src="https://connect.sensiolabs.com/api/images/cb8fa989-8184-433c-9a12-e5e2b113c75d.png?format=40x40" alt="gravatar"></a>
+            </span>
+    <em>
+                    <a href="https://connect.sensiolabs.com/api/alternates/cb8fa989-8184-433c-9a12-e5e2b113c75d">Dave Twiggs</a>
+            </em>&nbsp;&mdash;&nbsp;July 05, 2012 20:01&nbsp;&nbsp;&nbsp;#54    <div>
+        I realize there are other languages that have strengths that PHP does not have.  If there was no difference there wouldn&#039;t be a need for another language.  The people who love to state this obvious fact over and over are stuck in a my programming language is better than your programming language dick waiving contents.  I don&#039;t want to be a part of that.<br /><br />I like PHP.  Partly because I know it really well but also because it is so easy for me to create my own mini-frameworks that I carry around from one project to the next.  I like how easy it is to embed php inside of .css in order to make my pages more dynamic and dare I say it...fun to build.<br /><br />The PHP Singularity article shows a picture of a double-clawed hammer.  I have one too, although it doesn&#039;t have the nifty PHP logo on it...Sharpy here I come.  The claws one one side have a larger gap than on the other side.  This is designed to work with different sized nails.  In my case, it is very useful for pulling up old floors that used cut square nails which can easily break inside of the floor.  The point here is that it is a single purpose tool which is not always bad.  In fact, the only time its bad to have a single purpose tool is when that is the only tool you have and PHP is nothing like that.<br />    </div>
+</div>
+          <div class="comment">
+    <span class="gravatar">
+                    <a href="https://connect.sensiolabs.com/api/alternates/81decffc-9831-4aba-89f6-1c31128e1a24"><img width="40" height="40" src="https://connect.sensiolabs.com/api/images/81decffc-9831-4aba-89f6-1c31128e1a24.png?format=40x40" alt="gravatar"></a>
+            </span>
+    <em>
+                    <a href="https://connect.sensiolabs.com/api/alternates/81decffc-9831-4aba-89f6-1c31128e1a24">Robin Dupret</a>
+            </em>&nbsp;&mdash;&nbsp;July 08, 2012 15:54&nbsp;&nbsp;&nbsp;#55    <div>
+        &quot;Yes, PHP has a better dependency manager than any other languages.&quot;<br /><br />Wrong. It&#039;s certainly the worst I have used. Composer is a nice way to manage dependencies but for each project we have a single copy of a project.    </div>
+</div>
+          <div class="comment">
+    <span class="gravatar">
+                    <a href="https://connect.sensiolabs.com/api/alternates/c5186e76-898c-4785-bf88-ee80f5859616"><img width="40" height="40" src="https://connect.sensiolabs.com/api/images/c5186e76-898c-4785-bf88-ee80f5859616.png?format=40x40" alt="gravatar"></a>
+            </span>
+    <em>
+                    <a href="https://connect.sensiolabs.com/api/alternates/c5186e76-898c-4785-bf88-ee80f5859616">Gildus G.</a>
+            </em>&nbsp;&mdash;&nbsp;July 10, 2012 18:11&nbsp;&nbsp;&nbsp;#56    <div>
+        I agre, PHP is the best, there are many programmers and developers that use or make bad practice with PHP.    </div>
+</div>
+          <div class="comment">
+    <span class="gravatar">
+                    <a href="https://connect.sensiolabs.com/api/alternates/3d35d43d-1391-487c-ad4d-5b65e400e90b"><img width="40" height="40" src="https://connect.sensiolabs.com/api/images/3d35d43d-1391-487c-ad4d-5b65e400e90b.png?format=40x40" alt="gravatar"></a>
+            </span>
+    <em>
+                    <a href="https://connect.sensiolabs.com/api/alternates/3d35d43d-1391-487c-ad4d-5b65e400e90b">yields</a>
+            </em>&nbsp;&mdash;&nbsp;July 11, 2012 03:28&nbsp;&nbsp;&nbsp;#57    <div>
+        i registered to put this comment.<br /><br />surprises me, i really adore you as a programmer, it&#039;s a surprise to me because you know, that PHP isn&#039;t a programming language, python is, ruby is, javascript is.<br /><br />and i will tell you why, you probably know that but PHP<br />didn&#039;t start as a programmin language, it&#039;s a &quot;tags&quot; system.<br /><br />take this for example:<br /><br />js: &#039;Hello&#039;.indexOf(&#039;g&#039;);<br />-&gt; -1<br />php: strpos(&#039;Hello&#039;, &#039;g&#039;)<br />-&gt; false<br /><br />js: !!~&#039;Hello&#039;.indexOf(&#039;g&#039;);<br />&gt; true<br />php: !!~strpos(&#039;Hello&#039;, &#039;g&#039;);<br />&gt; error<br /><br />that is amazing to me.<br /><br />i think this is what Jeff meant when he said &quot;PHP is a collection of functions&quot; it really isn&#039;t a programming language.<br /><br />but the problem is, it&#039;s the only tool that can be deployed just by uploading it.<br /><br />and by the way, compare silex codebase to Expressjs on node, it&#039;s 20% of silex, why ? because javascript is a<br />programming language, php isn&#039;t.<br /><br />I work every day in php and hate every second of it.    </div>
+</div>
+          <div class="comment">
+    <span class="gravatar">
+                    <a href="https://connect.sensiolabs.com/api/alternates/81decffc-9831-4aba-89f6-1c31128e1a24"><img width="40" height="40" src="https://connect.sensiolabs.com/api/images/81decffc-9831-4aba-89f6-1c31128e1a24.png?format=40x40" alt="gravatar"></a>
+            </span>
+    <em>
+                    <a href="https://connect.sensiolabs.com/api/alternates/81decffc-9831-4aba-89f6-1c31128e1a24">Robin Dupret</a>
+            </em>&nbsp;&mdash;&nbsp;July 11, 2012 16:46&nbsp;&nbsp;&nbsp;#58    <div>
+        I agree with Yields ! The only point that I love in PHP is the deployment. There is, by chance, beautiful projects that works hard to provide a clean source code but it&#039;s hard to do this with an ugly &quot;language&quot;. <br /><br />For example, it took 17 years to have a peace of syntaxic sugar like the hooks for the arrays. Before, we had to write array(1, 2, 3). It&#039;s just ugly !<br /><br />«I agre, PHP is the best, there are many programmers and developers that use or make bad practice with PHP. »<br /><br />PHP itself provides bad code and prevent us to make a beautiful one !    </div>
+</div>
+          <div class="comment">
+    <span class="gravatar">
+                    <a href="https://connect.sensiolabs.com/api/alternates/46f8e336-1f1d-473a-bbdb-d7c6dd4d57f6"><img width="40" height="40" src="https://connect.sensiolabs.com/api/images/46f8e336-1f1d-473a-bbdb-d7c6dd4d57f6.png?format=40x40" alt="gravatar"></a>
+            </span>
+    <em>
+                    <a href="https://connect.sensiolabs.com/api/alternates/46f8e336-1f1d-473a-bbdb-d7c6dd4d57f6">Pierre Minnieur</a>
+            </em>&nbsp;&mdash;&nbsp;July 13, 2012 16:45&nbsp;&nbsp;&nbsp;#59    <div>
+        &quot;Wrong. It&#039;s certainly the worst I have used. Composer is a nice way to manage dependencies but for each project we have a single copy of a project.&quot;<br /><br />So, all your projects share the same version of a project they depend on? Cool!    </div>
+</div>
+          <div class="comment">
+    <span class="gravatar">
+                    <a href="https://connect.sensiolabs.com/api/alternates/7e8e4d36-1693-47b1-a1a1-56eab8ca0a20"><img width="40" height="40" src="https://connect.sensiolabs.com/api/images/7e8e4d36-1693-47b1-a1a1-56eab8ca0a20.png?format=40x40" alt="gravatar"></a>
+            </span>
+    <em>
+                    <a href="https://connect.sensiolabs.com/api/alternates/7e8e4d36-1693-47b1-a1a1-56eab8ca0a20">Hrvoje Simic</a>
+            </em>&nbsp;&mdash;&nbsp;July 17, 2012 15:28&nbsp;&nbsp;&nbsp;#60    <div>
+        &quot;PHP is still the easiest language to learn for non-technical people&quot; is as valid argument as the following:<br /><br />&quot;Ruby is the best language you will ever see.&quot;<br /><br />No really, is there a language that doesn&#039;t &quot;get things done&quot;? Is it a new term for Turing completeness?    </div>
+</div>
+          <div class="comment">
+    <span class="gravatar">
+                    <a href="https://connect.sensiolabs.com/api/alternates/ed109296-43a3-4c42-ac43-e4789aaa8803"><img width="40" height="40" src="https://connect.sensiolabs.com/api/images/ed109296-43a3-4c42-ac43-e4789aaa8803.png?format=40x40" alt="gravatar"></a>
+            </span>
+    <em>
+                    <a href="https://connect.sensiolabs.com/api/alternates/ed109296-43a3-4c42-ac43-e4789aaa8803">Matteo Contri</a>
+            </em>&nbsp;&mdash;&nbsp;July 18, 2012 17:12&nbsp;&nbsp;&nbsp;#61    <div>
+        Fabien, I agree with every word.<br /><br />The weakness points of PHP are filled with frameworks nowadays (lack of structure, too much flexbility, etc.)<br /><br />Sure in some field PHP are not so cool, but in some other no language can beat it.<br />The average is: the best web platform (ever).    </div>
+</div>
+      
+  </div>
+        </div>
+
+        <div id="footer">
+          <ul>
+  <li>(c) 2007-2012 <a href="/">Fabien Potencier</a></li>
+  <li><a href="/articles">Articles</a></li>
+  <li><a href="/talks">Talks</a></li>
+  <li><a href="/about">About</a></li>
+  <li><a href="http://feeds.fabien.potencier.org/aidedecamp"><img src="/images/feed.png" alt="feed" /></a></li>
+  <li><a href="http://www.twitter.com/fabpot"><img src="/images/twitter.png" alt='Follow me on Twitter' /></a></li>
+  <li><a href="http://symfony.com/"><img src="/images/symfony.gif" alt="Symfony Framework" /></a></li>
+  <li><img src="/images/license.png" alt="Creative Commons Attribution-Noncommercial-No Derivative Works 3.0 Unported License" /></li>
+</ul>
+        </div>
+    </div>
+  </body>
+</html>

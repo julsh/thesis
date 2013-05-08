@@ -1,0 +1,1313 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="html/html; charset=utf-8" />
+		<title>SZEntryObject Class Reference</title>
+		<meta id="xcode-display" name="xcode-display" content="render"/>
+		<link rel="stylesheet" type="text/css" href="../css/styles.css" media="all" />
+		<link rel="stylesheet" type="text/css" media="print" href="../css/stylesPrint.css" />
+		<meta name="generator" content="appledoc 2.1 (build 858)" />
+	</head>
+	<body>
+		<header id="top_header">
+			<div id="library" class="hideInXcode">
+				<h1><a id="libraryTitle" href="../index.html">Skillz </a></h1>
+				<a id="developerHome" href="../index.html">de.juliaroggatz</a>
+			</div>
+			
+			<div id="title" role="banner">
+				<h1 class="hideInXcode">SZEntryObject Class Reference</h1>
+			</div>
+			<ul id="headerButtons" role="toolbar">
+				<li id="toc_button">
+					<button aria-label="Show Table of Contents" role="checkbox" class="open" id="table_of_contents"><span class="disclosure"></span>Table of Contents</button>
+				</li>
+				<li id="jumpto_button" role="navigation">
+					<select id="jumpTo">
+	<option value="top">Jump To&#133;</option>
+	
+	<option value="overview">Overview</option>
+	
+	
+	
+	
+	<option value="tasks">Tasks</option>
+	
+	
+	
+	
+	
+	<option value="properties">Properties</option>
+	
+	<option value="//api/name/address">&nbsp;&nbsp;&nbsp;&nbsp;address</option>
+	
+	<option value="//api/name/areaType">&nbsp;&nbsp;&nbsp;&nbsp;areaType</option>
+	
+	<option value="//api/name/category">&nbsp;&nbsp;&nbsp;&nbsp;category</option>
+	
+	<option value="//api/name/description">&nbsp;&nbsp;&nbsp;&nbsp;description</option>
+	
+	<option value="//api/name/distance">&nbsp;&nbsp;&nbsp;&nbsp;distance</option>
+	
+	<option value="//api/name/endTime">&nbsp;&nbsp;&nbsp;&nbsp;endTime</option>
+	
+	<option value="//api/name/geoPoint">&nbsp;&nbsp;&nbsp;&nbsp;geoPoint</option>
+	
+	<option value="//api/name/hasTimeFrame">&nbsp;&nbsp;&nbsp;&nbsp;hasTimeFrame</option>
+	
+	<option value="//api/name/isActive">&nbsp;&nbsp;&nbsp;&nbsp;isActive</option>
+	
+	<option value="//api/name/locationType">&nbsp;&nbsp;&nbsp;&nbsp;locationType</option>
+	
+	<option value="//api/name/price">&nbsp;&nbsp;&nbsp;&nbsp;price</option>
+	
+	<option value="//api/name/priceType">&nbsp;&nbsp;&nbsp;&nbsp;priceType</option>
+	
+	<option value="//api/name/startTime">&nbsp;&nbsp;&nbsp;&nbsp;startTime</option>
+	
+	<option value="//api/name/subcategory">&nbsp;&nbsp;&nbsp;&nbsp;subcategory</option>
+	
+	<option value="//api/name/title">&nbsp;&nbsp;&nbsp;&nbsp;title</option>
+	
+	<option value="//api/name/type">&nbsp;&nbsp;&nbsp;&nbsp;type</option>
+	
+	<option value="//api/name/user">&nbsp;&nbsp;&nbsp;&nbsp;user</option>
+	
+	
+	
+	
+	<option value="class_methods">Class Methods</option>
+	
+	<option value="//api/name/dictionaryFromEntryVO:">&nbsp;&nbsp;&nbsp;&nbsp;+ dictionaryFromEntryVO:</option>
+	
+	<option value="//api/name/entryVOfromDictionary:">&nbsp;&nbsp;&nbsp;&nbsp;+ entryVOfromDictionary:</option>
+	
+	<option value="//api/name/parseClassName">&nbsp;&nbsp;&nbsp;&nbsp;+ parseClassName</option>
+	
+	
+	
+	
+	
+</select>
+				</li>
+			</ul>
+		</header>
+		<nav id="tocContainer" class="isShowingTOC">
+			<ul id="toc" role="tree">
+				
+<li role="treeitem"><span class="nodisclosure"></span><span class="sectionName"><a href="#overview">Overview</a></span></li>
+
+
+
+
+<li role="treeitem" id="task_treeitem"><span class="nodisclosure"></span><span class="sectionName"><a href="#tasks">Tasks</a></span><ul>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#task_Storing values">Storing values</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#task_Providing the correct class name">Providing the correct class name</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#task_Converting from and to Dictionaries">Converting from and to Dictionaries</a></span></li>
+	
+</ul></li>
+
+
+
+
+
+<li role="treeitem" class="children"><span class="disclosure"></span><span class="sectionName"><a href="#properties">Properties</a></span><ul>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/address">address</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/areaType">areaType</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/category">category</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/description">description</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/distance">distance</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/endTime">endTime</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/geoPoint">geoPoint</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/hasTimeFrame">hasTimeFrame</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/isActive">isActive</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/locationType">locationType</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/price">price</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/priceType">priceType</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/startTime">startTime</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/subcategory">subcategory</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/title">title</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/type">type</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/user">user</a></span></li>
+	
+</ul></li>
+
+
+
+<li role="treeitem" class="children"><span class="disclosure"></span><span class="sectionName"><a href="#class_methods">Class Methods</a></span><ul>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/dictionaryFromEntryVO:">dictionaryFromEntryVO:</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/entryVOfromDictionary:">entryVOfromDictionary:</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/parseClassName">parseClassName</a></span></li>
+	
+</ul></li>
+
+
+
+
+			</ul>
+		</nav>
+		<article>
+			<div id="contents" class="isShowingTOC" role="main">
+				<a title="SZEntryObject Class Reference" name="top"></a>
+				<div class="main-navigation navigation-top">
+					<ul>
+	<li><a href="../index.html">Index</a></li>
+	<li><a href="../hierarchy.html">Hierarchy</a></li>
+</ul>
+				</div>
+				<div id="header">
+					<div class="section-header">
+						<h1 class="title title-header">SZEntryObject Class Reference</h1>
+					</div>		
+				</div>
+				<div id="container">	
+					
+					<div class="section section-specification"><table cellspacing="0"><tbody>
+						<tr>
+	<td class="specification-title">Inherits from</td>
+	<td class="specification-value">PFObject</td>
+</tr><tr>
+	<td class="specification-title">Conforms to</td>
+	<td class="specification-value">PFSubclassing</td>
+</tr><tr>
+	<td class="specification-title">Declared in</td>
+	<td class="specification-value">SZEntryObject.h<br />SZEntryObject.m</td>
+</tr>
+						</tbody></table></div>
+					
+					
+					
+					
+					<div class="section section-overview">
+						<a title="Overview" name="overview"></a>
+						<h2 class="subtitle subtitle-overview">Overview</h2>
+						<p>The SZEntryObject is a server object representing an offer or request. Since entry objects are among the most uses objects within the code base of this project, subclassing PFObject enables easier access to stored properties. Through subclassing, properties can be accessed like this:<br/>
+    <code>entry.description</code> instead of <code>[entry valueForKey:@"description"]</code></p>
+					</div>
+					
+					
+					
+					
+					
+					<div class="section section-tasks">
+						<a title="Tasks" name="tasks"></a>
+						<h2 class="subtitle subtitle-tasks">Tasks</h2>
+						
+						
+						<a title="Storing values" name="task_Storing values"></a>
+						<h3 class="subsubtitle task-title">Storing values</h3>
+
+						<ul class="task-list">
+							<li>
+	<span class="tooltip">
+		<code><a href="#//api/name/type">&nbsp;&nbsp;type</a></code>
+		<span class="tooltip"><p>The type of the entry.</p></span>
+	</span>
+	<span class="task-item-suffix">property</span>
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/user">&nbsp;&nbsp;user</a></code>
+		<span class="tooltip"><p>The <code>PFUser</code> that owns the entry.</p></span>
+	</span>
+	<span class="task-item-suffix">property</span>
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/isActive">&nbsp;&nbsp;isActive</a></code>
+		<span class="tooltip"><p>Indicates whether or not the entry is active. Entries will only be displayed in search/browse results they are active, but will be listed in the &ldquo;My Offers&rdquo; or &ldquo;My Requests&rdquo; view for their owners even if they are inactive.</p></span>
+	</span>
+	<span class="task-item-suffix">property</span>
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/category">&nbsp;&nbsp;category</a></code>
+		<span class="tooltip"><p>The category that the entry belongs to.</p></span>
+	</span>
+	<span class="task-item-suffix">property</span>
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/subcategory">&nbsp;&nbsp;subcategory</a></code>
+		<span class="tooltip"><p>The subcategory that the entry belongs to. Can be <code>nil</code> if not subcategory is specified.</p></span>
+	</span>
+	<span class="task-item-suffix">property</span>
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/title">&nbsp;&nbsp;title</a></code>
+		<span class="tooltip"><p>The title of the entry. Entries will be displayed with their titles in search/browse results or when references in a message thread.</p></span>
+	</span>
+	<span class="task-item-suffix">property</span>
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/description">&nbsp;&nbsp;description</a></code>
+		<span class="tooltip"><p>The full description of the entry.</p></span>
+	</span>
+	<span class="task-item-suffix">property</span>
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/locationType">&nbsp;&nbsp;locationType</a></code>
+		<span class="tooltip"><p>The location type of the entry.</p></span>
+	</span>
+	<span class="task-item-suffix">property</span>
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/areaType">&nbsp;&nbsp;areaType</a></code>
+		<span class="tooltip"><p>If the user specified that they are willing to go somewhere else to perform the work, this property specifies the area in which the user is willing to travel.</p></span>
+	</span>
+	<span class="task-item-suffix">property</span>
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/priceType">&nbsp;&nbsp;priceType</a></code>
+		<span class="tooltip"><p>Specifies the whether or not the user specified a price for the entry, and if yes, if the price is hour-based or job-baced.</p></span>
+	</span>
+	<span class="task-item-suffix">property</span>
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/distance">&nbsp;&nbsp;distance</a></code>
+		<span class="tooltip"><p>Specifies the maximum distance which the user is willing to travel, used in combination with the <a href="#//api/name/address">address</a> property.</p></span>
+	</span>
+	<span class="task-item-suffix">property</span>
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/address">&nbsp;&nbsp;address</a></code>
+		<span class="tooltip"><p>Specifies the an address, either where people have to go (if the user requires people to come to their location) or the base address for the maximum travel area (in combination with the <a href="#//api/name/distance">distance</a> property).</p></span>
+	</span>
+	<span class="task-item-suffix">property</span>
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/geoPoint">&nbsp;&nbsp;geoPoint</a></code>
+		<span class="tooltip"><p>If the user specified an address or the <code>SZEntryAreaType</code> is set to <code>SZEntryAreaWithinZipCode</code>, this property holds the geo coordinates of the location.</p></span>
+	</span>
+	<span class="task-item-suffix">property</span>
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/price">&nbsp;&nbsp;price</a></code>
+		<span class="tooltip"><p>If the user specified an price for the entry, it is stored in this property.</p></span>
+	</span>
+	<span class="task-item-suffix">property</span>
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/hasTimeFrame">&nbsp;&nbsp;hasTimeFrame</a></code>
+		<span class="tooltip"><p>Specifies whether or not the user has set a time frame on the entry.</p></span>
+	</span>
+	<span class="task-item-suffix">property</span>
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/startTime">&nbsp;&nbsp;startTime</a></code>
+		<span class="tooltip"><p>If the user specified a time frame for the entry, the start time is stored in this property.</p></span>
+	</span>
+	<span class="task-item-suffix">property</span>
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/endTime">&nbsp;&nbsp;endTime</a></code>
+		<span class="tooltip"><p>If the user specified a time frame for the entry, the start time is stored in this property.</p></span>
+	</span>
+	<span class="task-item-suffix">property</span>
+	
+</li>
+						</ul>
+						
+						
+						<a title="Providing the correct class name" name="task_Providing the correct class name"></a>
+						<h3 class="subsubtitle task-title">Providing the correct class name</h3>
+
+						<ul class="task-list">
+							<li>
+	<span class="tooltip">
+		<code><a href="#//api/name/parseClassName">+&nbsp;parseClassName</a></code>
+		<span class="tooltip"><p>Overrides the <code>parseClassName</code> method of PFObject to return the correct class name with which objects will be retrieved from the database. In this case that would be <code>Entry</code>.</p></span>
+	</span>
+	
+	
+</li>
+						</ul>
+						
+						
+						<a title="Converting from and to Dictionaries" name="task_Converting from and to Dictionaries"></a>
+						<h3 class="subsubtitle task-title">Converting from and to Dictionaries</h3>
+
+						<ul class="task-list">
+							<li>
+	<span class="tooltip">
+		<code><a href="#//api/name/dictionaryFromEntryVO:">+&nbsp;dictionaryFromEntryVO:</a></code>
+		<span class="tooltip"><p>Converts an <code>SZEntryObject</code> into an <code>NSDictionary</code> to be stored locally.</p></span>
+	</span>
+	
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/entryVOfromDictionary:">+&nbsp;entryVOfromDictionary:</a></code>
+		<span class="tooltip"><p>Converts an <code>NSDictionary</code> (usually retrieved from the local cache) into an <code>SZEntryObject</code>.</p></span>
+	</span>
+	
+	
+</li>
+						</ul>
+						
+					</div>
+					
+					
+					
+					
+					
+					<div class="section section-methods">
+						<a title="Properties" name="properties"></a>
+						<h2 class="subtitle subtitle-methods">Properties</h2>
+						
+						<div class="section-method">
+	<a name="//api/name/address" title="address"></a>
+	<h3 class="subsubtitle method-title">address</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>Specifies the an address, either where people have to go (if the user requires people to come to their location) or the base address for the maximum travel area (in combination with the <a href="#//api/name/distance">distance</a> property).</p>
+	</div>		
+	
+    
+
+	<div class="method-subsection method-declaration"><code>@property (nonatomic, strong) NSDictionary *address</code></div>
+
+    
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">SZEntryObject.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/areaType" title="areaType"></a>
+	<h3 class="subsubtitle method-title">areaType</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>If the user specified that they are willing to go somewhere else to perform the work, this property specifies the area in which the user is willing to travel.</p>
+	</div>		
+	
+    
+
+	<div class="method-subsection method-declaration"><code>@property (nonatomic, assign) SZEntryAreaType areaType</code></div>
+
+    
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection discussion-section">
+		<h4 class="method-subtitle">Discussion</h4>
+		<p>Uses the <code>SZEntryAreaType</code> enumerator. Allowed values are:</p>
+
+<ul>
+<li><code>SZEntryAreaWithinZipCode</code>            &lt;&ndash; The user specified they will only travel within their own zip code area</li>
+<li><code>SZEntryAreaWithinSpecifiedArea</code>      &lt;&ndash; The user specified an address and a maximum distance they are willing to travel</li>
+<li><code>SZEntryAreaWithinNegotiableArea</code> &lt;&ndash; The user specified that the travel distance is negotiable</li>
+</ul>
+
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">SZEntryObject.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/category" title="category"></a>
+	<h3 class="subsubtitle method-title">category</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>The category that the entry belongs to.</p>
+	</div>		
+	
+    
+
+	<div class="method-subsection method-declaration"><code>@property (nonatomic, strong) NSString *category</code></div>
+
+    
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">SZEntryObject.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/description" title="description"></a>
+	<h3 class="subsubtitle method-title">description</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>The full description of the entry.</p>
+	</div>		
+	
+    
+
+	<div class="method-subsection method-declaration"><code>@property (nonatomic, strong) NSString *description</code></div>
+
+    
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">SZEntryObject.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/distance" title="distance"></a>
+	<h3 class="subsubtitle method-title">distance</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>Specifies the maximum distance which the user is willing to travel, used in combination with the <a href="#//api/name/address">address</a> property.</p>
+	</div>		
+	
+    
+
+	<div class="method-subsection method-declaration"><code>@property (nonatomic, strong) NSNumber *distance</code></div>
+
+    
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">SZEntryObject.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/endTime" title="endTime"></a>
+	<h3 class="subsubtitle method-title">endTime</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>If the user specified a time frame for the entry, the start time is stored in this property.</p>
+	</div>		
+	
+    
+
+	<div class="method-subsection method-declaration"><code>@property (nonatomic, strong) NSDate *endTime</code></div>
+
+    
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">SZEntryObject.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/geoPoint" title="geoPoint"></a>
+	<h3 class="subsubtitle method-title">geoPoint</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>If the user specified an address or the <code>SZEntryAreaType</code> is set to <code>SZEntryAreaWithinZipCode</code>, this property holds the geo coordinates of the location.</p>
+	</div>		
+	
+    
+
+	<div class="method-subsection method-declaration"><code>@property (nonatomic, strong) PFGeoPoint *geoPoint</code></div>
+
+    
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">SZEntryObject.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/hasTimeFrame" title="hasTimeFrame"></a>
+	<h3 class="subsubtitle method-title">hasTimeFrame</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>Specifies whether or not the user has set a time frame on the entry.</p>
+	</div>		
+	
+    
+
+	<div class="method-subsection method-declaration"><code>@property (nonatomic, assign) BOOL hasTimeFrame</code></div>
+
+    
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">SZEntryObject.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/isActive" title="isActive"></a>
+	<h3 class="subsubtitle method-title">isActive</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>Indicates whether or not the entry is active. Entries will only be displayed in search/browse results they are active, but will be listed in the &ldquo;My Offers&rdquo; or &ldquo;My Requests&rdquo; view for their owners even if they are inactive.</p>
+	</div>		
+	
+    
+
+	<div class="method-subsection method-declaration"><code>@property (nonatomic, assign) BOOL isActive</code></div>
+
+    
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">SZEntryObject.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/locationType" title="locationType"></a>
+	<h3 class="subsubtitle method-title">locationType</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>The location type of the entry.</p>
+	</div>		
+	
+    
+
+	<div class="method-subsection method-declaration"><code>@property (nonatomic, assign) SZEntryLocationType locationType</code></div>
+
+    
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection discussion-section">
+		<h4 class="method-subtitle">Discussion</h4>
+		<p>Uses the <code>SZEntryLocationType</code> enumerator. Allowed values are:</p>
+
+<ul>
+<li><code>SZEntryLocationWillGoSomewhereElse</code>  &lt;&ndash; The user specified they are willing to go somewhere else</li>
+<li><code>SZEntryLocationWillStayAtHome</code>       &lt;&ndash; The user specified that others have to come to them</li>
+<li><code>SZEntryLocationRemote</code>               &lt;&ndash; The user specified that the work can be done remotely</li>
+</ul>
+
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">SZEntryObject.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/price" title="price"></a>
+	<h3 class="subsubtitle method-title">price</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>If the user specified an price for the entry, it is stored in this property.</p>
+	</div>		
+	
+    
+
+	<div class="method-subsection method-declaration"><code>@property (nonatomic, strong) NSNumber *price</code></div>
+
+    
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">SZEntryObject.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/priceType" title="priceType"></a>
+	<h3 class="subsubtitle method-title">priceType</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>Specifies the whether or not the user specified a price for the entry, and if yes, if the price is hour-based or job-baced.</p>
+	</div>		
+	
+    
+
+	<div class="method-subsection method-declaration"><code>@property (nonatomic, assign) SZEntryPriceType priceType</code></div>
+
+    
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection discussion-section">
+		<h4 class="method-subtitle">Discussion</h4>
+		<p>Uses the <code>SZEntryPriceType</code> enumerator. Allowed values are:</p>
+
+<ul>
+<li><code>SZEntryPriceNegotiable</code>      &lt;&ndash; The user didn&rsquo;t specify the price.</li>
+<li><code>SZEntryPriceFixedPerHour</code>    &lt;&ndash; The user set a fixed hourly rate.</li>
+<li><code>SZEntryPriceFixedPerJob</code> &lt;&ndash; The user set a fixed job-based rate.</li>
+</ul>
+
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">SZEntryObject.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/startTime" title="startTime"></a>
+	<h3 class="subsubtitle method-title">startTime</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>If the user specified a time frame for the entry, the start time is stored in this property.</p>
+	</div>		
+	
+    
+
+	<div class="method-subsection method-declaration"><code>@property (nonatomic, strong) NSDate *startTime</code></div>
+
+    
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">SZEntryObject.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/subcategory" title="subcategory"></a>
+	<h3 class="subsubtitle method-title">subcategory</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>The subcategory that the entry belongs to. Can be <code>nil</code> if not subcategory is specified.</p>
+	</div>		
+	
+    
+
+	<div class="method-subsection method-declaration"><code>@property (nonatomic, strong) NSString *subcategory</code></div>
+
+    
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">SZEntryObject.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/title" title="title"></a>
+	<h3 class="subsubtitle method-title">title</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>The title of the entry. Entries will be displayed with their titles in search/browse results or when references in a message thread.</p>
+	</div>		
+	
+    
+
+	<div class="method-subsection method-declaration"><code>@property (nonatomic, strong) NSString *title</code></div>
+
+    
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">SZEntryObject.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/type" title="type"></a>
+	<h3 class="subsubtitle method-title">type</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>The type of the entry.</p>
+	</div>		
+	
+    
+
+	<div class="method-subsection method-declaration"><code>@property (nonatomic, assign) SZEntryType type</code></div>
+
+    
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection discussion-section">
+		<h4 class="method-subtitle">Discussion</h4>
+		<p>Uses the <code>SZEntryType</code> enumerator. Allowed values are:</p>
+
+<ul>
+<li><code>SZEntryTypeRequest</code></li>
+<li><code>SZEntryTypeOffer</code></li>
+</ul>
+
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">SZEntryObject.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/user" title="user"></a>
+	<h3 class="subsubtitle method-title">user</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>The <code>PFUser</code> that owns the entry.</p>
+	</div>		
+	
+    
+
+	<div class="method-subsection method-declaration"><code>@property (nonatomic, strong) PFUser *user</code></div>
+
+    
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">SZEntryObject.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+					</div>
+					
+					
+					
+					<div class="section section-methods">
+						<a title="Class Methods" name="class_methods"></a>
+						<h2 class="subtitle subtitle-methods">Class Methods</h2>
+						
+						<div class="section-method">
+	<a name="//api/name/dictionaryFromEntryVO:" title="dictionaryFromEntryVO:"></a>
+	<h3 class="subsubtitle method-title">dictionaryFromEntryVO:</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>Converts an <code>SZEntryObject</code> into an <code>NSDictionary</code> to be stored locally.</p>
+	</div>		
+	
+    
+
+	<div class="method-subsection method-declaration"><code>+ (NSDictionary *)dictionaryFromEntryVO:(SZEntryObject *)<em>entryVO</em></code></div>
+
+    
+	
+	<div class="method-subsection arguments-section parameters">
+		<h4 class="method-subtitle parameter-title">Parameters</h4>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>entryVO</em></dt>
+			<dd><p>The <code>SZEntryObject</code> which to convert.</p></dd>
+		</dl>
+		
+	</div>
+	
+	
+	
+	<div class="method-subsection return">
+		<h4 class="method-subtitle parameter-title">Return Value</h4>
+		<p>An <code>NSDictionary</code> object representing the entry.</p>
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">SZEntryObject.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/entryVOfromDictionary:" title="entryVOfromDictionary:"></a>
+	<h3 class="subsubtitle method-title">entryVOfromDictionary:</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>Converts an <code>NSDictionary</code> (usually retrieved from the local cache) into an <code>SZEntryObject</code>.</p>
+	</div>		
+	
+    
+
+	<div class="method-subsection method-declaration"><code>+ (SZEntryObject *)entryVOfromDictionary:(NSDictionary *)<em>dict</em></code></div>
+
+    
+	
+	<div class="method-subsection arguments-section parameters">
+		<h4 class="method-subtitle parameter-title">Parameters</h4>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>dict</em></dt>
+			<dd><p>The <code>NSDictionary</code> which to convert.</p></dd>
+		</dl>
+		
+	</div>
+	
+	
+	
+	<div class="method-subsection return">
+		<h4 class="method-subtitle parameter-title">Return Value</h4>
+		<p>An <code>SZEntryObject</code> object representing the entry.</p>
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">SZEntryObject.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/parseClassName" title="parseClassName"></a>
+	<h3 class="subsubtitle method-title">parseClassName</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>Overrides the <code>parseClassName</code> method of PFObject to return the correct class name with which objects will be retrieved from the database. In this case that would be <code>Entry</code>.</p>
+	</div>		
+	
+    
+
+	<div class="method-subsection method-declaration"><code>+ (NSString *)parseClassName</code></div>
+
+    
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">SZEntryObject.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+					</div>
+					
+					
+					
+					
+				</div>
+				<div class="main-navigation navigation-bottom">
+					<ul>
+	<li><a href="../index.html">Index</a></li>
+	<li><a href="../hierarchy.html">Hierarchy</a></li>
+</ul>
+				</div>
+				<div id="footer">
+					<hr />
+					<div class="footer-copyright">
+						<p><span class="copyright">&copy; 2013 de.juliaroggatz. All rights reserved. (Last updated: 2013-05-06)</span><br />
+						
+						<span class="generator">Generated by <a href="http://appledoc.gentlebytes.com">appledoc 2.1 (build 858)</a>.</span></p>
+						
+					</div>
+				</div>
+			</div>
+		</article>
+		<script type="text/javascript">
+			function jumpToChange()
+			{
+				window.location.hash = this.options[this.selectedIndex].value;
+			}
+			
+			function toggleTOC()
+			{
+				var contents = document.getElementById('contents');
+				var tocContainer = document.getElementById('tocContainer');
+				
+				if (this.getAttribute('class') == 'open')
+				{
+					this.setAttribute('class', '');
+					contents.setAttribute('class', '');
+					tocContainer.setAttribute('class', '');
+					
+					window.name = "hideTOC";
+				}
+				else
+				{
+					this.setAttribute('class', 'open');
+					contents.setAttribute('class', 'isShowingTOC');
+					tocContainer.setAttribute('class', 'isShowingTOC');
+					
+					window.name = "";
+				}
+				return false;
+			}
+			
+			function toggleTOCEntryChildren(e)
+			{
+				e.stopPropagation();
+				var currentClass = this.getAttribute('class');
+				if (currentClass == 'children') {
+					this.setAttribute('class', 'children open');
+				}
+				else if (currentClass == 'children open') {
+					this.setAttribute('class', 'children');
+				}
+				return false;
+			}
+			
+			function tocEntryClick(e)
+			{
+				e.stopPropagation();
+				return true;
+			}
+			
+			function init()
+			{
+				var selectElement = document.getElementById('jumpTo');
+				selectElement.addEventListener('change', jumpToChange, false);
+				
+				var tocButton = document.getElementById('table_of_contents');
+				tocButton.addEventListener('click', toggleTOC, false);
+				
+				var taskTreeItem = document.getElementById('task_treeitem');
+				if (taskTreeItem.getElementsByTagName('li').length > 0)
+				{
+					taskTreeItem.setAttribute('class', 'children');
+					taskTreeItem.firstChild.setAttribute('class', 'disclosure');
+				}
+				
+				var tocList = document.getElementById('toc');
+				
+				var tocEntries = tocList.getElementsByTagName('li');
+				for (var i = 0; i < tocEntries.length; i++) {
+					tocEntries[i].addEventListener('click', toggleTOCEntryChildren, false);
+				}
+				
+				var tocLinks = tocList.getElementsByTagName('a');
+				for (var i = 0; i < tocLinks.length; i++) {
+					tocLinks[i].addEventListener('click', tocEntryClick, false);
+				}
+				
+				if (window.name == "hideTOC") {
+					toggleTOC.call(tocButton);
+				}
+			}
+			
+			window.onload = init;
+			
+			// If showing in Xcode, hide the TOC and Header
+			if (navigator.userAgent.match(/xcode/i)) {
+				document.getElementById("contents").className = "hideInXcode"
+				document.getElementById("tocContainer").className = "hideInXcode"
+				document.getElementById("top_header").className = "hideInXcode"
+			}
+			
+		</script>
+	</body>
+</html>

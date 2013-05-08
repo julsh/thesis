@@ -1,0 +1,1363 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+
+<meta name="google-site-verification" content="vPJB0f8ZI76_XlbauEBq1HwflsQ8M7M4D5gX_Q0QaKQ" />
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<link rel="pingback" href="http://www.raywenderlich.com/xmlrpc.php" />
+<link rel="shortcut icon" href="http://d1xzuxjlafny7l.cloudfront.net/favicon.ico" />
+<link rel="alternate" type="application/rss+xml" href="http://feeds.feedburner.com/RayWenderlich" title="RSS Feed for Ray Wenderlich | Tutorials for iPhone / iOS Developers and Gamers" />
+<meta name="distribution" content="global"/>
+
+
+
+<!-- This site is optimized with the Yoast WordPress SEO plugin v1.4.4 - http://yoast.com/wordpress/seo/ -->
+<title>How To Choose the Best Backend Provider for your iOS App: Parse vs Stackmob vs. Appcelerator Cloud and More! - Ray Wenderlich</title>
+
+<link rel="stylesheet" href="http://www.raywenderlich.com/wp-content/plugins/sitepress-multilingual-cms/res/css/language-selector.css?v=2.7.1" type="text/css" media="all" />
+<link rel="canonical" href="http://www.raywenderlich.com/20482/how-to-choose-the-best-backend-provider-for-your-ios-app-parse-vs-stackmob-vs-appcelerator-cloud-and-more" />
+<!-- / Yoast WordPress SEO plugin. -->
+
+<link rel='stylesheet' id='wpsqt-main-css'  href='http://cdn3.raywenderlich.com/wp-content/plugins/wp-survey-and-quiz-tool/css/main.css?ver=3.5.1' type='text/css' media='all' />
+<link rel='stylesheet' id='wpml-cms-nav-css-css'  href='http://www.raywenderlich.com/wp-content/plugins/wpml-cms-nav/res/css/navigation.css?ver=1.2.7' type='text/css' media='all' />
+<link rel='stylesheet' id='cms-navigation-style-base-css'  href='http://www.raywenderlich.com/wp-content/plugins/wpml-cms-nav/res/css/cms-navigation-base.css?ver=1.2.7' type='text/css' media='screen' />
+<link rel='stylesheet' id='cms-navigation-style-css'  href='http://www.raywenderlich.com/wp-content/plugins/wpml-cms-nav/res/css/cms-navigation.css?ver=1.2.7' type='text/css' media='screen' />
+<link rel='stylesheet' id='wp-polls-css'  href='http://www.raywenderlich.com/wp-content/plugins/wp-polls/polls-css.css?ver=2.63' type='text/css' media='all' />
+<link rel='stylesheet' id='codebox-css'  href='http://www.raywenderlich.com/wp-content/plugins/wp-codebox/css/codebox.css?ver=0.1' type='text/css' media='screen' />
+<script type='text/javascript' src='http://cdn3.raywenderlich.com/wp-includes/js/jquery/jquery.js?ver=1.8.3'></script>
+<script type='text/javascript' src='http://cdn2.raywenderlich.com/wp-content/plugins/wp-survey-and-quiz-tool/js/site.js?ver=3.5.1'></script>
+<script type='text/javascript' src='http://cdn1.raywenderlich.com/wp-content/plugins/easy-spoiler/js/easy-spoiler.js?ver=1.2'></script>
+<script type='text/javascript' src='http://www.raywenderlich.com/wp-content/plugins/wp-codebox/js/codebox.js?ver=0.1'></script>
+<script type='text/javascript' src='http://www.raywenderlich.com/wp-content/plugins/sitepress-multilingual-cms/res/js/jquery.cookie.js?ver=2.7.1'></script>
+<script type='text/javascript'>
+/* <![CDATA[ */
+var wpml_browser_redirect_params = {"pageLanguage":"en","languageUrls":{"en":"http:\/\/www.raywenderlich.com\/20482\/how-to-choose-the-best-backend-provider-for-your-ios-app-parse-vs-stackmob-vs-appcelerator-cloud-and-more"},"cookie":{"name":"_icl_visitor_lang_js","domain":"www.raywenderlich.com","path":"\/","expiration":24}};
+/* ]]> */
+</script>
+<script type='text/javascript' src='http://www.raywenderlich.com/wp-content/plugins/sitepress-multilingual-cms/res/js/browser-redirect.js?ver=2.7.1'></script>
+<link rel='shortlink' href='http://www.raywenderlich.com/?p=20482' />
+<link type="text/css" rel="stylesheet" href="http://cdn5.raywenderlich.com/wp-content/plugins/easy-spoiler/easy-spoiler.css" /><script type="text/javascript">var icl_lang = 'en';var icl_home = 'http://www.raywenderlich.com/';</script>
+<script type="text/javascript" src="http://www.raywenderlich.com/wp-content/plugins/sitepress-multilingual-cms/res/js/sitepress.js"></script>
+<meta name="generator" content="WPML ver:2.7.1 stt:1,61,4,28,47,2,5,21,23,25,29,42,44,46,55;0" />
+<style type="text/css">
+.wp-polls .pollbar {
+	margin: 1px;
+	font-size: 6px;
+	line-height: 8px;
+	height: 8px;
+	background-image: url('http://www.raywenderlich.com/wp-content/plugins/wp-polls/images/default/pollbg.gif');
+	border: 1px solid #c8c8c8;
+}
+</style>
+<link rel="stylesheet" type="text/css" media="screen" href="http://www.raywenderlich.com/wp-content/themes/raywenderlich/style2_8.css"/>	
+
+</head>
+
+<body class="single single-post postid-20482 single-format-standard">
+
+<!-- BuySellAds.com Ad Code -->
+<script type="text/javascript">
+(function(){
+  var bsa = document.createElement('script');
+     bsa.type = 'text/javascript';
+     bsa.async = true;
+     bsa.src = 'http://s3.buysellads.com/ac/bsa.js';
+  (document.getElementsByTagName('head')[0]||document.getElementsByTagName('body')[0]).appendChild(bsa);
+})();
+</script>
+<!-- End BuySellAds.com Ad Code -->
+
+<div id="wrap">
+
+<div id="banner">
+	
+	<dl id="blog-title">
+		<dt><a href="http://www.raywenderlich.com"><em>Ray</em>Wenderlich</a></dt>
+		<dd><a href="http://www.raywenderlich.com">Tutorials for <em>iPhone / iOS Developers</em> and <em>Gamers</em></a></dd>
+	</dl>
+	
+	<div id="latest-tweet">
+		<p id="tweet">RT @konjak: There's something to think about here: http://t.co/jgUex7Y5gT read the whole thing if you want.</p>
+	</div>
+	<div id="nav">
+		<ul id="menu">			
+    		<li id="store"><a href="http://www.raywenderlich.com/store">Store</a></li>
+			<li id="forums"><a href="http://www.raywenderlich.com/forums">Forums</a></li>
+			<li id="free-art"><a href="http://www.vickiwenderlich.com/category/free-art/">Art</a></li>
+            <li id="tutorials"><a href="http://www.raywenderlich.com/tutorials">Tutorials</a></li>
+		</ul>
+		<ul id="languagenav">
+    	    <li id="language"><div id="lang_sel"  >
+    <ul>
+        <li><a href="#" class="lang_sel_sel icl-en">
+                            
+            <img  class="iclflag" src="http://www.raywenderlich.com/wp-content/plugins/sitepress-multilingual-cms/res/flags/en.png" alt="en"  title="English" />                                
+            &nbsp;English</a>                    </li>
+    </ul>    
+</div>
+</li>
+		</ul>
+		<ul id="social">		    
+			<li id="twitter"><a href="http://twitter.com/rwenderlich/"><img src="http://cdn5.raywenderlich.com/downloads/twitter.png" width="51" height="40" alt="Follow on Twitter" /></a></li>
+			<li id="rss"><a href="http://www.raywenderlich.com/feed"><img src="http://cdn5.raywenderlich.com/wp-content/themes/raywenderlich/images/rss.png" width="25" height="40" alt="Subscribe via RSS" /></a></li>	
+		</ul>
+	</div>
+</div> <!--banner -->
+
+<div id="main">
+
+<div id="content">
+
+<div id="ad-leaderboard">
+<!-- BuySellAds.com Zone Code -->
+<div id="bsap_1272017" class="bsarocks bsap_39fcef7ed4520883d78f129c33995fd2"></div>
+<!-- End BuySellAds.com Zone Code -->
+</div>
+<div id="spacing">
+<p>&nbsp;</p>
+</div>
+
+
+	<div class="post-20482 post type-post status-publish format-standard hentry category-iphone category-web-development" id="post-20482">
+		<p class="date">28 November 2012</p>
+		<h1>How To Choose the Best Backend Provider for your iOS App: Parse vs Stackmob vs. Appcelerator Cloud and More!</h1>
+
+		<div class="entry">
+			<div id="tweetbutton20482" class="tw_button" style="margin-bottom:10px;"><a href="http://twitter.com/share?url=http%3A%2F%2Fbit.ly%2FOVzKUm&amp;via=rwenderlich&amp;text=How%20To%20Choose%20the%20Best%20Backend%20Provider%20for%20your%20iOS%20App%3A%20Parse%20vs%20Stackmob%20vs.%20Appcelerator%20Cloud...%20&amp;related=rwenderlich&amp;lang=en&amp;count=horizontal&amp;counturl=http%3A%2F%2Fwww.raywenderlich.com%2F20482%2Fhow-to-choose-the-best-backend-provider-for-your-ios-app-parse-vs-stackmob-vs-appcelerator-cloud-and-more" class="twitter-share-button"  style="width:55px;height:22px;background:transparent url('http://cdn3.raywenderlich.com/wp-content/plugins/wp-tweet-button/tweetn.png') no-repeat  0 0;text-align:left;text-indent:-9999px;display:block;">Tweet</a></div><div class="wwsgd" style="display:none;"><p style="border:thin dotted black; padding:3mm;margin-bottom:10px">If you're new here, you may want to subscribe to my <a href="http://www.raywenderlich.com/feed/">RSS feed</a> or follow me on <a href="http://twitter.com/rwenderlich">Twitter</a>. Thanks for visiting!</p></div><div id="attachment_26355" class="wp-caption alignright" style="width: 260px"><a href="http://cdn5.raywenderlich.com/wp-content/uploads/2012/11/fightpic.png"><img src="http://cdn5.raywenderlich.com/wp-content/uploads/2012/11/fightpic.png" alt="StackMob vs Parse vs Appcelerator Cloud: The fight of the iOS back-end century!" title="StackMob vs Parse vs Appcelerator Cloud: The fight of the iOS back-end century!" width="250" height="216" class="size-full wp-image-26355" /></a><p class="wp-caption-text">StackMob vs Parse vs Appcelerator Cloud: The fight of the iOS back-end century!</p></div>
+<p><i>This is a post by Tutorial Team Member <a href="http://www.raywenderlich.com/about#antoniomartinez">Antonio Martínez</a>, a mobile software developer currently working as an iOS Developer in London.</i></p>
+<p>It&#8217;s quite common for apps to require a web backend. This allows you to have a central database where users can share content with each other, like photos, messages, or restaurant reviews.</p>
+<p>In the old days, you used to have to develop this all by yourself, using technologies such as Ruby on Rails or PHP (examples in <a href="http://www.raywenderlich.com/2941/how-to-write-a-simple-phpmysql-web-service-for-an-ios-app">this tutorial</a> and <a href="http://www.raywenderlich.com/13511/how-to-create-an-app-like-instagram-with-a-web-service-backend-part-12">this tutorial</a>).</p>
+<p>However, there are several challenges with this:</p>
+<ul>
+<li><em>Heavy Time Investment.</em> It takes a huge amount of time to develop the front-end of the app already. Developing a back end just about doubles the work involved!</em>
+<li><em>Heavy Skill Investment.</em> If you&#8217;re an experienced front-end iOS developer, it doesn&#8217;t mean you have a lot of skills developing back-ends. They&#8217;re completely different technologies, and it takes a lof of time to learn which you might not have.</li>
+<li><em>Scalability Issues.</em> The nature of iOS apps and the App Store means you&#8217;ll never know whether your app will only have limited usage, or become a huge hit with millions of users. Developing your back-end so it scales efficiently with usage is quite a challenge!</li>
+</ul>
+<p>Luckily, these days you no longer have to develop a back-end yourself! Several companies are now offering premade and highly configurable web backends that you can integrate into your app. These are known as Backend as a Service, or BaaS for short.</p>
+<p>These services provide you with a package of backend storage and other functions that can be leveraged from your app, usually with a handy iOS library to make integration nice and easy. Most of them offer free accounts — with a surprisingly generous usage allowance — as well as priced tiers for apps that need to scale up.</p>
+<p>The only problem is there are a great many BaaS providers out there! Which should you choose?</p>
+<p>That is exactly what this article is for! :] I surveyed the major players in the BaaS market, chose my favorite three, and developed the same exact app in all three servies so you can compare them on an equal level. This will help you choose which one is best for your app!<span id="more-20482"></span><br />
+<h2>What Does a Back-End Provider Do For You?</h2>
+<p>Before taking a look at the providers, let&#8217;s take a look at the common features that BaaS providers supply so you have a better understanding of what they can do for you.</p>
+<p>For sake of discussion, let&#8217;s think about a hypothetical application where you store lists of sports players who belong to various teams. What support would you need from the back end?</p>
+<ul>
+<li><em>Custom objects:</em> Arguably the most important feature of a back end is the ability to store your app&#8217;s information into a database. Typically you have model objects in your app that represent data (like a sports player object, and a sports team object), and relationships between the objects (like what team a player is in). BaaS providers typically give you an easy way to take this data from object format, and store/retrieve it from the central database.</li>
+<li><em>File storage:</em> In addition to storing plain old data, sometimes you need to store files &#8211; such as images, large documents, and the like. In your hypothetical sports app, maybe you need to store a profile portrait for each player. Most backend services will provide file storage that you can use to associate a file with a custom object.</li>
+<li><em>Geolocation:</em> In mobile apps, it&#8217;s often useful to be able to perform queries of objects near a certain location. For example, maybe you want to find the sports team in the area near the user&#8217;s phone. Backend services often provide the ability to tag your objects with a specific location so the user can make queries on objects based on location.</li>
+<li><em>Users: </em>You&#8217;ll certainly need some sort of access control for your objects, and establish which object particular users have access to. Almost of all the BaaS offerings allow you to create your own users, and most of them users login via Facebook or Twitter so that the user doesn&#8217;t need to create a new account.</li>
+<li><em>Push notifications:</em> What if you want to send a push notification when a sports game is about to start? BaaS offerings often provide the ability to send a push notification to all your users, or to a selective subset of your users.</li>
+</ul>
+<p>Now that you better know what BaaS providers do, let&#8217;s take a closer look at the major players in the field!</p>
+<h2>Back in the Game: The Major Players in the Backend Service Market</h2>
+<p>Here are the major players in the BaaS market at the time of writing this article:</p>
+<ol>
+<li><a href="https://stackmob.com/">StackMob</a>: Perhaps the most popular and customizable of all the current BaaS offerings. You can upload your own back end code and create your own web service, which is quite unique among the various backend service providers.<br />
+&nbsp;<br />
+One disadvantage is that if you want to serve up binary assets, like the images mentioned above in your theoretical players app, you will need an Amazon S3 account. You can&#8217;t maintain binary assets directly in StackMob. Their free plan is one of the best in the market, it&#8217;s completely free for basic features and you can purchase new features in their MarketPlace</li>
+<li><a href="<a href="http://www.appcelerator.com/cloud/">Appcelerator Cloud Service</a>: Without a doubt, this is the most complete of all BaaS in terms of features — and the free plan is really good. It&#8217;s clearly designed to work with the Titanium SDK, so the documentation is a little bit obscure and there are some hoops to jump through if you are not using Titanium.<br />
+&nbsp;<br />
+On the other hand, they have a good Q&#038;A webpage for any issues you may have, and response time  on support issues seems reasonable.</li>
+<li><a href="https://www.parse.com/">Parse</a>: Has one of the best free plans out there. The documentation is the easiest to understand, and the service is one of the easiest to work with, especially for beginners.<br />
+&nbsp;<br />
+Parse has sample projects that you can download, as well as custom UIViews that you can add to your project, such as Facebook and Twitter login views. Additionally, there is a large collection of 3rd party libraries offered for use with the service. While the free plans are very good, the price does seems to ramp up more quickly than other services if you exceed your free allocation.</li>
+<li><a href="http://www.applicasa.com/">Applicasa</a>: Offers the same functionality as the others, but it offers a drag &#038; drop functionality to create your own tables and custom objects. Once your data structure is designed to fit your needs, you can download the custom SDK adapted to work with your app. Applicasa charges based on active users. If you are a startup, they will give you a free account with up to 100,000 users per month if you contact them  and ask them for it.</li>
+<li><a href="http://www.kinvey.com/">Kinvey</a>: Also a popular service which is based on active users. You can have 200 active users for free per month without going to a paid account, although its prices are a little bit higher compared to Applicasa. Its support service is very good, and they seem like a very promising BaaS provider.</li>
+</ol>
+<p>For this article, I decided to pick three of these services and perform an in-depth comparison of them. Here&#8217;s the services I picked and why:</p>
+<ul>
+<li><em>Parse</em>, based on its ease of use, good and clear documentation and free service;</li>
+<li><em>Appcelerator Cloud Service</em>, based on the amount of features they offer; and </li>
+<li><em>StackMob</em>, based on its popularity and ease of customization.</li>
+</ul>
+<p>Keep reading to find out how I tested these out &#8211; and how you can compare them for yourself! :]</p>
+<h2>Introducing PhotoShare</h2>
+<p>To test out these three back end providers, I wanted to develop a simple but real-world application in each provider, and then compare and contrast to see the differences.</p>
+<p>I decided to make an app called &#8220;PhotoShare&#8221;, similar in some ways to Instagram and other photo sharing apps. It has a login screen, then presents the user with a wall of images and comments. Every registered user can upload an image with a comment attached to it, and these images are publicly viewable.</p>
+<p>In the first view, the user can Register as a new user, or Login if an account has already been created:</p>
+<p><a href="http://cdn1.raywenderlich.com/wp-content/uploads/2012/09/login.png"><img src="http://cdn3.raywenderlich.com/wp-content/uploads/2012/09/login-226x320.png" alt="" title="login" width="226" height="320" class="aligncenter size-medium wp-image-22107" /></a></p>
+<p>Once the user is logged, in the view proceeds to the list of images:</p>
+<p><a href="http://cdn2.raywenderlich.com/wp-content/uploads/2012/09/main.png"><img src="http://cdn2.raywenderlich.com/wp-content/uploads/2012/09/main-222x320.png" alt="" title="main" width="222" height="320" class="aligncenter size-medium wp-image-22109" /></a></p>
+<p>An Upload button in the navigation bar allows users to submit their own images and comments:</p>
+<p><a href="http://cdn1.raywenderlich.com/wp-content/uploads/2012/09/upload.png"><img src="http://cdn3.raywenderlich.com/wp-content/uploads/2012/09/upload-228x320.png" alt="" title="upload" width="228" height="320" class="aligncenter size-medium wp-image-22111" /></a></p>
+<p>Next you&#8217;ll take a deeper look at Stackmob, Parse, and Appcelerator Cloud. For each provider, you&#8217;ll:</p>
+<ul>
+<li>Get an overview of the features, pricing, and documentation.</li>
+<li>Take a peek at how the code works.</li>
+<li>Learn how to get this PhotoShare sample project up and running on your own account.</li>
+</ul>
+<p>Let&#8217;s start with Stackmob!</p>
+<h2>StackMob: How Does it Stack Up?</h2>
+<p><em>Features, Pricing, and Documentation</em></p>
+<p>StackMob stands out from the other services as being extremely flexible, and providers the following features:</p>
+<ul>
+<li>Custom Objects</li>
+<li>Files (served through Amazon S3)</li>
+<li>Users</li>
+<li>FB/TW Integration</li>
+<li>Push Notifications</li>
+</ul>
+<p><em>Update:</em> Since writing this article, StackMob has revamped their pricing. Now most of the functionality is free, which is great! You have the option to purchase modules in their MarketPlace for additional advanced features.</p>
+<p>You can find more info, and check what is included here:<br />
+<a href="https://www.stackmob.com/pricing/">StackMob Pricing</a></p>
+<p>Well, those features are fairly impressive so far, and the <a href="https://developer.stackmob.com/">documentation for StackMob</a> is fairly complete. But ease of implementation when you&#8217;re coding is really where the rubber meets the road. </p>
+<p>Take a look at the following code examples and see how common BaaS tasks are accomplished in StackMob!</p>
+<p><em>Code Examples</em></p>
+<p>The following code shows how to upload a simple object in StackMob. The example below follows on from the theoretical player application mentioned above:</p>
+
+<div class="wp_codebox"><table><tr id="p204821"><td class="code" id="p20482code1"><pre class="objc" style="font-family:monospace;"><a href="http://developer.apple.com/documentation/Cocoa/Reference/CoreDataFramework/Classes/NSManagedObject_Class/"><span style="color: #400080;">NSManagedObject</span></a> <span style="color: #002200;">*</span>newManagedObject <span style="color: #002200;">=</span> <span style="color: #002200;">&#91;</span><a href="http://developer.apple.com/documentation/Cocoa/Reference/CoreDataFramework/Classes/NSEntityDescription_Class/"><span style="color: #400080;">NSEntityDescription</span></a>  
+  insertNewObjectForEntityForName<span style="color: #002200;">:</span><span style="color: #11740a; font-style: italic;">@</span><span style="color: #bf1d1a;">&quot;PlayerScore&quot;</span>
+  inManagedObjectContext<span style="color: #002200;">:</span>self.managedObjectContext<span style="color: #002200;">&#93;</span>;
+&nbsp;
+<span style="color: #002200;">&#91;</span>newManagedObject setValue<span style="color: #002200;">:</span><span style="color: #11740a; font-style: italic;">@</span><span style="color: #bf1d1a;">&quot;Player1&quot;</span> forKey<span style="color: #002200;">:</span><span style="color: #11740a; font-style: italic;">@</span><span style="color: #bf1d1a;">&quot;name&quot;</span><span style="color: #002200;">&#93;</span>;
+<span style="color: #002200;">&#91;</span>newManagedObject setValue<span style="color: #002200;">:</span><span style="color: #002200;">&#91;</span><a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSNumber_Class/"><span style="color: #400080;">NSNumber</span></a> numberWithInt<span style="color: #002200;">:</span><span style="color: #2400d9;">1000</span><span style="color: #002200;">&#93;</span> forKey<span style="color: #002200;">:</span><span style="color: #11740a; font-style: italic;">@</span><span style="color: #bf1d1a;">&quot;score&quot;</span><span style="color: #002200;">&#93;</span>;
+<span style="color: #002200;">&#91;</span>newManagedObject setValue<span style="color: #002200;">:</span><span style="color: #002200;">&#91;</span>newManagedObject sm_assignObjectId<span style="color: #002200;">&#93;</span> 
+  forKey<span style="color: #002200;">:</span><span style="color: #002200;">&#91;</span>newManagedObject sm_primaryKeyField<span style="color: #002200;">&#93;</span><span style="color: #002200;">&#93;</span>;
+&nbsp;
+<a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSError_Class/"><span style="color: #400080;">NSError</span></a> <span style="color: #002200;">*</span>error <span style="color: #002200;">=</span> <span style="color: #a61390;">nil</span>;
+<span style="color: #a61390;">if</span> <span style="color: #002200;">&#40;</span><span style="color: #002200;">!</span><span style="color: #002200;">&#91;</span>self.managedObjectContext save<span style="color: #002200;">:&amp;</span>error<span style="color: #002200;">&#93;</span><span style="color: #002200;">&#41;</span> <span style="color: #002200;">&#123;</span>
+    NSLog<span style="color: #002200;">&#40;</span><span style="color: #11740a; font-style: italic;">@</span><span style="color: #bf1d1a;">&quot;Error: %@:&quot;</span>, error<span style="color: #002200;">&#41;</span>;
+<span style="color: #002200;">&#125;</span>
+<span style="color: #a61390;">else</span> <span style="color: #002200;">&#123;</span>
+    NSLog<span style="color: #002200;">&#40;</span><span style="color: #11740a; font-style: italic;">@</span><span style="color: #bf1d1a;">&quot;Succesfully uploaded&quot;</span><span style="color: #002200;">&#41;</span>;
+<span style="color: #002200;">&#125;</span></pre></td></tr></table></div>
+
+<p>As you can see, uploading an Object using StackMob is a fairly simple process.  Essentially, you create a ManagedObject with the object you wish to upload, and then simply make a call to upload it to the BaaS .</p>
+<p>Does this look familiar? It should — StackMob backend storage functions are provided through extending Core Data&#8217;s mechanisms. Isn&#8217;t that terribly nice of them? :]</p>
+<p>Now move on to the following sample code, which shows how to retrieve objects from StackMob:</p>
+
+<div class="wp_codebox"><table><tr id="p204822"><td class="code" id="p20482code2"><pre class="objc" style="font-family:monospace;"><span style="color: #002200;">-</span> <span style="color: #002200;">&#40;</span>NSFetchedResultsController <span style="color: #002200;">*</span><span style="color: #002200;">&#41;</span>fetchedResultsController
+<span style="color: #002200;">&#123;</span>
+    <span style="color: #a61390;">if</span> <span style="color: #002200;">&#40;</span>_fetchedResultsController <span style="color: #002200;">!=</span> <span style="color: #a61390;">nil</span><span style="color: #002200;">&#41;</span> <span style="color: #002200;">&#123;</span>
+        <span style="color: #a61390;">return</span> _fetchedResultsController;
+    <span style="color: #002200;">&#125;</span>
+&nbsp;
+    <a href="http://developer.apple.com/documentation/Cocoa/Reference/CoreDataFramework/Classes/NSFetchRequest_Class/"><span style="color: #400080;">NSFetchRequest</span></a> <span style="color: #002200;">*</span>fetchRequest <span style="color: #002200;">=</span> <span style="color: #002200;">&#91;</span><span style="color: #002200;">&#91;</span><a href="http://developer.apple.com/documentation/Cocoa/Reference/CoreDataFramework/Classes/NSFetchRequest_Class/"><span style="color: #400080;">NSFetchRequest</span></a> alloc<span style="color: #002200;">&#93;</span> init<span style="color: #002200;">&#93;</span>;
+    <span style="color: #11740a; font-style: italic;">// Edit the entity name as appropriate.</span>
+    <a href="http://developer.apple.com/documentation/Cocoa/Reference/CoreDataFramework/Classes/NSEntityDescription_Class/"><span style="color: #400080;">NSEntityDescription</span></a> <span style="color: #002200;">*</span>entity <span style="color: #002200;">=</span> <span style="color: #002200;">&#91;</span><a href="http://developer.apple.com/documentation/Cocoa/Reference/CoreDataFramework/Classes/NSEntityDescription_Class/"><span style="color: #400080;">NSEntityDescription</span></a> entityForName<span style="color: #002200;">:</span><span style="color: #11740a; font-style: italic;">@</span><span style="color: #bf1d1a;">&quot;PlayerScore&quot;</span> 
+      inManagedObjectContext<span style="color: #002200;">:</span>self.managedObjectContext<span style="color: #002200;">&#93;</span>;
+    <span style="color: #002200;">&#91;</span>fetchRequest setEntity<span style="color: #002200;">:</span>entity<span style="color: #002200;">&#93;</span>;
+&nbsp;
+    <span style="color: #11740a; font-style: italic;">// Edit the sort key as appropriate.</span>
+    <a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSSortDescriptor_Class/"><span style="color: #400080;">NSSortDescriptor</span></a> <span style="color: #002200;">*</span>sortDescriptor <span style="color: #002200;">=</span> <span style="color: #002200;">&#91;</span><span style="color: #002200;">&#91;</span><a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSSortDescriptor_Class/"><span style="color: #400080;">NSSortDescriptor</span></a> alloc<span style="color: #002200;">&#93;</span> initWithKey<span style="color: #002200;">:</span><span style="color: #11740a; font-style: italic;">@</span><span style="color: #bf1d1a;">&quot;name&quot;</span> 
+      ascending<span style="color: #002200;">:</span><span style="color: #a61390;">YES</span><span style="color: #002200;">&#93;</span>;
+    <a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSArray_Class/"><span style="color: #400080;">NSArray</span></a> <span style="color: #002200;">*</span>sortDescriptors <span style="color: #002200;">=</span> <span style="color: #002200;">&#91;</span><a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSArray_Class/"><span style="color: #400080;">NSArray</span></a> arrayWithObjects<span style="color: #002200;">:</span>sortDescriptor, <span style="color: #a61390;">nil</span><span style="color: #002200;">&#93;</span>;
+&nbsp;
+    <span style="color: #002200;">&#91;</span>fetchRequest setSortDescriptors<span style="color: #002200;">:</span>sortDescriptors<span style="color: #002200;">&#93;</span>;
+&nbsp;
+    <span style="color: #11740a; font-style: italic;">//Greater than 900</span>
+    <a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSPredicate_Class/"><span style="color: #400080;">NSPredicate</span></a> <span style="color: #002200;">*</span>greaterThanPredicate <span style="color: #002200;">=</span><span style="color: #002200;">&#91;</span><a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSPredicate_Class/"><span style="color: #400080;">NSPredicate</span></a> predicateWithFormat<span style="color: #002200;">:</span><span style="color: #11740a; font-style: italic;">@</span><span style="color: #bf1d1a;">&quot;score &gt; %d&quot;</span>, <span style="color: #2400d9;">900</span><span style="color: #002200;">&#93;</span>;
+    <span style="color: #002200;">&#91;</span>fetchRequest setPredicate<span style="color: #002200;">:</span>greaterThanPredicate<span style="color: #002200;">&#93;</span>;
+&nbsp;
+    <span style="color: #11740a; font-style: italic;">// Edit the section name key path and cache name if appropriate.</span>
+    <span style="color: #11740a; font-style: italic;">// nil for section name key path means &quot;no sections&quot;.</span>
+    NSFetchedResultsController <span style="color: #002200;">*</span>aFetchedResultsController <span style="color: #002200;">=</span> 
+      <span style="color: #002200;">&#91;</span><span style="color: #002200;">&#91;</span>NSFetchedResultsController alloc<span style="color: #002200;">&#93;</span> initWithFetchRequest<span style="color: #002200;">:</span>fetchRequest   
+         managedObjectContext<span style="color: #002200;">:</span>self.managedObjectContext sectionNameKeyPath<span style="color: #002200;">:</span><span style="color: #a61390;">nil</span> 
+         cacheName<span style="color: #002200;">:</span><span style="color: #11740a; font-style: italic;">@</span><span style="color: #bf1d1a;">&quot;Master&quot;</span><span style="color: #002200;">&#93;</span>;
+    aFetchedResultsController.delegate <span style="color: #002200;">=</span> self;
+    self.fetchedResultsController <span style="color: #002200;">=</span> aFetchedResultsController;
+&nbsp;
+    <a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSError_Class/"><span style="color: #400080;">NSError</span></a> <span style="color: #002200;">*</span>error <span style="color: #002200;">=</span> <span style="color: #a61390;">nil</span>;
+    <span style="color: #a61390;">if</span> <span style="color: #002200;">&#40;</span><span style="color: #002200;">!</span><span style="color: #002200;">&#91;</span>self.fetchedResultsController performFetch<span style="color: #002200;">:&amp;</span>error<span style="color: #002200;">&#93;</span><span style="color: #002200;">&#41;</span> <span style="color: #002200;">&#123;</span>
+        NSLog<span style="color: #002200;">&#40;</span><span style="color: #11740a; font-style: italic;">@</span><span style="color: #bf1d1a;">&quot;An error %@, %@&quot;</span>, error, <span style="color: #002200;">&#91;</span>error userInfo<span style="color: #002200;">&#93;</span><span style="color: #002200;">&#41;</span>;
+    <span style="color: #002200;">&#125;</span>
+&nbsp;
+    <span style="color: #a61390;">return</span> _fetchedResultsController;
+<span style="color: #002200;">&#125;</span>
+&nbsp;
+<span style="color: #11740a; font-style: italic;">// You can get the objects calling self.fetchedResultsController</span></pre></td></tr></table></div>
+
+<p>This uses a standard NSFetchedResultsController to retrieve a list of objects &#8211; for more information, check out <a href="http://www.raywenderlich.com/999/core-data-tutorial-how-to-use-nsfetchedresultscontroller">this tutorial</a>.</p>
+<p>Deleting objects using StackMob is probably the simplest action of them all:</p>
+
+<div class="wp_codebox"><table><tr id="p204823"><td class="code" id="p20482code3"><pre class="objc" style="font-family:monospace;"><span style="color: #002200;">&#91;</span>self.managedObjectContext deleteObject<span style="color: #002200;">:</span>aManagedObject<span style="color: #002200;">&#93;</span>;
+&nbsp;
+<a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSError_Class/"><span style="color: #400080;">NSError</span></a> <span style="color: #002200;">*</span>error <span style="color: #002200;">=</span> <span style="color: #a61390;">nil</span>;
+<span style="color: #a61390;">if</span> <span style="color: #002200;">&#40;</span><span style="color: #002200;">!</span><span style="color: #002200;">&#91;</span>self.managedObjectContext save<span style="color: #002200;">:&amp;</span>error<span style="color: #002200;">&#93;</span><span style="color: #002200;">&#41;</span> <span style="color: #002200;">&#123;</span>
+    NSLog<span style="color: #002200;">&#40;</span><span style="color: #11740a; font-style: italic;">@</span><span style="color: #bf1d1a;">&quot;There was an error! %@&quot;</span>, error<span style="color: #002200;">&#41;</span>;
+<span style="color: #002200;">&#125;</span>
+<span style="color: #a61390;">else</span> <span style="color: #002200;">&#123;</span>
+    NSLog<span style="color: #002200;">&#40;</span><span style="color: #11740a; font-style: italic;">@</span><span style="color: #bf1d1a;">&quot;You deleted an object!&quot;</span><span style="color: #002200;">&#41;</span>;
+<span style="color: #002200;">&#125;</span></pre></td></tr></table></div>
+
+<p>Pretty simple, isn&#8217;t it; there&#8217;s more lines of error handling code than there are lines to delete the object in question! :]</p>
+<p>As you can see from the examples above, the process of uploading, querying, and deleting objects is fairly simple and adapted to work with iOS using the SDK that they provide. It&#8217;s apparent that an existing project using Core Data could be easily adapted to make use of the StackMob backend.</p>
+<p>The image below shows how the StackMob web interface for the object browser will appear after uploading an object:</p>
+<p><a href="http://cdn3.raywenderlich.com/wp-content/uploads/2012/09/stackmobbrowser.png"><img src="http://cdn4.raywenderlich.com/wp-content/uploads/2012/09/stackmobbrowser-700x89.png" alt="" title="stackmobbrowser" width="700" height="89" class="aligncenter size-large wp-image-21905 bordered" /></a></p>
+<p>Common operations such as delete or query are available through the web interface as well. This is useful for managing objects in a manual fashion, such as setting up persistent data for your app.</p>
+<p><em>Creating a Account</em></p>
+<p>Before you can run the <a href="https://github.com/toniomg/TutorialStackMobBaaS">Stackmob implementation</a> of PhotoShare, you&#8217;ll need your own StackMob account and you&#8217;ll need to configure a database for the app. This section will show you how.</p>
+<p>If you have not already created a StackMob account, go ahead and follow the directions found at StackMob: <a href="https://www.stackmob.com">Get Started</A>. Signing up is easy, and you are not required to submit any information other than your email address and password. Right away, you&#8217;ll receive a welcome email and the usual &#8220;verify your account&#8221; link.</p>
+<p>It&#8217;s a bit counter-intuitive, but when creating a new app on StackMob, make sure to choose your platform first, before you enter the app name. The downloadable tutorial examples use &#8220;tutorialstackmob&#8221; — all lower case — as the app name. </p>
+<p>You can skip downloading the SDK — for the purposes of this tutorial, the SDK is provided in the example app, along with the necessary frameworks.</p>
+<p>Once you&#8217;ve verified your StackMob account, you&#8217;ll now need to get an Amazon S3 account setup to store your binary assets. To do this, <a href="http://aws.amazon.com/s3/">sign up here</a>.</p>
+<p>Don&#8217;t be daunted by the Amazon Web Services signup process. You do need a credit card, but there is no signup fee, and if you read the service agreement carefully, you&#8217;ll find that you will only ever be charged for data or service usage that exceeds what the free S3 tier offers.</p>
+<p>The captcha for the account creation is a bit tricky, and you&#8217;ll also need to enter a specific PIN on an automated phone call  — but at least you know you&#8217;re using a service with security! :] At the end of the process, the result is an access key, required to link your new S3 account to your StackMob account.</p>
+<p>In order to get your S3 buckets and access setup, you&#8217;ll need to follow the two sections titled &#8220;Setup an Amazon S3 bucket&#8221; and &#8220;Add S3 settings to your StackMob application&#8221; in <a href="https://developer.stackmob.com/tutorials/dashboard/Adding-a-Binary-Field-to-Schemas">this tutorial</a>. Don&#8217;t worry about the section marked &#8220;Add a Binary Field&#8221; — you&#8217;ll do that below.</p>
+<p>Now you need to create the schemas of the objects you are going to use in your app!</p>
+<p>Go to <a href="https://dashboard.stackmob.com/api/schemas/">Manage Schemas</A> and create a new schema called &#8220;wallobject&#8221;. Add two new fields; one field called &#8220;comment&#8221; with String type, and another one called &#8220;photo&#8221; with Binary type, as shown in the screenshot below:</p>
+<p><img src="http://cdn3.raywenderlich.com/wp-content/uploads/2012/10/Screen-Shot-2012-11-01-at-5.57.48-AM.png" alt="Screen Shot 2012 11 01 at 5 57 48 AM" title="Screen Shot 2012-11-01 at 5.57.48 AM.png" border="0" width="600" height="208" /></p>
+<p>You may be prompted to set permissions before you can save your new schema. If so, &#8220;Logged In Permissions -> Allow to any logged in user&#8221; is fine for all operations. Now, save your schema!</p>
+<p><em>Running the Sample Project</em></p>
+<p>Now you can try out the app! Go ahead and <a href="https://github.com/toniomg/TutorialStackMobBaaS">download it from github</a>. </p>
+<div class="note">
+<p><em>Note:</em> If you have not used github before, grabbing the sample application code is as simple as navigating to the folder where you would like it to appear using terminal, and then using &#8220;git clone https://github.com/toniomg/TutorialStackMobBaaS&#8221;.</p>
+</div>
+<p>Open the project in Xcode. If you run the project immediately, you&#8217;ll encounter an exception: &#8220;&#8216;Incorrect Public Key format provided.  Please check your public key to make sure you are passing the correct one, and that you are not passing nil.&#8221;</p>
+<p>There&#8217;s one little piece missing to link your app to StackMob: your public key! In the StackMob Dashboard of your app, find the link to &#8220;Manage App Info&#8221;. Copy your public key to the project in the Delegate (look for a field called PUBLIC_KEY). The bit of code you&#8217;ll need to update will look like this:</p>
+
+<div class="wp_codebox"><table><tr id="p204824"><td class="code" id="p20482code4"><pre class="objc" style="font-family:monospace;"><span style="color: #6e371a;">#define PUBLIC_KEY @&quot;123456-7890&quot;</span></pre></td></tr></table></div>
+
+<p>Build and run your app! If you receive an error saying that the schema doesn&#8217;t exist, try waiting for a minute and trying again — it may take a moment for the backend service to make your schema available to the outside world. However, if you still encounter difficulties, try re-creating the schema just to be sure that it has been properly created.</p>
+<p>Congrats &#8211; you now have a working example project with StackMob! You can compare this to the other two projects yourself &#8211; or keep reading for our own thoughts and conclusions.</p>
+<h2>Parse: Persistent Points</h2>
+<p><em>Features, Pricing, and Documentation</em></p>
+<p>Parse stands out for being one of the the easiest and fastest backend services to work with, as well as having the best documentation. The documentation is easy to understand, as well as being comprehensive. Generally, it will take you less time to start uploading objects to Parse than any other service.</p>
+<p>Parse offers most of the features that you&#8217;d expect from a backend service provider, including the following:</p>
+<ul>
+<li>Custom Objects</li>
+<li>Users</li>
+<li>Push Notifications</li>
+<li>Social Integration</li>
+<li>Files</li>
+<li>Geolocation</li>
+</ul>
+<p>The pricing of the tiers in Parse is again based on API calls, and has a much bigger jump to the paid tier than does StackMob:</p>
+<ul>
+<li>Free: 1M API Calls, 1M Push notifications (0.07 per 1k over)</li>
+<li>$199: 15M API Calls, 15M Push notifications (0.05 per 1k over)</li>
+</ul>
+<p><em>Code Examples</em></p>
+<p>The following code sample shows you how to upload a new object in Parse, again using the mythical Player application:</p>
+
+<div class="wp_codebox"><table><tr id="p204825"><td class="code" id="p20482code5"><pre class="objc" style="font-family:monospace;">PFObject <span style="color: #002200;">*</span>player <span style="color: #002200;">=</span> <span style="color: #002200;">&#91;</span>PFObject objectWithClassName<span style="color: #002200;">:</span><span style="color: #11740a; font-style: italic;">@</span><span style="color: #bf1d1a;">&quot;Player&quot;</span><span style="color: #002200;">&#93;</span>;
+<span style="color: #002200;">&#91;</span>player setObject<span style="color: #002200;">:</span><span style="color: #11740a; font-style: italic;">@</span><span style="color: #bf1d1a;">&quot;Player1&quot;</span> forKey<span style="color: #002200;">:</span><span style="color: #11740a; font-style: italic;">@</span><span style="color: #bf1d1a;">&quot;Name&quot;</span><span style="color: #002200;">&#93;</span>;
+<span style="color: #002200;">&#91;</span>player setObject<span style="color: #002200;">:</span><span style="color: #002200;">&#91;</span><a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSNumber_Class/"><span style="color: #400080;">NSNumber</span></a> numberWithInt<span style="color: #002200;">:</span><span style="color: #2400d9;">1000</span><span style="color: #002200;">&#93;</span> forKey<span style="color: #002200;">:</span><span style="color: #11740a; font-style: italic;">@</span><span style="color: #bf1d1a;">&quot;Score&quot;</span><span style="color: #002200;">&#93;</span>;
+<span style="color: #002200;">&#91;</span>player saveInBackgroundWithBlock<span style="color: #002200;">:^</span><span style="color: #002200;">&#40;</span><span style="color: #a61390;">BOOL</span> succeeded, <a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSError_Class/"><span style="color: #400080;">NSError</span></a> <span style="color: #002200;">*</span>error<span style="color: #002200;">&#41;</span> <span style="color: #002200;">&#123;</span>        
+  <span style="color: #a61390;">if</span> <span style="color: #002200;">&#40;</span>succeeded<span style="color: #002200;">&#41;</span><span style="color: #002200;">&#123;</span>
+    NSLog<span style="color: #002200;">&#40;</span><span style="color: #11740a; font-style: italic;">@</span><span style="color: #bf1d1a;">&quot;Object Uploaded!&quot;</span><span style="color: #002200;">&#41;</span>;
+  <span style="color: #002200;">&#125;</span>
+  <span style="color: #a61390;">else</span><span style="color: #002200;">&#123;</span>
+    <a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSString_Class/"><span style="color: #400080;">NSString</span></a> <span style="color: #002200;">*</span>errorString <span style="color: #002200;">=</span> <span style="color: #002200;">&#91;</span><span style="color: #002200;">&#91;</span>error userInfo<span style="color: #002200;">&#93;</span> objectForKey<span style="color: #002200;">:</span><span style="color: #11740a; font-style: italic;">@</span><span style="color: #bf1d1a;">&quot;error&quot;</span><span style="color: #002200;">&#93;</span>;
+    NSLog<span style="color: #002200;">&#40;</span><span style="color: #11740a; font-style: italic;">@</span><span style="color: #bf1d1a;">&quot;Error: %@&quot;</span>, errorString<span style="color: #002200;">&#41;</span>;
+  <span style="color: #002200;">&#125;</span>    
+<span style="color: #002200;">&#125;</span><span style="color: #002200;">&#93;</span>;</pre></td></tr></table></div>
+
+<p>Relatively simple, and along the same lines as StackMob. With Parse, the process of uploading the object to the server can be done in synchronous mode or asynchronous using a block or a selector.</p>
+<p>The code to retrieve an object in Parse is again incredibly straightforward, and in half the lines of code that StackMob requires:</p>
+
+<div class="wp_codebox"><table><tr id="p204826"><td class="code" id="p20482code6"><pre class="objc" style="font-family:monospace;">PFQuery <span style="color: #002200;">*</span>query <span style="color: #002200;">=</span> <span style="color: #002200;">&#91;</span>PFQuery queryWithClassName<span style="color: #002200;">:</span><span style="color: #11740a; font-style: italic;">@</span><span style="color: #bf1d1a;">&quot;Player&quot;</span><span style="color: #002200;">&#93;</span>; 
+<span style="color: #002200;">&#91;</span>query whereKey<span style="color: #002200;">:</span><span style="color: #11740a; font-style: italic;">@</span><span style="color: #bf1d1a;">&quot;Score&quot;</span> greaterThan<span style="color: #002200;">:</span><span style="color: #002200;">&#91;</span><a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSNumber_Class/"><span style="color: #400080;">NSNumber</span></a> numberWithInt<span style="color: #002200;">:</span><span style="color: #2400d9;">900</span><span style="color: #002200;">&#93;</span><span style="color: #002200;">&#93;</span>; 
+<span style="color: #002200;">&#91;</span>query findObjectsInBackgroundWithBlock<span style="color: #002200;">:^</span><span style="color: #002200;">&#40;</span><a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSArray_Class/"><span style="color: #400080;">NSArray</span></a> <span style="color: #002200;">*</span>objects, <a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSError_Class/"><span style="color: #400080;">NSError</span></a> <span style="color: #002200;">*</span>error<span style="color: #002200;">&#41;</span> <span style="color: #002200;">&#123;</span>
+  <span style="color: #a61390;">if</span> <span style="color: #002200;">&#40;</span><span style="color: #002200;">!</span>error<span style="color: #002200;">&#41;</span> <span style="color: #002200;">&#123;</span>
+    NSLog<span style="color: #002200;">&#40;</span><span style="color: #11740a; font-style: italic;">@</span><span style="color: #bf1d1a;">&quot;Successfully retrieved: %@&quot;</span>, objects<span style="color: #002200;">&#41;</span>;
+  <span style="color: #002200;">&#125;</span> <span style="color: #a61390;">else</span> <span style="color: #002200;">&#123;</span>
+    <a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSString_Class/"><span style="color: #400080;">NSString</span></a> <span style="color: #002200;">*</span>errorString <span style="color: #002200;">=</span> <span style="color: #002200;">&#91;</span><span style="color: #002200;">&#91;</span>error userInfo<span style="color: #002200;">&#93;</span> objectForKey<span style="color: #002200;">:</span><span style="color: #11740a; font-style: italic;">@</span><span style="color: #bf1d1a;">&quot;error&quot;</span><span style="color: #002200;">&#93;</span>;
+    NSLog<span style="color: #002200;">&#40;</span><span style="color: #11740a; font-style: italic;">@</span><span style="color: #bf1d1a;">&quot;Error: %@&quot;</span>, errorString<span style="color: #002200;">&#41;</span>;
+  <span style="color: #002200;">&#125;</span>
+<span style="color: #002200;">&#125;</span><span style="color: #002200;">&#93;</span>;</pre></td></tr></table></div>
+
+<p>Deleting an object in Parse is again a very simple operation:</p>
+
+<div class="wp_codebox"><table><tr id="p204827"><td class="code" id="p20482code7"><pre class="objc" style="font-family:monospace;">PFObject <span style="color: #002200;">*</span>player <span style="color: #002200;">=</span> <span style="color: #002200;">&#91;</span>PFObject objectWithClassName<span style="color: #002200;">:</span><span style="color: #11740a; font-style: italic;">@</span><span style="color: #bf1d1a;">&quot;Player&quot;</span><span style="color: #002200;">&#93;</span>;
+<span style="color: #002200;">&#91;</span>player setObject<span style="color: #002200;">:</span><span style="color: #11740a; font-style: italic;">@</span><span style="color: #bf1d1a;">&quot;Player1&quot;</span> forKey<span style="color: #002200;">:</span><span style="color: #11740a; font-style: italic;">@</span><span style="color: #bf1d1a;">&quot;Name&quot;</span><span style="color: #002200;">&#93;</span>;
+<span style="color: #002200;">&#91;</span>player deleteInBackgroundWithBlock<span style="color: #002200;">:^</span><span style="color: #002200;">&#40;</span><span style="color: #a61390;">BOOL</span> succeeded, <a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSError_Class/"><span style="color: #400080;">NSError</span></a> <span style="color: #002200;">*</span>error<span style="color: #002200;">&#41;</span><span style="color: #002200;">&#123;</span>
+  <span style="color: #a61390;">if</span> <span style="color: #002200;">&#40;</span><span style="color: #002200;">!</span>error<span style="color: #002200;">&#41;</span> <span style="color: #002200;">&#123;</span>
+    NSLog<span style="color: #002200;">&#40;</span><span style="color: #11740a; font-style: italic;">@</span><span style="color: #bf1d1a;">&quot;Successfully deleted&quot;</span><span style="color: #002200;">&#41;</span>;
+  <span style="color: #002200;">&#125;</span> <span style="color: #a61390;">else</span> <span style="color: #002200;">&#123;</span>
+    <a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSString_Class/"><span style="color: #400080;">NSString</span></a> <span style="color: #002200;">*</span>errorString <span style="color: #002200;">=</span> <span style="color: #002200;">&#91;</span><span style="color: #002200;">&#91;</span>error userInfo<span style="color: #002200;">&#93;</span> objectForKey<span style="color: #002200;">:</span><span style="color: #11740a; font-style: italic;">@</span><span style="color: #bf1d1a;">&quot;error&quot;</span><span style="color: #002200;">&#93;</span>;
+    NSLog<span style="color: #002200;">&#40;</span><span style="color: #11740a; font-style: italic;">@</span><span style="color: #bf1d1a;">&quot;Error: %@&quot;</span>, errorString<span style="color: #002200;">&#41;</span>;
+  <span style="color: #002200;">&#125;</span>
+<span style="color: #002200;">&#125;</span><span style="color: #002200;">&#93;</span>;</pre></td></tr></table></div>
+
+<p>This is how the web interface for the Parse object browser looks after uploading an object:</p>
+<p><a href="http://cdn2.raywenderlich.com/wp-content/uploads/2012/09/parsebrowser.png"><img src="http://cdn2.raywenderlich.com/wp-content/uploads/2012/09/parsebrowser-700x162.png" alt="" title="parsebrowser" width="700" height="162" class="aligncenter size-large wp-image-21918 bordered" /></a></p>
+<p><em>Running the Sample Project</em></p>
+<p>I&#8217;m not going to include instructions on how to set up Parse here, since I am going to release a step-by-step tutorial on how to build this project from scratch in a few days!</p>
+<p>So stay tuned for our upcoming tutorial. In the meantime, you can get a sneak peek by <a href="https://github.com/toniomg/TutorialParseBaaS">downloading the completed project</a> from github.</p>
+<h2>Appcelerator: Accelerating App Access</h2>
+<p><em>Features, Pricing, and Documentation</em></p>
+<p>Appcelerator Cloud Services stands out for being the most comprehensive backend service provider of all. Appcelerator Cloud is geared towards developers using the Titanium SDK, so your experience may vary if you are not using Titanium. However, a quick read through the documentation and main concepts of Appcelerator Cloud will get you up and running quickly.</p>
+<p>Appcelerator Cloud Services are a bit different in that they break the various features into two tiers. The two-tiered model bundles most of the common features into the first tier, and puts more of the value-added services into the second tier, as shown:</p>
+<p>Tier 1:</p>
+<ul>
+<li>Users</li>
+<li>Photos</li>
+<li>Custom Objects</li>
+<li>Push notifications</li>
+<li>Email Templates</li>
+</ul>
+<p>Tier 2:</p>
+<ul>
+<li>Places</li>
+<li>Status</li>
+<li>Posts</li>
+<li>Clients</li>
+<li>Social Integration</li>
+<li>Check-ins</li>
+<li>Chat</li>
+<li>Photo Collections</li>
+<li>Ratings, Reviews &#038; Likes</li>
+</ul>
+<p>As you can see, there is a more comprehensive range of predefined functionality with Appcelerator Cloud Services.</p>
+<p>Pricing for the various services with Appcelerator is as follows:</p>
+<ul>
+<li>Free: 250k Tier 1 API Calls, 250k Tier 2 API Calls
+<li>Paid: Pricing for the Standard, Enhanced, and Premium paid tiers is not made public on the <A HREF="http://www.appcelerator.com/plans-pricing">Appcelerator web site</a>; before committing to using ACS in your app, you should contact the sales team and be sure of what your ongoing costs will be!</li>
+</ul>
+<p><em>Code Examples</em></p>
+<p>Uploading an object in Appcelerator Cloud Services is again very easy and comparable to Parse and StackMob. You&#8217;re still working with our hypothetical Players app here:</p>
+
+<div class="wp_codebox"><table><tr id="p204828"><td class="code" id="p20482code8"><pre class="objc" style="font-family:monospace;"> <a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSMutableDictionary_Class/"><span style="color: #400080;">NSMutableDictionary</span></a> <span style="color: #002200;">*</span>fieldsDict <span style="color: #002200;">=</span> <span style="color: #002200;">&#91;</span><a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSMutableDictionary_Class/"><span style="color: #400080;">NSMutableDictionary</span></a> dictionaryWithCapacity<span style="color: #002200;">:</span><span style="color: #2400d9;">2</span><span style="color: #002200;">&#93;</span>;
+<span style="color: #002200;">&#91;</span>fieldsDict setObject<span style="color: #002200;">:</span><span style="color: #11740a; font-style: italic;">@</span><span style="color: #bf1d1a;">&quot;Player1&quot;</span> forKey<span style="color: #002200;">:</span><span style="color: #11740a; font-style: italic;">@</span><span style="color: #bf1d1a;">&quot;name&quot;</span><span style="color: #002200;">&#93;</span>;   
+<span style="color: #002200;">&#91;</span>fieldsDict setObject<span style="color: #002200;">:</span><span style="color: #002200;">&#91;</span><a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSNumber_Class/"><span style="color: #400080;">NSNumber</span></a> numberWithInt<span style="color: #002200;">:</span><span style="color: #2400d9;">1000</span><span style="color: #002200;">&#93;</span> forKey<span style="color: #002200;">:</span><span style="color: #11740a; font-style: italic;">@</span><span style="color: #bf1d1a;">&quot;score&quot;</span><span style="color: #002200;">&#93;</span>;
+<a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSDictionary_Class/"><span style="color: #400080;">NSDictionary</span></a> <span style="color: #002200;">*</span>paramDict <span style="color: #002200;">=</span> <span style="color: #002200;">&#91;</span><a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSDictionary_Class/"><span style="color: #400080;">NSDictionary</span></a> dictionaryWithObject<span style="color: #002200;">:</span>fieldsDict forKey<span style="color: #002200;">:</span><span style="color: #11740a; font-style: italic;">@</span><span style="color: #bf1d1a;">&quot;fields&quot;</span><span style="color: #002200;">&#93;</span>;
+CCRequest <span style="color: #002200;">*</span>request <span style="color: #002200;">=</span> <span style="color: #002200;">&#91;</span><span style="color: #002200;">&#91;</span><span style="color: #002200;">&#91;</span>CCRequest alloc<span style="color: #002200;">&#93;</span> initWithDelegate<span style="color: #002200;">:</span>self httpMethod<span style="color: #002200;">:</span><span style="color: #11740a; font-style: italic;">@</span><span style="color: #bf1d1a;">&quot;POST&quot;</span> 
+  baseUrl<span style="color: #002200;">:</span><span style="color: #11740a; font-style: italic;">@</span><span style="color: #bf1d1a;">&quot;objects/playerscore/create.json&quot;</span> paramDict<span style="color: #002200;">:</span>paramDict<span style="color: #002200;">&#93;</span> autorelease<span style="color: #002200;">&#93;</span>;
+&nbsp;
+<span style="color: #002200;">&#91;</span>request startAsynchronous<span style="color: #002200;">&#93;</span>;</pre></td></tr></table></div>
+
+<p>Retrieving objects in Appcelerator is again extremely straightforward:</p>
+
+<div class="wp_codebox"><table><tr id="p204829"><td class="code" id="p20482code9"><pre class="objc" style="font-family:monospace;">CCWhere <span style="color: #002200;">*</span>where <span style="color: #002200;">=</span> <span style="color: #002200;">&#91;</span><span style="color: #002200;">&#91;</span><span style="color: #002200;">&#91;</span>CCWhere alloc<span style="color: #002200;">&#93;</span> init<span style="color: #002200;">&#93;</span> autorelease<span style="color: #002200;">&#93;</span>;
+<span style="color: #002200;">&#91;</span>where fieldName<span style="color: #002200;">:</span><span style="color: #11740a; font-style: italic;">@</span><span style="color: #bf1d1a;">&quot;score&quot;</span> greaterThan<span style="color: #002200;">:</span><span style="color: #002200;">&#91;</span><a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSNumber_Class/"><span style="color: #400080;">NSNumber</span></a> numberWithInt<span style="color: #002200;">:</span><span style="color: #2400d9;">900</span><span style="color: #002200;">&#93;</span><span style="color: #002200;">&#93;</span>;
+&nbsp;
+<a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSMutableDictionary_Class/"><span style="color: #400080;">NSMutableDictionary</span></a> <span style="color: #002200;">*</span>paramDict <span style="color: #002200;">=</span> <span style="color: #002200;">&#91;</span><a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSDictionary_Class/"><span style="color: #400080;">NSDictionary</span></a> dictionaryWithObjectsAndKeys<span style="color: #002200;">:</span>where,<span style="color: #11740a; font-style: italic;">@</span><span style="color: #bf1d1a;">&quot;where&quot;</span>, <span style="color: #a61390;">nil</span><span style="color: #002200;">&#93;</span>;
+CCRequest <span style="color: #002200;">*</span>request <span style="color: #002200;">=</span> <span style="color: #002200;">&#91;</span><span style="color: #002200;">&#91;</span>CCRequest alloc<span style="color: #002200;">&#93;</span> initWithDelegate<span style="color: #002200;">:</span>self httpMethod<span style="color: #002200;">:</span><span style="color: #11740a; font-style: italic;">@</span><span style="color: #bf1d1a;">&quot;GET&quot;</span> 
+  baseUrl<span style="color: #002200;">:</span><span style="color: #11740a; font-style: italic;">@</span><span style="color: #bf1d1a;">&quot;objects/playerscore/query.json&quot;</span> paramDict<span style="color: #002200;">:</span>paramDict<span style="color: #002200;">&#93;</span>;
+&nbsp;
+<span style="color: #002200;">&#91;</span>request startAsynchronous<span style="color: #002200;">&#93;</span>;</pre></td></tr></table></div>
+
+<p>Deleting objects in Appcelerator is, once again, a simple operation:</p>
+
+<div class="wp_codebox"><table><tr id="p2048210"><td class="code" id="p20482code10"><pre class="objc" style="font-family:monospace;"><a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSDictionary_Class/"><span style="color: #400080;">NSDictionary</span></a> <span style="color: #002200;">*</span>paramDict <span style="color: #002200;">=</span> <span style="color: #002200;">&#91;</span><a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSDictionary_Class/"><span style="color: #400080;">NSDictionary</span></a> dictionaryWithObject<span style="color: #002200;">:</span><span style="color: #11740a; font-style: italic;">@</span><span style="color: #bf1d1a;">&quot;5049c26fb685537c3902c711&quot;</span>  
+  forKey<span style="color: #002200;">:</span><span style="color: #11740a; font-style: italic;">@</span><span style="color: #bf1d1a;">&quot;id&quot;</span><span style="color: #002200;">&#93;</span>;
+CCRequest <span style="color: #002200;">*</span>request <span style="color: #002200;">=</span> <span style="color: #002200;">&#91;</span><span style="color: #002200;">&#91;</span><span style="color: #002200;">&#91;</span>CCRequest alloc<span style="color: #002200;">&#93;</span> initHttpsWithDelegate<span style="color: #002200;">:</span>self httpMethod<span style="color: #002200;">:</span><span style="color: #11740a; font-style: italic;">@</span><span style="color: #bf1d1a;">&quot;DELETE&quot;</span> 
+  baseUrl<span style="color: #002200;">:</span><span style="color: #11740a; font-style: italic;">@</span><span style="color: #bf1d1a;">&quot;objects/playerscore/delete.json&quot;</span> paramDict<span style="color: #002200;">:</span>paramDict<span style="color: #002200;">&#93;</span> autorelease<span style="color: #002200;">&#93;</span>;
+&nbsp;
+<span style="color: #002200;">&#91;</span>request startAsynchronous<span style="color: #002200;">&#93;</span>;</pre></td></tr></table></div>
+
+<p>To check the response from the server for any of these calls you must use a delegate; this should be a very familiar pattern to any iOS developer, as blocks are becoming more commonly used for network operations. A single delegate function is used for all of the create, retrieve, and delete operations:</p>
+
+<div class="wp_codebox"><table><tr id="p2048211"><td class="code" id="p20482code11"><pre class="objc" style="font-family:monospace;"><span style="color: #002200;">-</span><span style="color: #002200;">&#40;</span><span style="color: #a61390;">void</span><span style="color: #002200;">&#41;</span>ccrequest<span style="color: #002200;">:</span><span style="color: #002200;">&#40;</span>CCRequest <span style="color: #002200;">*</span><span style="color: #002200;">&#41;</span>request didSucceed<span style="color: #002200;">:</span><span style="color: #002200;">&#40;</span>CCResponse <span style="color: #002200;">*</span><span style="color: #002200;">&#41;</span>response
+<span style="color: #002200;">&#123;</span>
+    <span style="color: #a61390;">if</span> <span style="color: #002200;">&#40;</span><span style="color: #002200;">&#91;</span>response.meta.methodName isEqualToString<span style="color: #002200;">:</span><span style="color: #11740a; font-style: italic;">@</span><span style="color: #bf1d1a;">&quot;createObject&quot;</span><span style="color: #002200;">&#93;</span><span style="color: #002200;">&#41;</span><span style="color: #002200;">&#123;</span>
+        NSLog<span style="color: #002200;">&#40;</span><span style="color: #11740a; font-style: italic;">@</span><span style="color: #bf1d1a;">&quot;Object created&quot;</span><span style="color: #002200;">&#41;</span>;
+    <span style="color: #002200;">&#125;</span>
+&nbsp;
+    <span style="color: #a61390;">if</span> <span style="color: #002200;">&#40;</span><span style="color: #002200;">&#91;</span>response.meta.methodName isEqualToString<span style="color: #002200;">:</span><span style="color: #11740a; font-style: italic;">@</span><span style="color: #bf1d1a;">&quot;queryCustomObjects&quot;</span><span style="color: #002200;">&#93;</span><span style="color: #002200;">&#41;</span><span style="color: #002200;">&#123;</span>
+        NSLog<span style="color: #002200;">&#40;</span><span style="color: #11740a; font-style: italic;">@</span><span style="color: #bf1d1a;">&quot;%@&quot;</span>, <span style="color: #002200;">&#91;</span>response.response objectForKey<span style="color: #002200;">:</span><span style="color: #11740a; font-style: italic;">@</span><span style="color: #bf1d1a;">&quot;playerscore&quot;</span><span style="color: #002200;">&#93;</span><span style="color: #002200;">&#41;</span>;
+    <span style="color: #002200;">&#125;</span>
+&nbsp;
+    <span style="color: #a61390;">if</span> <span style="color: #002200;">&#40;</span><span style="color: #002200;">&#91;</span>response.meta.methodName isEqualToString<span style="color: #002200;">:</span><span style="color: #11740a; font-style: italic;">@</span><span style="color: #bf1d1a;">&quot;deleteObjects&quot;</span><span style="color: #002200;">&#93;</span><span style="color: #002200;">&#41;</span><span style="color: #002200;">&#123;</span>
+        NSLog<span style="color: #002200;">&#40;</span><span style="color: #11740a; font-style: italic;">@</span><span style="color: #bf1d1a;">&quot;Deleted&quot;</span><span style="color: #002200;">&#41;</span>;
+    <span style="color: #002200;">&#125;</span>
+<span style="color: #002200;">&#125;</span></pre></td></tr></table></div>
+
+<p>Unlike Parse and Stackmob, in Appcelerator you must be the owner of an object in order to modify or delete it. To delete an object, you must provide the object&#8217;s unique ID, which can be discovered with an API call. </p>
+<p>In contrast, in Stackmob and Parse you can simply provide enough information to identify the objects you want to perform operations on without first having to make an API call to retrieve the unique ID.</p>
+<p>This is how the web interface for the Appcelerator object browser looks after uploading an object:</p>
+<p><a href="http://cdn2.raywenderlich.com/wp-content/uploads/2012/09/acsbrowser.png"><img src="http://cdn1.raywenderlich.com/wp-content/uploads/2012/09/acsbrowser-700x258.png" alt="" title="acsbrowser" width="700" height="258" class="aligncenter size-large wp-image-21916" /></a></p>
+<p><em>Running the Sample Project</em></p>
+<p>Once again the <a href="https://github.com/toniomg/TutorialACSBaaS">sample project</a> for working with Appcelerator is complete, but it is not configured with your project credentials. </p>
+<p>Create your developer account with Appcelerator by <a href="http://www.appcelerator.com/cloud/">signing up here</a>. Once again, you don&#8217;t need to download the SDK for appcelerator, since it is included with the sample project. </p>
+<p>Once you have created your account, go to <a href=https://my.appcelerator.com/apps/acs>Create New App</a> in Appcelerator and create a new app called &#8220;tutorialacs&#8221;. </p>
+<p>The final step is to add your App Key to the AppDelegate. You can find your Appcelerator App Key by navigating to the &#8220;Manage ACS&#8221; screen once your app has been created. </p>
+<p>Update the code below with the App Key you retrieved from Appcelerator:</p>
+
+<div class="wp_codebox"><table><tr id="p2048212"><td class="code" id="p20482code12"><pre class="objc" style="font-family:monospace;"><span style="color: #11740a; font-style: italic;">//Put your key here</span>
+<span style="color: #6e371a;">#define COCOAFISH_APP_KEY @&quot;1234-5678&quot;</span></pre></td></tr></table></div>
+
+<p>And you&#8217;re done! Just like the sample application that was provided that leveraged the StackMob service, now you can upload and view images and comments in your app.</p>
+<h2>Which to Choose?</h2>
+<p><a href="http://cdn3.raywenderlich.com/wp-content/uploads/2012/11/Screen-Shot-2012-11-18-at-3.59.08-PM.png"><img src="http://cdn3.raywenderlich.com/wp-content/uploads/2012/11/Screen-Shot-2012-11-18-at-3.59.08-PM.png" alt="" title="" width="234" height="232" class="alignright size-full wp-image-26428" /></a></p>
+<p>Now that you seen some popular BaaS offerings and had a chance to test how they work, it is time to evaluate each service and choose the right one for your needs.</p>
+<p>All three of these are great options, and there&#8217;s no single right answer for everyone &#8211; you will have to make your own decision based on what you need for your app. The following points will help you consider which backend service provider is right for you:</p>
+<ul>
+<li>The most important factor here is to evaluate each service&#8217;s features and their usefulness to you — and your app! Preconfigured objects might seem attractive, unless your idea of what those objects should be differs from those of the service provider.</li>
+<li>Services that offer just &#8220;users&#8221; along with general purpose objects might initially seem more difficult, until you see that substantial flexibility comes with the user-based approach. </li>
+<li>Will you need a support agreement; and should you be paying for phone support? How accessible are the engineers if you need them, and what kind of user community support can you expect?</li>
+<li>Take a close look at the documentation. This is one time you should read it thoroughly, even though the sample projects have given you enough to get started! :] The quality, coverage and currency of the documentation will give you a good idea of how committed each company is to your success.</li>
+<li>Make yourself aware of the costs you will incur in using the service. This will require you to project your future usage for best case and worst case scenarios. Should you find yourself with 100 million users, will your app generate enough income to pay for the level of service you will require? </li>
+<li>If your app is going to require a paid plan from the start but it flops, can you afford that? Some services require you to contact sales before you know what these costs will be; don&#8217;t skip this step!</li>
+<li>Doing a search for the name of your service on discussion boards might expose interesting bits of information you might not have found otherwise. If you get no hits at all, how popular is the service — and what are the chances it will be around in six months? If all the hits say &#8220;it&#8217;s awesome&#8221; that might be a good indication &#8211; but pay attention to the negative comments as well!</li>
+</ul>
+<p>Once you have answered all of these questions and written some proof of concept code, your use of the service itself will probably be enough for you to make a final decision. </p>
+<p><em>TLDR?</em> If you just want us to make a decision for you, we recommend <a href="https://www.parse.com/">Parse</a>. Parse is incredibly easy to get started with, and for that reason Parse was chosen for the second part of this tutorial because it passes all of the tests with flying colors :]</p>
+<h2>Where To Go From Here?</h2>
+<p>Again, here is the sample project I&#8217;ve made for you with all three providers:</p>
+<ul>
+<li><a href="https://github.com/toniomg/TutorialParseBaaS">Parse implementation</a></li>
+<li><a href="https://github.com/toniomg/TutorialACSBaaS">Appcelerator implementation</a></li>
+<li><a href="https://github.com/toniomg/TutorialStackMobBaaS">Stackmob implementation</a></li>
+</ul>
+<p>I hope this article was useful to you to point out some of the options out there, and give you an &#8220;apples to apples&#8221; example to help you to choose between the different providers.</p>
+<p>If you have any questions or comments on this article, or recommendations or thoughts on various backend providers, please join the forum discussion below!</p>
+<p><img src="http://cdn3.raywenderlich.com/downloads/AntonioMartinez.png" class="photo alignleft"/><br />
+<i>This is a post by Tutorial Team Member <a href="http://www.raywenderlich.com/about#antoniomartinez">Antonio Martínez</a>, a mobile software developer currently working as an iOS Developer in London.</i></p>
+<div id="tweetbutton20482" class="tw_button" style="margin-bottom:10px;"><a href="http://twitter.com/share?url=http%3A%2F%2Fbit.ly%2FOVzKUm&amp;via=rwenderlich&amp;text=How%20To%20Choose%20the%20Best%20Backend%20Provider%20for%20your%20iOS%20App%3A%20Parse%20vs%20Stackmob%20vs.%20Appcelerator%20Cloud...%20&amp;related=rwenderlich&amp;lang=en&amp;count=horizontal&amp;counturl=http%3A%2F%2Fwww.raywenderlich.com%2F20482%2Fhow-to-choose-the-best-backend-provider-for-your-ios-app-parse-vs-stackmob-vs-appcelerator-cloud-and-more" class="twitter-share-button"  style="width:55px;height:22px;background:transparent url('http://cdn3.raywenderlich.com/wp-content/plugins/wp-tweet-button/tweetn.png') no-repeat  0 0;text-align:left;text-indent:-9999px;display:block;">Tweet</a></div>
+									<br/>
+									
+			<p class="category"><a href="http://www.raywenderlich.com/category/iphone" title="View all posts in iPhone" rel="category tag">iPhone</a>, <a href="http://www.raywenderlich.com/category/web-development" title="View all posts in Web Development" rel="category tag">Web Development</a>Category: </p>
+			<p class="tags"></p>
+
+		</div>						
+		
+		
+<!-- You can start editing here. -->
+
+<div id="respond">
+
+
+<p>I'd love to hear your thoughts!</p>
+
+<div id="phpbb" class="group">
+&nbsp;</a>&nbsp;<a id="phpbb_topic" href="http://www.raywenderlich.com/forums//viewtopic.php?f=20&t=5764">19 Comments!</a>&nbsp;<a id="phpbb_reply" href="http://www.raywenderlich.com/forums//posting.php?mode=reply&f=20&t=5764">Add a comment!</a></div>
+
+</div>
+
+		
+	</div>
+
+
+</div> <!--content-->
+
+	<div id="sidebar">				
+		  		  
+		<div id="newsletter" class="sidebar-entry">
+		
+  		<h4>Ray's Monthly Newsletter</h4>
+
+      <p>Sign up to receive a monthly newsletter with my favorite iOS dev links - receive a <em>free epic-length tutorial</em> as a bonus!</p>
+      <br/>
+		
+<!-- Begin MailChimp Signup Form -->
+<div id="mc_embed_signup">
+<form action="http://raywenderlich.us1.list-manage.com/subscribe/post?u=1bc8e630b1599df629818e59b&amp;id=83b6edc87f" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank" novalidate>
+	
+<div class="mc-field-group">
+	<label for="mce-NAME">Name: </label>
+	<input type="text" value="" name="NAME" class="required" id="mce-NAME">
+</div>
+<div class="mc-field-group">
+	<label for="mce-EMAIL">Email: </label>
+	<input type="email" value="" name="EMAIL" class="required email" id="mce-EMAIL">
+</div>
+	<div id="mce-responses" class="clear">
+		<div class="response" id="mce-error-response" style="display:none"></div>
+		<div class="response" id="mce-success-response" style="display:none"></div>
+	</div>	<div class="clear"><input type="submit" value="Sign Up!" name="subscribe" id="mc-embedded-subscribe" class="button"></div>
+</form>
+</div>
+
+<!--End mc_embed_signup-->
+		
+		</div>
+		    
+    <div id="ad-sidebar" class="sidebar-entry group">
+         
+        <h4>Sponsors and Friends</h4>
+
+        <!-- BuySellAds Zone Code -->
+        <div id="bsap_1274837" class="bsarocks bsap_39fcef7ed4520883d78f129c33995fd2"></div>
+        <!-- End BuySellAds Zone Code -->
+                       
+        <!-- BuySellAds.com Zone Code -->
+        <div id="smallads">
+        <div id="bsap_1260352" class="bsarocks bsap_39fcef7ed4520883d78f129c33995fd2"></div>
+        </div>
+        <!-- End BuySellAds.com Zone Code -->
+       
+        <div style="margin:10px 15px 4px 15px;width:125px;height:125px;border:0px solid gray;float:left;">
+            <a href="http://click.linksynergy.com/fs-bin/stat?id=9QfxPcziZp0&offerid=146261&type=3&subid=0&tmpid=1826&RD_PARM1=http%253A%252F%252Fitunes.apple.com%252Fus%252Fapp%252Fwild-fables%252Fid418338859%253Fmt%253D8%2526uo%253D4%2526partnerId%253D30" target="_blank"><img src="http://cdn4.raywenderlich.com/downloads/WildFables2_125.jpg"></a>
+        </div> 
+
+        <div style="margin:10px 15px 4px 0px;width:125px;height:125px;border:0px solid gray;float:left;">
+            <a href="http://click.linksynergy.com/fs-bin/stat?id=9QfxPcziZp0&offerid=146261&type=3&subid=0&tmpid=1826&RD_PARM1=http%253A%252F%252Fitunes.apple.com%252Fus%252Fapp%252Fmath-ninja-hd%252Fid370144476%253Fmt%253D8%2526uo%253D4%2526partnerId%253D30" target="_blank"><img src="http://d1xzuxjlafny7l.cloudfront.net/downloads/MathNinja_125.gif"></a>
+        </div>
+                
+        <p align="center"><a href="http://www.raywenderlich.com/advertise">Advertise Here!</a></p>
+        
+    </div>
+    
+    <div id="recent-posts" class="sidebar-entry">
+			<h4>Recent Tutorials</h4>
+			<ul>
+			<li><a href="http://www.raywenderlich.com/30200/avfoundation-tutorial-adding-overlays-and-animations-to-videos" rel="bookmark" title="Permanent Link to &ldquo;AVFoundation Tutorial: Adding Overlays and Animations to Videos&rdquo;">AVFoundation Tutorial: Adding Overlays and Animations to Videos</a></li>
+<li><a href="http://www.raywenderlich.com/29948/backgrounding-for-ios" rel="bookmark" title="Permanent Link to &ldquo;Background Modes in iOS Tutorial&rdquo;">Background Modes in iOS Tutorial</a></li>
+<li><a href="http://www.raywenderlich.com/31814/objectively-speaking-2-a-crash-course-in-objective-c-for-ios-6" rel="bookmark" title="Permanent Link to &ldquo;Objectively Speaking 2: A Crash Course in Objective-C for iOS 6&rdquo;">Objectively Speaking 2: A Crash Course in Objective-C for iOS 6</a></li>
+<li><a href="http://www.raywenderlich.com/35944/trigonometry-for-game-programming-part-2" rel="bookmark" title="Permanent Link to &ldquo;Trigonometry for Game Programming: Part 2/2&rdquo;">Trigonometry for Game Programming: Part 2/2</a></li>
+<li><a href="http://www.raywenderlich.com/35866/trigonometry-for-game-programming-part-1" rel="bookmark" title="Permanent Link to &ldquo;Trigonometry for Game Programming: Part 1/2&rdquo;">Trigonometry for Game Programming: Part 1/2</a></li>
+<li><a href="http://www.raywenderlich.com/30734/phonegap-tutorial-a-cross-platform-zombie-app" rel="bookmark" title="Permanent Link to &ldquo;PhoneGap Tutorial: A Cross-Platform Zombie App&rdquo;">PhoneGap Tutorial: A Cross-Platform Zombie App</a></li>
+<li><a href="http://www.raywenderlich.com/37766/readers-app-reviews-april-2013" rel="bookmark" title="Permanent Link to &ldquo;Readers&#8217; App Reviews &#8211; April 2013&rdquo;">Readers&#8217; App Reviews &#8211; April 2013</a></li>
+<li><a href="http://www.raywenderlich.com/32392/arduino-tutorial-for-complete-beginners-using-a-button" rel="bookmark" title="Permanent Link to &ldquo;Arduino Tutorial for Complete Beginners: Using a Button&rdquo;">Arduino Tutorial for Complete Beginners: Using a Button</a></li>
+<li><a href="http://www.raywenderlich.com/34003/core-graphics-tutorial-curves-and-layers" rel="bookmark" title="Permanent Link to &ldquo;Core Graphics Tutorial: Curves and Layers&rdquo;">Core Graphics Tutorial: Curves and Layers</a></li>
+<li><a href="http://www.raywenderlich.com/33496/core-graphics-tutorial-patterns" rel="bookmark" title="Permanent Link to &ldquo;Core Graphics Tutorial: Patterns&rdquo;">Core Graphics Tutorial: Patterns</a></li>
+			</ul>
+		</div>	
+		
+				<div id="recent-posts" class="sidebar-entry">
+			<h4>Vote for the Next Tutorial!</h4>
+            
+            <p>Every week, we alternate between Gaming and Non-Gaming tutorial votes.  This week: Gaming!</p><br/>
+            <ul>
+                <div id="polls-66" class="wp-polls">
+	<form id="polls_form_66" class="wp-polls-form" action="/20482/how-to-choose-the-best-backend-provider-for-your-ios-app-parse-vs-stackmob-vs-appcelerator-cloud-and-more" method="post">
+		<p style="display: none;"><input type="hidden" id="poll_66_nonce" name="wp-polls-nonce" value="2393cccff4" /></p>
+		<p style="display: none;"><input type="hidden" name="poll_id" value="66" /></p>
+		<div id="polls-66-ans" class="wp-polls-ans"><ul class="wp-polls-ul">
+		<li><input type="radio" id="poll-answer-398" name="poll_66" value="398" /> <label class="poll-answer-label" for="poll-answer-398">How to Make a Multiplayer Airplay Game</label></li>
+		<li><input type="radio" id="poll-answer-399" name="poll_66" value="399" /> <label class="poll-answer-label" for="poll-answer-399">How to Create a Skeletal Animation System in Cocos2D</label></li>
+		<li><input type="radio" id="poll-answer-400" name="poll_66" value="400" /> <label class="poll-answer-label" for="poll-answer-400">How to Make a Game like Candy Crush</label></li>
+		<li><input type="radio" id="poll-answer-401" name="poll_66" value="401" /> <label class="poll-answer-label" for="poll-answer-401">How to Implement a Scroll View in Cocos2D</label></li>
+		<li><input type="radio" id="poll-answer-402" name="poll_66" value="402" /> <label class="poll-answer-label" for="poll-answer-402">How to Port your Cocos2D Game from iOS to Mac</label></li>
+		<li><input type="radio" id="poll-answer-403" name="poll_66" value="403" /> <label class="poll-answer-label" for="poll-answer-403">Introduction to Oculus Rift</label></li>
+		</ul><p><input type="button" id="vote" name="vote" value="   Vote   " class="Buttons" onclick="poll_vote(66);" /></p></div>
+	</form>
+</div>
+<div id="polls-66-loading" class="wp-polls-loading"><img src="http://www.raywenderlich.com/wp-content/plugins/wp-polls/images/loading.gif" width="16" height="16" alt="Loading ..." title="Loading ..." class="wp-polls-image" />&nbsp;Loading ...</div>
+            </ul>
+
+    		<p><em>Last week's winner</em>: How to Make a Reusable Static Library.  Coming soon!			<p><a href="http://www.raywenderlich.com/forums/viewtopic.php?f=2&t=284">Suggest a Tutorial</a> - <a href="http://www.raywenderlich.com/tutorial-vote-results">Past Results</a></p>
+        </div>
+        		                                   							
+			
+ 	  <div id="book" class="sidebar-entry group">
+				
+      <h4>Our Books</h4>
+    
+        <div style="margin:0px 5px 10px 0px;width:125px;height:162px;border:0px solid gray;float:left;">
+            <a href="http://www.raywenderlich.com/store/ios-5-by-tutorials"><img width="125" height="162" src="http://cdn1.raywenderlich.com/downloads/iOS_5_By_Tutorials_125x162.jpg"></a>
+        </div> 
+        <div style="margin:0px 5px 10px 0px;width:125px;height:162px;border:0px solid gray;float:left;">
+            <a href="http://www.raywenderlich.com/store/ios-6-by-tutorials"><img width="125" height="162" src="http://cdn1.raywenderlich.com/downloads/cover_iOS6_125.jpg"></a>
+        </div>
+        <div style="margin:0px 5px 10px 0px;width:125px;height:162px;border:0px solid gray;float:left;">
+            <a href="http://www.raywenderlich.com/store/ios-apprentice"><img width="125" height="162" src="http://cdn3.raywenderlich.com/downloads/iOS_Apprentice_125x162.png"></a>
+        </div>   
+        <div style="margin:0px 5px 10px 0px;width:125px;height:162px;border:0px solid gray;float:left;">
+            <a href="http://www.raywenderlich.com/store/space-game-starter-kit"><img width="125" height="162" src="http://cdn5.raywenderlich.com/downloads/SpaceGameStarterKit_125.jpg"></a>
+        </div>
+        <div style="margin:0px 0px 10px 0px;width:125px;height:162px;border:0px solid gray;float:left;">
+            <a href="http://amzn.to/vb7ViD"><img width="125" height="162" src="http://cdn5.raywenderlich.com/downloads/Learning_Cocos2D_125x162.jpg"></a>
+        </div> 		  
+    </div>
+					     						
+		<div id="contributors" class="sidebar-entry group">
+
+			<h4>Tutorial Team</h4>
+			
+			<div id="moderator">
+			<a href="http://www.raywenderlich.com/about#topeabayomi">
+			<img class="photo" width="100" height="100" alt="Picture of Tope Abayomi" src="http://cdn2.raywenderlich.com/downloads/TopeAbayomi.jpg" />
+			<p>Tope Abayomi</p>
+			</a>
+			</div>
+			
+            <div id="moderator">
+			<a href="http://www.raywenderlich.com/about#christineabernathy">
+			<img class="photo" width="100" height="100" alt="Picture of Christine Abernathy" src="http://cdn3.raywenderlich.com/downloads/ChristineAbernathy.jpg" />
+			<p>Christine Abernathy</p>
+			</a>
+			</div>
+			
+			<div id="moderator">
+			<a href="http://www.raywenderlich.com/about#gustavoambrozio">
+			<img class="photo" width="100" height="100" alt="Picture of Gustavo Ambrozio" src="http://cdn1.raywenderlich.com/downloads/GustavoAmbrozio.jpg" />
+			<p>Gustavo Ambrozio</p>
+			</a>
+			</div>
+
+			<div id="moderator">
+			<a href="http://www.raywenderlich.com/about#daniarnaout">
+			<img class="photo" width="100" height="100" alt="Picture of Dani Arnaout" src="http://cdn4.raywenderlich.com/downloads/DaniArnaout2.png" />
+			<p>Dani Arnaout</p>
+			</a>
+			</div>
+			
+			<div id="moderator">
+			<a href="http://www.raywenderlich.com/about#soheilazarpour">
+			<img class="photo" width="100" height="100" alt="Picture of Soheil Moayedi Azarpour" src="http://cdn1.raywenderlich.com/downloads/SoheilAzarpour.jpg" />
+			<p>Soheil Azarpour</p>
+			</a>
+			</div>
+			
+			<div id="moderator">
+			<a href="http://www.raywenderlich.com/about#abdulazeem">
+			<img class="photo" width="100" height="100" alt="Picture of Abdul Azeem" src="http://cdn3.raywenderlich.com/downloads/AbdulAzeemKhan.jpg" />
+			<p>Abdul Azeem</p>
+			</a>
+			</div>
+
+            <div id="moderator">
+			<a href="http://www.raywenderlich.com/about#brianbroom">
+			<img class="photo" width="100" height="100" alt="Picture of Brian Broom" src="http://cdn5.raywenderlich.com/downloads/BrianBroom.jpg" />
+			<p>Brian Broom</p>
+			</a>
+			</div>				
+				
+            <div id="moderator">
+			<a href="http://www.raywenderlich.com/about#lindaburke">
+			<img class="photo" width="100" height="100" alt="Picture of Linda Burke" src="http://cdn1.raywenderlich.com/downloads/LindaBurke.jpg" />
+			<p>Linda Burke</p>
+			</a>
+			</div>				
+						
+			<div id="moderator">
+			<a href="http://www.raywenderlich.com/about#adamburkepile">
+			<img class="photo" width="100" height="100" alt="Picture of Adam Burkepile" src="http://cdn5.raywenderlich.com/downloads/AdamBurkepile.png" />
+			<p>Adam Burkepile</p>
+			</a>
+			</div>
+
+			<div id="moderator">
+			<a href="http://www.raywenderlich.com/about#tammycoron">
+			<img class="photo" width="100" height="100" alt="Picture of Tammy Coron" src="http://cdn5.raywenderlich.com/downloads/TammyCoron.png" />
+			<p>Tammy Coron</p>
+			</a>
+			</div>
+
+			<div id="moderator">
+			<a href="http://www.raywenderlich.com/about#tonydahbura">
+			<img class="photo" width="100" height="100" alt="Picture of Tony Dahbura" src="http://cdn3.raywenderlich.com/downloads/TonyDahbura.png" />
+			<p>Tony Dahbura</p>
+			</a>
+			</div>
+
+			<div id="moderator">
+			<a href="http://www.raywenderlich.com/about#colineberhardt">
+			<img class="photo" width="100" height="100" alt="Picture of Colin Eberhardt" src="http://cdn4.raywenderlich.com/downloads/ColinEberhardt.jpg" />
+			<p>Colin Eberhardt</p>
+			</a>
+			</div>    				
+			
+			<div id="moderator">
+			<a href="http://www.raywenderlich.com/about#marcelofabri">
+			<img class="photo" width="100" height="100" alt="Picture of Marcelo Fabri" src="http://cdn2.raywenderlich.com/downloads/MarceloFabri.png" />
+			<p>Marcelo Fabri</p>
+			</a>
+			</div>         
+
+			<div id="moderator">
+			<a href="http://www.raywenderlich.com/about#charliefulton">
+			<img class="photo" width="100" height="100" alt="Picture of Charlie Fulton" src="http://cdn4.raywenderlich.com/downloads/CharlieFulton.png" />
+			<p>Charlie Fulton</p>
+			</a>
+			</div>    
+
+            <div id="moderator">
+			<a href="http://www.raywenderlich.com/about#mattgalloway">
+			<img class="photo" width="100" height="100" alt="Picture of Matt Galloway" src="http://cdn1.raywenderlich.com/downloads/MattGalloway.png" />
+			<p>Matt Galloway</p>
+			</a>
+			</div>
+
+            <div id="moderator">
+			<a href="http://www.raywenderlich.com/about#ernestogarcia">
+			<img class="photo" width="100" height="100" alt="Picture of Ernesto García" src="http://cdn3.raywenderlich.com/downloads/ErnestoGarcia.png" />
+			<p>Ernesto García</p>
+			</a>
+			</div>
+
+            <div id="moderator">
+			<a href="http://www.raywenderlich.com/about#scottgardner">
+			<img class="photo" width="100" height="100" alt="Picture of Scott Gardner" src="http://cdn2.raywenderlich.com/downloads/ScottGardner.png" />
+			<p>Scott Gardner</p>
+			</a>
+			</div>
+
+            <div id="moderator">
+			<a href="http://www.raywenderlich.com/about#jacobgundersen">
+			<img class="photo" width="100" height="100" alt="Picture of Jacob Gundersen" src="http://cdn1.raywenderlich.com/downloads/JakeGundersen2.jpg" />
+			<p>Jacob Gundersen</p>
+			</a>
+			</div>
+			
+			<div id="moderator">
+			<a href="http://www.raywenderlich.com/about#alihafizji">
+			<img class="photo" width="100" height="100" alt="Picture of Ali Hafizji" src="http://cdn4.raywenderlich.com/downloads/AliHafizji.jpg" />
+			<p>Ali Hafizji</p>
+			</a>
+			</div>
+			
+			<div id="moderator">
+			<a href="http://www.raywenderlich.com/about#matthijshollemans">
+			<img class="photo" width="100" height="100" alt="Picture of Matthijs Hollemans" src="http://cdn1.raywenderlich.com/downloads/MatthijsHollemans.jpg" />
+			<p>Matthijs Hollemans</p>
+			</a>
+			</div>
+
+            <div id="moderator">
+			<a href="http://www.raywenderlich.com/about#jorgejordan">
+			<img class="photo" width="100" height="100" alt="Picture of Jorge Jordán" src="http://cdn3.raywenderlich.com/downloads/JorgeJordan.png" />
+			<p>Jorge Jordán</p>
+			</a>
+			</div>
+
+            <div id="moderator">
+			<a href="http://www.raywenderlich.com/about#mikejaoudi">
+			<img class="photo" width="100" height="100" alt="Picture of Mike Jaoudi" src="http://cdn3.raywenderlich.com/downloads/MikeJaoudi.png" />
+			<p>Mike Jaoudi</p>
+			</a>
+			</div>
+						
+            <div id="moderator">
+			<a href="http://www.raywenderlich.com/about#felipelaso">
+			<img class="photo" width="100" height="100" alt="Picture of Felipe Laso" src="http://cdn5.raywenderlich.com/downloads/FelipeLaso2.png" />
+			<p>Felipe Laso</p>
+			</a>
+			</div>
+			
+            <div id="moderator">
+			<a href="http://www.raywenderlich.com/about#pawelmaczewski">
+			<img class="photo" width="100" height="100" alt="Picture of Pawel Maczweski" src="http://cdn5.raywenderlich.com/downloads/KenderMaczewski.jpg" />
+			<p>Pawel Maczweski</p>
+			</a>
+			</div>
+
+			<div id="moderator">
+			<a href="http://www.raywenderlich.com/about#julianmeyer">
+			<img class="photo" width="100" height="100" alt="Picture of Julian Meyer" src="http://cdn2.raywenderlich.com/downloads/JulianMeyer.jpg" />
+			<p>Julian Meyer</p>
+			</a>
+			</div>
+
+			<div id="moderator">
+			<a href="http://www.raywenderlich.com/about#joshuanewnham">
+			<img class="photo" width="100" height="100" alt="Picture of Joshua Newnham" src="http://cdn3.raywenderlich.com/downloads/JoshuaNewnham.png" />
+			<p>Joshua Newnham</p>
+			</a>
+			</div>
+						
+
+			<div id="moderator">
+			<a href="http://www.raywenderlich.com/about#andypereira">
+			<img class="photo" width="100" height="100" alt="Picture of Andy Pereira" src="http://cdn3.raywenderlich.com/downloads/AndyPereira.jpg" />
+			<p>Andy Pereira</p>
+			</a>
+			</div>
+			
+            <div id="moderator">
+			<a href="http://www.raywenderlich.com/about#gregpugh">
+			<img class="photo" width="100" height="100" alt="Picture of Greg Pugh" src="http://cdn4.raywenderlich.com/downloads/GregPugh.jpg" />
+			<p>Greg Pugh</p>
+			</a>
+			</div>								
+
+            <div id="moderator">
+			<a href="http://www.raywenderlich.com/about#pietrorea">
+			<img class="photo" width="100" height="100" alt="Picture of Pietro Rea" src="http://cdn1.raywenderlich.com/downloads/PietroRea.jpg" />
+			<p>Pietro Rea</p>
+			</a>
+			</div>   
+						
+            <div id="moderator">
+			<a href="http://www.raywenderlich.com/about#cesarerocchi">
+			<img class="photo" width="100" height="100" alt="Picture of Cesare Rocchi" src="http://cdn2.raywenderlich.com/downloads/CesareRocchi.jpg" />
+			<p>Cesare Rocchi</p>
+			</a>
+			</div>           
+
+			<div id="moderator">
+			<a href="http://www.raywenderlich.com/about#gutsrodsavas">
+			<img class="photo" width="100" height="100" alt="Picture of Guts Rodsavas" src="http://cdn2.raywenderlich.com/downloads/GutsRodsavas.png" />
+			<p>Guts Rodsavas</p>
+			</a>
+			</div>
+
+            <div id="moderator">
+			<a href="http://www.raywenderlich.com/about#pabloruiz">
+			<img class="photo" width="100" height="100" alt="Picture of Pablo Ruiz" src="http://cdn3.raywenderlich.com/downloads/PabloRuiz.png" />
+			<p>Pablo Ruiz</p>
+			</a>
+			</div>           
+				
+            <div id="moderator">
+			<a href="http://www.raywenderlich.com/about#ellenshapiro">
+			<img class="photo" width="100" height="100" alt="Picture of Ellen Shapiro" src="http://cdn1.raywenderlich.com/downloads/EllenShapiro.png" />
+			<p>Ellen Shapiro</p>
+			</a>
+			</div> 
+
+            <div id="moderator">
+			<a href="http://www.raywenderlich.com/about#scottsherwood">
+			<img class="photo" width="100" height="100" alt="Picture of Scott Sherwood" src="http://cdn1.raywenderlich.com/downloads/ScottSherwood.png" />
+			<p>Scott Sherwood</p>
+			</a>
+			</div> 
+
+            <div id="moderator">
+			<a href="http://www.raywenderlich.com/about#evanstoddard">
+			<img class="photo" width="100" height="100" alt="Picture of Evan Stoddard" src="http://cdn5.raywenderlich.com/downloads/EvanStoddard.jpg" />
+			<p>Evan Stoddard</p>
+			</a>
+			</div> 
+				
+            <div id="moderator">
+			<a href="http://www.raywenderlich.com/about#allentan">
+			<img class="photo" width="100" height="100" alt="Picture of Allen Tan" src="http://cdn3.raywenderlich.com/downloads/AllenTan.png" />
+			<p>Allen Tan</p>
+			</a>
+			</div>
+						
+			<div id="moderator">
+			<a href="http://www.raywenderlich.com/about#marintodorov">
+			<img class="photo" width="100" height="100" alt="Picture of Marin Todorov" src="http://cdn4.raywenderlich.com/downloads/MarinTodorov.jpg" />
+			<p>Marin Todorov</p>
+			</a>
+			</div>
+
+			<div id="moderator">
+			<a href="http://www.raywenderlich.com/about#brandontrebitowski">
+			<img class="photo" width="100" height="100" alt="Picture of Brandon Trebitowski" src="http://cdn5.raywenderlich.com/downloads/BrandonTrebitowski.png" />
+			<p>Brandon Trebitowski</p>
+			</a>
+			</div>
+
+			<div id="moderator">
+			<a href="http://www.raywenderlich.com/about#chriswagner">
+			<img class="photo" width="100" height="100" alt="Picture of Chris Wagner" src="http://cdn1.raywenderlich.com/downloads/ChrisWagner.jpg" />
+			<p>Chris Wagner</p>
+			</a>
+			</div>
+					
+    	</div>
+			
+		<div id="support" class="sidebar-entry group">
+			<h4>Forum Subject Matter Experts</h4>
+				
+            <div id="moderator">
+			<a href="http://www.raywenderlich.com/about#adamburkepile">
+			<img class="photo" width="100" height="100" alt="Picture of Adam Burkepile" src="http://cdn5.raywenderlich.com/downloads/AdamBurkepile.png" />
+			<p>Adam Burkepile</p>
+			</a>
+			</div>
+
+			<div id="moderator">
+			<a href="http://www.raywenderlich.com/about#bearcahill">
+			<img class="photo" width="100" height="100" alt="Picture of Bear Cahill" src="http://cdn3.raywenderlich.com/downloads/BearCahill.jpg" />
+			<p>Bear Cahill</p>
+			</a>
+			</div>
+										
+			<div id="moderator">
+			<a href="http://www.raywenderlich.com/about#richardcasey">
+			<img class="photo" width="100" height="100" alt="Picture of Richard Casey" src="http://cdn2.raywenderlich.com/downloads/RichardCasey.jpg" />
+			<p>Richard Casey</p>
+			</a>
+			</div>
+			
+			<div id="moderator">
+			<a href="http://www.raywenderlich.com/about#adameberbach">
+			<img class="photo" width="100" height="100" alt="Picture of Adam Eberbach" src="http://d1xzuxjlafny7l.cloudfront.net/downloads/AdamEberbach.jpg" />
+			<p>Adam Eberbach</p>
+			</a>
+			</div>
+									
+			<div id="moderator">
+			<a href="http://www.raywenderlich.com/about#marciovalenzuela">
+			<img class="photo" width="100" height="100" alt="Picture of Marcio Valenzuela" src="http://cdn3.raywenderlich.com/downloads/MarcioValenzuela.png" />
+			<p>Marcio Valenzuela</p>
+			</a>
+			</div>
+									
+		</div>	
+		
+		<div id="contributors" class="sidebar-entry group">
+
+            <h4>Editors</h4>
+
+            <div id="moderator">
+			<a href="http://www.raywenderlich.com/about#chrisbelanger">
+			<img class="photo" width="100" height="100" alt="Picture of Chris Belanger" src="http://cdn1.raywenderlich.com/downloads/ChrisBelanger2.jpg" />
+			<p>Chris Belanger</p>
+			</a>
+			</div>
+
+            <div id="moderator">
+			<a href="http://www.raywenderlich.com/about#fahimfarook">
+			<img class="photo" width="100" height="100" alt="Picture of Fahim Farook" src="http://cdn4.raywenderlich.com/downloads/FahimFarook.png" />
+			<p>Fahim Farook</p>
+			</a>
+			</div>
+			
+            <div id="moderator">
+			<a href="http://www.raywenderlich.com/about#mattgalloway">
+			<img class="photo" width="100" height="100" alt="Picture of Matt Galloway" src="http://cdn1.raywenderlich.com/downloads/MattGalloway.png" />
+			<p>Matt Galloway</p>
+			</a>
+			</div>
+
+            <div id="moderator">
+			<a href="http://www.raywenderlich.com/about#gregheo">
+			<img class="photo" width="100" height="100" alt="Picture of Greg Heo" src="http://cdn3.raywenderlich.com/downloads/gregheo.jpg" />
+			<p>Greg Heo</p>
+			</a>
+			</div>
+			
+			<div id="moderator">
+			<a href="http://www.raywenderlich.com/about#matthijshollemans">
+			<img class="photo" width="100" height="100" alt="Picture of Matthijs Hollemans" src="http://cdn1.raywenderlich.com/downloads/MatthijsHollemans.jpg" />
+			<p>Matthijs Hollemans</p>
+			</a>
+			</div>
+			
+			<div id="moderator">
+			<a href="http://www.raywenderlich.com/about#chrislapollo">
+			<img class="photo" width="100" height="100" alt="Picture of ChrisLaPollo" src="http://cdn2.raywenderlich.com/downloads/ChrisLaPollo.png" />
+			<p>Chris LaPollo</p>
+			</a>
+			</div>
+			
+            <div id="moderator">
+			<a href="http://www.raywenderlich.com/about#brianmoakley">
+			<img class="photo" width="100" height="100" alt="Picture of Brian Moakley" src="http://cdn5.raywenderlich.com/downloads/BrianMoakley.png" />
+			<p>Brian Moakley</p>
+			</a>
+			</div>			
+
+            <div id="moderator">
+			<a href="http://www.raywenderlich.com/about#bcphillips">
+			<img class="photo" width="100" height="100" alt="Picture of B.C. Phillips" src="http://cdn5.raywenderlich.com/downloads/BCPhillips.JPG" />
+			<p>B.C. Phillips</p>
+			</a>
+			</div>
+
+            <div id="moderator">
+			<a href="http://www.raywenderlich.com/about#micpringle">
+			<img class="photo" width="100" height="100" alt="Picture of Mic Pringle" src="http://cdn2.raywenderlich.com/downloads/micpringle.png" />
+			<p>Mic Pringle</p>
+			</a>
+			</div>
+
+            <div id="moderator">
+			<a href="http://www.raywenderlich.com/about">
+			<img class="photo" width="100" height="100" alt="Picture of Ray Wenderlich" src="http://cdn2.raywenderlich.com/downloads/RayWenderlich.jpg" />
+			<p>Ray Wenderlich</p>
+			</a>
+			</div>
+
+        </div>
+
+		<div id="support" class="sidebar-entry group">
+			<h4>Reader's Apps Reviewers</h4>
+				
+            <div id="moderator">
+			<a href="http://www.raywenderlich.com/about#ryanpoolos">
+			<img class="photo" width="100" height="100" alt="Picture of Ryan Poolos" src="http://cdn1.raywenderlich.com/downloads/RyanPoolos.jpg" />
+			<p>Ryan Poolos</p>
+			</a>
+			</div>
+			
+        </div>
+        
+        <div id="support" class="sidebar-entry group">
+            <h4>Lead Translator</h4>
+            
+            <div id="moderator">
+			<a href="http://www.raywenderlich.com/about#cosminpupaza">
+			<img class="photo" width="100" height="100" alt="Picture of Cosmin Pupaza" src="http://cdn4.raywenderlich.com/downloads/CosminPupaza.jpg" />
+			<p>Cosmin Pupăză</p>
+			</a>
+			</div>
+			
+        </div>
+        
+        <div id="support" class="sidebar-entry group">
+			<h4>Translation Team</h4>
+				
+            <div id="moderator">
+			<a href="http://www.raywenderlich.com/about#hadeelalmushaigh">
+			<img class="photo" width="100" height="100" alt="Picture of Hadeel Almushaigh" src="http://cdn4.raywenderlich.com/downloads/HadeelAlmushaigh.jpg" />
+			<p>Hadeel Almushigih</p>
+			</a>
+			</div>
+
+            <div id="moderator">
+			<a href="http://www.raywenderlich.com/about#miguelangel">
+			<img class="photo" width="100" height="100" alt="Picture of Miguel Angel" src="http://cdn5.raywenderlich.com/downloads/MiguelAngel.png" />
+			<p>Miguel Angel</p>
+			</a>
+			</div>
+			
+            <div id="moderator">
+			<a href="http://www.raywenderlich.com/about#andreychernukha">
+			<img class="photo" width="100" height="100" alt="Picture of Andrey Chernukha" src="http://cdn4.raywenderlich.com/downloads/AndreyChernukha.jpg" />
+			<p>Andrey Chernukha</p>
+			</a>
+			</div>
+			
+			<div id="moderator">
+			<a href="http://www.raywenderlich.com/about#michaldziadkowiec">
+			<img class="photo" width="100" height="100" alt="Picture of Michał Dziadkowiec" src="http://cdn3.raywenderlich.com/downloads/MichalDziadkowiec.jpg" />
+			<p>Michał Dziadkowiec</p>
+			</a>
+			</div>				
+
+            <div id="moderator">
+			<a href="http://www.raywenderlich.com/about#josedelaroca">
+			<img class="photo" width="100" height="100" alt="Picture of Jose De La Roca" src="http://cdn5.raywenderlich.com/downloads/JoseDeLaRoca.png" />
+			<p>Jose De La Roca</p>
+			</a>
+			</div>
+
+            <div id="moderator">
+			<a href="http://www.raywenderlich.com/about#daveharry">
+			<img class="photo" width="100" height="100" alt="Picture of Dave Harry" src="http://cdn5.raywenderlich.com/downloads/DaveHarry.jpg" />
+			<p>Dave Harry</p>
+			</a>
+			</div>
+
+            <div id="moderator">
+			<a href="http://www.raywenderlich.com/about#behrankankul">
+			<img class="photo" width="100" height="100" alt="Picture of Behran Kankul" src="http://cdn3.raywenderlich.com/downloads/BehranKankul.jpg" />
+			<p>Behran Kankul</p>
+			</a>
+			</div>
+				
+            <div id="moderator">
+			<a href="http://www.raywenderlich.com/about#juangonzalez">
+			<img class="photo" width="100" height="100" alt="Picture of Juan Gonzalez" src="http://cdn2.raywenderlich.com/downloads/JuanGonzalez.jpg" />
+			<p>Juan Gonzalez</p>
+			</a>
+			</div>
+
+            <div id="moderator">
+			<a href="http://www.raywenderlich.com/about#booiljoung">
+			<img class="photo" width="100" height="100" alt="Picture of Booil Joung" src="http://cdn5.raywenderlich.com/downloads/BooilJoung.png" />
+			<p>Booil Joung</p>
+			</a>
+			</div>
+
+            <div id="moderator">
+			<a href="http://www.raywenderlich.com/about#hiroshikawamoto">
+			<img class="photo" width="100" height="100" alt="Picture of Hiroshi Kawamoto" src="http://cdn5.raywenderlich.com/downloads/HiroshiKawamoto2.jpg" />
+			<p>Hiroshi Kawamoto</p>
+			</a>
+			</div>
+			
+			<div id="moderator">
+			<a href="http://www.raywenderlich.com/about#wilsonlin">
+			<img class="photo" width="100" height="100" alt="Picture of Wilson Lin" src="http://cdn4.raywenderlich.com/downloads/WilsonLin.jpg" />
+			<p>Wilson Lin</p>
+			</a>
+			</div>
+
+			<div id="moderator">
+			<a href="http://www.raywenderlich.com/about#antonlitvinov">
+			<img class="photo" width="100" height="100" alt="Picture of Anton Litvinov" src="http://cdn3.raywenderlich.com/downloads/AntonLitvinov.jpg" />
+			<p>Anton Litvinov</p>
+			</a>
+			</div>
+
+            <div id="moderator">
+			<a href="http://www.raywenderlich.com/about#linma">
+			<img class="photo" width="100" height="100" alt="Picture of Lin Ma" src="http://cdn5.raywenderlich.com/downloads/LinMa.png" />
+			<p>Lin Ma</p>
+			</a>
+			</div>
+
+            <div id="moderator">
+			<a href="http://www.raywenderlich.com/about#xiangpingmeng">
+			<img class="photo" width="100" height="100" alt="Picture of Xiangping Meng" src="http://cdn2.raywenderlich.com/downloads/XiangpingMeng.jpg" />
+			<p>Xiangping Meng</p>
+			</a>
+			</div>
+			
+			<div id="moderator">
+			<a href="http://www.raywenderlich.com/about#oliverou">
+			<img class="photo" width="100" height="100" alt="Picture of Oliver Ou" src="http://cdn4.raywenderlich.com/downloads/OliverOu.png" />
+			<p>Oliver Ou</p>
+			</a>
+			</div>
+				
+            <div id="moderator">
+			<a href="http://www.raywenderlich.com/about#dipeng">
+			<img class="photo" width="100" height="100" alt="Picture of Di Peng" src="http://cdn2.raywenderlich.com/downloads/DiPeng.jpg" />
+			<p>Di Peng</p>
+			</a>
+			</div>
+
+            <div id="moderator">
+			<a href="http://www.raywenderlich.com/about#olivierponcin">
+			<img class="photo" width="100" height="100" alt="Picture of Olivier Poncin" src="http://cdn3.raywenderlich.com/downloads/OlivierPoncin.jpg" />
+			<p>Olivier Poncin</p>
+			</a>
+			</div>
+
+            <div id="moderator">
+			<a href="http://www.raywenderlich.com/about#cosminpupaza">
+			<img class="photo" width="100" height="100" alt="Picture of Cosmin Pupaza" src="http://cdn4.raywenderlich.com/downloads/CosminPupaza.jpg" />
+			<p>Cosmin Pupăză</p>
+			</a>
+			</div>
+
+            <div id="moderator">
+			<a href="http://www.raywenderlich.com/about#jerryqin">
+			<img class="photo" width="100" height="100" alt="Picture of Jerry Qin" src="http://cdn2.raywenderlich.com/downloads/JerryQin.jpg" />
+			<p>Jerry Qin</p>
+			</a>
+			</div>
+
+			<div id="moderator">
+			<a href="http://www.raywenderlich.com/about#rodrigosalles">
+			<img class="photo" width="100" height="100" alt="Picture of Rodrigo Salles" src="http://cdn5.raywenderlich.com/downloads/RodrigoSalles2.png" />
+			<p>Rodrigo Salles</p>
+			</a>
+			</div>
+			
+			<div id="moderator">
+			<a href="http://www.raywenderlich.com/about#jiyeonseo">
+			<img class="photo" width="100" height="100" alt="Picture of Jiyeon Seo" src="http://cdn5.raywenderlich.com/downloads/JiyeonSeo.jpg" />
+			<p>Jiyeon Seo</p>
+			</a>
+			</div>
+			
+			<div id="moderator">
+			<a href="http://www.raywenderlich.com/about#pacotorres">
+			<img class="photo" width="100" height="100" alt="Picture of Paco Torres" src="http://cdn1.raywenderlich.com/downloads/PacoTorres.jpg" />
+			<p>Paco Torres</p>
+			</a>
+			</div>
+			
+			<div id="moderator">
+			<a href="http://www.raywenderlich.com/about#teamtyran">
+			<img class="photo" width="100" height="100" alt="Picture of Team Tyran" src="http://cdn4.raywenderlich.com/downloads/TeamTyran.png" />
+			<p>Team Tyran</p>
+			</a>
+			</div>
+
+            <div id="moderator">
+			<a href="http://www.raywenderlich.com/about#davidxie">
+			<img class="photo" width="100" height="100" alt="Picture of David Xie" src="http://cdn4.raywenderlich.com/downloads/DavidXie.jpg" />
+			<p>David Xie</p>
+			</a>
+			</div>
+
+            <div id="moderator">
+			<a href="http://www.raywenderlich.com/about#xihanxu">
+			<img class="photo" width="100" height="100" alt="Picture of Zihan Xu" src="http://cdn2.raywenderlich.com/downloads/ZihanXu.jpg" />
+			<p>Zihan Xu</p>
+			</a>
+			</div>
+
+            <div id="moderator">
+			<a href="http://www.raywenderlich.com/about#sungwookyeom">
+			<img class="photo" width="100" height="100" alt="Picture of Sungwook Yeom" src="http://cdn2.raywenderlich.com/downloads/SungwookYeom.png" />
+			<p>Sungwook Yeom</p>
+			</a>
+			</div>
+
+            <div id="moderator">
+			<a href="http://www.raywenderlich.com/about#vitaliyzarubin">
+			<img class="photo" width="100" height="100" alt="Picture of Vitaliy Zarubin" src="http://cdn4.raywenderlich.com/downloads/VitaliyZarubin.jpg" />
+			<p>Vitaliy Zarubin</p>
+			</a>
+			</div>
+			
+			<div id="moderator">
+			<a href="http://www.raywenderlich.com/about#zhixunzhou">
+			<img class="photo" width="100" height="100" alt="Picture of Zhixun Zhou" src="http://cdn3.raywenderlich.com/downloads/ZhixunZhou.jpg" />
+			<p>Zhixun Zhou</p>
+			</a>
+			</div>									
+															
+            <div id="moderator">
+			<a href="http://www.raywenderlich.com/about#soniczhao">
+			<img class="photo" width="100" height="100" alt="Picture of Sonic Zhao" src="http://cdn1.raywenderlich.com/downloads/SonicZhao2.jpg" />
+			<p>Sonic Zhao</p>
+			</a>
+			</div>
+			
+        </div>
+				
+		<div id="search" class="sidebar-entry">
+			<h4>Search</h4>
+			<form method="get" id="searchform" action="http://www.raywenderlich.com/" >
+				<div>
+					<label class="screen-reader-text" for="s">Search for:</label>
+					<input type="text" value="" name="s" id="s" />
+					<input type="submit" id="searchsubmit" value="Search" />
+				</div>
+			</form> 
+			
+     	      <br/>
+     	      <br/>
+		</div>																		
+		
+	</div>
+
+</div> <!-- main -->
+
+	<div id="footer" class="group" style="height:200">
+	  <div id="footer-left">
+  
+	  <p>This site and the products and services offered on this site are not associated, affiliated, endorsed, or sponsored by Apple, nor have they been reviewed, tested, or certified by Apple. Similarly, Cocos2D is a registered trademark of Ricardo Quesada. This site and the products and services offered on this site are not associated, affiliated, endorsed, or sponsored by Ricardo Quesada. All trademarks property of their respective owners.</p>	  	  	  
+	  </div>
+	  <div id="footer-right">
+		<p><a href="http://www.raywenderlich.com/about">About</a> | <a href="http://www.raywenderlich.com/faq">FAQ</a> | <a href="http://www.raywenderlich.com/advertise">Advertise</a> | <a href="http://www.raywenderlich.com/contact">Contact</a></li></p>		
+		<p>&copy; 2012 Razeware LLC. All rights reserved.</p>
+		</div>
+	</div>
+		
+</div> <!-- wrap -->
+
+<script type="text/javascript" src="http://cdn5.raywenderlich.com/wp-content/plugins/what-would-seth-godin-do/jquery.cookie.js"></script>
+<script type="text/javascript">
+    jQuery(document).ready(function() {
+        var count;
+        if ( !jQuery.cookie('wwsgd_visits') ) {
+            count = 1;
+        }
+        else {
+            count = parseInt(jQuery.cookie('wwsgd_visits'), 10) + 1;
+        }
+        jQuery.cookie('wwsgd_visits', count, { expires: 365, path: "/" });
+
+        if ( count <= 5 ) {
+            jQuery(".wwsgd").show();
+        }
+    });
+</script>
+<!-- Survey and Quizzes Powered by WP Survey And Quiz Tool 2.13.1 iain.cambridge at fubra.com --><script type='text/javascript' src='http://platform.twitter.com/widgets.js?ver=1.1'></script>
+<script type='text/javascript'>
+/* <![CDATA[ */
+var pollsL10n = {"ajax_url":"http:\/\/www.raywenderlich.com\/wp-admin\/admin-ajax.php","text_wait":"Your last request is still being processed. Please wait a while ...","text_valid":"Please choose a valid poll answer.","text_multiple":"Maximum number of choices allowed: ","show_loading":"1","show_fading":"1"};
+/* ]]> */
+</script>
+<script type='text/javascript' src='http://www.raywenderlich.com/wp-content/plugins/wp-polls/polls-js.js?ver=2.63'></script>
+
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-12636836-1']);
+  _gaq.push(['_trackPageview']);
+  _gaq.push(['_trackPageLoadTime']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+
+<!-- Lake Quincy Ads -->
+<script type='text/javascript'>
+    function _dmBootstrap(file) {
+        var _dma = document.createElement('script'); 
+        _dma.type = 'text/javascript';
+        _dma.async = true; 
+        _dma.src = ('https:' == document.location.protocol ? 'https://' : 'http://') + file;
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(_dma);
+    }
+    function _dmFollowup(file) { if (typeof DMAds === 'undefined')  _dmBootstrap('cdn2.DeveloperMedia.com/a.min.js');}
+    (function () { _dmBootstrap('cdn1.DeveloperMedia.com/a.min.js'); setTimeout(_dmFollowup, 2000);})();
+</script>
+<!-- Lake Quincy Ads -->
+
+
+
+
+
+</body>
+
+</html>

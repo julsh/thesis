@@ -1,0 +1,28 @@
+<html>
+
+
+<h1> simple ex 3</h1>
+
+Printing the arg structure :
+<pre>{arg,#Port<0.143363>,
+          {{62,212,72,172},51775},
+          {headers,"keep-alive","*/*","hyber.org",undefined,undefined,
+                   undefined,undefined,undefined,undefined,
+                   "http://hyber.org/simple.yaws","SiteSucker/2.3.4",
+                   undefined,
+                   ["pfoobar=25; baz=nonode@nohost-180459588729773933863724390694063369074; foobar=<0.253.1>"],
+                   undefined,undefined,undefined,undefined,undefined,
+                   undefined,undefined,undefined,
+                   [{http_header,10,'Accept-Encoding',undefined,
+                                 "gzip, deflate"},
+                    {http_header,11,'Accept-Language',undefined,"en-us"}]},
+          {http_request,'GET',{abs_path,"/simple_ex4.yaws"},{1,1}},
+          undefined,"/simple_ex4.yaws",undefined,undefined,
+          "/usr/local/var/yaws/www","/",
+          "/usr/local/var/yaws/www/simple_ex4.yaws",undefined,undefined,
+          <0.248.1>,[],undefined,"/",undefined}
+</pre>
+
+
+
+</html>

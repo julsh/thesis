@@ -1,0 +1,534 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="html/html; charset=utf-8" />
+		<title>SZUserPhotoView Class Reference</title>
+		<meta id="xcode-display" name="xcode-display" content="render"/>
+		<link rel="stylesheet" type="text/css" href="../css/styles.css" media="all" />
+		<link rel="stylesheet" type="text/css" media="print" href="../css/stylesPrint.css" />
+		<meta name="generator" content="appledoc 2.1 (build 858)" />
+	</head>
+	<body>
+		<header id="top_header">
+			<div id="library" class="hideInXcode">
+				<h1><a id="libraryTitle" href="../index.html">Skillz </a></h1>
+				<a id="developerHome" href="../index.html">de.juliaroggatz</a>
+			</div>
+			
+			<div id="title" role="banner">
+				<h1 class="hideInXcode">SZUserPhotoView Class Reference</h1>
+			</div>
+			<ul id="headerButtons" role="toolbar">
+				<li id="toc_button">
+					<button aria-label="Show Table of Contents" role="checkbox" class="open" id="table_of_contents"><span class="disclosure"></span>Table of Contents</button>
+				</li>
+				<li id="jumpto_button" role="navigation">
+					<select id="jumpTo">
+	<option value="top">Jump To&#133;</option>
+	
+	<option value="overview">Overview</option>
+	
+	
+	
+	
+	<option value="tasks">Tasks</option>
+	
+	
+	
+	
+	
+	<option value="properties">Properties</option>
+	
+	<option value="//api/name/photo">&nbsp;&nbsp;&nbsp;&nbsp;photo</option>
+	
+	
+	
+	
+	<option value="class_methods">Class Methods</option>
+	
+	<option value="//api/name/emptyUserPhotoViewWithSize:">&nbsp;&nbsp;&nbsp;&nbsp;+ emptyUserPhotoViewWithSize:</option>
+	
+	<option value="//api/name/userPhotoViewWithSize:fileReference:">&nbsp;&nbsp;&nbsp;&nbsp;+ userPhotoViewWithSize:fileReference:</option>
+	
+	<option value="//api/name/userPhotoViewWithSize:photo:">&nbsp;&nbsp;&nbsp;&nbsp;+ userPhotoViewWithSize:photo:</option>
+	
+	
+	
+	
+	
+</select>
+				</li>
+			</ul>
+		</header>
+		<nav id="tocContainer" class="isShowingTOC">
+			<ul id="toc" role="tree">
+				
+<li role="treeitem"><span class="nodisclosure"></span><span class="sectionName"><a href="#overview">Overview</a></span></li>
+
+
+
+
+<li role="treeitem" id="task_treeitem"><span class="nodisclosure"></span><span class="sectionName"><a href="#tasks">Tasks</a></span><ul>
+	
+</ul></li>
+
+
+
+
+
+<li role="treeitem" class="children"><span class="disclosure"></span><span class="sectionName"><a href="#properties">Properties</a></span><ul>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/photo">photo</a></span></li>
+	
+</ul></li>
+
+
+
+<li role="treeitem" class="children"><span class="disclosure"></span><span class="sectionName"><a href="#class_methods">Class Methods</a></span><ul>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/emptyUserPhotoViewWithSize:">emptyUserPhotoViewWithSize:</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/userPhotoViewWithSize:fileReference:">userPhotoViewWithSize:fileReference:</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/userPhotoViewWithSize:photo:">userPhotoViewWithSize:photo:</a></span></li>
+	
+</ul></li>
+
+
+
+
+			</ul>
+		</nav>
+		<article>
+			<div id="contents" class="isShowingTOC" role="main">
+				<a title="SZUserPhotoView Class Reference" name="top"></a>
+				<div class="main-navigation navigation-top">
+					<ul>
+	<li><a href="../index.html">Index</a></li>
+	<li><a href="../hierarchy.html">Hierarchy</a></li>
+</ul>
+				</div>
+				<div id="header">
+					<div class="section-header">
+						<h1 class="title title-header">SZUserPhotoView Class Reference</h1>
+					</div>		
+				</div>
+				<div id="container">	
+					
+					<div class="section section-specification"><table cellspacing="0"><tbody>
+						<tr>
+	<td class="specification-title">Inherits from</td>
+	<td class="specification-value">UIView</td>
+</tr><tr>
+	<td class="specification-title">Declared in</td>
+	<td class="specification-value">SZUserPhotoView.h<br />SZUserPhotoView.m</td>
+</tr>
+						</tbody></table></div>
+					
+					
+					
+					
+					<div class="section section-overview">
+						<a title="Overview" name="overview"></a>
+						<h2 class="subtitle subtitle-overview">Overview</h2>
+						<p>This class represents a user photo with a photo frame around it. It can be instanciated in different sizes and offers the flexibility of assigning the actual image data later. As long as no photo is explicitly assigned to the SZUserPhotoView, it will display a placeholder image within the frame instead of an actual photo.</p>
+					</div>
+					
+					
+					
+					
+					
+					<div class="section section-tasks">
+						<a title="Tasks" name="tasks"></a>
+						<h2 class="subtitle subtitle-tasks">Tasks</h2>
+						
+						
+						
+						
+
+						<ul class="task-list">
+							<li>
+	<span class="tooltip">
+		<code><a href="#//api/name/photo">&nbsp;&nbsp;photo</a></code>
+		<span class="tooltip"><p>The photo of the user that the <code>SZUserPhotoView</code> is showing.</p></span>
+	</span>
+	<span class="task-item-suffix">property</span>
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/emptyUserPhotoViewWithSize:">+&nbsp;emptyUserPhotoViewWithSize:</a></code>
+		<span class="tooltip"><p>Creates an instance of <code>SZUserPhotoView</code> that displays a placeholder image. This is used if the actual image should be set manually at a later time, or if there is no user photo available.</p></span>
+	</span>
+	
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/userPhotoViewWithSize:fileReference:">+&nbsp;userPhotoViewWithSize:fileReference:</a></code>
+		<span class="tooltip"><p>Creates an instance of <code>SZUserPhotoView</code> that first displays a placeholder image, fetches the image data in the background and sets the correct image as soon the image data was successfully downloaded.</p></span>
+	</span>
+	
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/userPhotoViewWithSize:photo:">+&nbsp;userPhotoViewWithSize:photo:</a></code>
+		<span class="tooltip"><p>Creates an instance of <code>SZUserPhotoView</code> that displayes a user photo. This is used if the user photo object already exisits and doesn&rsquo;t need to be explicitly fetched.</p></span>
+	</span>
+	
+	
+</li>
+						</ul>
+						
+					</div>
+					
+					
+					
+					
+					
+					<div class="section section-methods">
+						<a title="Properties" name="properties"></a>
+						<h2 class="subtitle subtitle-methods">Properties</h2>
+						
+						<div class="section-method">
+	<a name="//api/name/photo" title="photo"></a>
+	<h3 class="subsubtitle method-title">photo</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>The photo of the user that the <code>SZUserPhotoView</code> is showing.</p>
+	</div>		
+	
+    
+
+	<div class="method-subsection method-declaration"><code>@property (nonatomic, strong) UIImage *photo</code></div>
+
+    
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">SZUserPhotoView.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+					</div>
+					
+					
+					
+					<div class="section section-methods">
+						<a title="Class Methods" name="class_methods"></a>
+						<h2 class="subtitle subtitle-methods">Class Methods</h2>
+						
+						<div class="section-method">
+	<a name="//api/name/emptyUserPhotoViewWithSize:" title="emptyUserPhotoViewWithSize:"></a>
+	<h3 class="subsubtitle method-title">emptyUserPhotoViewWithSize:</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>Creates an instance of <code>SZUserPhotoView</code> that displays a placeholder image. This is used if the actual image should be set manually at a later time, or if there is no user photo available.</p>
+	</div>		
+	
+    
+
+	<div class="method-subsection method-declaration"><code>+ (SZUserPhotoView *)emptyUserPhotoViewWithSize:(SZUserPhotoViewSize)<em>size</em></code></div>
+
+    
+	
+	<div class="method-subsection arguments-section parameters">
+		<h4 class="method-subtitle parameter-title">Parameters</h4>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>size</em></dt>
+			<dd><p>The desired size of the <code>SZUserPhotoView</code>. Uses the <code>SZUserPhotoViewSize</code> enumerator. Allowed values are:</p>
+
+<ul>
+<li><code>SZUserPhotoViewSizeSmall</code></li>
+<li><code>SZUserPhotoViewSizeMedium</code></li>
+<li><code>SZUserPhotoViewSizeLarge</code></li>
+</ul>
+</dd>
+		</dl>
+		
+	</div>
+	
+	
+	
+	<div class="method-subsection return">
+		<h4 class="method-subtitle parameter-title">Return Value</h4>
+		<p>An instance of <code>SZUserPhotoView</code></p>
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">SZUserPhotoView.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/userPhotoViewWithSize:fileReference:" title="userPhotoViewWithSize:fileReference:"></a>
+	<h3 class="subsubtitle method-title">userPhotoViewWithSize:fileReference:</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>Creates an instance of <code>SZUserPhotoView</code> that first displays a placeholder image, fetches the image data in the background and sets the correct image as soon the image data was successfully downloaded.</p>
+	</div>		
+	
+    
+
+	<div class="method-subsection method-declaration"><code>+ (SZUserPhotoView *)userPhotoViewWithSize:(SZUserPhotoViewSize)<em>size</em> fileReference:(PFFile *)<em>file</em></code></div>
+
+    
+	
+	<div class="method-subsection arguments-section parameters">
+		<h4 class="method-subtitle parameter-title">Parameters</h4>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>size</em></dt>
+			<dd><p>The desired size of the <code>SZUserPhotoView</code>. Uses the <code>SZUserPhotoViewSize</code> enumerator. Allowed values are:</p>
+
+<ul>
+<li><code>SZUserPhotoViewSizeSmall</code></li>
+<li><code>SZUserPhotoViewSizeMedium</code></li>
+<li><code>SZUserPhotoViewSizeLarge</code></li>
+</ul>
+</dd>
+		</dl>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>file</em></dt>
+			<dd><p>A reference to the file property that needs to be fetched</p></dd>
+		</dl>
+		
+	</div>
+	
+	
+	
+	<div class="method-subsection return">
+		<h4 class="method-subtitle parameter-title">Return Value</h4>
+		<p>An instance of <code>SZUserPhotoView</code></p>
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">SZUserPhotoView.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/userPhotoViewWithSize:photo:" title="userPhotoViewWithSize:photo:"></a>
+	<h3 class="subsubtitle method-title">userPhotoViewWithSize:photo:</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>Creates an instance of <code>SZUserPhotoView</code> that displayes a user photo. This is used if the user photo object already exisits and doesn&rsquo;t need to be explicitly fetched.</p>
+	</div>		
+	
+    
+
+	<div class="method-subsection method-declaration"><code>+ (SZUserPhotoView *)userPhotoViewWithSize:(SZUserPhotoViewSize)<em>size</em> photo:(UIImage *)<em>photo</em></code></div>
+
+    
+	
+	<div class="method-subsection arguments-section parameters">
+		<h4 class="method-subtitle parameter-title">Parameters</h4>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>size</em></dt>
+			<dd><p>The desired size of the <code>SZUserPhotoView</code>. Uses the <code>SZUserPhotoViewSize</code> enumerator. Allowed values are:</p>
+
+<ul>
+<li><code>SZUserPhotoViewSizeSmall</code></li>
+<li><code>SZUserPhotoViewSizeMedium</code></li>
+<li><code>SZUserPhotoViewSizeLarge</code></li>
+</ul>
+</dd>
+		</dl>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>photo</em></dt>
+			<dd><p>A <code>UIImage</code> object of the user photo</p></dd>
+		</dl>
+		
+	</div>
+	
+	
+	
+	<div class="method-subsection return">
+		<h4 class="method-subtitle parameter-title">Return Value</h4>
+		<p>An instance of <code>SZUserPhotoView</code></p>
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">SZUserPhotoView.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+					</div>
+					
+					
+					
+					
+				</div>
+				<div class="main-navigation navigation-bottom">
+					<ul>
+	<li><a href="../index.html">Index</a></li>
+	<li><a href="../hierarchy.html">Hierarchy</a></li>
+</ul>
+				</div>
+				<div id="footer">
+					<hr />
+					<div class="footer-copyright">
+						<p><span class="copyright">&copy; 2013 de.juliaroggatz. All rights reserved. (Last updated: 2013-05-06)</span><br />
+						
+						<span class="generator">Generated by <a href="http://appledoc.gentlebytes.com">appledoc 2.1 (build 858)</a>.</span></p>
+						
+					</div>
+				</div>
+			</div>
+		</article>
+		<script type="text/javascript">
+			function jumpToChange()
+			{
+				window.location.hash = this.options[this.selectedIndex].value;
+			}
+			
+			function toggleTOC()
+			{
+				var contents = document.getElementById('contents');
+				var tocContainer = document.getElementById('tocContainer');
+				
+				if (this.getAttribute('class') == 'open')
+				{
+					this.setAttribute('class', '');
+					contents.setAttribute('class', '');
+					tocContainer.setAttribute('class', '');
+					
+					window.name = "hideTOC";
+				}
+				else
+				{
+					this.setAttribute('class', 'open');
+					contents.setAttribute('class', 'isShowingTOC');
+					tocContainer.setAttribute('class', 'isShowingTOC');
+					
+					window.name = "";
+				}
+				return false;
+			}
+			
+			function toggleTOCEntryChildren(e)
+			{
+				e.stopPropagation();
+				var currentClass = this.getAttribute('class');
+				if (currentClass == 'children') {
+					this.setAttribute('class', 'children open');
+				}
+				else if (currentClass == 'children open') {
+					this.setAttribute('class', 'children');
+				}
+				return false;
+			}
+			
+			function tocEntryClick(e)
+			{
+				e.stopPropagation();
+				return true;
+			}
+			
+			function init()
+			{
+				var selectElement = document.getElementById('jumpTo');
+				selectElement.addEventListener('change', jumpToChange, false);
+				
+				var tocButton = document.getElementById('table_of_contents');
+				tocButton.addEventListener('click', toggleTOC, false);
+				
+				var taskTreeItem = document.getElementById('task_treeitem');
+				if (taskTreeItem.getElementsByTagName('li').length > 0)
+				{
+					taskTreeItem.setAttribute('class', 'children');
+					taskTreeItem.firstChild.setAttribute('class', 'disclosure');
+				}
+				
+				var tocList = document.getElementById('toc');
+				
+				var tocEntries = tocList.getElementsByTagName('li');
+				for (var i = 0; i < tocEntries.length; i++) {
+					tocEntries[i].addEventListener('click', toggleTOCEntryChildren, false);
+				}
+				
+				var tocLinks = tocList.getElementsByTagName('a');
+				for (var i = 0; i < tocLinks.length; i++) {
+					tocLinks[i].addEventListener('click', tocEntryClick, false);
+				}
+				
+				if (window.name == "hideTOC") {
+					toggleTOC.call(tocButton);
+				}
+			}
+			
+			window.onload = init;
+			
+			// If showing in Xcode, hide the TOC and Header
+			if (navigator.userAgent.match(/xcode/i)) {
+				document.getElementById("contents").className = "hideInXcode"
+				document.getElementById("tocContainer").className = "hideInXcode"
+				document.getElementById("top_header").className = "hideInXcode"
+			}
+			
+		</script>
+	</body>
+</html>

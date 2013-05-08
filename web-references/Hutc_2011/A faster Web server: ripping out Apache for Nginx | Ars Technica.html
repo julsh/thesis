@@ -1,0 +1,654 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]> <html lang="en-us" class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>    <html lang="en-us" class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>    <html lang="en-us" class="no-js ie8 lt-ie9"> <![endif]-->
+<!--[if IE 9]>    <html lang="en-us" class="no-js ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html lang="en-us"> <!--<![endif]-->
+<head>
+<title>A faster Web server: ripping out Apache for Nginx | Ars Technica</title>
+  <script type="text/javascript">
+    ars = {"ASSETS":"http:\/\/cdn.arstechnica.net\/wp-content\/themes\/arstechnica\/assets","HOME":"http:\/\/arstechnica.com","CIVIS":"\/civis","THEME":"light","VIEW":"grid","MOBILE":false,"PREMIER":false,"AD":{"kw":"kw=enterprise;kw=ventures;kw=small;kw=business;","kw_arr":["enterprise","ventures","small","business"],"zone":"business","empty":"\/wp-content\/themes\/arstechnica\/assets\/html\/empty.html","loader":"\/wp-content\/themes\/arstechnica\/assets\/html\/ad-loader-frame.html"},"TOTAL":57141,"UNREAD":0,"RECENT":[248711,258789,258391,258855,258859,258419,258805,258795,258775,258707,258599,258439,255629,258693,258601,255311,258527,258437,258399,258357,258321,258307,258239,258133,258251],"LOGINS":true,"COMMENTS":false};
+  </script>
+    <script type="text/javascript" charset="utf-8" src="http://cdn.arstechnica.net/wp-content/themes/arstechnica/assets/js/ua-parser.min.js"></script>
+  <script type="text/javascript">
+    var ua = new UAParser();
+    var os = ua.getOS();
+    if (os.name == 'Windows' && parseFloat(os.version) >= 8) {
+      ars.AD.kw += 'kw=win_8';
+      ars.AD.kw_arr.push('win_8');
+    }
+  </script>
+    <!--[if lte IE 8]><script type="text/javascript" src="http://cdn.arstechnica.net/wp-content/themes/arstechnica/assets/js/modernizr/modernizr.js"></script><![endif]-->
+
+    <link rel="stylesheet" type="text/css" media="all" href="http://cdn.arstechnica.net/wp-content/themes/arstechnica/assets/css/ars.min.b1bb19ccfdca8467a6bed78369293fec.css" />
+  
+      <script type="text/javascript" src="http://cdn.arstechnica.net/wp-content/themes/arstechnica/assets/js/ads.js?v=5"></script>
+  
+  <link rel="alternate" type="application/rss+xml" href="http://feeds.arstechnica.com/arstechnica/index/" />
+
+  <!-- Favicons, etc -->
+  <link rel="apple-touch-icon" href="http://static.arstechnica.net/apple-touch-icon.png" />
+  <link rel="shortcut icon" href="http://static.arstechnica.net/favicon.ico" />
+  <link rel="icon" type="image/x-icon" href="http://static.arstechnica.net/favicon.ico" />
+
+  <!-- C-razy IE9 stuff -->
+  <meta name="application-name" content="Ars Technica"/>
+  <meta name="msapplication-starturl" content="http://arstechnica.com/"/>
+  <meta name="msapplication-tooltip" content="Ars Technica: Serving the technologist for 1.2 decades"/>
+  <meta name="msapplication-task" content="name=News;action-uri=http://arstechnica.com/;icon-uri=http://arstechnica.com/favicon.ico"/>
+  <meta name="msapplication-task" content="name=Features;action-uri=http://arstechnica.com/features/;icon-uri=http://static.arstechnica.net/ie-jump-menu/jump-features.ico"/>
+  <meta name="msapplication-task" content="name=OpenForum;action-uri=http://arstechnica.com/civis/;icon-uri=http://static.arstechnica.net/ie-jump-menu/jump-forum.ico"/>
+  <meta name="msapplication-task" content="name=Subscribe;action-uri=http://arstechnica.com/subscriptions/;icon-uri=http://static.arstechnica.net/ie-jump-menu/jump-subscribe.ico"/>
+
+  <!-- Begin Metadata -->
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta name="advertising" content="ask" />
+  <meta property="fb:admins" content="13703630" />
+  <!-- End Metadata -->
+
+      <meta name="viewport" content="width=1020" />
+  
+    <!-- cache hit -->
+<meta name='parsely-page' content='{"title":"A faster Web server: ripping out Apache for Nginx","link":"http:\/\/arstechnica.com\/business\/2011\/11\/a-faster-web-server-ripping-out-apache-for-nginx\/","type":"post","author":"Lee Hutchinson","post_id":"39706","pub_date":"2011-11-13T22:00:00Z","section":"Ministry of Innovation","tags":["apache-2","nginx","webserver"],"image_url":"http:\/\/cdn.arstechnica.net\/wp-content\/uploads\/2011\/11\/nginx_main_logo-4ebd8dc-listing.gif"}'>
+<meta name='parsely-metadata' content='{"type":"report","title":"A faster Web server: ripping out Apache for Nginx","image_url":"http:\/\/cdn.arstechnica.net\/wp-content\/uploads\/2011\/11\/nginx_main_logo-4ebd8dc-listing.gif"}'>
+
+<link rel="canonical" href="http://arstechnica.com/business/news/2011/11/a-faster-web-server-ripping-out-apache-for-nginx.ars" />
+
+<link rel="shorturl" href="http://bit.ly/JAvwuz" />
+
+<meta name="description" content="Sometimes Apache can be overkill. Here&#039;s one man&#039;s tale of replacing his  &hellip;" />
+
+<meta name="twitter:card" content="summary">
+<meta name="twitter:url" content="http://arstechnica.com/business/news/2011/11/a-faster-web-server-ripping-out-apache-for-nginx.ars">
+<meta name="twitter:title" content="A faster Web server: ripping out Apache for Nginx">
+<meta name="twitter:description" content="Sometimes Apache can be overkill. Here&#039;s one man&#039;s tale of replacing his  &hellip;">
+<meta name="twitter:site" content="@arstechnica">
+<meta name="twitter:image" content="http://cdn.arstechnica.net/wp-content/uploads/2011/11/nginx_main_logo-4ebd8dc-listing.gif">
+<meta name="twitter:creator" content="@Lee_Ars">
+
+<meta property="og:url" content="http://arstechnica.com/business/news/2011/11/a-faster-web-server-ripping-out-apache-for-nginx.ars" />
+<meta property="og:title" content="A faster Web server: ripping out Apache for Nginx" />
+<meta property="og:image" content="http://cdn.arstechnica.net/wp-content/uploads/2011/11/nginx_main_logo-4ebd8dc-listing.gif" />
+<meta property="og:description" content="Sometimes Apache can be overkill. Here&#039;s one man&#039;s tale of replacing his  &hellip;" />
+<meta property="og:type" content="article" />
+<meta property="og:site_name" content="Ars Technica" />
+      <script type="text/javascript" src="http://cdn.arstechnica.net/wp-content/themes/arstechnica/assets/js/omniture/mbox.js"></script>
+<!--
+	generated in 0.084 seconds
+	44928 bytes batcached for 300 seconds
+-->
+</head>
+<body class="single single-post postid-39706 single-format-standard grid-view light">
+  <div id="container">
+    <header id="masthead">
+                      <aside id="ad-top">
+          <script type="text/javascript">ars.masthead_ad()</script>
+        </aside>
+                    <h1><a href="http://arstechnica.com"><em>Ars</em>Technica</a></h1>
+    </header>
+    <nav id="primary">
+      <ul>
+                <li id="home-icon">
+          <a href="/"><span>Home</span></a>
+        </li>
+        <li class="has-children">
+          <a href="#">Main Menu</a>
+           <div id="main-menu" class="dropdown">
+  <div id="sections">
+    <ul class="cat-list">
+      <li class="top-row even">
+        <a class="cat-link" href="/information-technology">
+          <span class="cat-name">Information Technology</span>
+          <span class="subheading cat-desc">Technology Lab</span>
+        </a>
+      </li>
+      <li class="top-row odd">
+        <a class="cat-link" href="/gadgets">
+          <span class="cat-name">Product News &amp; Reviews</span>
+          <span class="subheading cat-desc">Gear &amp; Gadgets</span>
+        </a>
+      </li>
+      <li class="even">
+        <a class="cat-link" href="/business">
+          <span class="cat-name">Business of Technology</span>
+          <span class="subheading cat-desc">Ministry of Innovation</span>
+        </a>
+      </li>
+      <li class="odd">
+        <a class="cat-link" href="/security">
+          <span class="cat-name">Security &amp; Hacktivism</span>
+          <span class="subheading cat-desc">Risk Assessment</span>
+        </a>
+      </li>
+      <li class="even">
+        <a class="cat-link" href="/tech-policy">
+          <span class="cat-name">Civilization &amp; Discontents</span>
+          <span class="subheading cat-desc">Law &amp; Disorder</span>
+        </a>
+      </li>
+      <li class="odd">
+        <a class="cat-link" href="/apple">
+          <span class="cat-name">The Apple Ecosystem</span>
+          <span class="subheading cat-desc">Infinite Loop</span>
+        </a>
+      </li>
+      <li class="even">
+        <a class="cat-link" href="/gaming">
+          <span class="cat-name">Gaming &amp; Entertainment</span>
+          <span class="subheading cat-desc">Opposable Thumbs</span>
+        </a>
+      </li>
+      <li class="odd">
+        <a class="cat-link" href="/science">
+          <span class="cat-name">Science &amp; Exploration</span>
+          <span class="subheading cat-desc">The Scientific Method</span>
+        </a>
+      </li>
+    </ul>
+    <div class="cat-feature">
+      <a class="cat-link" href="/feature-series/the-future-of-touch/">
+        <img src="http://cdn.arstechnica.net/wp-content/themes/arstechnica/assets/images/feature-thumbs/touch-frs-icon.jpg" />
+        <span class="cat-name">Feature Series</span>
+        <span class="cat-desc subheading">The Past, Present, and Future of Touch</span>
+        <span class="cat-full-desc">How touch screens are changing how we interact</span>
+      </a>
+        </div>
+  </div>
+  <aside class="drop-extras">
+    <h2 class="subheading notched">Site Theme</h2>
+    <ul id="theme-switch">
+            <li class="light active">
+                <a href="http://arstechnica.com/business/2011/11/a-faster-web-server-ripping-out-apache-for-nginx/?theme=light"><span class="subheading">Dark on light</span></a>
+              </li>
+      <li class="dark ">
+                <a href="http://arstechnica.com/business/2011/11/a-faster-web-server-ripping-out-apache-for-nginx/?theme=dark"><span class="subheading">Light on dark</span></a>
+              </li>
+    </ul>
+    <div id="explore-ars">
+      <h2 class="subheading notched">Explore Ars</h2>
+      <ul>
+        <li><a href="/staff/">Staff Blogs</a></li>
+        <li><a href="/features/">Feature Archive</a></li>
+        <li><a href="/staff-directory/">Staff Directory</a></li>
+        <li><a href="http://arstechnica.com/contact-us/">Contact Us</a></li>
+      </ul>
+    </div>
+    <div id="featured-disciplines">
+      <h2 class="subheading notched">Featured Disciplines</h2>
+      <ul>
+        <li><a href="/discipline/photography/">Photography</a></li>
+        <li><a href="/discipline/productivity/">Productivity</a></li>
+        <li><a href="/discipline/cloud-2/">Cloud</a></li>
+        <li><a href="/discipline/gadgets-3/">Gadgets</a></li>
+        <li><a href="/discipline/tablets-2/">Tablets</a></li>
+      </ul>
+    </div>
+  </aside>
+</div>
+        </li>
+        <li class="has-children" id="my-stories">
+          <a href="#">My Stories: <span class="unread-count">0</span></a>
+          <div class="dropdown">
+            <nav class="my-stories-nav first">
+              <h2 class="subheading notched">New Since Last Visit <span class="unread-count"></span></h2>
+              <ol class="new-stories with-numbers"></ol>
+              <footer><a class="subheading" href="#" id="more-unread-stories">See more news stories</a></footer>
+            </nav>
+            <nav class="my-stories-nav middle">
+              <h2 class="subheading notched">We Recommend</h2>
+              <ol class="recommendations"></ol>
+            </nav>
+            <nav class="my-stories-nav">
+              <h2 class="subheading notched">My Discussions</h2>
+                            <p class="discussions disabled">Log in to track your discussions.</p>
+                          </nav>
+          </div>
+        </li>
+                <li class="no-children"><a href="/civis/">Forums</a></li>
+                <li class="no-children subscribe">
+          <a href="/subscriptions/">Subscribe</a>
+        </li>
+                        <li class="no-children"><a href="/video/">Video</a></li>
+                        <li class="right">
+          <a id="login" href="/civis/ucp.php?mode=login&return_to=http%3A%2F%2Farstechnica.com%2Fbusiness%2F2011%2F11%2Fa-faster-web-server-ripping-out-apache-for-nginx%2F" rel="nofollow">Log In</a>
+        </li>
+                        <li id="search-container" class="right inactive">
+          <a id="search-switch" href="/search/">Search</a>
+          <form action="/search/" method="GET">
+            <input type="text" name="query" id="hdr_search_input" value="">
+            <input type="submit" value="Search">
+          </form>
+        </li>
+              </ul>
+    </nav>
+
+
+    <section id="content" class="clearfix">
+
+<script type="text/javascript">
+  ars.ARTICLE = {"url":"http:\/\/arstechnica.com\/business\/news\/2011\/11\/a-faster-web-server-ripping-out-apache-for-nginx.ars","short_url":"http:\/\/bit.ly\/JAvwuz","title":"A faster Web server: ripping out Apache for Nginx","author":10243,"id":39706,"topic":1160879,"promoted":[],"single_page":false,"comments":79,"fullwidth":false};
+</script>
+
+<h1 id="archive-head" class="subheading thick-divide-bottom">
+	<a href="http://arstechnica.com/business/">	<span class="archive-name">Ministry of Innovation</span>
+		<span class="divider"> / </span>
+	<span class="archive-desc">Business of Technology</span>
+		</a></h1>
+
+<article class="standalone">
+	<header>
+		<h1 class="heading">A faster Web server: ripping out Apache for Nginx</h1>
+		<h2 class="standalone-deck">Sometimes Apache can be overkill. Here&#039;s one man&#039;s tale of replacing his  &hellip;</h2>
+		<div class="post-meta">
+			  <p class="byline">
+  by <a href="http://arstechnica.com/author/lee-hutchinson/" rel="author">Lee Hutchinson</a>
+  -  <span class="date" data-time="1321221600">Nov 13, 2011 10:00 pm UTC</span>
+  </p>
+
+			<div class="corner-info">
+				<ul class="tags subheading">
+								</ul>
+				  <a class="comment-count" href="http://arstechnica.com/business/2011/11/a-faster-web-server-ripping-out-apache-for-nginx/?comments=1"><span>79</span></a>
+			</div>
+		</div>
+	</header>
+	<section id="article-guts">
+		<div class="article-content clearfix">
+    
+<figure class="intro-image image center full-width" style="width:px">
+      <img src="http://cdn.arstechnica.net/wp-content/uploads/2011/11/10000-requests-second-4ebd8ea-intro.png" width="" height="">
+  
+    <figcaption class="caption">
+			<div class="caption-text">Coaxing 10,000 requests per second from Nginx, on a laptop</div>
+	
+			<div class="caption-credit">
+							<a rel="nofollow" href="http://www.flickr.com/photos/charlie_harvey/5365809856/">Photograph by ludwig van standard lamp</a>
+				</div>
+	  </figcaption>
+  </figure>
+ <!-- cache hit --><!-- empty --> <p>I am, at best, a fly-by-night sysadmin. I grew to adult nerdhood doing tech support and later admin work in a Windows shop with a smattering of *nix, most of which was attended to by bearded elders locked away in cold, white rooms. It wasn't until I started managing enterprise storage gear that I came to appreciate the power of the bash shell, and my cobbled-together home network gradually changed from a Windows 2003 domain supporting some PCs to a mixture of GNU/Linux servers and OS X desktops and laptops.</p>
+<p>Like so many others, I eventually decided to put <a href="http://www.bigdinosaur.org/">my own website</a> up on the Internets, and I used <a href="https://secure.wikimedia.org/wikipedia/en/wiki/Apache_HTTP_Server">the Apache HTTP server</a> to host it. Why? I had an Ubuntu server box sitting in front of me, and Apache was the Web server I'd heard about the most. If Apache was good enough for big sites, it should be good enough for my little static personal site. Right?</p>
+<p>But it wasn't quite right for me. Here's why—and what I learned when I spent a weekend ripping out my Apache install and replacing it with lightweight speed demon of a Web server called Nginx.</p>
+<h3>Old and busted</h3>
+<p>Apache was easy to set up. I almost typed "trivially" easy, but going into an Apache setup with nothing more than a plucky attitude and the knowledge that "Apache is some software that hosts websites" means you're going to face a learning curve. Still, after no more than an hour or two searching Google for help and poking through Apache's conf files, I had a website, and it was on the Internet! A few months later, Ars ran a piece on <a href="http://arstechnica.com/security/news/2009/12/how-to-get-set-with-a-secure-sertificate-for-free.ars">getting free SSL/TLS certificates</a>. I immediately wanted to try it—not because I had any real need for it, but just to see how certs worked. Less than a day after the piece ran, I had a class 2 wildcard SSL/TLS certificate for my domain, and my Web server was rocking the https.</p>
+<p>Things ran well this way for a couple of years, but as I started doing more with the Web server, it began to be apparent that my setup, while perfectly workable, could be better. In particular, adding <a href="http://triangularpixels.net/games/tectonicus/">Tectonicus</a> (a Minecraft map renderer which generates millions of tiny tiles and stitches them together with a Google Maps-style interface) to the Web server showed me that things were less than optimal. Even over my local network, Apache struggled to serve the map at a suitably snappy pace. The Web server is a dual-core AMD E-350 with 2GB of RAM and a Vertex 2 solid state drive (SSD), and it would serve the site's static images instantly. But the <a href="https://secure.wikimedia.org/wikipedia/en/wiki/Htop">htop</a> tool showed that the Apache processes went CPU-crazy any time the Tectonicus map was being served; both cores shot 100 percent usage as the screen slowly filled with tiles.</p>
+<p>Additionally, I began running a small wiki on the same box. This used <a href="http://www.dokuwiki.org/dokuwiki">Dokuwiki</a>, a wiki server which can be skinned to closely resemble <a href="https://secure.wikimedia.org/wikipedia/en/wiki/Mediawiki">MediaWiki</a> but which stores its data in flat files rather than requiring a database. Dokuwiki requires PHP, a widely used scripting language that runs on a huge number of Web servers around the world, so this meant I needed to install some manner of PHP package into my current setup.</p>
+<p>There were many paths to take. Since I had installed Apache on Ubuntu the easy way, by typing "sudo aptitude install apache2," I got what is known as the <a href="https://httpd.apache.org/docs/2.0/mod/prefork.html">Apache MPM Prefork</a> version. This is the most commonly installed version of Apache, and it works by launching a number of separate Apache processes to handle Web requests. It does <em>not</em> use multiple threads, but instead parcels work out to child Apache processes (for a good refresher on the difference between a thread and a process, check out <a href="http://arstechnica.com/business/news/2011/04/ask-ars-what-is-a-cpu-thread.ars">this Ask Ars feature</a> on the topic). Prefork is the default Apache installation because Apache is an extensible Web server that can be customized to do all sorts of useful things by adding <em>modules</em>, and some of the modules that people might want to install don't work well when run in a multithreaded fashion.</p>
+<p>The drawback to doing everything with processes is that Apache prefork can be a bit of a memory hog, especially under load. Another precompiled flavor of Apache can be installed as an alternative: <a href="https://httpd.apache.org/docs/2.0/mod/worker.html">Apache MPM worker</a>. "Worker" differs from "prefork" in that worker's processes are multithreaded, giving them the ability to service more requests with fewer system resources. This can translate into faster pages served with less RAM and CPU. However, because some Apache modules don't necessarily work well when run under multithreaded Apache, you have to specifically select this version to install on Ubuntu and on other GNU/Linux distros with package management.</p>
+<p>A bit of searching showed that Apache worker could go a long way toward making Tectonicus serve its tons of tiles faster, but switching would cause some issues with PHP. The built-in Apache PHP module, "mod_php," is one of those modules that can have issues running multi-threaded. I was faced with quite a bit of software ripping and replacing to switch from mod_php to a standalone PHP.</p>
+<p>A <a href="http://arstechnica.com/civis/viewtopic.php?p=22241073#p22241073">post</a> by Ars forum member Blacken00100, however, pushed me in a new direction entirely. Apache with standalone PHP might prove far less optimal than a lightweight event-driven Web server like Nginx with standalone PHP. My mental wheels began turning. I figured that, so long as I was going to be doing some work, I might as well go all the way and see if I could set up what is widely regarded as the fastest Web server around.</p>
+<h3>The new hotness</h3>
+<p><a href="http://wiki.nginx.org/">Nginx</a> (pronounced "engine-ex") is a lightweight Web server with a reputation for speed, speed, speed. It differs from Apache in a fundamental way—Apache is a process- and thread-driven application, but Nginx is <em>event-driven</em>. The practical effect of this design difference is that a small number of Nginx "worker" processes can plow through enormous stacks of requests without waiting on each other and without synchronizing; they just "close their eyes" and eat the proverbial elephant as fast as they can, one bite at a time.</p>
+<p>Apache, by contrast, approaches large numbers of requests by spinning off more processes to handle them, typically consuming a lot of RAM as it does so. Apache looks at the elephant and thinks about how big it is as it tucks into its meal, and sometimes Apache gets a little anxious about the size of its repast. Nginx, on the other hand, just starts chomping.</p>
+<p>The difference is summed up succinctly in a quote by Chris Lea on the <a href="http://wiki.nginx.org/WhyUseIt">Why Use Nginx?</a> page: "Apache is like Microsoft Word, it has a million options but you only need six. Nginx does those six things, and it does five of them 50 times faster than Apache."</p>
+<p>Nginx particularly excels at serving static files—like the Tectonicus map tile images. For larger websites, it's often employed as a front-end Web server to quickly dish up unchanging page content, while passing on requests for dynamic stuff to more complex Apache Web servers running elsewhere. However, I was interested in it purely as a fast single Web server.</p>
+<p>Like everything else mentioned in this article, Nginx is available from the Ubuntu package repositories with a quick "sudo aptitude install Nginx." After stopping Apache, I had Nginx installed in moments. Building further on Blacken's advice, I also instead installed <a href="http://php-fpm.org/about/">php5-fpm</a>, which is a heavily modified PHP package with built-in FastCGI capabilities. Blacken's recommendation to go with php5-fpm instead of the older and better-known php5-cgi bundle was because fpm's ability to turn on or turn off new PHP processes as dictated by server load makes it a much smarter and more powerful package; it can consume fewer resources and at the same time scale transparently under load and maintain speed.</p>
+<p>If your needs are simple, like mine, then getting an operational PHP installation with php5-fpm is an easy affair. The main configuration file (/etc/php5/fpm/php-fpm.conf under Ubuntu 11.10) didn't need to be altered at all, while the pool configuration file (/etc/php5/fpm/pool.d/www.conf) only needed some slight adjustment. The pool conf file defines how php5-fpm will accept CGI requests from the Web server; by default, php5-fpm listens on TCP port 9000 for requests from the Web server, but I changed this to use a Unix socket file instead, since running CGI requests through a local TCP port introduces some tiny amount of latency. It likely won't matter unless your website will be churning out lots of pages, but I wanted to do things the "correct" way. Additionally, the pool conf file lets you specify the user and group that the pool processes will run as—it's a good idea to set this to the same user and group that your Web server uses.</p>
+<p>Most importantly, the pool conf file lets you define the minimum and maximum number of PHP processes that will be spawned if php-fpm is configured in "dynamic" mode. This lets you start with only one or two active processes to serve PHP requests, but you can tell php-fpm that it's allowed to spawn more processes as needed. The only real limit is the amount of RAM and CPU you have to spare. For my tiny website, I set php-fpm to start with a single process, with the option of spawning up to 10. Finally, the pool conf file lets you specify traditional PHP configuration values, like maximum memory usage, maximum upload size, the location of your sendmail binary, and so on.</p>
+      		</div>
+    <div class="article-expander">
+      <p><a href="http://arstechnica.com/business/2011/11/a-faster-web-server-ripping-out-apache-for-nginx/">Expand full story</a></p>
+    </div>
+		<nav class="page-numbers subheading">Page: <span class="numbers">1 <a href="http://arstechnica.com/business/2011/11/a-faster-web-server-ripping-out-apache-for-nginx/2">2</a> <a href="http://arstechnica.com/business/2011/11/a-faster-web-server-ripping-out-apache-for-nginx/2"><span class="next">Next <span class="arrow">&rarr;</span></span></a></span></nav>	</section>
+
+  
+  <div id="article-footer-wrap">
+
+	<section id="comments-area">
+		
+		<a name="comments-bar"></a>
+		<div class="comments-bar">
+      <a class="subheading comments-read-link" href="http://arstechnica.com/business/2011/11/a-faster-web-server-ripping-out-apache-for-nginx/?comments=1"><span class="text">Reader comments</span> <span class="comment-count"><span>79</span></span></a>
+		</div>
+        <div id="comments-container"></div><div id="comments-posting-container"></div>
+    	</section>
+	
+		<aside id="share-buttons" class="thin-divide-bottom "><ul></ul></aside>
+	
+    <!-- cache hit -->  	<section class="article-author clearfix-redux">
+    				<a href="/author/lee-hutchinson"><img width="47" height="47" src="http://cdn.arstechnica.net/wp-content//uploads/authors/lee-hutchinson-sq.jpg"></a>
+    		    
+		<p><a href="/author/lee-hutchinson" class="author-name">Lee Hutchinson</a>  / Lee is the Senior Reviews Editor at Ars and is responsible for the product news and reviews section. He also knows stuff about enterprise storage, security, and manned space flight. Lee is based in Houston, TX.</p>
+				<a href="https://twitter.com/Lee_Ars" class="twitter-follow-button" data-show-count="false">@Lee_Ars</a>
+		<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+			</section>
+  
+  
+	<nav class="post-links thick-divide-top thin-divide-bottom clearfix-redux">
+		<div class="subheading older"><a href="http://arstechnica.com/science/2011/11/high-resolution-microscopy-advance-could-shrink-cpus-beyond-current-limits/" rel="prev"><span class="arrow">&larr;</span> Older Story</a></div>
+		<div class="subheading newer"><a href="http://arstechnica.com/science/2011/11/singing-in-the-brain-wrens-cooperate-to-make-better-music/" rel="next">Newer Story <span class="arrow">&rarr;</span></a></div>	
+	</nav>
+
+		<footer id="article-footer">
+		<h2 class="subheading notched">You May Also Like</h2>
+		<ul id="recommendations" class="clearfix-redux"></ul>
+	</footer>
+	
+  </div>
+</article>
+
+<!-- cache hit -->
+<section id="article-sidebar" class="column-1 right">
+  
+  
+  
+    <aside class="side-ad thick-divide-bottom">
+    <script type="text/javascript">ars.sidebar_ad("top")</script>
+  </aside>
+  
+  <h2 id="recent-featured-title" class="subheading notched">Top Feature Story</h2>
+  <ul class="column">
+
+
+<li class="post" id="">
+	<article class="in-column">
+		<a href="http://arstechnica.com/gaming/2013/05/the-simple-lesson-i-learned-from-369-hours-of-mass-effect/" class="headline-image">
+						<img src="http://cdn.arstechnica.net/wp-content/uploads/2013/04/MASS_EFFECT_BY_ADRIAN_HD1080_M-300x100.jpg" width="300" height="100">
+						<h2 class="page-count subheading">Feature Story (4 pages)</h2>
+			<h1 class="heading">The simple lesson I learned from 369 hours of <em>Mass Effect</em></h1>
+		</a>
+		<p class="excerpt">Why these three games were so damn great&mdash;and why the ending, good or bad, doesn't matter.</p>
+    			<aside class="comments-hotness ">
+	  <a class="comment-count" href="http://arstechnica.com/gaming/2013/05/the-simple-lesson-i-learned-from-369-hours-of-mass-effect/?comments=1"><span>53</span></a>
+	</aside>
+	</article>
+</li>
+<li id="in-the-know">
+	<h2 class="subheading notched">Stay in the know with</h2>
+	<ul class="social clearfix">
+		<li class="fb">
+			<a href="https://www.facebook.com/arstechnica"></a>
+			<div class="social-pop">
+				<div class="social-pop-content">
+					<h2 class="subheading">Follow Ars on Facebook</h2>
+				</div>
+			</div>
+		</li>
+		<li class="twit">
+			<a href="https://twitter.com/arstechnica"></a>
+			<div class="social-pop">
+				<div class="social-pop-content">
+					<h2 class="subheading">Follow Ars on Twitter</h2>
+				</div>
+			</div>
+		</li>
+		<li class="gplus">
+			<a href="https://plus.google.com/+ArsTechnica/posts"></a>
+			<div class="social-pop">
+				<div class="social-pop-content">
+					<h2 class="subheading">Follow Ars on Google Plus</h2>
+				</div>
+			</div>
+		</li>
+		<li class="email">
+      <a href="http://arstechnica.us1.list-manage.com/subscribe?u=af7f013bad7e785d15aab736f&id=0adf3ee3d9"></a>
+			<div class="social-pop">
+				<div class="social-pop-content">
+					<h2 class="subheading">Sign Up for the Ars Newsletter</h2>
+					<p>Sign up for the Ars Technica Dispatch, which delivers links to the most popular articles, journals, and multimedia features via e-mail to your inbox every week.</p>
+          <form action="http://arstechnica.us1.list-manage2.com/subscribe/post?u=af7f013bad7e785d15aab736f&amp;id=0adf3ee3d9" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank" novalidate>
+            <label for="mce-EMAIL">Your email address:</label>
+            <input type="email" value="" name="EMAIL" class="email" id="mce-EMAIL" placeholder="email address" required>
+            <input type="submit" value="Subscribe" name="subscribe">
+          </form>
+					<footer>I understand and agree that registration on or use of this site constitutes agreement to its <a href="#">User Agreement</a> and <a href="#">Privacy Policy</a>.</footer>
+				</div>
+			</div>					
+		</li>
+		<li class="rss">
+			<a href="/rss-feeds/"></a>
+			<div class="social-pop">
+				<div class="social-pop-content">
+					<h2 class="subheading">Follow Ars with RSS</h2>
+					<ul>
+						<li><a href="http://feeds.arstechnica.com/arstechnica/index/">&gt; Main site RSS feed</a> (all content)</li>
+						<li><a href="http://arstechnica.com/rss-feeds/">&gt; View a list</a> of all our RSS feeds</li>
+					</ul>
+				</div>
+			</div>					
+		</li>
+		<li class="pod last">
+			<a href="/podcast/"></a>
+			<div class="social-pop">
+				<div class="social-pop-content">
+					<h2 class="subheading">The Ars Podcast</h2>
+					<p>It's the Ars Technicast! Listen to our staff discuss the issues of the day.</p>
+					<ul>
+						<li><a href="http://arstechnica.com/podcast/">&gt; View podcast archive</a></li>
+					</ul>
+				</div>
+			</div>					
+		</li>
+	</ul>
+</li>
+
+<h2 class="subheading notched">Latest News</h2>
+<ol class="rail latest-stories">
+      <li>
+    <a href="http://arstechnica.com/science/2013/05/telescope-detects-the-most-energetic-gamma-ray-burst-yet/">
+              <h2>Hulk smash</h2>
+        <h1 class="heading">Telescope detects the most energetic gamma-ray burst yet</h1>
+          </a>
+  </li>
+    <li>
+    <a href="http://arstechnica.com/science/2013/05/gearing-up-to-search-for-gravity-waves/">
+                      <img src="http://cdn.arstechnica.net/wp-content/uploads/2013/05/146978main_gwave_lg5-150x150.jpg" width="50" height="50">
+        <h1 class="heading">Gearing up to search for gravity waves</h1>
+          </a>
+  </li>
+    <li>
+    <a href="http://arstechnica.com/gadgets/2013/05/amazon-jumps-the-gun-leaks-the-first-8-inch-windows-8-tablet/">
+              <h2>Lol whoops</h2>
+        <h1 class="heading">Amazon jumps the gun, lists Acer&rsquo;s first 8-inch Windows 8 tablet</h1>
+          </a>
+  </li>
+    <li>
+    <a href="http://arstechnica.com/tech-policy/2013/05/alleged-mastermind-behind-spyeye-botnet-tools-extradited-to-us/">
+              <h2>I Spy SpyEye Guy</h2>
+        <h1 class="heading">Alleged mastermind behind &ldquo;SpyEye&rdquo; botnet tools extradited to US</h1>
+          </a>
+  </li>
+    <li>
+    <a href="http://arstechnica.com/science/2013/05/study-engineered-airborne-hybrid-flu-contagious-between-mammals/">
+                      <img src="http://cdn.arstechnica.net/wp-content/uploads/2013/05/testtube-150x150.jpg" width="50" height="50">
+        <h1 class="heading">Study: Engineered airborne hybrid flu contagious between mammals</h1>
+          </a>
+  </li>
+    <li>
+    <a href="http://arstechnica.com/science/2013/05/weird-science-bases-all-of-its-political-positions-on-ignorance/">
+                      <img src="http://cdn.arstechnica.net/wp-content/uploads/2013/05/3896257022_3d8c0c4ea2-150x150.jpg" width="50" height="50">
+        <h1 class="heading">Weird Science bases all of its political positions on ignorance</h1>
+          </a>
+  </li>
+  </ol>
+
+<li id="bottom-side-ad" class="thick-divide-top">
+  <aside class="side-ad">
+    <script type="text/javascript">ars.sidebar_ad("bottom")</script>
+  </aside>
+</li>
+<li id="bottom-side-ad" class="thick-divide-top thick-divide-bottom">
+  <aside class="side-ad">
+    <script type="text/javascript" language="JavaScript">
+      // <![CDATA[
+      google_ad_client = 'ca-conde_arstechnica';
+      google_ad_channel = 'ars_technica_standard_a';
+      google_language = 'en';
+      google_ad_width = '300';
+      google_ad_height = '250';
+      google_ad_type = 'text';
+      google_encoding = 'utf8';
+      google_safe = 'high';
+    	      google_adtest = 'off';
+    	      google_ad_format = '';
+      google_ad_section = 'default';
+      // ]]>
+    </script>
+    <script type="text/javascript" src="http://pagead2.googlesyndication.com/pagead/show_ads.js" language="JavaScript"></script>
+  </aside>
+</li>
+
+</ul>
+</section>
+
+		</section>
+          		<footer id="page-footer">
+			<nav id="footer-nav" class="clearfix">
+				<div class="nav-section">
+					<h2 class="subheading">Site Links</h2>
+					<ul>
+						<li><a href="/about-us/">About Us</a></li>
+						<li><a href="/advertise-with-us/">Advertise with us</a></li>
+						<li><a href="/contact-us/">Contact Us</a></li>
+						<li><a href="/reprints/">Reprints</a></li>
+					</ul>
+					
+					<h2 class="subheading">Subscriptions</h2>
+					<ul>
+						<li><a href="/subscriptions/">Subscribe to Ars</a></li>
+					</ul>
+				</div>
+				<div class="nav-section">
+					<h2 class="subheading">More Reading</h2>
+					<ul>
+						<li><a href="/rss-feeds/">RSS Feeds</a></li>
+						<li><a href="/newsletters/">Newsletters</a></li>
+					</ul>
+				</div>
+				<div class="nav-section">
+					<h2 class="subheading">Conde Nast Sites</h2>
+					<ul class="conde-nast-sites">
+						<li><a href="http://www.reddit.com/">Reddit</a></li>
+						<li><a href="http://www.wired.com/">Wired</a></li>
+						<li><a href="http://www.vanityfair.com/">Vanity Fair</a></li>
+						<li><a href="http://www.style.com/">Style</a></li>
+						<li><a href="http://www.details.com/">Details</a></li>
+					</ul>
+					<form method="get" action="#">
+						<select id="mag_list" name="mag_list" onchange="(this.options[this.selectedIndex].value) ? (window.location = this.options[this.selectedIndex].value) : null">
+							<option value="" selected="selected">Visit our sister sites</option>
+							<option value="">- - - - - - - - - - - - - -</option>
+							<option value="http://www.gq.com">GQ</option>
+							<option value="http://www.concierge.com">Concierge</option>
+							<option value="http://www.epicurious.com">Epicurious</option>
+							<option value="http://men.style.com">Men.Style.com</option>
+							<option value="http://www.style.com">Style.com</option>
+							<option value="http://www.wired.com">Wired.com</option>
+							<option value="http://www.lipstick.com">Lipstick.com</option>
+							<option value="http://www.nutritiondata.com">NutritionData</option>
+							<option value="http://www.allure.com">Allure</option>
+							<option value="http://www.architecturaldigest.com">Architectural Digest</option>
+							<option value="http://www.bonappetit.com">Bon App&eacute;tit</option>
+							<option value="http://www.brides.com">Brides</option>
+							<option value="http://www.portfolio.com">Cond&eacute; Nast Portfolio</option>
+							<option value="http://www.glamour.com">Glamour</option>
+							<option value="http://www.golfdigest.com">Golf Digest</option>
+							<option value="http://www.golfworld.com">Golf World</option>
+							<option value="http://www.luckymag.com">Lucky</option>
+							<option value="http://www.self.com">Self</option>
+							<option value="http://www.teenvogue.com">Teen Vogue</option>
+							<option value="http://www.newyorker.com">The New Yorker</option>
+							<option value="http://www.vanityfair.com">Vanity Fair</option>
+							<option value="http://www.wmagazine.com">W</option>
+						</select>
+					</form>
+					<form method="get" action="#">
+						<select size="1" id="sub_list" name="sub_list" onchange="(this.options[this.selectedIndex].value) ? (window.location = this.options[this.selectedIndex].value) : null">
+							<option value="" selected="selected">Subscribe to a magazine</option>
+							<option value="http://www.magazinestoresubscriptions.com?source=univdropdown">View All Titles</option>
+							<option value="">- - - - - - - - - - - - - -</option>
+							<option value="https://www.magazinestoresubscriptions.com/webapp/wcs/stores/servlet/Subscriptions_Allure?source=SITEFOOTER">Allure</option>
+							<option value="https://www.magazinestoresubscriptions.com/webapp/wcs/stores/servlet/Subscriptions_ArchitecturalDigest">Architectural Digest</option>
+							<option value="https://www.magazinestoresubscriptions.com/webapp/wcs/stores/servlet/Subscriptions_BonAppetite?source=SITEFOOTER">Bon App&eacute;tit</option>
+							<option value="https://www.magazinestoresubscriptions.com/webapp/wcs/stores/servlet/Subscriptions_Brides?source=SITEFOOTER">Brides</option>
+							<option value="https://www.magazinestoresubscriptions.com/webapp/wcs/stores/servlet/Subscriptions_CondeNastPortfolio?source=SITEFOOTER">Cond&eacute; Nast Portfolio</option>
+							<option value="https://www.magazinestoresubscriptions.com/webapp/wcs/stores/servlet/Subscriptions_CondeNastTraveler?source=SITEFOOTER">Cond&eacute; Nast Traveler</option>
+							<option value="https://www.magazinestoresubscriptions.com/webapp/wcs/stores/servlet/Subscriptions_Details?source=SITEFOOTER">Details</option>
+							<option value="https://www.magazinestoresubscriptions.com/webapp/wcs/stores/servlet/Subscriptions_ElegantBride?source=SITEFOOTER">Elegant Bride</option>
+							<option value="https://www.magazinestoresubscriptions.com/webapp/wcs/stores/servlet/Subscriptions_Glamour?source=SITEFOOTER">Glamour</option>
+							<option value="https://www.magazinestoresubscriptions.com/webapp/wcs/stores/servlet/Subscriptions_GolfDigest?source=SITEFOOTER">Golf Digest</option>
+							<option value="https://www.magazinestoresubscriptions.com/webapp/wcs/stores/servlet/Subscriptions_GolfWorld?source=SITEFOOTER">Golf World</option>
+							<option value="https://www.magazinestoresubscriptions.com/webapp/wcs/stores/servlet/Subscriptions_GQ?source=SITEFOOTER">GQ</option>
+							<option value="https://www.magazinestoresubscriptions.com/webapp/wcs/stores/servlet/Subscriptions_Lucky?source=SITEFOOTER">Lucky</option>
+							<option value="https://www.magazinestoresubscriptions.com/webapp/wcs/stores/servlet/Subscriptions_ModernBride?source=SITEFOOTER">Modern Bride</option>
+							<option value="https://www.magazinestoresubscriptions.com/webapp/wcs/stores/servlet/Subscriptions_Self?source=SITEFOOTER">Self</option>
+							<option value="https://www.magazinestoresubscriptions.com/webapp/wcs/stores/servlet/Subscriptions_TeenVogue?source=SITEFOOTER">Teen Vogue</option>
+							<option value="https://www.magazinestoresubscriptions.com/webapp/wcs/stores/servlet/Subscriptions_NewYorker?source=SITEFOOTER">The New Yorker</option>
+							<option value="https://www.magazinestoresubscriptions.com/webapp/wcs/stores/servlet/Subscriptions_VanityFair?source=SITEFOOTER">Vanity Fair</option>
+							<option value="https://www.magazinestoresubscriptions.com/webapp/wcs/stores/servlet/Subscriptions_Vogue?source=SITEFOOTER">Vogue</option>
+							<option value="https://www.magazinestoresubscriptions.com/webapp/wcs/stores/servlet/Subscriptions_W?source=SITEFOOTER">W</option>
+							<option value="https://www.magazinestoresubscriptions.com/webapp/wcs/stores/servlet/Subscriptions_Wired?source=SITEFOOTER">Wired</option>
+						</select>
+					</form>
+				</div>
+				<div class="nav-section" id="mobile-site">
+          <h2 class="subheading"><a href="http://arstechnica.com/business/2011/11/a-faster-web-server-ripping-out-apache-for-nginx/?view=mobile">View Mobile Site</a></h2>
+				</div>
+			</nav>
+	    			<div id="copyright-terms">
+			© 2013 Condé Nast. All rights reserved<br>
+			Use of this Site constitutes acceptance of our <a href="http://www.condenast.com/privacy-policy" target="_blank">User Agreement</a> (effective 3/21/12) and <a href="http://www.condenast.com/privacy-policy#privacypolicy" target="_blank">Privacy Policy</a> (effective 3/21/12), and <a href="/amendment-to-conde-nast-user-agreement-privacy-policy/">Ars Technica Addendum (effective 5/17/2012)</a><br>
+			<a href="http://www.condenast.com/privacy-policy#privacypolicy-california" target="_blank">Your California Privacy Rights</a><br>
+			The material on this site may not be reproduced, distributed, transmitted, cached or otherwise used, except with the prior written permission of Condé Nast.<br><br>
+			<a href="http://www.condenast.com/privacy-policy#privacypolicy-optout" target="_blank">Ad Choices</a><img width="10" height="10" border="0" src="http://cdn.arstechnica.net/wp-content/themes/arstechnica/assets/images/ad_choices_arrow.png">
+			</div> 
+
+		</footer>
+    	</div>
+		<script type="text/javascript" src="http://cdn.arstechnica.net/wp-content/themes/arstechnica/assets/js/ars.min.103c940e1ee0bd0017e36f20a2ec610d.js"></script>
+	
+  
+  <noscript><a href="http://www.omniture.com" title="Web Analytics"><img src="http://condenast.112.2o7.net/b/ss/condenet-dev/1/H.15.1--NS/0" height="1" width="1" border="0" alt="" /></a></noscript>
+
+  
+  
+    <!-- Google Analytics start -->
+	<script type="text/javascript">
+	var _gaq = _gaq || [];
+  _gaq.push(
+    ['_setAccount', 'UA-31997-1'],
+    ['_setCustomVar', 1, 'view', "grid"],
+    ['_setCustomVar', 2, 'theme', "light"],
+    ['_setCustomVar', 3, 'logged_in', "false"],
+    ['_setCustomVar', 4, 'show_comments', "false"],
+    ['_trackPageview']
+  );
+	(function() {
+	  var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+	  ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+	  var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+	})();
+	</script>
+  <!-- Google Analytics end -->
+
+  <!-- Parse.ly start -->
+	<script type="text/javascript">
+  (function(d) {
+    var site = "arstechnica.com",
+    b = d.body,
+    e = d.createElement("div");
+    e.innerHTML = '<span id="parsely-cfg" data-parsely-site="'+site+'"></span>';
+    e.id = "parsely-root";
+    e.style.display = "none";
+    b.appendChild(e);
+  })(document);
+
+  (function(s, p, d) {
+    var h=d.location.protocol, i=p+"-"+s,
+    e=d.getElementById(i), r=d.getElementById(p+"-root"),
+    u=h==="https:"?"d1z2jf7jlzjs58.cloudfront.net"
+      :"static."+p+".com";
+    if (e) return;
+    e = d.createElement(s); e.id = i; e.async = true;
+    e.src = h+"//"+u+"/p.js"; r.appendChild(e);
+  })("script", "parsely", document);
+	</script>
+  <!-- Parse.ly end -->
+
+
+  <!-- Lotame/Crwdcntrl -->
+  <script src="//tags.crwdcntrl.net/c/313/cc_af.js"></script>
+  
+  
+  </body>
+</html>

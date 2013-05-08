@@ -1,0 +1,38 @@
+
+<h5>The headers passed to us were:</h5>
+<hr></hr>
+<ol>
+<li>
+<p>Connection: keep-alive</p></li>
+<li>
+<p>Accept: */*</p></li>
+<li>
+<p>Host: hyber.org</p></li>
+<li>
+<p>Referer: http://hyber.org/arg.yaws</p></li>
+<li>
+<p>User-Agent: SiteSucker/2.3.4</p></li>
+<li>
+<p>Accept-Encoding: gzip, deflate</p></li>
+<li>
+<p>Accept-Language: en-us</p></li></ol>
+<h5>The request</h5>
+<ul>
+<li>method: GET</li>
+<li>path: {abs_path,"/arg2.yaws"}</li>
+<li>version: {1,1}</li></ul>
+<hr></hr>
+<h5>Other items</h5>
+<ul>
+<li>Peer: {{62,212,72,172},51775}</li>
+<li>docroot: /usr/local/var/yaws/www</li>
+<li>fullpath: /usr/local/var/yaws/www/arg2.yaws</li></ul>
+<hr></hr>
+<h5>Parsed query data</h5>
+<pre>[]</pre>
+<hr></hr>
+<h5>Parsed POST data </h5>
+<pre>[]</pre>
+
+
+

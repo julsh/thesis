@@ -1,0 +1,20 @@
+body { background-color: #336699; text-align: right }
+th { color: #336699; font-family: "Arial", "Helvetica", "Sans-Serif"; font-size: 10pt; font-style: normal; font-weight: bold }
+td { color: #336699; font-family: "Arial", "Helvetica", "Sans-Serif"; font-size: 10pt; font-style: normal; font-weight: normal }
+
+h1 { color: #336699; font-family: "Comic Sans MS", "Arial", "Helvetica", "Sans-Serif"; font-size: 14pt; font-style: normal; font-weight: bold; text-align: center }
+h2 { color: #336699; font-family: "Comic Sans MS", "Arial", "Helvetica", "Sans-Serif"; font-size: 12pt; font-style: normal; font-weight: normal; text-align: center }		
+h3 { color: #336699; font-family: "Arial", "Helvetica", "Sans-Serif"; font-size: 10pt; font-style: normal; font-weight: bold; margin-left: 10pt; margin-right: 10pt }
+h4 { color: #ffffcc; font-family: "Comic Sans MS", "Arial", "Helvetica", "Sans-Serif"; font-size: 14pt; font-style: normal; font-weight: bold; margin-left: 10pt; margin-right: 10pt }
+h5 { color: #336699; font-family: "Arial", "Helvetica", "Sans-Serif"; font-size: 12pt; font-style: normal; font-weight: bold; text-align: left }
+p { color: #336699; font-family: "Arial", "Helvetica", "Sans-Serif"; font-size: 10pt; font-style: normal; font-weight: normal; text-align: justify; margin-left: 10pt; margin-right: 10pt }
+ul { color: #336699; font-family: "Arial", "Helvetica", "Sans-Serif"; font-size: 10pt; font-style: normal; font-weight: normal }
+
+a:link { color: #800000; font-weight: bold; text-decoration: none }
+a:visited { color: #666666; font-weight: bold; text-decoration: none }
+a:active { color: #003399; background-color: #336699; font-weight: bold; text-decoration: none }
+a:hover { color: #ffffcc; background-color: #336699; font-weight: bold; text-decoration: none }
+
+input.large { color: #336699; width: 320pt }
+input.small { color: #336699; width: 100pt }
+input.text { color: #336699; width: 450pt }

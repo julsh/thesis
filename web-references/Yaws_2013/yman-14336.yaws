@@ -1,0 +1,344 @@
+
+<!DOCTYPE html
+PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html>
+
+<head>
+ <meta name="keywords" content="Yaws"/>
+ <title>Yaws</title>
+ <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1"/>
+ <link rel="stylesheet" type="text/css" href="stil.css"/>
+ <link rel="shortcut icon" href="icons/yaws_y.gif" type="image/x-icon"/>
+</head>
+
+<body>
+
+
+
+<div class="logo">
+   <img src="icons/yaws_head.gif" width="600" alt="YAWS"/>
+</div>
+
+
+
+<div id="sidebar">
+<h4> Yaws </h4>
+<div class="%%index%%"> <a href="index.yaws" id="index" >Top Page</a> </div>
+<div class="%%configuration%%"> <a href="configuration.yaws" id="configuration">Build Config and Run</a></div>
+<div class="%%dynamic%%"> <a href="dynamic.yaws" id="dynamic" >Dynamic Content</a> </div>
+<div class="%%download%%"> <a href="http://yaws.hyber.org/download/" id="download">Download </a> </div>
+<div class="%%contact%%"> <a href="contact.yaws" id="contact">Contact </a> </div>
+<div class="%%doc%%"> <a href="doc.yaws" id="doc">Documentation</a>  </div>
+<div class="%%wiki%%"> <a href="http://wiki.github.com/klacke/yaws" id="wiki">Wiki</a>  </div>
+
+<h4> Examples </h4>
+<div class="%%json_intro%%"> <a href="json_intro.yaws">AJAX/JSON RPC</a></div>
+<div class="%%appmods%%"> <a href="appmods.yaws">Appmods</a> </div>
+<div class="%%arg%%"> <a href="arg.yaws">Arg</a> </div>
+<div class="%%privbind%%"> <a href="privbind.yaws">Binding to Privileged Ports</a></div>
+<div class="%%bindings%%"> <a href="bindings.yaws">Bindings</a> </div>
+<div class="%%cgi%%"> <a href="cgi.yaws">CGI</a></div>
+<div class="%%session%%"> <a href="session.yaws">Cookie Sessions</a>   </div>
+<div class="%%cookies%%"> <a href="cookies.yaws">Cookies</a>  </div>
+<div class="%%dynamic%%"> <a href="dynamic.yaws">Dynamic Content</a> </div>
+<div class="%%embed%%"> <a href="embed.yaws">Embedding Yaws</a></div>
+<div class="%%upload0%%"> <a href="upload0.yaws">File Upload</a> </div>
+<div class="%%form%%"> <a href="form.yaws">Forms</a> </div>
+<div class="%%haxe_intro%%"> <a href="haxe_intro.yaws">haXe Remoting</a></div>
+<div class="%%pcookie%%"> <a href="pcookie.yaws">Persistent Cookies</a> </div>
+<div class="%%query%%"> <a href="query.yaws">Query Part of URL</a></div>
+<div class="%%redirect%%"> <a href="redirect.yaws">Redirect</a> </div>
+<div class="%%sse%%"> <a href="server_sent_events.yaws">Server-Sent Events</a> </div>
+<div class="%%ssi%%"> <a href="ssi.yaws">Server Side Includes</a> </div>
+<div class="%%simple%%"> <a href="simple.yaws">Simple</a> </div>
+<div class="%%soap_intro%%"> <a href="soap_intro.yaws">SOAP with Yaws</a></div>
+<div class="%%stream%%"> <a href="stream.yaws">Streaming Data</a> </div>
+<div class="%%websockets%%"> <a href="websockets.yaws">Web Sockets</a> </div>
+<a href="shoppingcart/index.yaws">Tiny Shopping Cart</a>
+<div class="%%yapp_intro%%"> <a href="yapp_intro.yaws">Yaws Applications (yapps)</a></div>
+<div class="%%logger_mod%%"> <a href="logger_mod.yaws">Write Your Own Logger</a></div>
+
+<h4> Misc </h4>
+<div class="%%internals%%"> <a href="internals.yaws">Internals</a> </div>
+
+
+
+</div>
+
+
+
+
+
+<div id="entry">
+<div class="man">
+<pre>YAWS(1)                          User Commands                         YAWS(1)
+
+
+
+NAME
+       yaws - yet another webserver
+
+SYNOPSIS
+       yaws [OPTIONS]
+
+DESCRIPTION
+       Yaws is fast lightweight webserver. It can run as daemon or in interac-
+       tive mode where it is possible to directly interact with the webserver.
+       Yaws  is  particularly good at generating dynamic content. See the user
+       docs for more information on that topic.
+
+
+DAEMON/SERVER options
+       -i | --interactive
+              Interactive mode. This will start yaws in interactive mode  with
+              an  erlang  prompt. All error_logger messages will be written to
+              the tty as well in this mode.  Use  this  when  developing  yaws
+              code.
+
+       -w | --winteractive
+              Cygwin inteactive mode (werl)
+
+       -D | --daemon
+              Daemon mode. This will start yaws as a daemon.
+
+       --heart
+              This will cause the yaws system to be automatically restarted in
+              case it should crash. This switch  also  requires  the  --daemon
+              switch to be present.
+
+       --heart-restart=C,T
+              This controls the number of restarts in a given time period that
+              heart tolerates before refusing to  restart  Yaws.  By  default,
+              heart  allows  up to 5 restarts within a 60 second period before
+              refusing to restart Yaws again.  This  option  allows  up  to  C
+              restarts  in  T seconds instead. To allow infinite restarts, set
+              both C and T to 0. This switch automatically enables the --heart
+              switch.
+
+       --debug
+              Debug  mode.  This  will produce some auxiliary error output for
+              some error conditions. It will also start the otp sasl  lib  for
+              additional error printouts.
+
+       --nodebug
+              Non-debug mode. This is useful for running interactively via the
+              -i option but without incurring  the  performance  penalties  of
+              debug mode.
+
+
+       --conf file
+              Use a different configuration file than the default. If the con-
+              figuration parameter config is set, yaws use it as default  con-
+              figuration  file. Else, The default configuration file when run-
+              ning as root is /etc/yaws/yaws.conf. When running as a non priv-
+              iliged  user, yaws will search for its configuration file in the
+              following order. First in $HOME/yaws.conf, then  in  ./yaws.conf
+              and finally in /etc/yaws/yaws.conf.
+
+       --runmod module
+              Tells yaws to call module:start/0 at startup. This makes it pos-
+              sible to startup user specific applications together with yaws.
+
+
+       --pa path
+              Add path to the yaws system search path
+
+
+       --tracetraf
+              Traffic trace mode. All traffic will be written to a trace  file
+              called trace.traffic in the log directory.
+
+
+       --tracehttp
+              HTTP  trace  mode.  All HTTP messages will be written to a trace
+              file called trace.http in the log directory.
+
+
+       --traceout
+              When yaws is put into trace mode  using  either  --tracetraf  or
+              --tracehttp,  traces  are  written  to  files. If we provide the
+              --traceout flag, the trace will also be written to stdout.
+
+
+       --trace
+              Sames as --tracetraf --traceout. I.e. trace everything and write
+              to stdout.
+
+
+       --mnesiadir dir
+              Start Mnesia in directory &lt;dir&gt;
+
+
+       --sname xxx
+              Start  yaws  as  a distributed erlang node with name &lt;xxx&gt; using
+              the unqualified hostname as nodename postfix
+
+
+       --disable-kpoll
+              By default, yaws starts erlang with +K true. This flag  reverses
+              that.
+
+
+       --name xxx
+              Start  yaws  as  a distributed erlang node with name &lt;xxx&gt; using
+              the fully qualified hostname as nodename postfix
+
+
+       --proto_dist Mod
+              Use module Mod for erlang distribution. This is  typically  only
+              used when we want to run erlang distribution over SSL.
+
+
+       --erlarg STRING
+              Pass  STRING  as an additional argument to the &quot;erl&quot; program. If
+              STRING comprises multiple words, you must quote it so that  your
+              shell passes it to yaws as a single argument. If STRING contains
+              any single quote characters, you must  quote  each  of  them  as
+              well.  For  example,  to  pass  the option -env NAME O'Keeffe to
+              &quot;erl&quot; from a Bourne-compatible shell:
+
+                           --erlarg &quot;-env NAME O\'Keeffe&quot;
+
+
+       --id ID
+              This flag sets the id. If we're starting a daemon (or an  inter-
+              active  system)  it  gives the Yaws server the identity ID. This
+              means that the server will write all  internal  files  into  the
+              directory $HOME/.yaws/yaws/ID.
+
+              Yaws  also  creates  a  file called ${VARDIR}/run/yaws/ctl-${ID}
+              which contains the portnumber the daemon  is  listening  on  for
+              control request by the control command such as &quot;yaws --hup&quot; etc.
+
+              If  we're  invoking  a control command which should perform some
+              control function on the daemon, we may have  to  give  the  --id
+              flag  also  to the control command. If we don't do this the con-
+              trol command may interact with the wrong daemon due  to  finding
+              the wrong &quot;ctl&quot; file.
+
+              The daemon may also optionally specify the &quot;id&quot; in the yaws.conf
+              configuration file.
+
+
+       --umask MASK
+              Set the umask for the daemon to MASK.
+
+
+CONTROL OPTIONS
+       The following list of options are are used to control the  daemon  from
+       the &quot;outside&quot; while it is running.
+
+
+       --hup [--id ID]
+              HUP  the daemon. This forces the daemon to reread the configura-
+              tion file.  It also makes the daemon empty all its internal con-
+              tent  caches.  Hence when updating the doc root, HUPing the dae-
+              mon is the fastest way to see the content updates.
+
+       --stop [--id id]
+              Stop the daemon (called id)
+
+       --ls   Lists current ids and status of all yaws servers  on  localhost.
+              In  practice this amounts to a listdir in $HOME/.yaws/yaws - and
+              check whether the different systems who has created files  there
+              are alive.
+
+       --status [--id id]
+              Query a running yaws daemon for its status, and print it.
+
+       --stats [--id id]
+              Query a running yaws daemon for its statistics, and print it.
+
+       --running-config [--id id]
+              Query  a  running yaws daemon for its current configuration, and
+              print it.  This can be useful when attempting to figure out  how
+              to  set config in embedded mode. Configure yaws to you liking in
+              non-embedded mode, run this command and use the output to  popu-
+              late the embedded mode records.
+
+       --load Modules [--id id]
+              Try  to  (re)load erlang modules into a running daemon.  This is
+              useful after modifying appmods or modules used by scripts.
+
+
+       --debug-dump  [--id id]
+              Produce a debug dump on stdout. In particular  this  code  lists
+              what  we  refer  to as suspicious processes. I.e. processes that
+              might be hanging or processes that are &quot;large&quot;  -  hardcoded  to
+              40k words.
+
+
+       --ctltrace [--id ID] http | traffic | off
+              Control  the trace capabilities of a running yaws daemon. If the
+              http or traffic option is given, the daemon will write a log for
+              debug purposes into the logdir.
+
+
+       --wait-started[=T] [--id ID]
+              Waits  at  most 30 seconds for the server to start. Exits with 0
+              if server is running, 1  otherwise.  Typically  useful  in  test
+              scripts.  The default 30 seconds can be modified by appending =T
+              to the option, where T is the desired number of seconds to  wait
+              for the server to start.
+
+
+MISC OPTIONS
+       --check YawsFile [IncDirs ....]
+              Test compile a `.yaws' file. Useful in Makefiles when we want to
+              ensure that all .yaws files are syntactically correct
+
+       --version
+              output version information and exit
+
+
+ENVIRONMENT VARIABLES
+       HOME   Is used to determine where we  write  the  temporary  files.  By
+              default  all  tmp files end up in $HOME/.yaws. This includes the
+              JIT files that are the result of processed .yaws files and  also
+              the  so  called control file that is used by the daemon to write
+              the port number to which it is listening  for  control  commands
+              such as &quot;yaws --status&quot;
+
+              Thus  HOME  is the handle we use in the control commands to find
+              the control file so that we know where to connect to.
+
+
+       YAWSHOME
+              Can be used to override the HOME variable. This is  useful  when
+              we for example are running yaws under port binding programs such
+              as authpriv.
+
+              It's useful by distros that don't want Yaws to write  any  files
+              ever in the HOME directory of root.
+
+
+
+
+AUTHOR
+       Written by Claes Wikstrom
+
+SEE ALSO
+       yaws.conf(5) erl(1)
+
+
+
+                                                                       YAWS(1)
+</pre></div></div><div class="logo">
+<img src="icons/yaws_pb.gif" alt="pbyaws" />
+</div>
+
+
+ <p>
+      <a href="http://validator.w3.org/check?uri=referer"><img
+          src="http://www.w3.org/Icons/valid-xhtml10"
+          alt="Valid XHTML 1.0!" height="31" width="88" /></a>
+    </p>
+
+
+</body>
+</html>
+
+
+<!-- Localized -->

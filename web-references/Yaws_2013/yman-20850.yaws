@@ -1,0 +1,1090 @@
+
+<!DOCTYPE html
+PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html>
+
+<head>
+ <meta name="keywords" content="Yaws"/>
+ <title>Yaws</title>
+ <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1"/>
+ <link rel="stylesheet" type="text/css" href="stil.css"/>
+ <link rel="shortcut icon" href="icons/yaws_y.gif" type="image/x-icon"/>
+</head>
+
+<body>
+
+
+
+<div class="logo">
+   <img src="icons/yaws_head.gif" width="600" alt="YAWS"/>
+</div>
+
+
+
+<div id="sidebar">
+<h4> Yaws </h4>
+<div class="%%index%%"> <a href="index.yaws" id="index" >Top Page</a> </div>
+<div class="%%configuration%%"> <a href="configuration.yaws" id="configuration">Build Config and Run</a></div>
+<div class="%%dynamic%%"> <a href="dynamic.yaws" id="dynamic" >Dynamic Content</a> </div>
+<div class="%%download%%"> <a href="http://yaws.hyber.org/download/" id="download">Download </a> </div>
+<div class="%%contact%%"> <a href="contact.yaws" id="contact">Contact </a> </div>
+<div class="%%doc%%"> <a href="doc.yaws" id="doc">Documentation</a>  </div>
+<div class="%%wiki%%"> <a href="http://wiki.github.com/klacke/yaws" id="wiki">Wiki</a>  </div>
+
+<h4> Examples </h4>
+<div class="%%json_intro%%"> <a href="json_intro.yaws">AJAX/JSON RPC</a></div>
+<div class="%%appmods%%"> <a href="appmods.yaws">Appmods</a> </div>
+<div class="%%arg%%"> <a href="arg.yaws">Arg</a> </div>
+<div class="%%privbind%%"> <a href="privbind.yaws">Binding to Privileged Ports</a></div>
+<div class="%%bindings%%"> <a href="bindings.yaws">Bindings</a> </div>
+<div class="%%cgi%%"> <a href="cgi.yaws">CGI</a></div>
+<div class="%%session%%"> <a href="session.yaws">Cookie Sessions</a>   </div>
+<div class="%%cookies%%"> <a href="cookies.yaws">Cookies</a>  </div>
+<div class="%%dynamic%%"> <a href="dynamic.yaws">Dynamic Content</a> </div>
+<div class="%%embed%%"> <a href="embed.yaws">Embedding Yaws</a></div>
+<div class="%%upload0%%"> <a href="upload0.yaws">File Upload</a> </div>
+<div class="%%form%%"> <a href="form.yaws">Forms</a> </div>
+<div class="%%haxe_intro%%"> <a href="haxe_intro.yaws">haXe Remoting</a></div>
+<div class="%%pcookie%%"> <a href="pcookie.yaws">Persistent Cookies</a> </div>
+<div class="%%query%%"> <a href="query.yaws">Query Part of URL</a></div>
+<div class="%%redirect%%"> <a href="redirect.yaws">Redirect</a> </div>
+<div class="%%sse%%"> <a href="server_sent_events.yaws">Server-Sent Events</a> </div>
+<div class="%%ssi%%"> <a href="ssi.yaws">Server Side Includes</a> </div>
+<div class="%%simple%%"> <a href="simple.yaws">Simple</a> </div>
+<div class="%%soap_intro%%"> <a href="soap_intro.yaws">SOAP with Yaws</a></div>
+<div class="%%stream%%"> <a href="stream.yaws">Streaming Data</a> </div>
+<div class="%%websockets%%"> <a href="websockets.yaws">Web Sockets</a> </div>
+<a href="shoppingcart/index.yaws">Tiny Shopping Cart</a>
+<div class="%%yapp_intro%%"> <a href="yapp_intro.yaws">Yaws Applications (yapps)</a></div>
+<div class="%%logger_mod%%"> <a href="logger_mod.yaws">Write Your Own Logger</a></div>
+
+<h4> Misc </h4>
+<div class="%%internals%%"> <a href="internals.yaws">Internals</a> </div>
+
+
+
+</div>
+
+
+
+
+
+<div id="entry">
+<div class="man">
+<pre>YAWS_API(5)                        User API                        YAWS_API(5)
+
+
+
+NAME
+       yaws_api - api available to yaws web server programmers
+
+SYNOPSIS
+       yaws_api:Function(...)
+
+
+DESCRIPTION
+       This  is  the  api available to yaws web server programmers. The Erlang
+       module yaws_api contains a wide variety of functions that can  be  used
+       inside yaws pages.
+
+
+       Each chunk of yaws code is executed while the yaws page is being deliv-
+       ered from the server. We give a very simple example here  to  show  the
+       basic idea. Imagine the following HTML code:
+
+
+       &lt;html&gt;
+       &lt;body&gt;
+
+       &lt;h1&gt; Header 1&lt;/h1&gt;
+
+       &lt;erl&gt;
+       out(Arg) -&gt;
+           {html, &quot;&lt;p&gt; Insert this text into the document&quot;}.
+       &lt;/erl&gt;
+
+       &lt;/body&gt;
+       &lt;/html&gt;
+
+
+
+
+
+       The  out(Arg)  function  is supplied one argument, an #arg{} structure.
+       We have the following relevant record definitions:
+
+
+
+       -record(arg, {
+                 clisock,        % the socket leading to the peer client
+                 client_ip_port, % {ClientIp, ClientPort} tuple
+                 headers,        % headers
+                 req,            % request
+                 clidata,        % The client data (as a binary in POST requests)
+                 server_path,    % The normalized server path
+                                 % (pre-querystring part of URI)
+                 querydata,      % For URIs of the form ...?querydata
+                                 %  equiv of cgi QUERY_STRING
+                 appmoddata,     % (deprecated - use pathinfo instead) the remainder
+                                 % of the path leading up to the query
+                 docroot,        % Physical base location of data for this request
+                 docroot_mount,  % virtual directory e.g /myapp/ that the docroot
+                                 %  refers to.
+                 fullpath,       % full deep path to yaws file
+                 cont,           % Continuation for chunked multipart uploads
+                 state,          % State for use by users of the out/1 callback
+                 pid,            % pid of the yaws worker process
+                 opaque,         % useful to pass static data
+                 appmod_prepath, % (deprecated - use prepath instead) path in front
+                                 %  of: &lt;appmod&gt;&lt;appmoddata&gt;
+                 prepath,        % Path prior to 'dynamic' segment of URI.
+                                 %  ie http://some.host/&lt;prepath&gt;/&lt;script-point&gt;/d/e
+                                 % where &lt;script-point&gt; is an appmod mount point,
+                                 % or .yaws,.php,.cgi,.fcgi etc script file.
+                 pathinfo        % Set to '/d/e' when calling c.yaws for the request
+                                 % http://some.host/a/b/c.yaws/d/e
+                                 %  equiv of cgi PATH_INFO
+                }).
+
+
+       The headers argument is also a record:
+
+       -record(headers, {
+                 connection,
+                 accept,
+                 host,
+                 if_modified_since,
+                 if_match,
+                 if_none_match,
+                 if_range,
+                 if_unmodified_since,
+                 range,
+                 referer,
+                 user_agent,
+                 accept_ranges,
+                 cookie = [],
+                 keep_alive,
+                 location,
+                 content_length,
+                 content_type,
+                 content_encoding,
+                 authorization,
+                 transfer_encoding,
+                 x_forwarded_for,
+                 other = []   % misc other headers
+                }).
+
+
+
+       The out/1 function can use the Arg to generate any content it likes. We
+       have the following functions to aid that generation.
+
+
+
+API
+       ssi(DocRoot, ListOfFiles)
+              Server  side  include. Just include the files as is in the docu-
+              ment. The files will not be parsed and searched for &lt;erl&gt; tags.
+
+
+
+       pre_ssi_files(DocRoot, ListOfFiles) -&gt;
+              Server side include of pre-indented code.   The  data  in  Files
+              will  be included but contained in a &lt;pre&gt; tag. The data will be
+              htmlized.
+
+
+       pre_ssi_string(String)
+              Include htmlized content from String.
+
+
+
+       f(Fmt, Args)
+              The equivalent of io_lib:format/2. This  function  is  automati-
+              cally  -included  in  all  erlang code which is a part of a yaws
+              page.
+
+
+       htmlize(Binary | List | Char)
+              Htmlize an IO list object.
+
+
+       set_cookie(Name, Value, Options])
+              Sets a cookie to the browser. Options are:
+
+              {expires, UtcTime}  - Cookie expiration time, where UtcTime is
+                                    a tuple returned by calendar:universal_time/0.
+              {max_age, Age}      - Defines the lifetime of the cookie, in seconds,
+                                    where age is an integer &gt;= 0.
+              {path, Path}        - Path is a string that specifies the subset of URLs to
+                                    which this cookie applies.
+              {domain, Domain}    - Domain is a string that specifies the domain for which
+                                    the cookie is valid.
+              {comment, Comment}  - Comment is a string that doccuments the server's
+                                    intended use of the cookie.
+              secure              - Directs the user agent to use only secure means to
+                                    contact the origin server whenever it sends back this
+                                    cookie.
+              http_only           - Restricts cookie access from other non-HTTP APIs.
+
+
+
+       setcookie(Name, Value, [Path, [ Expire, [Domain , [Secure]]]])
+              Sets a cookie to the browser. This  function  is  deprecated  by
+              set_cookie/3.
+
+
+       find_cookie_val(Cookie, Header)
+              This function can be used to search for a cookie that was previ-
+              ously set by setcookie/2-6. For example if we set  a  cookie  as
+              yaws_api:setcookie(&quot;sid&quot;,SomeRandomSid),   then   on  subsequent
+              requests     from     the     browser     we      can      call:
+              find_cookie(&quot;sid&quot;,(Arg#arg.headers)#headers.cookie)
+
+              The  function  returns  [] if no cookie was found, otherwise the
+              actual cookie is returned as a string.
+
+
+       parse_set_cookie(Str)
+              This function parses the value of a Set-Cookie header, following
+              the RFC6265. Because old RFCs (2109 and 2965) are still used, it
+              is backward compatible. So this function returns a  #setcookie{}
+              record  when  only  one cookie is found. If multiple cookies are
+              set in a single Set-Cookie header, it returns a  list  of  #set-
+              cookie{}  records.  If  no  cookie  was  found  or  if  an error
+              occurred, it returns [].
+
+              #setcookie{} record is defined in yaws_api.hrl:
+
+              -record(setcookie, {key,
+                                  value,
+                                  quoted = false,
+                                  domain,
+                                  max_age,
+                                  expires,
+                                  path,
+                                  secure = false,
+                                  http_only = false,
+                                  extensions = []}).
+
+
+
+       parse_cookie(Str)
+              This function parses the value of Cookie header,  following  the
+              RFC6265.  It  returns  a list of #cookie{} records. If no cookie
+              was found or if an error occurred, it returns [].
+
+              #cookie{} record is defined in yaws_api.hrl:
+
+              -record(cookie, {key,
+                               value,
+                               quoted = false}).
+
+
+
+       format_set_cookie(SetCookie)
+              Build a cookie string from a #setcookie{} record  like  returned
+              by parse_set_cookie/1.
+
+
+       format_cookie(Cookie | [Cookie])
+              Build  a  cookie  string  from  a #cookie{} record (or a list or
+              records) like returned by parse_cookie/1.
+
+
+       redirect(Url)
+              This function generates a redirect  to  the  browser.   It  will
+              clear  any previously set headers. So to generate a redirect and
+              set a cookie, we need to set the cookie after  the  redirect  as
+              in:
+              out(Arg) -&gt;
+                ... do some stuff
+
+                Ret = [{redirect, &quot;http://www.somewhere.com&quot;},
+                        setcookie(&quot;sid&quot;, Random)
+                      ].
+
+
+
+
+
+       redirect_self(Arg)
+              If  we  want  to issue a redirect to ourselves, this function is
+              useful.  It  returns   a   record   #redir_self{}   defined   in
+              yaws_api.hrl.  The  record contains fields to construct a URL to
+              ourselves.
+
+              -record(redir_self, {
+                        host,        % string() - our own host
+                        scheme,      % http | https
+                        scheme_str,  % &quot;https://&quot;  | &quot;http://&quot;
+                        port,        % integer()  - our own port
+                        port_str     % &quot;&quot; | &quot;:&lt;int&gt;&quot; - the optional port part
+                                     %                 to append to the url
+                       }).
+
+
+
+       get_line(String)
+              This function is convenient when getting \r\n  terminated  lines
+              from a stream of data. It returns:
+
+              {line, Line, Tail} or {lastline, Line, Tail}
+
+              The function handles multilines as defined in e.g. SMTP or HTTP
+
+
+       mime_type(Scope, FileName)
+              Returns  the  MIME type as defined by the extension of FileName.
+              Scope can have following values:
+
+                   global - returns the result obtained from the  global  con-
+                   text.
+                   #sconf{} | {ServerName, Port} - returns the result obtained
+                   from the virtual server's context. If no MIME type is found
+                   in this scope, it falls back on the global one.
+
+
+       mime_type(FileName)
+              Tries to determine the right Scope before calling mime_type/2.
+
+
+
+       stream_chunk_deliver(YawsPid, Data)
+              When  a  yaws  function needs to deliver chunks of data which it
+              gets from a process. The other process can call this function to
+              deliver  these  chunks. It requires the out/1 function to return
+              the  value  {streamcontent,  MimeType,  FirstChunk}   to   work.
+              YawsPid is the process identifier of the yaws process delivering
+              the original .yaws file. That is self() in the yaws  code.   The
+              Pid  must  typically  be passed (somehow) to the producer of the
+              stream.
+
+
+       stream_chunk_deliver_blocking(YawsPid, Data)
+              A synchronous version of the above  function.  This  synchronous
+              version  must  always be used when the producer of the stream is
+              faster than the consumer. This is usually  the  case  since  the
+              client is the WWW browser.
+
+
+       stream_chunk_end(YawsPid)
+              When  the  process  discussed  above is done delivering data, it
+              must call this function  to  let  the  yaws  content  delivering
+              process finish up the HTTP transaction.
+
+
+       stream_process_deliver(Socket, IoList)
+              Yaws  allows  application  processes to deliver data directly to
+              the client. The application tells yaws about such a  process  by
+              returning {streamcontent_from_pid, MimeType, Pid} from its out/1
+              function. In this case, Pid  uses  the  stream_process_deliver/2
+              function  to  deliver  data  to the client. The application gets
+              Socket from Arg#arg.clisock, and IoList is the data to  be  sent
+              to the client.
+
+
+       stream_process_deliver_chunk(Socket, IoList)
+              Same  as  above  but delivers IoList using HTTP chunked transfer
+              format. IoList must have a size greater than zero. The  applica-
+              tion process delivering the data will have had to have make sure
+              that the HTTP headers of the response indicate chunked  transfer
+              mode,  either  by ensuring no Content-Length header is set or by
+              specifically setting the Transfer-Encoding header to chunked.
+
+
+       stream_process_deliver_final_chunk(Socket, IoList)
+              If the application process delivering data to  the  client  uses
+              chunked  transfer  mode,  it must call this to deliver the final
+              chunk of the transfer. This tells yaws to create a special final
+              chunk  in  the  format  required  by the HTTP specification (RFC
+              2616). IoList may be empty, but if  its  size  is  greater  than
+              zero,  that  data  will  be  sent as a separate chunk before the
+              final chunk.
+
+
+       stream_process_end(Socket, YawsPid)
+              Application processes delivering data directly to  clients  must
+              call  this  function  to inform yaws that they've finished using
+              Socket. The YawsPid  argument  will  have  been  passed  to  the
+              process  earlier  when yaws sent it a message telling it to pro-
+              ceed with data delivery. Yaws expects Socket to be open.
+
+
+       stream_process_end(closed, YawsPid)
+              Same as the previous function but the application calls this  if
+              it  closes  the  client  socket  as  part  of  its data delivery
+              process. This allows  yaws  to  continue  without  assuming  the
+              socket is still open and encountering errors due to that assump-
+              tion. The YawsPid argument will have been passed to the applica-
+              tion  process  earlier when yaws sent it a message telling it to
+              proceed with data delivery.
+
+
+       parse_query(Arg)
+              This function will parse the query part of  the  URL.   It  will
+              return  a  {Key,  Value} list of the items supplied in the query
+              part of the URL.
+
+
+       queryvar(Arg, VarName)
+              This function is automatically included from yaws_api in all
+               .yaws pages. It is used to search for a variable in the  query-
+              part  of the url. Returns {ok, Val} or undefined.  If a variable
+              is defined multiple times, the function may also  return  {Val1,
+              ....}.
+
+
+
+       parse_post(Arg)
+              This  function  will  parse  the  POST data as supplied from the
+              browser.  It will return a {Key, Value} list of the items set by
+              the browser.
+
+
+       postvar(Arg, VarName)
+              This function is automatically included from yaws_api in all
+               .yaws  pages. It is used to search for a variable in the POSTed
+              data from the client. Returns {ok,  Val}  or  undefined.   If  a
+              variable is defined multiple times, the function may also return
+              {Val1, ....}.
+
+
+       getvar(Arg, VarName)
+              This function  looks at the HTTP request method from the  client
+              and invokes postvar/2 if it is a POST from the client and query-
+              var/2 if it is a GET request from the client.
+
+
+
+       parse_multipart_post(Arg)
+              If the browser has set the  Content-Type  header  to  the  value
+              &quot;multipart/form-data&quot;,  which is the case when the browser wants
+              to upload a file to the server the following happens:
+
+              If the function returns {result, Res} no  more  data  will  come
+              from the browser.
+
+              If  the function returns {cont, Cont, Res} the browser will sup-
+              ply more data. (The file was to big to come in one read)
+
+              This indicates that there is more data to  come  and  the  out/1
+              function   should  return  {get_more,  Cont,  User_state}  where
+              User_state might usefully be a File Descriptor.  The  Res  value
+              is  a  list  of  either:  {head,  {Name, Headers}} | {part_body,
+              Binary} | {body, Binary}
+
+              The function returns {error, Reason} when an error occurred dur-
+              ing the parsing.
+
+
+              Example usage could be:
+               &lt;erl&gt;
+
+               out(A) -&gt;
+                      case yaws_api:parse_multipart_post(A) of
+                           {cont, Cont, Res} -&gt;
+                                  St = handle_res(A, Res),
+                                  {get_more, Cont, St};
+                           {result, Res} -&gt;
+                                  handle_res(A, Res),
+                                  {html, f(&quot;&lt;pre&gt;Done &lt;/pre&gt;&quot;,[])};
+                           {error, Reason} -&gt;
+                                  {html, f(&quot;An error occured: ~p&quot;, [Reason])}
+                      end.
+
+               handle_res(A, [{head, {Name, _Hdrs}}|T]) -&gt;
+                    io:format(&quot;head:~p~n&quot;,[Name]),
+                    handle_res(A, T);
+               handle_res(A, [{part_body, Data}|T]) -&gt;
+                    io:format(&quot;part_body:~p~n&quot;,[Data]),
+                    handle_res(A, T);
+               handle_res(A, [{body, Data}|T]) -&gt;
+                    io:format(&quot;body:~p~n&quot;,[Data]),
+                    handle_res(A, T);
+               handle_res(A, []) -&gt;
+                    io:format(&quot;End_res~n&quot;).
+
+               &lt;/erl&gt;
+
+
+
+
+
+       new_cookie_session(Opaque)
+              Create  a new cookie based session, the yaws system will set the
+              cookie. The new random generated cookie is  returned  from  this
+              function.  The  Opaque argument will typically contain user data
+              such as user name and password
+
+
+       new_cookie_session(Opaque, TTL)
+              As above, but allows to set a session specific  time-out  value,
+              overriding the system specified time-out value.
+
+
+       new_cookie_session(Opaque, TTL, CleanupPid)
+              As  above,  but  also sends a message {yaws_session_end, Reason,
+              Cookie, Opaque} to the provided CleanuPid where  Reason  can  be
+              either  of  timeout  or normal. The Cookie is the HTTP cookie as
+              returned by new_session() and the Opaque is  the  user  provided
+              Opaque  parameter  to new_session().  The purpose of the feature
+              is to cleanup resources assigned to the session.
+
+
+
+       cookieval_to_opaque(CookieVal)
+
+
+       print_cookie_sessions()
+
+
+
+       replace_cookie_session(Cookie, NewOpaque)
+
+
+       delete_cookie_session(Cookie)
+
+
+
+       setconf(Gconf, Groups)
+              This function is intended for embedded mode in yaws. It makes it
+              possible  to  load a yaws configuration from another data source
+              than /etc/yaws.conf, such as a database.   If  yaws  is  started
+              with  the  environment {embedded, true}, yaws will start with an
+              empty default configuration, and wait for some other program  to
+              execute a setconf/2 The Gconf is a #gconf{} record and the Group
+              variable is a list of lists of #sconf{}  records.  Each  sublist
+              must  contain  #sconf{}  records  with  the  same IP/Port listen
+              address.  To create a suitable initial #gconf{} record  see  the
+              code   in   yaws_config:make_default_gconf/2.   Especially   the
+              yaws_dir parameter is important to get right.
+
+
+
+       url_decode(Str)
+              Decode url-encoded string. A URL  encoded  string  is  a  string
+              where  all  alfa  numeric characters and the the character _ are
+              preserved and all other characters are encode as &quot;%XY&quot;  where  X
+              and  Y  are the hex values of the least respective most signifi-
+              cant 4 bits in the 8 bit character.
+
+
+       url_encode(Str)
+              Url-encodes a string. All URLs in HTML  documents  must  be  URL
+              encoded.
+
+
+       get_sslsocket(Socket)
+              Returns  a socket for SSL sockets or the atom undefined for non-
+              SSL sockets. Useful for applications that have to deal with both
+              SSL and non-SSL sockets.
+
+
+       reformat_header(H)
+              Returns  a  list  of reformatted header values from a #headers{}
+              record. The return list is suitable for retransmit.
+
+
+       reformat_header(H, FormatFun)
+              Returns a list of reformatted header values  from  a  #headers{}
+              record,  with  each  element of the list formatted via a call to
+              FormatFun. This enables converting #headers{} records into vari-
+              ous  lists  of headers and their values. Note that sometimes the
+              Set-Cookie header will contain a tuple value of the form {multi,
+              ValueList} -- see merge_header/2 below for details -- so format-
+              ting functions should be prepared to handle such a  tuple.  They
+              should  handle  it  by  formatting each member of ValueList as a
+              separate Set-Cookie header, then returning all such header-value
+              pairs  in  a  list.  Note  that  this implies that sometimes the
+              return values of reformat_header/1 and reformat_header/2 can  be
+              a  multi-level  list.  The  {multi, ValueList} construct results
+              only from calls to merge_header/2 or merge_header/3, where  mul-
+              tiple values are set in separate calls for the same header.
+
+
+       set_header(Headers, {Header, Value})
+              Sets  header  Header  with  value Value in the #headers{} record
+              Headers, and returns a new #headers{}  record.  Using  the  atom
+              undefined  for  Value  effectively  deletes  the header, same as
+              delete_header/2.
+
+
+       set_header(Headers, Header, Value)
+              Same as set_header/2 above, except  Header  and  Value  are  not
+              passed in a tuple.
+
+
+       merge_header(Headers, {Header, Value})
+              Merges value Value for header Header with any existing value for
+              that header in the #headers{} record Headers, and returns a  new
+              #headers{}  record.  Using  the  atom undefined for Value simply
+              returns Headers. Otherwise, Value is merged  with  any  existing
+              value  already  present in the Headers record for header Header,
+              comma-separated from that  existing  value.  If  no  such  value
+              exists  in  the  Headers  record,  the  effect  is  the  same as
+              set_header/2. Note that for the Set-Cookie  header,  values  are
+              not  comma-separated  but  are  instead  collected  into a tuple
+              {multi, ValueList} where ValueList is  the  collection  of  Set-
+              Cookie  values.  This  implies that any formatting fun passed to
+              reformat_header/2 must be prepared to handle such tuples.
+
+
+       merge_header(Headers, Header, Value)
+              Same as merge_header/2 above, except Header and  Value  are  not
+              passed in a tuple.
+
+
+       get_header(Headers, Header)
+              Gets the value of header Header from the #headers{} record Head-
+              ers and returns it. If the header isn't set, the atom  undefined
+              is returned.
+
+
+       delete_header(Headers, Header)
+              Deletes any value set for header Header in the #headers{} record
+              Headers, and returns a new #headers{} record.
+
+
+       request_url(ARG)
+              Return the url as requested by the client.  Return  value  is  a
+              #url{} record as defined in yaws_api.hrl
+
+
+
+       parse_url(Str)
+              Parse URL in a string, returns a #url record
+
+
+       format_url(UrlRecord)
+              Takes a #url record a formats the Url as a string
+
+
+       call_cgi(Arg, Scriptfilename)
+              Calls an executable CGI script, given by its full path.  Used to
+              make `.yaws' wrappers for CGI programs.  This  function  usually
+              returns streamcontent.
+
+
+       call_cgi(Arg, Exefilename, Scriptfilename)
+              Like  before,  but  calls Exefilename to handle the script.  The
+              file name of the script is handed to the executable  via  a  CGI
+              meta variable.
+
+
+       call_fcgi_responder(Arg)
+              Calls  a FastCGI responder.  The address and port of the FastCGI
+              application server are taken from the server configuration  (see
+              yaws.conf).   Used  to make `.yaws' wrappers for FastCGI respon-
+              ders.  Returns the same return values as out/1 (see below).
+
+
+       call_fcgi_responder(Arg, Options)
+              Same as above, but  Options  overrides  the  defaults  from  the
+              server configuration:
+
+
+              Options = [Option]
+              Option -- one of the following:
+
+
+              {app_server_host,  string()  | ip_address()} The hostname or the
+              IP address of the FastCGI application server.
+
+              {app_server_port, 0..65535} The TCP port number of  the  FastCGI
+              application server.
+
+              {path_info,    string()}    Override    default    pathinfo   in
+              Arg#arg.pathinfo.
+
+              {extra_env,   ExtraEnv}    Override    default    pathinfo    in
+              Arg#arg.pathinfo.
+
+
+              ExtraEnv = [Var]
+              Var = {Name, Value}
+              Name = string()
+              Value = string()
+
+
+              {trace_protocol, boolean()} Enable or disable tracing of FastCGI
+              protocol messages as info log messages.
+
+              {log_app_error, boolean()} Enable or disable logging of applica-
+              tion error messages: output to stderr and non-zero exit value.
+
+
+       call_fcgi_authorizer(Arg) -&gt; {allowed, Out} | {denied, Out}
+              Calls a FastCGI authorizer.  The address and port of the FastCGI
+              application server are taken from the server configuration  (see
+              yaws.conf).  Used to make `.yaws' wrappers for FastCGI authoriz-
+              ers.  Variables contains the values of the variables returned by
+              the  FastCGI application server in the &quot;Variable-XXX: YYY&quot; head-
+              ers.
+
+              If access is denied, Out contains the complete response returned
+              by  the  FastCGI  application server. This response is typically
+              returned as-is to the HTTP client.
+
+              If access is allowed, Out contains the response returned by  the
+              FastCGI  application  server minus the body (i.e. minus the con-
+              tent) which should be ignored  per  the  FastCGI  specification.
+              This  response is typically not returned to the HTTP client. The
+              calling application module may wish to inspect the response, for
+              example  by  extracting  variables  (see  fcgi_extract_variables
+              below) or by inspecting the  headers  returned  by  the  FastCGI
+              application server.
+
+
+              Out -- See return values for out/1 below
+
+
+
+       call_fcgi_authorizer(Arg, Options) -&gt; {allowed, Out} | {denied, Out}
+              Same  as  above,  but  Options  overrides  the defaults from the
+              server configuration.  See  call_fcgi_responder/2  above  for  a
+              description of Options.
+
+
+       fcgi_extract_variables(Out) -&gt; [{Name, Value}]
+              Extracts  the  environment  variables  from a FastCGI authorizer
+              response by looking for  headers  of  the  form  &quot;Variable-Name:
+              Value&quot;.
+
+
+              Name = string() -- The name of the variable (the &quot;Variable-&quot; prefix
+              has already been removed).
+              Value = string() -- The value of the variable.
+
+
+
+       dir_listing(Arg)
+              Perform  a directory listing. Can be used in special directories
+              when we don't want to  turn  on  dir  listings  for  the  entire
+              server.  Always returns ok.
+
+
+RETURN VALUES from out/1
+       The  out/1 function can return different values to control the behavior
+       of the server.
+
+
+       {html, DeepList}
+              This assumes that DeepList is formatted  HTML  code.   The  code
+              will be inserted in the page.
+
+
+       {ehtml|exhtml, Term}
+              This  will  transform the erlang term Term into a stream of HTML
+              content. The exhtml variant transforms into strict  XHTML  code.
+              The basic syntax of Term is
+
+
+              EHTML = [EHTML] | {Tag, Attrs, Body} | {Tag, Attrs} | {Tag} |
+                      binary() | character()
+              Tag      = atom()
+              Attrs = [{Key, Value}]  or {EventTag, {jscall, FunName, [Args]}}
+              Key      = atom()
+              Value = string()
+              Body  = EHTML
+
+
+
+              For example, {p, [], &quot;Howdy&quot;} expands into &quot;&lt;p&gt;Howdy&lt;/p&gt;&quot; and
+
+
+              {form, [{action, &quot;a.yaws&quot;}],
+                 {input, [{type,text}]}}
+
+
+
+              expands into
+
+
+              &lt;form action=&quot;a.yaws&quot;
+                &lt;input type=&quot;text&quot;&gt;
+              &lt;/form&gt;
+
+
+              It  may  be more convenient to generate erlang tuples than plain
+              html code.
+
+
+       {content, MimeType, Content}
+              This function will make the web server generate  different  con-
+              tent than HTML. This return value is only allowed in a yaws file
+              which has only one &lt;erl&gt; &lt;/erl&gt; part and no html parts at all.
+
+
+
+       {streamcontent, MimeType, FirstChunk}
+              This return value plays the same  role  as  the  content  return
+              value above.
+
+              However it makes it possible to stream data to the client if the
+              yaws code doesn't have access to all the data in one go.  (Typi-
+              cally  if  a file is very large or if data arrives from back end
+              servers on the network.
+
+
+       {streamcontent_with_timeout, MimeType, FirstChunk, Timeout}
+              Similar to above, but with  an  explicit  timeout.  The  default
+              timeout is 30 secs. I.e if the application fails to deliver data
+              to the Yaws process, the streaming will stop. This is often  not
+              the desired behaviour in Comet/Ajax applications.  It's possible
+              to provide 'infinity' as timeout.
+
+
+       {streamcontent_from_pid, MimeType, Pid}
+              This return value is similar to the streamcontent  return  value
+              above.
+
+              However  it  makes  it  possible  to  stream  data to the client
+              directly  from  an  application  process  to  the  socket.  This
+              approach can be useful for applications that employ long-polling
+              (Comet) techniques, for example, and for applications wanting to
+              avoid  buffering  data  or  avoid HTTP chunked mode transfer for
+              streamed data.
+
+
+       {streamcontent_with_size, Sz, MimeType, FirstChunk}
+              This return value is similar to the streamcontent  return  value
+              above.
+
+              However  it  makes  it  possible to stream data to the client by
+              setting the content length of the response. As the  opposite  of
+              other  ways  to  stream  data, in this case, the response is not
+              chunked encoded.
+
+
+
+       {header, H}
+              Accumulates a HTTP header. The trailing CRNL which  is  supposed
+              to  end  all  HTTP headers must NOT be added. It is added by the
+              server.  The following list of headers are given special  treat-
+              ment.
+
+              {connection, What}
+
+              This  sets  the Connection: header. If What is the special value
+              &quot;close&quot;, the connection will be closed once  the  yaws  page  is
+              delivered to the client.
+
+              {server, What}
+
+              Sets  the  Server:  header. By setting this header, the server's
+              signature will be dynamically overloaded.
+
+              {location, Url}
+
+              Sets the Location: header. This  header  is  typically  combined
+              with the {status, 302} return value.
+
+              {cache_control, What}
+
+              Sets the Cache-Control: header.
+
+              {expires, What}
+
+              Sets the Expires: header.
+
+              {date, What}
+
+              Sets the Date: header.
+
+              {allow, What}
+
+              Sets the Allow: header.
+
+              {last_modified, What}
+
+              Sets the Last-Modified: header.
+
+              {etag, What}
+
+              Sets the Etag: header.
+
+              {set_cookie, Cookie}
+
+              Prepends a Set-Cookie: header to the list of previously set Set-
+              Cookie: headers.
+
+              {content_range, What}
+
+              Sets the Content-Range: header.
+
+              {content_type, MimeType}
+
+              Sets the Content-Type: header.
+
+              {content_encoding, What}
+
+              Sets the Content-Encoding: header. If this header is defined, no
+              deflate  is performed by Yaws. So you can compress data by your-
+              self.
+
+              {content_length, Len}
+
+              Normally yaws will  ship  Yaws  pages  using  Transfer-Encoding:
+              chunked. This is because we generally can't know how long a yaws
+              page will be. If we for some reason want  to  force  a  Content-
+              Length:  header  (and we actually do know the length of the con-
+              tent, we can force yaws to not ship the page chunked.
+
+              {transfer_encoding, What}
+
+              Sets the Transfer-Encoding: header.
+
+              {www_authenticate, What}
+
+              Sets the WWW-Authenticate: header.
+
+              {vary, What}
+
+              Sets the Vary: header.
+
+
+              All other headers must be added using the  normal  HTTP  syntax.
+              Example:
+
+              {header,  {&quot;My-X-Header&quot;,  &quot;gadong&quot;}}  or {header, &quot;My-X-Header:
+              gadong&quot;}
+
+
+       {header, {HeaderName, erase}}
+              Clears the header named HeaderName from the accumulated headers.
+
+
+       {allheaders, HeaderList}
+              Will clear all previously accumulated headers and replace them.
+
+
+
+       {status, Code}
+              Will set another HTTP status code than 200.
+
+
+
+       break  Will stop processing of any consecutive chunks of  erl  or  html
+              code in the yaws file.
+
+
+       ok     Do nothing.
+
+
+       flush  Flush remaining data sent by the client.
+
+
+
+       {redirect, Url}
+              Erase  all  previous  headers  and  accumulate a single Location
+              header. Set the status code.
+
+
+       {redirect_local, Path}
+              Does a redirect to the same Scheme://Host:Port/Path as  we  cur-
+              rently are executing in.
+
+
+       {get_more, Cont, State}
+              When  we  are receiving large POSTs we can return this value and
+              be invoked again when more Data arrives.
+
+
+
+       {page, Page}
+
+              Make Yaws returns a different page than the one being requested.
+              Page is a Request-URI, so it must be url-encoded and can contain
+              a query-string.
+
+
+
+       {page, {Options, Page}}
+              Like the  above,  but  supplying  an  additional  deep  list  of
+              options. Supported option types are:
+
+              {status, C} - Set the HTTP response status code C for page Page.
+
+              {header, H} - Accumulate the HTTP header H for page Page.
+
+              {disable_cache,  Bool}  -  if  set to true, disable the cache of
+              Page for this call.
+
+
+
+       {ssi, File, Delimiter, Bindings}
+              Server side include File and  macro  expansion  in  File.   Each
+              occurrence  of  a string, say &quot;xyz&quot;, inside File which is inside
+              Delimiters is replaced with the corresponding value in Bindings.
+
+              Example: Delimiter = %%
+
+              File contains the string .... %%xyz%%  .....
+
+              Bindings contain the tuple {&quot;xyz&quot;, &quot;Dingbat&quot;}
+
+              The occurrence of %%xyz%% in File will be replaced  with  &quot;Ding-
+              bat&quot; in the Server side included output.
+
+              The  {ssi,  File,  Delimiter, Bindings} statement can also occur
+              inside a deep ehtml structure.
+
+
+
+       {bindings, [{Key1, Value2}, {Key2, Value2} .....]}
+              Establish variable bindings that can be used in the page.
+
+              All bindings can then be used in the rest of yaws code (in  HTML
+              source and within erl tags).  In HTML source %%Key%% is expanded
+              to Value and within erl tags yaws_api:binding(Key) can  be  used
+              to extract Value and yaws_api:binding_exists(Key) can be used to
+              check for the existence of a binding.
+
+
+       {yssi, YawsFile}
+              Include a yaws file. Compile it and expand as if it had  occured
+              inline.
+
+
+       [ListOfValues]
+              It is possible to return a deep list of the above defined return
+              values.   Any   occurrence    of    streamcontent,    streamcon-
+              tent_with_timeout,      streamcontent_with_size,      streamcon-
+              tent_from_pid, get_more, page or break in  this  list  is  legal
+              only  if  it is the last position of the list. If not, remaining
+              values in the list are ignored.
+
+
+
+
+
+AUTHOR
+       Written by Claes Wikstrom
+
+SEE ALSO
+       yaws.conf(5) erl(1)
+
+
+
+
+                                                                   YAWS_API(5)
+</pre></div></div><div class="logo">
+<img src="icons/yaws_pb.gif" alt="pbyaws" />
+</div>
+
+
+ <p>
+      <a href="http://validator.w3.org/check?uri=referer"><img
+          src="http://www.w3.org/Icons/valid-xhtml10"
+          alt="Valid XHTML 1.0!" height="31" width="88" /></a>
+    </p>
+
+
+</body>
+</html>
+
+
+<!-- Localized -->
